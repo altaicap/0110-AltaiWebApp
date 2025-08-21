@@ -1972,50 +1972,26 @@ metadata = {
               <Badge variant="outline">Web Version</Badge>
               
               {/* Integration Status Indicators */}
-              <div className="flex gap-1">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <div className={`w-3 h-3 rounded ${integrationStatus.polygon === 'connected' ? 'bg-green-500' : 'bg-yellow-500'}`} />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Polygon: {integrationStatus.polygon}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+              <div className="flex gap-3 items-center">
+                <div className="flex items-center gap-1">
+                  <div className={`w-3 h-3 rounded ${integrationStatus.polygon === 'connected' ? 'bg-green-500' : 'bg-yellow-500'}`} />
+                  <span className="text-xs text-gray-600">Polygon API</span>
+                </div>
                 
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <div className={`w-3 h-3 rounded ${integrationStatus.newsware === 'connected' ? 'bg-green-500' : 'bg-yellow-500'}`} />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>NewsWare: {integrationStatus.newsware}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <div className="flex items-center gap-1">
+                  <div className={`w-3 h-3 rounded ${integrationStatus.newsware === 'connected' ? 'bg-green-500' : 'bg-yellow-500'}`} />
+                  <span className="text-xs text-gray-600">NewsWare API</span>
+                </div>
                 
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <div className={`w-3 h-3 rounded ${integrationStatus.tradestation === 'connected' ? 'bg-green-500' : 'bg-yellow-500'}`} />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>TradeStation: {integrationStatus.tradestation}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <div className="flex items-center gap-1">
+                  <div className={`w-3 h-3 rounded ${integrationStatus.tradexchange === 'connected' ? 'bg-green-500' : 'bg-yellow-500'}`} />
+                  <span className="text-xs text-gray-600">TradeXchange API</span>
+                </div>
                 
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <div className={`w-3 h-3 rounded ${integrationStatus.tradexchange === 'connected' ? 'bg-green-500' : 'bg-yellow-500'}`} />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>TradeXchange: {integrationStatus.tradexchange}</p>   
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <div className="flex items-center gap-1">
+                  <div className={`w-3 h-3 rounded ${integrationStatus.tradestation === 'connected' ? 'bg-green-500' : 'bg-yellow-500'}`} />
+                  <span className="text-xs text-gray-600">TradeStation</span>
+                </div>
               </div>
             </div>
           </div>
