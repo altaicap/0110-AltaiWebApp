@@ -49,6 +49,10 @@ class Settings(BaseSettings):
             return [origin.strip() for origin in self.cors_origins.split(",")]
         return self.cors_origins
 
+    class Config:
+        env_file = ".env"
+        case_sensitive = False
+
 
 # Global settings instance
 settings = Settings()
