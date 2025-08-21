@@ -2092,19 +2092,19 @@ metadata = {
             </div>
           )}
 
-          <TabsContent value="settings">
+          <TabsContent value="settings" className="tab-content-padding">
             <SettingsTab />
           </TabsContent>
 
-          <TabsContent value="strategies">
+          <TabsContent value="strategies" className="tab-content-padding">
             <StrategiesTab />
           </TabsContent>
 
-          <TabsContent value="backtest">
+          <TabsContent value="backtest" className="tab-content-padding">
             <BacktestTab />
           </TabsContent>
 
-          <TabsContent value="log">
+          <TabsContent value="log" className="tab-content-padding">
             <LogTab />
           </TabsContent>
 
