@@ -637,14 +637,25 @@ metadata = {
             </div>
             <div className="space-y-2">
               <Label htmlFor="polygonApiKey">API Key</Label>
-              <Input
-                id="polygonApiKey"
-                type="password"
-                placeholder="Enter Polygon API Key"
-                value={apiKeys.polygon}
-                onChange={(e) => setApiKeys(prev => ({ ...prev, polygon: e.target.value }))}
-                className="font-mono text-sm"
-              />
+              <div className="flex gap-2">
+                <Input
+                  id="polygonApiKey"
+                  type={showApiKeys.polygon ? "text" : "password"}
+                  placeholder="Enter Polygon API Key"
+                  value={apiKeys.polygon}
+                  onChange={(e) => setApiKeys(prev => ({ ...prev, polygon: e.target.value }))}
+                  className="font-mono text-sm flex-1"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowApiKeys(prev => ({ ...prev, polygon: !prev.polygon }))}
+                  className="px-3"
+                >
+                  {showApiKeys.polygon ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </Button>
+              </div>
             </div>
             <div className="flex gap-2">
               <Button 
