@@ -1105,6 +1105,93 @@ metadata = {
             </CardContent>
           </Card>
         )}
+
+        {/* Edit Strategy Form */}
+        {editingStrategy && (
+          <Card className={`relative ${fullScreenPane === 'strategies-edit' ? 'fixed inset-4 top-20 z-50' : ''}`}>
+            <FullScreenButton paneId="strategies-edit" />
+            <CardHeader>
+              <CardTitle>Edit Strategy: {editingStrategy.name}</CardTitle>
+              <CardDescription>Edit the Python code for this strategy</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="edit-name">Strategy Name</Label>
+                  <Input 
+                    id="edit-name"
+                    value={editingStrategy.name}
+                    onChange={(e) => setEditingStrategy(prev => ({ ...prev, name: e.target.value }))}
+                    placeholder="Enter strategy name"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="edit-description">Description</Label>
+                  <Input 
+                    id="edit-description"
+                    value={editingStrategy.description}
+                    onChange={(e) => setEditingStrategy(prev => ({ ...prev, description: e.target.value }))}
+                    placeholder="Brief description"
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <Label htmlFor="edit-code">Python Code</Label>
+                <Textarea 
+                  id="edit-code"
+                  value={editingStrategy.code}
+                  onChange={(e) => setEditingStrategy(prev => ({ ...prev, code: e.target.value }))}
+                  className="font-mono text-sm min-h-96"
+                  placeholder="Enter your Python strategy code"
+                />
+              </div>
+
+              <div className="flex gap-2">
+                <Button onClick={updateEditingStrategy} disabled={isLoading}>
+                  {isLoading ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : null}
+                  Update Strategy
+                </Button>
+                <Button variant="outline" onClick={() => setEditingStrategy(null)}>
+                  Cancel
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Delete Confirmation Dialog */}
+        {deleteConfirm && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <Card className="w-96">
+              <CardHeader>
+                <CardTitle>Confirm Delete</CardTitle>
+                <CardDescription>
+                  Are you sure you want to delete the strategy "{deleteConfirm.name}"? This action cannot be undone.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex gap-2">
+                  <Button 
+                    variant="destructive" 
+                    onClick={confirmDelete}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : <Trash2 className="w-4 h-4 mr-2" />}
+                    Delete Strategy
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setDeleteConfirm(null)}
+                    disabled={isLoading}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
     );
   };
