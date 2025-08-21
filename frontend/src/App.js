@@ -119,6 +119,12 @@ function App() {
     tradestation: 'disconnected',
     tradexchange: 'disconnected'
   });
+  const [apiKeys, setApiKeys] = useState({
+    polygon: 'pVHWgdhIGxKg68dAyh5tVKBVLZGjFMfD',
+    newsware: '4aed023d-baac-4e76-a6f8-106a4a43c092',
+    tradexchange: '',
+    tradestation: ''
+  });
 
   useEffect(() => {
     loadInitialData();
