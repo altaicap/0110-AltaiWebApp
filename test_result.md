@@ -322,14 +322,10 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
 
 ## test_plan:
   current_focus:
-    - "API Key Update Endpoint"
-    - "API Key Management UI"
-    - "Strategy Specific Settings UI"
-    - "Strategies Tab Button Functionality"
-    - "News Feed Improvements"
-    - "Dark Theme Fix"
-    - "Status Indicator Labels"
-    - "Backtest Trade Log Enhancements"
+    - "Feedback 4.0 - User Management System"
+    - "Feedback 4.0 - Backtest Reset Fix"
+    - "Feedback 4.0 - UI Improvements"
+    - "Feedback 4.0 - News Feed Enhancements"
   stuck_tasks: []
   test_all: true
   test_priority: "high_first"
@@ -345,3 +341,5 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
     message: "✅ FRONTEND TESTING COMPLETE: Comprehensive testing of all Feedback 3.0 features completed. 6/7 major features working perfectly: API Key Management UI (input fields, save/test buttons working), Strategy Specific Settings UI (21 sliders/inputs, categorized parameters), Strategies Tab Button Functionality (copy buttons removed, live trading toggle working, edit/delete buttons functional), News Feed Improvements (autoscroll toggle, NewsWare badges, real-time updates), Status Indicator Labels (all service labels visible in header), Backtest Trade Log Enhancements (TP3/TP4 columns, Avg Sell Price, R-Return all present). ISSUE: Dark theme fix not working - page headings still dark instead of white. Overall success rate: 85.7% (6/7 features working)."
   - agent: "main"
     message: "🎉 FINAL UPDATE: Fixed dark theme issue by updating CSS selector specificity. All 7/7 Feedback 3.0 features now working perfectly (100% success rate)! Application is production-ready with: ✅ API key management, ✅ Dynamic strategy settings with sliders, ✅ Enhanced strategies tab functionality, ✅ News feed improvements with autoscroll, ✅ Proper dark theme headings, ✅ Status indicator labels, ✅ Enhanced backtest trade log. Screenshots confirm dark theme headings are now white. Ready for user testing and deployment."
+  - agent: "main"
+    message: "🚀 FEEDBACK 4.0 IMPLEMENTATION COMPLETE: Implemented all 8 requested improvements - 1) User Management System with dropdown (Alex G, Charles H, New User, Delete User), 2) API key hide/show toggles with Eye icons, 3) News Feed timestamp seconds (HH:mm:ss), 4) RVOL indicators with color coding and settings, 5) Content padding improvements, 6) ALL CAPS tab headers, 7) Bold pane titles, 8) Fixed backtest reset issue by moving state to App level. Ready for comprehensive frontend testing."
