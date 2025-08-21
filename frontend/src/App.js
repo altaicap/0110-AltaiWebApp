@@ -2073,12 +2073,23 @@ metadata = {
                     </div>
                     <p className="text-xs text-gray-600 mb-2 line-clamp-2">{article.body}</p>
                     <div className="flex items-center justify-between text-xs text-gray-500">
-                      <div className="flex gap-2">
-                        {article.tickers?.slice(0, 3).map((ticker) => (
-                          <Badge key={ticker} variant="secondary" className="text-xs">
-                            {ticker}
-                          </Badge>
-                        ))}
+                      <div className="flex gap-2 flex-wrap">
+                        {article.tickers?.slice(0, 3).map((ticker) => {
+                          const rvol = calculateRVOL(ticker);
+                          return (
+                            <div key={ticker} className="flex items-center gap-1">
+                              <Badge variant="secondary" className="text-xs">
+                                {ticker}
+                              </Badge>
+                              <Badge 
+                                className={`text-xs px-1.5 py-0.5 ${getRVOLColor(rvol)}`}
+                                title={`RVOL: ${rvol.toFixed(2)} (Period: ${rvolPeriod}, Lookback: ${lookbackPeriod})`}
+                              >
+                                {rvol.toFixed(1)}
+                              </Badge>
+                            </div>
+                          );
+                        })}
                       </div>
                       <span>{format(new Date(article.published_at), "MMM dd, HH:mm:ss")}</span>
                     </div>
