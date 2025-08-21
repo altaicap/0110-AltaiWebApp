@@ -108,27 +108,69 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
 ## backend:
   - task: "API Keys Configuration"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/.env"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Updated Newsware API key from user provided value (4aed023d-baac-4e76-a6f8-106a4a43c092) and Polygon API key (pVHWgdhIGxKg68dAyh5tVKBVLZGjFMfD)"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Both API keys are properly loaded and configured. Settings endpoint shows polygon_api_configured: true and newsware_api_configured: true. Connection tests successful for both services."
 
   - task: "API Key Update Endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Added /api/settings/update-api-key endpoint with ApiKeyUpdate model to allow dynamic updating of Polygon and Newsware API keys with .env file persistence"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: API key update endpoint working correctly. Successfully tested updating both Polygon and NewsWare API keys, with proper .env file persistence and runtime updates. Minor: Returns 500 instead of 400 for invalid service names, but functionality is correct."
+
+  - task: "Settings Endpoints"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: /api/settings endpoint working perfectly. Returns correct API configuration status, database connectivity status, and all required settings. Shows both Polygon and NewsWare APIs as 'Configured'."
+
+  - task: "Connection Testing Endpoints"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: /api/settings/test-connection endpoint working correctly for both 'polygon' and 'newsware' services. Polygon API connection successful with real API key. NewsWare connection successful with 5 articles available. Properly handles invalid service names."
+
+  - task: "Strategy and Backtest Endpoints"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: All strategy CRUD endpoints working correctly (GET, POST, PUT, DELETE). Backtest endpoint functional with PBH Algo parameters. Successfully tested with strategy-specific parameters including take_long, max_entry_count, tp_multiplier_1, etc. Returns proper backtest metrics."
 
 ## frontend:
   - task: "API Key Management UI"
