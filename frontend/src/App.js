@@ -692,14 +692,25 @@ metadata = {
             </div>
             <div className="space-y-2">
               <Label htmlFor="newswareApiKey">API Key</Label>
-              <Input
-                id="newswareApiKey"
-                type="password"
-                placeholder="Enter NewsWare API Key"
-                value={apiKeys.newsware}
-                onChange={(e) => setApiKeys(prev => ({ ...prev, newsware: e.target.value }))}
-                className="font-mono text-sm"
-              />
+              <div className="flex gap-2">
+                <Input
+                  id="newswareApiKey"
+                  type={showApiKeys.newsware ? "text" : "password"}
+                  placeholder="Enter NewsWare API Key"
+                  value={apiKeys.newsware}
+                  onChange={(e) => setApiKeys(prev => ({ ...prev, newsware: e.target.value }))}
+                  className="font-mono text-sm flex-1"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowApiKeys(prev => ({ ...prev, newsware: !prev.newsware }))}
+                  className="px-3"
+                >
+                  {showApiKeys.newsware ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </Button>
+              </div>
             </div>
             <div className="flex gap-2">
               <Button 
