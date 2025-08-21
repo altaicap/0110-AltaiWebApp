@@ -786,6 +786,89 @@ async def delete_strategy(strategy_id: str):
     return {"message": "Strategy deleted successfully"}
 
 
+# TradeXchange Webhook Integration
+class TradeXchangeWebhook(BaseModel):
+    source: str
+    content: str
+    timestamp: Optional[str] = None
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+
+@app.post("/api/webhooks/tradexchange")
+async def receive_tradexchange_webhook(webhook_data: TradeXchangeWebhook):
+    """Receive news updates from TradeXchange via webhook"""
+    try:
+        logger.info(f"Received TradeXchange webhook from source: {webhook_data.source}")
+        
+        # Create a standardized news article from webhook data
+        article_id = f"tx_webhook_{hash(webhook_data.content + webhook_data.source)}"
+        
+        # Parse tickers from content (basic implementation)
+        import re
+        ticker_pattern = r'\b[A-Z]{1,5}\b'  # Common stock ticker pattern
+        tickers = re.findall(ticker_pattern, webhook_data.content)[:5]  # Limit to 5 tickers
+        
+        # Create NewsArticle object
+        article = {
+            "id": article_id,
+            "headline": f"TradeXchange Update from {webhook_data.source}",
+            "body": webhook_data.content,
+            "source": "TradeXchange",
+            "published_at": datetime.utcnow(),
+            "tickers": tickers,
+            "category": "markets",
+            "metadata": {
+                "webhook_source": webhook_data.source,
+                "received_at": datetime.utcnow().isoformat(),
+                "original_timestamp": webhook_data.timestamp,
+                **webhook_data.metadata
+            }
+        }
+        
+        # Store in database
+        await db.news_articles.update_one(
+            {"id": article_id},
+            {"$set": article},
+            upsert=True
+        )
+        
+        logger.info(f"Stored TradeXchange article: {article_id}")
+        
+        # Return HTTP 200 as required by TradeXchange
+        return {
+            "status": "success",
+            "message": "Webhook received and processed",
+            "article_id": article_id,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Error processing TradeXchange webhook: {e}")
+        # Still return 200 to prevent webhook retries
+        return {
+            "status": "error", 
+            "message": str(e),
+            "timestamp": datetime.utcnow().isoformat()
+        }
+
+
+@app.get("/api/webhooks/tradexchange/test")
+async def test_tradexchange_webhook():
+    """Test endpoint to verify webhook integration"""
+    return {
+        "message": "TradeXchange webhook endpoint is ready",
+        "webhook_url": "/api/webhooks/tradexchange",
+        "method": "POST",
+        "expected_format": {
+            "source": "TMNews1",
+            "content": "This is the content of the newsdesk message",
+            "timestamp": "optional ISO datetime string",
+            "metadata": "optional additional data"
+        },
+        "status": "ready"
+    }
+
+
 # Backtest Results API
 @app.get("/api/backtest/results")
 async def get_backtest_results():
