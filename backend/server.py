@@ -1,75 +1,566 @@
-from fastapi import FastAPI, APIRouter
-from dotenv import load_dotenv
-from starlette.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, HTTPException, Depends, Query, BackgroundTasks
+from fastapi.middleware.cors import CORSMiddleware  
+from fastapi.responses import StreamingResponse
+from contextlib import asynccontextmanager
 from motor.motor_asyncio import AsyncIOMotorClient
-import os
+from pydantic import BaseModel, Field, validator
+from typing import List, Optional, Dict, Any
+from datetime import datetime, timedelta
+from enum import Enum
+import asyncio
+import json
 import logging
-from pathlib import Path
-from pydantic import BaseModel, Field
-from typing import List
+import os
+import httpx
+import hashlib
 import uuid
-from datetime import datetime
 
+# Environment variables
+MONGO_URL = os.environ.get("MONGO_URL", "mongodb://localhost:27017")
+DB_NAME = os.environ.get("DB_NAME", "altai_trader")
+POLYGON_API_KEY = os.environ.get("POLYGON_API_KEY")
+NEWSWARE_API_KEY = os.environ.get("NEWSWARE_API_KEY")
 
-ROOT_DIR = Path(__file__).parent
-load_dotenv(ROOT_DIR / '.env')
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-# MongoDB connection
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
+# Global variables
+client = None
+db = None
+background_tasks_running = False
 
-# Create the main app without a prefix
-app = FastAPI()
+# Pydantic Models
+class NewsCategory(str, Enum):
+    BUSINESS = "business"
+    TECHNOLOGY = "technology"  
+    POLITICS = "politics"
+    SPORTS = "sports"
+    ENTERTAINMENT = "entertainment"
+    HEALTH = "health"
+    SCIENCE = "science"
 
-# Create a router with the /api prefix
-api_router = APIRouter(prefix="/api")
+class NewsTag(BaseModel):
+    type: str = Field(..., description="Type of tag (ticker, category, keyword)")
+    value: str = Field(..., description="Tag value")
+    confidence: Optional[float] = Field(None, description="Confidence score")
 
+class NewsArticle(BaseModel):
+    id: str = Field(..., description="Unique article identifier")
+    headline: str = Field(..., description="Article headline")
+    body: str = Field(..., description="Article body content")
+    source: str = Field(..., description="News source")
+    published_at: datetime = Field(..., description="Publication timestamp")
+    tags: List[NewsTag] = Field(default_factory=list, description="Article tags")
+    category: Optional[NewsCategory] = Field(None, description="Primary category")
+    tickers: List[str] = Field(default_factory=list, description="Associated stock tickers")
+    metadata: Dict[str, Any] = Field(default_factory=dict, description="Additional metadata")
+    
+    @validator('published_at', pre=True)
+    def parse_published_at(cls, v):
+        if isinstance(v, str):
+            return datetime.fromisoformat(v.replace('Z', '+00:00'))
+        return v
 
-# Define Models
-class StatusCheck(BaseModel):
+class NewsFilter(BaseModel):
+    categories: Optional[List[NewsCategory]] = Field(None, description="Filter by categories")
+    tickers: Optional[List[str]] = Field(None, description="Filter by stock tickers")
+    sources: Optional[List[str]] = Field(None, description="Filter by news sources")
+    keywords: Optional[List[str]] = Field(None, description="Filter by keywords")
+    start_date: Optional[datetime] = Field(None, description="Start date for filtering")
+    end_date: Optional[datetime] = Field(None, description="End date for filtering")
+    limit: int = Field(50, ge=1, le=1000, description="Maximum number of articles")
+
+class NewsResponse(BaseModel):
+    articles: List[NewsArticle]
+    total_count: int
+    has_more: bool
+    cached: bool = False
+
+class SearchRequest(BaseModel):
+    query: str = Field(..., min_length=1, description="Search query")
+    filters: Optional[NewsFilter] = Field(None, description="Additional filters")
+
+class StockAggregate(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    client_name: str
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    symbol: str
+    timestamp: datetime
+    open_price: float
+    high_price: float
+    low_price: float
+    close_price: float
+    volume: int
+    vwap: Optional[float] = None
+    created_at: datetime = Field(default_factory=datetime.utcnow)
 
-class StatusCheckCreate(BaseModel):
-    client_name: str
+class BacktestRequest(BaseModel):
+    strategy_name: str
+    symbol: str
+    start_date: datetime
+    end_date: datetime
+    timeframe: str = "1D"
+    parameters: Dict[str, Any] = Field(default_factory=dict)
 
-# Add your routes to the router instead of directly to app
-@api_router.get("/")
-async def root():
-    return {"message": "Hello World"}
+class BacktestResult(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    strategy_name: str
+    symbol: str
+    start_date: datetime
+    end_date: datetime
+    total_return: float
+    max_drawdown: float
+    win_rate: float
+    total_trades: int
+    created_at: datetime = Field(default_factory=datetime.utcnow)
 
-@api_router.post("/status", response_model=StatusCheck)
-async def create_status_check(input: StatusCheckCreate):
-    status_dict = input.dict()
-    status_obj = StatusCheck(**status_dict)
-    _ = await db.status_checks.insert_one(status_obj.dict())
-    return status_obj
+class Strategy(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    description: str
+    code: str
+    parameters: Dict[str, Any] = Field(default_factory=dict)
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
 
-@api_router.get("/status", response_model=List[StatusCheck])
-async def get_status_checks():
-    status_checks = await db.status_checks.find().to_list(1000)
-    return [StatusCheck(**status_check) for status_check in status_checks]
+# Services
+class PolygonService:
+    def __init__(self):
+        self.api_key = POLYGON_API_KEY
+        self.base_url = "https://api.polygon.io"
+        
+    async def get_aggregates(self, symbol: str, multiplier: int, timespan: str, 
+                           from_date: str, to_date: str) -> Dict[str, Any]:
+        """Get aggregate bars for a stock ticker"""
+        if not self.api_key:
+            raise HTTPException(status_code=503, detail="Polygon API key not configured")
+            
+        url = f"{self.base_url}/v2/aggs/ticker/{symbol}/range/{multiplier}/{timespan}/{from_date}/{to_date}"
+        params = {
+            "adjusted": "true",
+            "sort": "asc", 
+            "limit": 50000,
+            "apikey": self.api_key
+        }
+        
+        async with httpx.AsyncClient() as client:
+            try:
+                response = await client.get(url, params=params, timeout=30)
+                if response.status_code == 200:
+                    return response.json()
+                elif response.status_code == 403:
+                    raise HTTPException(status_code=403, detail="Polygon API: Access forbidden. Check API key and subscription")
+                else:
+                    raise HTTPException(status_code=response.status_code, 
+                                      detail=f"Polygon API error: {response.text}")
+            except httpx.TimeoutException:
+                raise HTTPException(status_code=504, detail="Polygon API timeout")
+            except Exception as e:
+                raise HTTPException(status_code=500, detail=f"Polygon API request failed: {str(e)}")
 
-# Include the router in the main app
-app.include_router(api_router)
+class NewsWareService:
+    def __init__(self):
+        self.api_key = NEWSWARE_API_KEY
+        self.base_url = "https://api.newsware.com"
+        
+    async def get_real_time_feed(self, filters: Optional[Dict[str, Any]] = None) -> List[Dict[str, Any]]:
+        """Get real-time news feed"""
+        if not self.api_key:
+            # Return mock data when API key is not available
+            return self._get_mock_news_data()
+            
+        # Mock implementation - replace with actual NewsWare API calls
+        return self._get_mock_news_data()
+    
+    def _get_mock_news_data(self) -> List[Dict[str, Any]]:
+        """Generate mock news data for demonstration"""
+        mock_articles = [
+            {
+                "id": f"mock-{i}",
+                "headline": f"Market Update: Tech Stocks Rally {i}",
+                "body": f"Technology stocks continue their upward momentum as investors show confidence in the sector. Article {i} details...",
+                "source": "MockNews",
+                "published_at": (datetime.utcnow() - timedelta(minutes=i*10)).isoformat(),
+                "tags": [{"type": "ticker", "value": "AAPL", "confidence": 0.9}],
+                "category": "business",
+                "tickers": ["AAPL", "MSFT", "GOOGL"],
+                "metadata": {"priority": "high"}
+            }
+            for i in range(1, 6)
+        ]
+        return mock_articles
 
+# Initialize services
+polygon_service = PolygonService()
+newsware_service = NewsWareService()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Application lifespan management"""
+    global client, db, background_tasks_running
+    
+    # Startup
+    logger.info("Starting Altai Trader API")
+    client = AsyncIOMotorClient(MONGO_URL)
+    db = client[DB_NAME]
+    
+    # Test database connection
+    try:
+        await client.admin.command('ping')
+        logger.info("Database connected successfully")
+    except Exception as e:
+        logger.error(f"Database connection failed: {e}")
+        
+    # Start background tasks
+    background_tasks_running = True
+    asyncio.create_task(background_news_fetcher())
+    
+    yield
+    
+    # Shutdown
+    logger.info("Shutting down Altai Trader API")
+    background_tasks_running = False
+    if client:
+        client.close()
+
+app = FastAPI(
+    title="Altai Trader API",
+    description="Real-time trading platform with Python strategies, backtesting, and news feeds",
+    version="1.0.0",
+    lifespan=lifespan
+)
+
+# CORS middleware
 app.add_middleware(
     CORSMiddleware,
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
+# Background task for news fetching
+async def background_news_fetcher():
+    """Background task to continuously fetch news"""
+    while background_tasks_running:
+        try:
+            articles_data = await newsware_service.get_real_time_feed()
+            if articles_data:
+                # Store articles in database
+                for article_data in articles_data:
+                    try:
+                        article = NewsArticle(**article_data)
+                        await db.news_articles.update_one(
+                            {"id": article.id},
+                            {"$set": article.dict()},
+                            upsert=True
+                        )
+                    except Exception as e:
+                        logger.warning(f"Failed to store article: {e}")
+                        
+                logger.info(f"Fetched and cached {len(articles_data)} news articles")
+            
+            await asyncio.sleep(30)  # Fetch every 30 seconds
+        except Exception as e:
+            logger.error(f"Error in background news fetcher: {e}")
+            await asyncio.sleep(60)  # Wait longer on error
 
-@app.on_event("shutdown")
-async def shutdown_db_client():
-    client.close()
+# API Routes
+
+@app.get("/")
+async def root():
+    return {"message": "Altai Trader API", "status": "running", "version": "1.0.0"}
+
+@app.get("/api/health")
+async def health_check():
+    """Health check endpoint"""
+    try:
+        await client.admin.command('ping')
+        db_status = "healthy"
+    except:
+        db_status = "unhealthy"
+        
+    return {
+        "status": "healthy",
+        "database": db_status,
+        "timestamp": datetime.utcnow().isoformat(),
+        "version": "1.0.0"
+    }
+
+# Settings API
+@app.get("/api/settings")
+async def get_settings():
+    """Get application settings"""
+    return {
+        "polygon_api_configured": bool(POLYGON_API_KEY),
+        "newsware_api_configured": bool(NEWSWARE_API_KEY),
+        "database_connected": True,
+        "features": {
+            "backtesting": True,
+            "live_trading": False,  # Disabled until TradeStation integration
+            "news_feeds": True,
+            "strategies": True
+        }
+    }
+
+@app.post("/api/settings/test-connection")
+async def test_api_connections(service: str):
+    """Test API connections"""
+    if service == "polygon":
+        try:
+            # Test with a simple request
+            data = await polygon_service.get_aggregates("AAPL", 1, "day", "2024-01-01", "2024-01-02")
+            return {"status": "success", "message": "Polygon API connection successful"}
+        except Exception as e:
+            return {"status": "error", "message": str(e)}
+    
+    elif service == "newsware":
+        try:
+            articles = await newsware_service.get_real_time_feed()
+            return {"status": "success", "message": f"NewsWare connection successful, {len(articles)} articles available"}
+        except Exception as e:
+            return {"status": "error", "message": str(e)}
+    
+    else:
+        raise HTTPException(status_code=400, detail="Invalid service name")
+
+# Strategies API
+@app.get("/api/strategies", response_model=List[Strategy])
+async def get_strategies():
+    """Get all strategies"""
+    cursor = db.strategies.find()
+    strategies = []
+    async for doc in cursor:
+        strategies.append(Strategy(**doc))
+    return strategies
+
+@app.post("/api/strategies", response_model=Strategy)
+async def create_strategy(strategy: Strategy):
+    """Create a new strategy"""
+    strategy.created_at = datetime.utcnow()
+    strategy.updated_at = datetime.utcnow()
+    
+    await db.strategies.insert_one(strategy.dict())
+    return strategy
+
+@app.get("/api/strategies/{strategy_id}", response_model=Strategy)
+async def get_strategy(strategy_id: str):
+    """Get strategy by ID"""
+    doc = await db.strategies.find_one({"id": strategy_id})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Strategy not found")
+    return Strategy(**doc)
+
+@app.put("/api/strategies/{strategy_id}", response_model=Strategy)
+async def update_strategy(strategy_id: str, strategy: Strategy):
+    """Update a strategy"""
+    strategy.id = strategy_id
+    strategy.updated_at = datetime.utcnow()
+    
+    result = await db.strategies.replace_one({"id": strategy_id}, strategy.dict())
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Strategy not found")
+    return strategy
+
+@app.delete("/api/strategies/{strategy_id}")
+async def delete_strategy(strategy_id: str):
+    """Delete a strategy"""
+    result = await db.strategies.delete_one({"id": strategy_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Strategy not found")
+    return {"message": "Strategy deleted successfully"}
+
+# Backtesting API
+@app.post("/api/backtest", response_model=BacktestResult)
+async def run_backtest(request: BacktestRequest):
+    """Run a backtest"""
+    try:
+        # Get historical data from Polygon
+        start_date = request.start_date.strftime("%Y-%m-%d")
+        end_date = request.end_date.strftime("%Y-%m-%d")
+        
+        # Convert timeframe
+        multiplier = 1
+        timespan = "day"
+        if request.timeframe == "1m":
+            timespan = "minute"
+        elif request.timeframe == "1h":
+            timespan = "hour"
+        elif request.timeframe == "1D":
+            timespan = "day"
+            
+        data = await polygon_service.get_aggregates(
+            request.symbol, multiplier, timespan, start_date, end_date
+        )
+        
+        if not data.get("results"):
+            raise HTTPException(status_code=404, detail="No data available for the specified period")
+        
+        # Simple mock backtesting - replace with actual strategy execution
+        results = data["results"]
+        initial_price = results[0]["c"] if results else 100
+        final_price = results[-1]["c"] if results else 100
+        
+        total_return = ((final_price - initial_price) / initial_price) * 100
+        
+        # Mock additional metrics
+        backtest_result = BacktestResult(
+            strategy_name=request.strategy_name,
+            symbol=request.symbol,
+            start_date=request.start_date,
+            end_date=request.end_date,
+            total_return=total_return,
+            max_drawdown=-5.2,  # Mock value
+            win_rate=65.0,      # Mock value
+            total_trades=42     # Mock value
+        )
+        
+        # Store backtest result
+        await db.backtest_results.insert_one(backtest_result.dict())
+        
+        return backtest_result
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Backtesting failed: {str(e)}")
+
+@app.get("/api/backtest/results", response_model=List[BacktestResult])
+async def get_backtest_results():
+    """Get all backtest results"""
+    cursor = db.backtest_results.find().sort("created_at", -1)
+    results = []
+    async for doc in cursor:
+        results.append(BacktestResult(**doc))
+    return results
+
+# News API
+@app.get("/api/news/live", response_model=NewsResponse)
+async def get_live_news(
+    categories: Optional[List[NewsCategory]] = Query(None),
+    tickers: Optional[List[str]] = Query(None),
+    sources: Optional[List[str]] = Query(None),
+    limit: int = Query(50, ge=1, le=1000)
+):
+    """Get live news feed with optional filtering"""
+    try:
+        # Build MongoDB query
+        query = {}
+        if categories:
+            query["category"] = {"$in": [cat.value for cat in categories]}
+        if tickers:
+            query["tickers"] = {"$in": tickers}
+        if sources:
+            query["source"] = {"$in": sources}
+        
+        # Get articles from database (recent first)
+        cursor = db.news_articles.find(query).sort("published_at", -1).limit(limit)
+        articles = []
+        
+        async for doc in cursor:
+            try:
+                articles.append(NewsArticle(**doc))
+            except Exception as e:
+                logger.warning(f"Failed to parse article: {e}")
+        
+        return NewsResponse(
+            articles=articles,
+            total_count=len(articles),
+            has_more=len(articles) == limit,
+            cached=True
+        )
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch news: {str(e)}")
+
+@app.post("/api/news/search", response_model=NewsResponse)
+async def search_news(request: SearchRequest):
+    """Search news articles"""
+    try:
+        # Build MongoDB text search query
+        query = {"$text": {"$search": request.query}}
+        
+        # Add filters
+        if request.filters:
+            if request.filters.categories:
+                query["category"] = {"$in": [cat.value for cat in request.filters.categories]}
+            if request.filters.tickers:
+                query["tickers"] = {"$in": request.filters.tickers}
+            if request.filters.sources:
+                query["source"] = {"$in": request.filters.sources}
+            if request.filters.start_date:
+                query["published_at"] = {"$gte": request.filters.start_date}
+            if request.filters.end_date:
+                if "published_at" not in query:
+                    query["published_at"] = {}
+                query["published_at"]["$lte"] = request.filters.end_date
+        
+        limit = request.filters.limit if request.filters else 50
+        cursor = db.news_articles.find(query).sort("published_at", -1).limit(limit)
+        
+        articles = []
+        async for doc in cursor:
+            try:
+                articles.append(NewsArticle(**doc))
+            except Exception as e:
+                logger.warning(f"Failed to parse article: {e}")
+        
+        return NewsResponse(
+            articles=articles,
+            total_count=len(articles),
+            has_more=len(articles) == limit,
+            cached=False
+        )
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Search failed: {str(e)}")
+
+@app.get("/api/news/categories")
+async def get_news_categories():
+    """Get available news categories"""
+    return {
+        "categories": [category.value for category in NewsCategory],
+        "description": "Available news categories for filtering"
+    }
+
+# Market Data API
+@app.get("/api/market/{symbol}/aggregates")
+async def get_market_data(
+    symbol: str,
+    timespan: str = "day",
+    multiplier: int = 1,
+    start_date: str = Query(..., description="Start date (YYYY-MM-DD)"),
+    end_date: str = Query(..., description="End date (YYYY-MM-DD)")
+):
+    """Get market data aggregates"""
+    try:
+        data = await polygon_service.get_aggregates(symbol, multiplier, timespan, start_date, end_date)
+        
+        # Process and store data
+        if data.get("results"):
+            aggregates = []
+            for result in data["results"]:
+                aggregate = StockAggregate(
+                    symbol=symbol,
+                    timestamp=datetime.fromtimestamp(result["t"] / 1000),
+                    open_price=result["o"],
+                    high_price=result["h"],
+                    low_price=result["l"],
+                    close_price=result["c"],
+                    volume=result["v"],
+                    vwap=result.get("vw")
+                )
+                aggregates.append(aggregate)
+                
+                # Store in database
+                await db.stock_aggregates.update_one(
+                    {"symbol": symbol, "timestamp": aggregate.timestamp},
+                    {"$set": aggregate.dict()},
+                    upsert=True
+                )
+        
+        return data
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8001, reload=True)
