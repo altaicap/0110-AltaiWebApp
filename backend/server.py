@@ -14,6 +14,10 @@ import os
 import httpx
 import hashlib
 import uuid
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Environment variables
 MONGO_URL = os.environ.get("MONGO_URL", "mongodb://localhost:27017")
