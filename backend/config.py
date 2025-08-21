@@ -42,9 +42,12 @@ class Settings(BaseSettings):
     # Logging
     log_level: str = Field(default="INFO", env="LOG_LEVEL")
     
-    class Config:
-        env_file = ".env"
-        case_sensitive = False
+    @property
+    def cors_origins_list(self):
+        """Parse CORS origins as list"""
+        if isinstance(self.cors_origins, str):
+            return [origin.strip() for origin in self.cors_origins.split(",")]
+        return self.cors_origins
 
 
 # Global settings instance
