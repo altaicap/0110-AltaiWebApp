@@ -1422,7 +1422,7 @@ metadata = {
           <Card className={`relative ${fullScreenPane === 'strategy-settings' ? 'fixed inset-4 top-20 z-50' : ''}`}>
             <FullScreenButton paneId="strategy-settings" />
             <CardHeader>
-              <CardTitle>Strategy Specific Settings</CardTitle>
+              <CardTitle className="pane-title">Strategy Specific Settings</CardTitle>
               <CardDescription>Configure parameters for {selectedStrategy.name}</CardDescription>
             </CardHeader>
             <CardContent>
