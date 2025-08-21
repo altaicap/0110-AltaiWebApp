@@ -99,7 +99,8 @@ class StockAggregate(BaseModel):
 
 class BacktestRequest(BaseModel):
     strategy_name: str
-    symbol: str
+    symbols: List[str] = Field(default_factory=lambda: ["AAPL"])
+    symbol: str = "AAPL"  # For backward compatibility
     start_date: datetime
     end_date: datetime
     timeframe: str = "1D"
