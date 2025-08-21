@@ -268,9 +268,13 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
     - "API Key Update Endpoint"
     - "API Key Management UI"
     - "Strategy Specific Settings UI"
-    - "API Keys Configuration"
+    - "Strategies Tab Button Functionality"
+    - "News Feed Improvements"
+    - "Dark Theme Fix"
+    - "Status Indicator Labels"
+    - "Backtest Trade Log Enhancements"
   stuck_tasks: []
-  test_all: false
+  test_all: true
   test_priority: "high_first"
 
 ## agent_communication:
@@ -278,3 +282,5 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
     message: "Implemented core features: 1) Updated API keys in backend/.env with user provided values, 2) Added API key management UI in Settings tab with input fields and save buttons, 3) Enhanced Strategy Specific Settings with categorized parameters and slider controls for PBH Algo, 4) Added backend endpoint for dynamic API key updates. Ready for backend testing to verify API functionality."
   - agent: "testing"
     message: "✅ BACKEND TESTING COMPLETE: Comprehensive testing performed on all backend APIs. 44/45 tests passed (97.8% success rate). All critical functionality working: API keys properly configured and loaded, API key update endpoint functional with .env persistence, settings endpoints returning correct status, connection testing successful for both Polygon and NewsWare APIs, strategy CRUD operations working, backtest endpoint functional with PBH Algo parameters. Only minor issue: error handling returns 500 instead of 400 for invalid service names, but core functionality is solid. Backend is ready for production use."
+  - agent: "main"
+    message: "🎯 COMPLETED FEEDBACK 3.0 IMPLEMENTATION: All requested features implemented - 1) Strategies tab button functionality (delete with confirmation, edit with live trading check, removed copy button), 2) News Feed source differentiation and autoscroll toggle, 3) Dark theme fix for page headings, 4) Status indicator labels, 5) Enhanced Backtest Trade Log with TP3/TP4 columns and R-Return calculation. Ready for frontend testing."
