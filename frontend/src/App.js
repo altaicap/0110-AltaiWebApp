@@ -2084,6 +2084,43 @@ metadata = {
                   <span className="text-xs text-gray-600">TradeStation</span>
                 </div>
               </div>
+
+              {/* User Selector */}
+              <div className="ml-4">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className="flex items-center gap-2">
+                      <User className="w-4 h-4" />
+                      {currentUser}
+                      <ChevronDown className="w-4 h-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    {users.map((user) => (
+                      <DropdownMenuItem 
+                        key={user}
+                        onClick={() => switchUser(user)}
+                        className={currentUser === user ? 'bg-gray-100' : ''}
+                      >
+                        <User className="w-4 h-4 mr-2" />
+                        {user}
+                      </DropdownMenuItem>
+                    ))}
+                    <DropdownMenuItem onClick={() => setShowNewUserDialog(true)}>
+                      <UserPlus className="w-4 h-4 mr-2" />
+                      New User
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      onClick={() => setShowDeleteUserDialog(true)}
+                      className="text-red-600"
+                      disabled={users.length <= 1}
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      Delete User
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </div>
           </div>
         </div>
