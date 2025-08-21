@@ -1834,103 +1834,129 @@ metadata = {
   };
 
   // Log Tab Component
-  const LogTab = () => (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold">Log</h2>
-        <p className="text-gray-600">Monitor system activity and news feeds</p>
-      </div>
+  const LogTab = () => {
+    const [autoScroll, setAutoScroll] = useState(true);
 
-      {/* Order & Trade Log */}
-      <Card className={`relative ${fullScreenPane === 'order-log' ? 'fixed inset-4 top-20 z-50' : ''}`}>
-        <FullScreenButton paneId="order-log" />
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle>Order & Trade Log</CardTitle>
-              <CardDescription>Real-time trading activity from live strategies</CardDescription>
-            </div>
-            <Button size="sm" variant="outline">
-              <Download className="w-4 h-4 mr-2" />
-              Export Logs
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent>
-          {liveStrategies.length > 0 ? (
-            <div className="space-y-4">
-              {liveStrategies.map((strategy, index) => (
-                <div key={index} className="border rounded-lg p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-medium">{strategy.name}</h4>
-                    <Badge variant="default" className="bg-green-500">
-                      LIVE - {formatRuntime(strategy.startTime)}
-                    </Badge>
-                  </div>
-                  <p className="text-sm text-gray-600">
-                    Started: {strategy.startTime.toLocaleString()}
-                  </p>
-                  <p className="text-sm text-gray-500 mt-2">
-                    Orders and fills will appear here as the strategy executes trades
-                  </p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-8 text-gray-500">
-              <Clock className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-              <p>No live strategies running</p>
-              <p className="text-sm">Start a live strategy to see order activity</p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+    return (
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-2xl font-bold">Log</h2>
+          <p className="text-gray-600">Monitor system activity and news feeds</p>
+        </div>
 
-      {/* News Feed */}
-      <Card className={`relative ${fullScreenPane === 'news-feed' ? 'fixed inset-4 top-20 z-50' : ''}`}>
-        <FullScreenButton paneId="news-feed" />
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle>News Feed</CardTitle>
-              <CardDescription>Real-time news from NewsWire and TradeXchange APIs</CardDescription>
+        {/* Order & Trade Log */}
+        <Card className={`relative ${fullScreenPane === 'order-log' ? 'fixed inset-4 top-20 z-50' : ''}`}>
+          <FullScreenButton paneId="order-log" />
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>Order & Trade Log</CardTitle>
+                <CardDescription>Real-time trading activity from live strategies</CardDescription>
+              </div>
+              <Button size="sm" variant="outline">
+                <Download className="w-4 h-4 mr-2" />
+                Export Logs
+              </Button>
             </div>
-            <Button size="sm" variant="outline" onClick={loadNews}>
-              <RefreshCw className="w-4 h-4 mr-2" />
-              Refresh
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <ScrollArea className="h-96">
-            <div className="space-y-4">
-              {news.map((article) => (
-                <div key={article.id} className="border-b pb-4">
-                  <div className="flex items-start justify-between mb-2">
-                    <h4 className="font-medium text-sm leading-tight">{article.headline}</h4>
-                    <Badge variant="outline" className="ml-2 text-xs">
-                      {article.source}
-                    </Badge>
-                  </div>
-                  <p className="text-xs text-gray-600 mb-2 line-clamp-2">{article.body}</p>
-                  <div className="flex items-center justify-between text-xs text-gray-500">
-                    <div className="flex gap-2">
-                      {article.tickers?.slice(0, 3).map((ticker) => (
-                        <Badge key={ticker} variant="secondary" className="text-xs">
-                          {ticker}
-                        </Badge>
-                      ))}
+          </CardHeader>
+          <CardContent>
+            {liveStrategies.length > 0 ? (
+              <div className="space-y-4">
+                {liveStrategies.map((strategy, index) => (
+                  <div key={index} className="border rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="font-medium">{strategy.name}</h4>
+                      <Badge variant="default" className="bg-green-500">
+                        LIVE - {formatRuntime(strategy.startTime)}
+                      </Badge>
                     </div>
-                    <span>{format(new Date(article.published_at), "MMM dd, HH:mm")}</span>
+                    <p className="text-sm text-gray-600">
+                      Started: {strategy.startTime.toLocaleString()}
+                    </p>
+                    <p className="text-sm text-gray-500 mt-2">
+                      Orders and fills will appear here as the strategy executes trades
+                    </p>
                   </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                <Clock className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                <p>No live strategies running</p>
+                <p className="text-sm">Start a live strategy to see order activity</p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* News Feed */}
+        <Card className={`relative ${fullScreenPane === 'news-feed' ? 'fixed inset-4 top-20 z-50' : ''}`}>
+          <FullScreenButton paneId="news-feed" />
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>News Feed</CardTitle>
+                <CardDescription>Real-time news from NewsWare and TradeXchange APIs</CardDescription>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center space-x-2">
+                  <Switch 
+                    id="autoscroll"
+                    checked={autoScroll}
+                    onCheckedChange={setAutoScroll}
+                  />
+                  <Label htmlFor="autoscroll" className="text-sm">
+                    Auto Scroll
+                  </Label>
                 </div>
-              ))}
+                <Button size="sm" variant="outline" onClick={loadNews}>
+                  <RefreshCw className="w-4 h-4 mr-2" />
+                  Refresh
+                </Button>
+              </div>
             </div>
-          </ScrollArea>
-        </CardContent>
-      </Card>
-    </div>
-  );
+          </CardHeader>
+          <CardContent>
+            <ScrollArea className="h-96">
+              <div className="space-y-4">
+                {news.map((article) => (
+                  <div key={article.id} className="border-b pb-4">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-medium text-sm leading-tight">{article.headline}</h4>
+                      <div className="flex gap-2 ml-2">
+                        <Badge 
+                          variant="outline" 
+                          className={`text-xs ${article.source === 'NewsWare' ? 'border-blue-500 text-blue-600' : 'border-green-500 text-green-600'}`}
+                        >
+                          {article.source === 'MockNews' ? 'NewsWare' : article.source}
+                        </Badge>
+                        {article.source !== 'TradeXchange' && (
+                          <Badge variant="secondary" className="text-xs">
+                            {article.source === 'MockNews' ? 'NW' : 'TX'}
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-600 mb-2 line-clamp-2">{article.body}</p>
+                    <div className="flex items-center justify-between text-xs text-gray-500">
+                      <div className="flex gap-2">
+                        {article.tickers?.slice(0, 3).map((ticker) => (
+                          <Badge key={ticker} variant="secondary" className="text-xs">
+                            {ticker}
+                          </Badge>
+                        ))}
+                      </div>
+                      <span>{format(new Date(article.published_at), "MMM dd, HH:mm")}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  };
 
   return (
     <div className={`min-h-screen bg-gray-50 ${appSettings.theme === 'dark' ? 'dark' : ''} font-size-${appSettings.fontSize}`}>
