@@ -133,6 +133,12 @@ function App() {
     tradexchange: false,
     tradestation: false
   });
+  const [currentUser, setCurrentUser] = useState('Alex G');
+  const [users, setUsers] = useState(['Alex G', 'Charles H']);
+  const [showNewUserDialog, setShowNewUserDialog] = useState(false);
+  const [showDeleteUserDialog, setShowDeleteUserDialog] = useState(false);
+  const [userToDelete, setUserToDelete] = useState('');
+  const [newUserName, setNewUserName] = useState('');
 
   useEffect(() => {
     loadInitialData();
