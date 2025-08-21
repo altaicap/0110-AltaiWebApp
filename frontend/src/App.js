@@ -1279,19 +1279,8 @@ metadata = {
     );
   };
 
-  // Backtest Tab Component
+  // Backtest Tab Component  
   const BacktestTab = () => {
-    const [backtestForm, setBacktestForm] = useState({
-      strategy_name: '',
-      symbols: ['AAPL'],
-      start_date: null,
-      end_date: null
-    });
-    const [strategyParams, setStrategyParams] = useState({});
-    const [runningBacktest, setRunningBacktest] = useState(false);
-    const [symbolInput, setSymbolInput] = useState('');
-    const [chartSymbol, setChartSymbol] = useState('AAPL');
-
     const addSymbol = () => {
       if (symbolInput && !backtestForm.symbols.includes(symbolInput.toUpperCase()) && backtestForm.symbols.length < 100) {
         setBacktestForm(prev => ({
