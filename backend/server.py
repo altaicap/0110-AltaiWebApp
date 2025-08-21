@@ -290,10 +290,21 @@ async def health_check():
 @app.get("/api/settings")
 async def get_settings():
     """Get application settings"""
+    try:
+        # Test database connection
+        await client.admin.command('ping')
+        db_connected = True
+    except:
+        db_connected = False
+        
     return {
         "polygon_api_configured": bool(POLYGON_API_KEY),
         "newsware_api_configured": bool(NEWSWARE_API_KEY),
-        "database_connected": True,
+        "database_connected": db_connected,
+        "api_keys": {
+            "polygon": "Configured" if POLYGON_API_KEY else "Not Set",
+            "newsware": "Configured" if NEWSWARE_API_KEY else "Not Set"
+        },
         "features": {
             "backtesting": True,
             "live_trading": False,  # Disabled until TradeStation integration
