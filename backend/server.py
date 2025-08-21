@@ -117,7 +117,7 @@ class Strategy(BaseModel):
 async def lifespan(app: FastAPI):
     """Application lifespan management"""
     global client, db, background_tasks_running
-    global backtest_service, news_service, market_service
+    global backtest_service, news_service, market_service, PRODUCTION_MODE
     
     # Startup
     logger.info(f"Starting Altai Trader API (Production Mode: {PRODUCTION_MODE})")
