@@ -347,6 +347,75 @@ async def test_api_connections(service: str):
     else:
         raise HTTPException(status_code=400, detail="Invalid service name")
 
+class ApiKeyUpdate(BaseModel):
+    service: str
+    api_key: str
+
+@app.post("/api/settings/update-api-key")
+async def update_api_key(request: ApiKeyUpdate):
+    """Update API key for a service"""
+    global POLYGON_API_KEY, NEWSWARE_API_KEY, polygon_service, newsware_service
+    
+    try:
+        if request.service == "polygon":
+            # Update environment variable and service
+            POLYGON_API_KEY = request.api_key
+            os.environ["POLYGON_API_KEY"] = request.api_key
+            polygon_service.api_key = request.api_key
+            
+            # Update .env file
+            env_file_path = os.path.join(os.path.dirname(__file__), '.env')
+            with open(env_file_path, 'r') as f:
+                lines = f.readlines()
+            
+            updated = False
+            for i, line in enumerate(lines):
+                if line.startswith('POLYGON_API_KEY='):
+                    lines[i] = f'POLYGON_API_KEY={request.api_key}\n'
+                    updated = True
+                    break
+            
+            if not updated:
+                lines.append(f'POLYGON_API_KEY={request.api_key}\n')
+            
+            with open(env_file_path, 'w') as f:
+                f.writelines(lines)
+            
+            return {"status": "success", "message": "Polygon API key updated successfully"}
+        
+        elif request.service == "newsware":
+            # Update environment variable and service
+            NEWSWARE_API_KEY = request.api_key
+            os.environ["NEWSWARE_API_KEY"] = request.api_key
+            newsware_service.api_key = request.api_key
+            
+            # Update .env file
+            env_file_path = os.path.join(os.path.dirname(__file__), '.env')
+            with open(env_file_path, 'r') as f:
+                lines = f.readlines()
+            
+            updated = False
+            for i, line in enumerate(lines):
+                if line.startswith('NEWSWARE_API_KEY='):
+                    lines[i] = f'NEWSWARE_API_KEY={request.api_key}\n'
+                    updated = True
+                    break
+            
+            if not updated:
+                lines.append(f'NEWSWARE_API_KEY={request.api_key}\n')
+            
+            with open(env_file_path, 'w') as f:
+                f.writelines(lines)
+            
+            return {"status": "success", "message": "NewsWare API key updated successfully"}
+        
+        else:
+            raise HTTPException(status_code=400, detail="Invalid service name")
+            
+    except Exception as e:
+        logger.error(f"Error updating API key for {request.service}: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to update API key: {str(e)}")
+
 # Strategies API
 @app.get("/api/strategies", response_model=List[Strategy])
 async def get_strategies():
