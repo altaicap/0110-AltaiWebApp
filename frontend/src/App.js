@@ -865,6 +865,81 @@ metadata = {
       }
     };
 
+    const handleEditStrategy = async (strategy) => {
+      const isLive = liveStrategies.some(ls => ls.name === strategy.name);
+      
+      if (isLive) {
+        const confirmed = window.confirm(
+          `Strategy "${strategy.name}" is currently live trading. Do you want to stop live trading and edit the strategy?`
+        );
+        
+        if (confirmed) {
+          await toggleLiveTrading(strategy.name);
+          setEditingStrategy({
+            ...strategy,
+            code: strategy.code || newStrategy.code
+          });
+        }
+      } else {
+        setEditingStrategy({
+          ...strategy,
+          code: strategy.code || newStrategy.code
+        });
+      }
+    };
+
+    const handleDeleteStrategy = (strategy) => {
+      setDeleteConfirm(strategy);
+    };
+
+    const confirmDelete = async () => {
+      if (!deleteConfirm) return;
+      
+      setIsLoading(true);
+      try {
+        const response = await fetch(`${BACKEND_URL}/api/strategies/${deleteConfirm.id}`, {
+          method: 'DELETE'
+        });
+
+        if (response.ok) {
+          setSuccess('Strategy deleted successfully');
+          await loadStrategies();
+          setDeleteConfirm(null);
+        } else {
+          setError('Failed to delete strategy');
+        }
+      } catch (error) {
+        setError(`Delete failed: ${error.message}`);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    const updateEditingStrategy = async () => {
+      if (!editingStrategy) return;
+      
+      setIsLoading(true);
+      try {
+        const response = await fetch(`${BACKEND_URL}/api/strategies/${editingStrategy.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(editingStrategy)
+        });
+
+        if (response.ok) {
+          setSuccess('Strategy updated successfully');
+          setEditingStrategy(null);
+          await loadStrategies();
+        } else {
+          setError('Failed to update strategy');
+        }
+      } catch (error) {
+        setError(`Update failed: ${error.message}`);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
