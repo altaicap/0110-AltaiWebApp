@@ -2022,22 +2022,22 @@ metadata = {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           {/* Primary Tabs */}
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="settings" className="flex items-center gap-2">
+          <TabsList className="grid w-full grid-cols-4 px-6">
+            <TabsTrigger value="settings" className="flex items-center gap-2 px-6 uppercase">
               <Settings className="w-4 h-4" />
-              Settings
+              SETTINGS
             </TabsTrigger>
-            <TabsTrigger value="strategies" className="flex items-center gap-2">
+            <TabsTrigger value="strategies" className="flex items-center gap-2 px-6 uppercase">
               <FileText className="w-4 h-4" />
-              Strategies
+              STRATEGIES
             </TabsTrigger>
-            <TabsTrigger value="backtest" className="flex items-center gap-2">
+            <TabsTrigger value="backtest" className="flex items-center gap-2 px-6 uppercase">
               <BarChart3 className="w-4 h-4" />
-              Backtest
+              BACKTEST
             </TabsTrigger>
-            <TabsTrigger value="log" className="flex items-center gap-2">
+            <TabsTrigger value="log" className="flex items-center gap-2 px-6 uppercase">
               <Activity className="w-4 h-4" />
-              Log
+              LOG
             </TabsTrigger>
           </TabsList>
 
