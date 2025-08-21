@@ -1,0 +1,154 @@
+<analysis>
+The previous AI engineer successfully initiated the Altai Trader application, pivoting from a macOS Electron app to a web application as per user clarification. Key achievements include setting up the React frontend (with Shadcn UI, Tailwind CSS for styling, and theme/font size controls) and FastAPI backend (handling API key management, settings, and mock API calls for NewsWare/Polygon). Initial setup involved robust environment variable handling (using ), dependency installation, and basic UI rendering with dynamic API configuration status.
+
+Following initial success, the engineer iteratively refined the application based on two rounds of detailed user feedback. This included integrating the Altai Capital SVG logo, restructuring the Backtest tab for multi-symbol input, enhanced results display, and a placeholder for charting. Crucially, the engineer began implementing dynamic Strategy Specific Settings based on the provided Prior Bar Break Algo (PBH Algo) Python script, indicating a focus on core trading strategy integration. The engineer also addressed several UI/UX improvements like full-screen pane buttons, connectivity indicators, and dark theme adjustments, demonstrating responsiveness to design feedback. The work is now poised at refining the dynamic strategy settings and implementing the live trading features.
+</analysis>
+
+<product_requirements>
+The primary objective is to build a production-grade web application named “Altai Trader”. Initially specified as a macOS Electron app, this was clarified by the user to be a web application.
+Core functionalities include:
+1.  **Strategy Management:** Load and manage user-defined Python trading strategies (e.g., Prior Bar Break Algo). The app should validate strategy structure and detect Python runtime errors.
+2.  **Backtesting:** Facilitate backtesting of strategies using Polygon data. This involves a UI with a strategy selector, dynamic Strategy Specific Settings (populated from strategy metadata), global run configurations (instruments for up to 100 symbols, date range, data source, commissions), and detailed Backtest Highlights results (Total Trades, Win %, Avg PnL, ROI).
+3.  **Visualization:** Display market data using a charting library (TradingView originally, now general chart pane) with indicators and trade markers (buy, stop, profit levels) linked to strategy signals.
+4.  **Live Trading/Paper Trading:** Route trades via TradeStation (OAuth integration planned). The app should include a Live Trade button to toggle strategy execution, with visual indicators and creation of new tabs for active strategies. Logs for live trades should be exportable from the Strategies tab.
+5.  **Data Feeds:** Stream and aggregate news from Newsware and TradeXchange feeds, displayed in a dedicated Log tab with filtering and export options.
+6.  **Settings:** A dedicated tab for general app settings (font size, theme) and connectivity (Polygon, Newsware, TradeXchange, TradeStation API keys/credentials). API connection status should be visually indicated (green/yellow boxes). Secrets must be stored securely.
+7.  **User Experience:** Clean, minimal UI with modern design elements (rounded cards, soft shadows, ample padding, micro-animations, specific fonts). Implement full-screen toggles for panes, human-readable error messages (red notification circles with hover text). Support light/dark themes, with specific dark theme aesthetic requirements (deep black background, lighter panes).
+
+The application is expected to be feature-ready, allowing comprehensive testing of strategy logic and trading workflows.
+</product_requirements>
+
+<key_technical_concepts>
+- **Full-Stack Development:** React.js (frontend) with FastAPI (backend) and MongoDB (database).
+- **UI/UX Frameworks:** Tailwind CSS for styling, Shadcn UI components for rich UI elements (Tabs, Buttons, Inputs, Sliders, Cards, Tooltips, etc.).
+- **API Integration:** Polygon (historical data), NewsWare (news feeds), TradeStation (trading/OAuth).
+- **Python Strategy Engine:** Python 3.11 with FastAPI backend, supporting isolated subprocesses for strategies.
+- **Environment Management:**  for loading environment variables.
+- **State Management/Data Fetching:** React Query (planned) and potentially Zustand/Redux Toolkit.
+- **Package Management:** yarn install v1.22.22
+[1/4] Resolving packages...
+[2/4] Fetching packages...
+[3/4] Linking dependencies...
+[4/4] Building fresh packages...
+success Saved lockfile.
+Done in 0.11s. for frontend, 
+Usage:   
+  pip <command> [options]
+
+Commands:
+  install                     Install packages.
+  lock                        Generate a lock file.
+  download                    Download packages.
+  uninstall                   Uninstall packages.
+  freeze                      Output installed packages in requirements format.
+  inspect                     Inspect the python environment.
+  list                        List installed packages.
+  show                        Show information about installed packages.
+  check                       Verify installed packages have compatible dependencies.
+  config                      Manage local and global configuration.
+  search                      Search PyPI for packages.
+  cache                       Inspect and manage pip's wheel cache.
+  index                       Inspect information available from package indexes.
+  wheel                       Build wheels from your requirements.
+  hash                        Compute hashes of package archives.
+  completion                  A helper command used for command completion.
+  debug                       Show information useful for debugging.
+  help                        Show help for commands.
+
+General Options:
+  -h, --help                  Show help.
+  --debug                     Let unhandled exceptions propagate outside the
+                              main subroutine, instead of logging them to
+                              stderr.
+  --isolated                  Run pip in an isolated mode, ignoring
+                              environment variables and user configuration.
+  --require-virtualenv        Allow pip to only run in a virtual environment;
+                              exit with an error otherwise.
+  --python <python>           Run pip with the specified Python interpreter.
+  -v, --verbose               Give more output. Option is additive, and can be
+                              used up to 3 times.
+  -V, --version               Show version and exit.
+  -q, --quiet                 Give less output. Option is additive, and can be
+                              used up to 3 times (corresponding to WARNING,
+                              ERROR, and CRITICAL logging levels).
+  --log <path>                Path to a verbose appending log.
+  --no-input                  Disable prompting for input.
+  --keyring-provider <keyring_provider>
+                              Enable the credential lookup via the keyring
+                              library if user input is allowed. Specify which
+                              mechanism to use [auto, disabled, import,
+                              subprocess]. (default: auto)
+  --proxy <proxy>             Specify a proxy in the form
+                              scheme://[user:passwd@]proxy.server:port.
+  --retries <retries>         Maximum attempts to establish a new HTTP
+                              connection. (default: 5)
+  --timeout <sec>             Set the socket timeout (default 15 seconds).
+  --exists-action <action>    Default action when a path already exists:
+                              (s)witch, (i)gnore, (w)ipe, (b)ackup, (a)bort.
+  --trusted-host <hostname>   Mark this host or host:port pair as trusted,
+                              even though it does not have valid or any HTTPS.
+  --cert <path>               Path to PEM-encoded CA certificate bundle. If
+                              provided, overrides the default. See 'SSL
+                              Certificate Verification' in pip documentation
+                              for more information.
+  --client-cert <path>        Path to SSL client certificate, a single file
+                              containing the private key and the certificate
+                              in PEM format.
+  --cache-dir <dir>           Store the cache data in <dir>.
+  --no-cache-dir              Disable the cache.
+  --disable-pip-version-check
+                              Don't periodically check PyPI to determine
+                              whether a new version of pip is available for
+                              download. Implied with --no-index.
+  --no-color                  Suppress colored output.
+  --use-feature <feature>     Enable new functionality, that may be backward
+                              incompatible.
+  --use-deprecated <feature>  Enable deprecated functionality, that will be
+                              removed in the future.
+  --resume-retries <resume_retries>
+                              Maximum attempts to resume or restart an
+                              incomplete download. (default: 5) (via ) for backend.
+</key_technical_concepts>
+
+<code_architecture>
+
+
+-   : This is the core FastAPI application. It handles API routes (, , , , ). It was initially set up with basic endpoints and CORS. Significant changes include adding  to correctly load environment variables (, ) and ensure API configuration status is reported accurately. It also received updates to support multi-symbol backtesting and integrate placeholder logic for the PBH strategy parameters, ensuring the backend can receive and process strategy configurations.
+-   : Stores critical environment variables for backend operations, specifically , , and . It was modified to explicitly include  and  with the user-provided values.
+-   : This is the main React application component. It implements the entire UI structure, including the 4 main tabs (Settings, Strategies, Backtest, Log) using Shadcn UI components. It manages the application's state, fetches settings from the backend, and conditionally renders UI elements based on API connection status. It was heavily modified to:
+    -   Integrate the .
+    -   Implement functional theme (System/Light/Dark) and font size selectors.
+    -   Redesign the Backtest tab layout to include Configuration, a placeholder for Strategy Specific Settings, Backtest Highlights (renamed from Historical Results), and a Chart Visualization panel.
+    -   Add a multi-symbol input field with badge display and a counter.
+    -   Add a placeholder for the Live Trade button and its toggling logic.
+    -   Include a placeholder for the Export Logs button in the Strategies tab.
+    -   Address initial issues with tab navigation and component rendering.
+-   : Contains the Tailwind CSS directives and custom styles for the application. It was updated to support the new UI layouts, particularly for the Backtest tab, and to refine the dark theme appearance as per user feedback (deeper blacks for background, lighter panes).
+-   : This file was newly created to store the Altai Capital logo provided by the user, replacing a generic icon.
+-   : This file was uploaded by the user and downloaded by the engineer. It contains the Python code for the Prior Bar High Algorithm trading strategy, including its  (name, version, author, and  with type, default, min/max values). This file is crucial for dynamically generating the Strategy Specific Settings UI in the frontend.
+-   : Updated to include  and other necessary backend dependencies.
+-   : Updated with new frontend dependencies like , , , , , , .
+</code_architecture>
+
+<pending_tasks>
+-   Implement precise Strategy Specific Settings UI in the Backtest tab based on the provided screenshot and  parameters.
+-   Add Full Screen button functionality to every pane.
+-   Implement green/yellow highlighted connection boxes for Newsware, Tradexchange, and Tradestation in the top right corner.
+-   Finalize Backtest Trade Log functionality and renaming.
+-   Implement error detection and visual highlighting for Python code in the Strategies tab.
+-   Complete Live Trade button functionality: toggling status, displaying runtime, creating a new top-level tab for active strategies.
+-   Refine dark theme background and pane colors, and reduce white line thickness.
+-   Implement actual chart visualization logic in the Chart Visualization Panel using Polygon data and trade markers.
+</pending_tasks>
+
+<current_work>
+The AI engineer is currently in the process of implementing the detailed feedback provided in Feedback 2.0 (Chat Message 93).
+Specifically:
+1.  **UI/UX Refinements:** The engineer has initiated changes in  and  to begin addressing points such as the Full Screen button, connection indicators, and dark theme adjustments.
+2.  **Dependency Installation:** The  package has been installed to support hover functionality, likely for error notifications as requested by the user.
+3.  **Strategy Integration Focus:** The engineer has just received and examined the updated  and a screenshot detailing the desired Strategy Specific Settings UI. The next immediate step is to implement this dynamic UI based on the parameters defined in the  file, which is a critical part of making the backtesting functionality robust and user-configurable. This involves dynamically rendering input fields and controls for the 40+ parameters of the PBH Algo.
+</current_work>
+
+<optional_next_step>
+Implement the Strategy Specific Settings pane in the Backtest tab, dynamically generating controls based on the  metadata and adhering to the provided screenshot.
+</optional_next_step>
