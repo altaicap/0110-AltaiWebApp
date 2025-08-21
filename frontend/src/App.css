@@ -40,7 +40,7 @@ body {
   color: #d1d5db !important;
 }
 
-[data-theme="dark"] .text-2xl {
+[data-theme="dark"] h2.text-2xl {
   color: #f9fafb !important;
 }
 
