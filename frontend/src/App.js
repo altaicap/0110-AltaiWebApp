@@ -14,6 +14,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./components/ui/popover
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./components/ui/table";
 import { ScrollArea } from "./components/ui/scroll-area";
 import { Switch } from "./components/ui/switch";
+import { Slider } from "./components/ui/slider";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./components/ui/tooltip";
 import { 
   Settings, 
