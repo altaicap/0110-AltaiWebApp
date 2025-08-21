@@ -31,7 +31,7 @@ class Settings(BaseSettings):
     api_key_salt: str = Field(default="altai-salt-2024", env="API_KEY_SALT")
     
     # CORS Settings
-    cors_origins: list = Field(default=["http://localhost:3000"], env="CORS_ORIGINS")
+    cors_origins: str = Field(default="http://localhost:3000", env="CORS_ORIGINS")
     environment: str = Field(default="development", env="ENVIRONMENT")
     
     # Backtrader Settings
