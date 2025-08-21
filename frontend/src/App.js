@@ -794,6 +794,8 @@ metadata = {
   // Strategies Tab Component
   const StrategiesTab = () => {
     const [selectedStrategy, setSelectedStrategy] = useState(null);
+    const [editingStrategy, setEditingStrategy] = useState(null);
+    const [deleteConfirm, setDeleteConfirm] = useState(null);
     const [newStrategy, setNewStrategy] = useState({
       name: '',
       description: '',
