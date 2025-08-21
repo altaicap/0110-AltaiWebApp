@@ -143,6 +143,18 @@ function App() {
   const [showDeleteUserDialog, setShowDeleteUserDialog] = useState(false);
   const [userToDelete, setUserToDelete] = useState('');
   const [newUserName, setNewUserName] = useState('');
+  
+  // Backtest Form State (moved from BacktestTab to prevent resets)
+  const [backtestForm, setBacktestForm] = useState({
+    strategy_name: '',
+    symbols: ['AAPL'],
+    start_date: null,
+    end_date: null
+  });
+  const [strategyParams, setStrategyParams] = useState({});
+  const [runningBacktest, setRunningBacktest] = useState(false);
+  const [symbolInput, setSymbolInput] = useState('');
+  const [chartSymbol, setChartSymbol] = useState('AAPL');
 
   useEffect(() => {
     loadInitialData();
