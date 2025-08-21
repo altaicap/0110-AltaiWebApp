@@ -2186,6 +2186,100 @@ metadata = {
             <LogTab />
           </TabsContent>
 
+          {/* New User Dialog */}
+          {showNewUserDialog && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <Card className="w-96">
+                <CardHeader>
+                  <CardTitle className="pane-title">Create New User</CardTitle>
+                  <CardDescription>Enter a name for the new user profile</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="newUserName">User Name</Label>
+                      <Input
+                        id="newUserName"
+                        value={newUserName}
+                        onChange={(e) => setNewUserName(e.target.value)}
+                        placeholder="Enter user name"
+                        onKeyDown={(e) => e.key === 'Enter' && createNewUser()}
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <Button 
+                        onClick={createNewUser}
+                        disabled={!newUserName.trim() || users.includes(newUserName.trim())}
+                      >
+                        <UserPlus className="w-4 h-4 mr-2" />
+                        Create User
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        onClick={() => {
+                          setShowNewUserDialog(false);
+                          setNewUserName('');
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Delete User Dialog */}
+          {showDeleteUserDialog && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <Card className="w-96">
+                <CardHeader>
+                  <CardTitle className="pane-title">Delete User</CardTitle>
+                  <CardDescription>Select a user to delete. This action cannot be undone.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="userToDelete">Select User to Delete</Label>
+                      <Select value={userToDelete} onValueChange={setUserToDelete}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Choose user to delete" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {users.filter(user => users.length > 1).map((user) => (
+                            <SelectItem key={user} value={user}>
+                              {user}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button 
+                        variant="destructive"
+                        onClick={deleteUser}
+                        disabled={!userToDelete}
+                      >
+                        <Trash2 className="w-4 h-4 mr-2" />
+                        Delete User
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        onClick={() => {
+                          setShowDeleteUserDialog(false);
+                          setUserToDelete('');
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
           {/* Live Strategy Tab Contents */}
           {liveTabs.map((tabName) => (
             <TabsContent key={`live-${tabName}`} value={`live-${tabName}`}>
