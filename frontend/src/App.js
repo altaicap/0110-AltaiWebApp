@@ -125,6 +125,12 @@ function App() {
     tradexchange: '',
     tradestation: ''
   });
+  const [showApiKeys, setShowApiKeys] = useState({
+    polygon: false,
+    newsware: false,
+    tradexchange: false,
+    tradestation: false
+  });
 
   useEffect(() => {
     loadInitialData();
