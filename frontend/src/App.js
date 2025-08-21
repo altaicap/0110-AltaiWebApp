@@ -982,13 +982,18 @@ metadata = {
                           </div>
                         </div>
                         <div className="flex gap-2">
-                          <Button size="sm" variant="outline">
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => handleEditStrategy(strategy)}
+                          >
                             <Edit className="w-4 h-4" />
                           </Button>
-                          <Button size="sm" variant="outline">
-                            <Copy className="w-4 h-4" />
-                          </Button>
-                          <Button size="sm" variant="outline">
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => handleDeleteStrategy(strategy)}
+                          >
                             <Trash2 className="w-4 h-4" />
                           </Button>
                         </div>
