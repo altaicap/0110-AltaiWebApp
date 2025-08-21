@@ -1996,7 +1996,7 @@ metadata = {
                           </Badge>
                         ))}
                       </div>
-                      <span>{format(new Date(article.published_at), "MMM dd, HH:mm")}</span>
+                      <span>{format(new Date(article.published_at), "MMM dd, HH:mm:ss")}</span>
                     </div>
                   </div>
                 ))}
