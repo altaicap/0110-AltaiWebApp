@@ -471,6 +471,333 @@ class TestStrategy:
             results = market_data.get("results", [])
             self.log_test("Market Data Retrieval", True, f"Retrieved {len(results)} data points for AAPL")
 
+    def test_tradexchange_webhook_endpoints(self):
+        """Test TradeXchange webhook integration"""
+        print("\n🔍 Testing TradeXchange Webhook Integration...")
+        
+        # Test webhook test endpoint first
+        success, test_response = self.run_test(
+            "TradeXchange Webhook Test Endpoint",
+            "GET",
+            "/api/webhooks/tradexchange/test",
+            200
+        )
+        
+        if success and test_response:
+            webhook_url = test_response.get("webhook_url")
+            method = test_response.get("method")
+            status = test_response.get("status")
+            
+            self.log_test("Webhook Test Endpoint", True, 
+                         f"Webhook ready at {webhook_url} via {method}, status: {status}")
+        
+        # Test webhook with proper TradeXchange format
+        webhook_data = {
+            "source": "TXNews1",
+            "content": "Breaking: AAPL reports strong quarterly earnings. Stock up 5% in after-hours trading. MSFT also showing positive momentum with cloud revenue growth. TSLA announces new factory expansion plans.",
+            "timestamp": datetime.utcnow().isoformat(),
+            "metadata": {
+                "priority": "high",
+                "category": "earnings"
+            }
+        }
+        
+        success, webhook_response = self.run_test(
+            "TradeXchange Webhook Processing",
+            "POST",
+            "/api/webhooks/tradexchange",
+            200,
+            data=webhook_data
+        )
+        
+        if success and webhook_response:
+            status = webhook_response.get("status")
+            article_id = webhook_response.get("article_id")
+            timestamp = webhook_response.get("timestamp")
+            
+            self.log_test("Webhook Processing", status == "success", 
+                         f"Article ID: {article_id}, processed at: {timestamp}")
+        
+        # Test webhook with minimal data
+        minimal_webhook = {
+            "source": "TXNews2", 
+            "content": "Market update: Technology sector showing strength with AAPL leading gains."
+        }
+        
+        success, minimal_response = self.run_test(
+            "TradeXchange Webhook Minimal Data",
+            "POST",
+            "/api/webhooks/tradexchange",
+            200,
+            data=minimal_webhook
+        )
+        
+        if success and minimal_response:
+            status = minimal_response.get("status")
+            self.log_test("Minimal Webhook Processing", status == "success", 
+                         "Webhook processed with minimal required fields")
+        
+        # Test webhook with malformed data
+        malformed_webhook = {
+            "invalid_field": "test",
+            "content": "This should fail validation"
+        }
+        
+        success, error_response = self.run_test(
+            "TradeXchange Webhook Malformed Data",
+            "POST", 
+            "/api/webhooks/tradexchange",
+            200,  # Webhook should still return 200 but with error status
+            data=malformed_webhook
+        )
+        
+        if success and error_response:
+            status = error_response.get("status")
+            # Webhook should return 200 but with error status to prevent retries
+            self.log_test("Malformed Webhook Handling", status == "error", 
+                         "Correctly handled malformed webhook data")
+
+    def test_tradexchange_news_integration(self):
+        """Test TradeXchange news integration with live news feed"""
+        print("\n🔍 Testing TradeXchange News Integration...")
+        
+        # First send a webhook to ensure we have TradeXchange data
+        test_webhook = {
+            "source": "TXNews1",
+            "content": "Integration test: AAPL stock analysis shows bullish trend. MSFT cloud services expanding. TSLA production targets exceeded.",
+            "timestamp": datetime.utcnow().isoformat(),
+            "metadata": {
+                "test": "integration",
+                "tickers": ["AAPL", "MSFT", "TSLA"]
+            }
+        }
+        
+        # Send webhook
+        success, webhook_response = self.run_test(
+            "Send Test Webhook for Integration",
+            "POST",
+            "/api/webhooks/tradexchange",
+            200,
+            data=test_webhook
+        )
+        
+        if success:
+            article_id = webhook_response.get("article_id")
+            self.log_test("Test Webhook Sent", True, f"Article ID: {article_id}")
+            
+            # Wait a moment for processing
+            import time
+            time.sleep(2)
+            
+            # Now check if the webhook data appears in live news feed
+            success, news_response = self.run_test(
+                "Get Live News After Webhook",
+                "GET",
+                "/api/news/live",
+                200,
+                params={"limit": 50}
+            )
+            
+            if success and news_response:
+                articles = news_response.get("articles", [])
+                
+                # Look for TradeXchange articles
+                tradexchange_articles = [
+                    article for article in articles 
+                    if article.get("source") == "TradeXchange"
+                ]
+                
+                self.log_test("TradeXchange Articles in News Feed", 
+                             len(tradexchange_articles) > 0,
+                             f"Found {len(tradexchange_articles)} TradeXchange articles")
+                
+                # Verify article structure and content
+                if tradexchange_articles:
+                    article = tradexchange_articles[0]
+                    
+                    # Check required fields
+                    required_fields = ["id", "headline", "body", "source", "published_at", "tickers"]
+                    missing_fields = [field for field in required_fields if field not in article]
+                    
+                    if missing_fields:
+                        self.log_test("TradeXchange Article Structure", False, 
+                                     f"Missing fields: {missing_fields}")
+                    else:
+                        self.log_test("TradeXchange Article Structure", True, 
+                                     "All required fields present")
+                    
+                    # Check source attribution
+                    source_correct = article.get("source") == "TradeXchange"
+                    self.log_test("TradeXchange Source Attribution", source_correct,
+                                 f"Source: {article.get('source')}")
+                    
+                    # Check ticker extraction
+                    tickers = article.get("tickers", [])
+                    expected_tickers = ["AAPL", "MSFT", "TSLA"]
+                    found_tickers = [ticker for ticker in expected_tickers if ticker in tickers]
+                    
+                    self.log_test("Ticker Symbol Extraction", len(found_tickers) > 0,
+                                 f"Found tickers: {found_tickers} from content")
+                    
+                    # Check metadata
+                    metadata = article.get("metadata", {})
+                    webhook_source = metadata.get("webhook_source")
+                    received_at = metadata.get("received_at")
+                    
+                    self.log_test("TradeXchange Metadata", 
+                                 webhook_source == "TXNews1" and received_at is not None,
+                                 f"Webhook source: {webhook_source}, received: {received_at}")
+        
+        # Test filtering by TradeXchange source
+        success, filtered_news = self.run_test(
+            "Filter News by TradeXchange Source",
+            "GET",
+            "/api/news/live",
+            200,
+            params={"sources": ["TradeXchange"], "limit": 10}
+        )
+        
+        if success and filtered_news:
+            articles = filtered_news.get("articles", [])
+            all_tradexchange = all(
+                article.get("source") == "TradeXchange" 
+                for article in articles
+            )
+            
+            self.log_test("TradeXchange Source Filtering", all_tradexchange,
+                         f"All {len(articles)} articles are from TradeXchange")
+
+    def test_tradexchange_settings_integration(self):
+        """Test TradeXchange integration status in settings"""
+        print("\n🔍 Testing TradeXchange Settings Integration...")
+        
+        # Get settings to check TradeXchange integration status
+        success, settings_response = self.run_test(
+            "Get Settings for TradeXchange Status",
+            "GET",
+            "/api/settings",
+            200
+        )
+        
+        if success and settings_response:
+            # Check TradeXchange configuration
+            tradexchange_configured = settings_response.get("tradexchange_api_configured", False)
+            api_keys = settings_response.get("api_keys", {})
+            tradexchange_status = api_keys.get("tradexchange", "Not Set")
+            
+            self.log_test("TradeXchange Configuration Status", True,
+                         f"Configured: {tradexchange_configured}, Status: {tradexchange_status}")
+            
+            # Check production mode
+            production_mode = settings_response.get("production_mode", False)
+            self.log_test("Production Mode Status", True,
+                         f"Production mode: {production_mode}")
+            
+            # Check features
+            features = settings_response.get("features", {})
+            news_feeds = features.get("news_feeds", False)
+            
+            self.log_test("News Feeds Feature", news_feeds,
+                         f"News feeds enabled: {news_feeds}")
+        
+        # Test TradeXchange connection if configured
+        success, connection_response = self.run_test(
+            "Test TradeXchange Connection",
+            "POST",
+            "/api/settings/test-connection",
+            200,
+            params={"service": "tradexchange"}
+        )
+        
+        if success and connection_response:
+            status = connection_response.get("status")
+            message = connection_response.get("message", "")
+            
+            self.log_test("TradeXchange Connection Test", True,
+                         f"Status: {status}, Message: {message}")
+
+    def test_webhook_database_verification(self):
+        """Test that webhook data is properly stored in database"""
+        print("\n🔍 Testing Webhook Database Storage...")
+        
+        # Send a unique webhook for database verification
+        unique_content = f"Database test webhook at {datetime.utcnow().isoformat()}: AAPL earnings report shows strong performance."
+        
+        db_test_webhook = {
+            "source": "TXNewsDB",
+            "content": unique_content,
+            "timestamp": datetime.utcnow().isoformat(),
+            "metadata": {
+                "test_type": "database_verification",
+                "unique_id": f"db_test_{int(datetime.utcnow().timestamp())}"
+            }
+        }
+        
+        # Send webhook
+        success, webhook_response = self.run_test(
+            "Send Database Test Webhook",
+            "POST",
+            "/api/webhooks/tradexchange",
+            200,
+            data=db_test_webhook
+        )
+        
+        if success and webhook_response:
+            article_id = webhook_response.get("article_id")
+            self.log_test("Database Test Webhook Sent", True, f"Article ID: {article_id}")
+            
+            # Wait for processing
+            import time
+            time.sleep(3)
+            
+            # Verify the article appears in news feed
+            success, news_response = self.run_test(
+                "Verify Database Storage via News Feed",
+                "GET",
+                "/api/news/live",
+                200,
+                params={"limit": 100}
+            )
+            
+            if success and news_response:
+                articles = news_response.get("articles", [])
+                
+                # Look for our specific test article
+                test_article = None
+                for article in articles:
+                    if unique_content in article.get("body", ""):
+                        test_article = article
+                        break
+                
+                if test_article:
+                    self.log_test("Database Storage Verification", True,
+                                 "Webhook article found in database via news feed")
+                    
+                    # Verify article persistence and structure
+                    required_db_fields = ["id", "headline", "body", "source", "published_at", "metadata"]
+                    missing_fields = [field for field in required_db_fields if field not in test_article]
+                    
+                    if missing_fields:
+                        self.log_test("Database Article Structure", False,
+                                     f"Missing fields in stored article: {missing_fields}")
+                    else:
+                        self.log_test("Database Article Structure", True,
+                                     "All required fields properly stored")
+                        
+                        # Check metadata preservation
+                        metadata = test_article.get("metadata", {})
+                        test_type = metadata.get("test_type")
+                        webhook_source = metadata.get("webhook_source")
+                        
+                        metadata_correct = (test_type == "database_verification" and 
+                                          webhook_source == "TXNewsDB")
+                        
+                        self.log_test("Database Metadata Preservation", metadata_correct,
+                                     f"Test type: {test_type}, Webhook source: {webhook_source}")
+                else:
+                    self.log_test("Database Storage Verification", False,
+                                 "Webhook article not found in database")
+
     def run_all_tests(self):
         """Run all test suites"""
         print("🚀 Starting Altai Trader Backend API Tests")
