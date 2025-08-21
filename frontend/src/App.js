@@ -677,7 +677,8 @@ metadata = {
                 id="newswareApiKey"
                 type="password"
                 placeholder="Enter NewsWare API Key"
-                defaultValue="4aed023d-baac-4e76-a6f8-106a4a43c092"
+                value={apiKeys.newsware}
+                onChange={(e) => setApiKeys(prev => ({ ...prev, newsware: e.target.value }))}
                 className="font-mono text-sm"
               />
             </div>
@@ -690,7 +691,12 @@ metadata = {
                 {isLoading ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : <CheckCircle className="w-4 h-4 mr-2" />}
                 Test Connection
               </Button>
-              <Button size="sm" variant="outline">
+              <Button 
+                onClick={() => updateApiKey('newsware')}
+                disabled={isLoading || !apiKeys.newsware}
+                size="sm" 
+                variant="outline"
+              >
                 Save Key
               </Button>
             </div>
