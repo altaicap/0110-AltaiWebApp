@@ -266,20 +266,53 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
         agent: "testing"
         comment: "✅ VERIFIED: Status Indicator Labels working perfectly. All service labels visible in header: Polygon API, NewsWare API, TradeXchange API, and TradeStation indicators all present and clearly labeled. Status indicators show proper connection states with colored badges (green for connected services)."
 
-  - task: "Backtest Trade Log Enhancements"
+  - task: "Feedback 4.0 - User Management System"
     implemented: true
-    working: true
+    working: "NA"
     file: "frontend/src/App.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Enhanced Backtest Trade Log: Added TP3 and TP4 columns, renamed 'Exit' to 'Avg Sell Price', implemented R-Return calculation with formula: ((avgSellPrice - entryPrice) * quantity) / ((entryPrice - stopPrice) * quantity)"
-      - working: true
-        agent: "testing"
-        comment: "✅ VERIFIED: Backtest Trade Log Enhancements working perfectly. All new columns present in table: TP3, TP4, 'Avg Sell Price' (renamed from Exit), and R-Return columns all visible. Old 'Exit' column successfully removed (0 found). Table structure enhanced with 12 headers total. Table scrolling and responsiveness working correctly. Trade log displays properly formatted with all requested enhancements."
+        comment: "Implemented comprehensive user management system: User dropdown in header with Alex G and Charles H profiles, New User dialog with name input, Delete User dialog with confirmation, user switching functionality, and user isolation infrastructure ready for backend integration."
+
+  - task: "Feedback 4.0 - UI Improvements"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/App.js, frontend/src/App.css"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Multiple UI improvements: Tab headers now ALL CAPS, pane titles bold with .pane-title class, enhanced content padding with .tab-content-padding class, API key hide/show toggles with Eye/EyeOff icons, improved layout spacing and typography."
+
+  - task: "Feedback 4.0 - News Feed Enhancements"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Enhanced News Feed with seconds in timestamps (HH:mm:ss format), RVOL Period and Lookback Period settings in header, mock RVOL calculation for each ticker with color-coded badges (Red <1, Yellow 1-3, Green >3), high contrast text for visibility."
+
+  - task: "Feedback 4.0 - Backtest Reset Fix"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed backtest tab input reset issue by moving backtestForm, strategyParams, runningBacktest, symbolInput, and chartSymbol states from BacktestTab component to main App component level, preventing state reinitialization on component re-renders."
 
 ## metadata:
   created_by: "main_agent"
