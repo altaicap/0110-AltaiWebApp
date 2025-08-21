@@ -590,6 +590,16 @@ metadata = {
                 {settings.polygon_api_configured ? "Configured" : "Not Configured"}
               </Badge>
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="polygonApiKey">API Key</Label>
+              <Input
+                id="polygonApiKey"
+                type="password"
+                placeholder="Enter Polygon API Key"
+                defaultValue="pVHWgdhIGxKg68dAyh5tVKBVLZGjFMfD"
+                className="font-mono text-sm"
+              />
+            </div>
             <div className="flex gap-2">
               <Button 
                 onClick={() => testConnection('polygon')} 
@@ -598,6 +608,9 @@ metadata = {
               >
                 {isLoading ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : <CheckCircle className="w-4 h-4 mr-2" />}
                 Test Connection
+              </Button>
+              <Button size="sm" variant="outline">
+                Save Key
               </Button>
             </div>
           </div>
@@ -615,6 +628,16 @@ metadata = {
                 {settings.newsware_api_configured ? "Configured" : "Not Configured"}
               </Badge>
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="newswareApiKey">API Key</Label>
+              <Input
+                id="newswareApiKey"
+                type="password"
+                placeholder="Enter NewsWare API Key"
+                defaultValue="4aed023d-baac-4e76-a6f8-106a4a43c092"
+                className="font-mono text-sm"
+              />
+            </div>
             <div className="flex gap-2">
               <Button 
                 onClick={() => testConnection('newsware')} 
@@ -623,6 +646,44 @@ metadata = {
               >
                 {isLoading ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : <CheckCircle className="w-4 h-4 mr-2" />}
                 Test Connection
+              </Button>
+              <Button size="sm" variant="outline">
+                Save Key
+              </Button>
+            </div>
+          </div>
+
+          <Separator />
+
+          {/* TradeXchange API */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <Label className="text-base font-medium">TradeXchange API</Label>
+                <p className="text-sm text-gray-500">Alternative news feeds</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <ErrorNotification error="TradeXchange integration not implemented" />
+                <Badge variant="secondary">Not Implemented</Badge>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="tradexchangeApiKey">API Key</Label>
+              <Input
+                id="tradexchangeApiKey"
+                type="password"
+                placeholder="Enter TradeXchange API Key"
+                disabled
+                className="font-mono text-sm"
+              />
+            </div>
+            <div className="flex gap-2">
+              <Button disabled size="sm">
+                <XCircle className="w-4 h-4 mr-2" />
+                Test Connection
+              </Button>
+              <Button disabled size="sm" variant="outline">
+                Save Key
               </Button>
             </div>
           </div>
@@ -641,10 +702,23 @@ metadata = {
                 <Badge variant="secondary">Not Implemented</Badge>
               </div>
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="tradestationKey">Client ID</Label>
+              <Input
+                id="tradestationKey"
+                type="password"
+                placeholder="Enter TradeStation Client ID"
+                disabled
+                className="font-mono text-sm"
+              />
+            </div>
             <div className="flex gap-2">
               <Button disabled size="sm">
                 <XCircle className="w-4 h-4 mr-2" />
                 Connect TradeStation
+              </Button>
+              <Button disabled size="sm" variant="outline">
+                Save Credentials
               </Button>
             </div>
           </div>
