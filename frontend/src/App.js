@@ -1993,6 +1993,31 @@ metadata = {
                 <CardDescription>Real-time news from NewsWare and TradeXchange APIs</CardDescription>
               </div>
               <div className="flex items-center gap-4">
+                <div className="text-sm space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Label className="whitespace-nowrap">Current RVOL Period:</Label>
+                    <Select value={rvolPeriod} onValueChange={setRvolPeriod}>
+                      <SelectTrigger className="w-20 h-8">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="1m">1m</SelectItem>
+                        <SelectItem value="5m">5m</SelectItem>
+                        <SelectItem value="15m">15m</SelectItem>
+                        <SelectItem value="1h">1h</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Label className="whitespace-nowrap">Lookback Period:</Label>
+                    <Input
+                      type="number"
+                      value={lookbackPeriod}
+                      onChange={(e) => setLookbackPeriod(parseInt(e.target.value) || 50)}
+                      className="w-16 h-8"
+                      min="1"
+                      max="200"
+                    />
+                  </div>
+                </div>
                 <div className="flex items-center space-x-2">
                   <Switch 
                     id="autoscroll"
