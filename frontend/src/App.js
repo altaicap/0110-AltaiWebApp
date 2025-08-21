@@ -46,7 +46,10 @@ import {
   PlayCircle,
   StopCircle,
   Eye,
-  EyeOff
+  EyeOff,
+  UserPlus,
+  User,
+  ChevronDown
 } from 'lucide-react';
 import { format } from "date-fns";
 import AltaiLogo from './assets/altai-logo.svg';
