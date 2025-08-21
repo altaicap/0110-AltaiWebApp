@@ -24,4 +24,8 @@ python-multipart>=0.0.9
 jq>=1.6.0
 typer>=0.9.0
 httpx>=0.25.0
-redis>=5.0.1
+redis>=5.1.0
+# Production trading dependencies
+backtrader>=1.9.78.123
+pytz>=2023.3
+psutil>=5.9.0
