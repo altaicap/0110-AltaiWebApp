@@ -1915,7 +1915,7 @@ metadata = {
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle>News Feed</CardTitle>
+                <CardTitle className="pane-title">News Feed</CardTitle>
                 <CardDescription>Real-time news from NewsWare and TradeXchange APIs</CardDescription>
               </div>
               <div className="flex items-center gap-4">
