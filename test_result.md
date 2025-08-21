@@ -197,6 +197,66 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
         agent: "main"
         comment: "Implemented dynamic Strategy Specific Settings UI for PBH Algo with categorized parameters (General, Risk Management, Entry & Volume, Take Profit, ADR & Advanced), using Slider components and organized layout"
 
+  - task: "Strategies Tab Button Functionality"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Enhanced Strategies tab: Delete button with confirmation popup, removed copy button, edit button opens code editor with live trading check, added edit form and delete confirmation dialog"
+
+  - task: "News Feed Improvements"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added source differentiation (NewsWare vs TradeXchange) with colored badges and autoscroll toggle for real-time news updates"
+
+  - task: "Dark Theme Fix"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/App.css"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added CSS rule to make page headings (h2.text-2xl) white in dark theme"
+
+  - task: "Status Indicator Labels"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Updated integration status indicators to show visible labels (Polygon API, NewsWare API, TradeXchange API, TradeStation) instead of just tooltip hovers"
+
+  - task: "Backtest Trade Log Enhancements"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Enhanced Backtest Trade Log: Added TP3 and TP4 columns, renamed 'Exit' to 'Avg Sell Price', implemented R-Return calculation with formula: ((avgSellPrice - entryPrice) * quantity) / ((entryPrice - stopPrice) * quantity)"
+
 ## metadata:
   created_by: "main_agent"
   version: "1.0"
