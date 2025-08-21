@@ -440,6 +440,36 @@ metadata = {
     }
   };
 
+  const updateApiKey = async (service) => {
+    setIsLoading(true);
+    setError('');
+    setSuccess('');
+    
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/settings/update-api-key`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          service: service,
+          api_key: apiKeys[service]
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (data.status === 'success') {
+        setSuccess(data.message);
+        await loadSettings(); // Refresh settings
+      } else {
+        setError(data.message);
+      }
+    } catch (error) {
+      setError(`API key update failed: ${error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleAppSettingChange = (key, value) => {
     setAppSettings(prev => ({ ...prev, [key]: value }));
   };
