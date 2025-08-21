@@ -703,7 +703,13 @@ async def get_live_news(
         articles = []
         
         async for doc in cursor:
-            articles.append(doc)
+            # Convert MongoDB document to JSON-serializable format
+            article = {}
+            for key, value in doc.items():
+                if key == "_id":
+                    continue  # Skip MongoDB ObjectId
+                article[key] = value
+            articles.append(article)
         
         # Get sources status
         sources_status = {}
