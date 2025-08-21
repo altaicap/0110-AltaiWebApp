@@ -1281,7 +1281,7 @@ metadata = {
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle>Configuration</CardTitle>
+                <CardTitle className="pane-title">Configuration</CardTitle>
                 <CardDescription>Set up your backtest parameters</CardDescription>
               </div>
               <Button size="sm" variant="outline">
