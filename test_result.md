@@ -250,15 +250,18 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
 
   - task: "Status Indicator Labels"
     implemented: true
-    working: "NA"
+    working: true
     file: "frontend/src/App.js"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Updated integration status indicators to show visible labels (Polygon API, NewsWare API, TradeXchange API, TradeStation) instead of just tooltip hovers"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Status Indicator Labels working perfectly. All service labels visible in header: Polygon API, NewsWare API, TradeXchange API, and TradeStation indicators all present and clearly labeled. Status indicators show proper connection states with colored badges (green for connected services)."
 
   - task: "Backtest Trade Log Enhancements"
     implemented: true
