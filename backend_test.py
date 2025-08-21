@@ -814,6 +814,12 @@ class TestStrategy:
         self.test_news_endpoints()
         self.test_market_data_endpoints()
         
+        # Run TradeXchange webhook integration tests
+        self.test_tradexchange_webhook_endpoints()
+        self.test_tradexchange_news_integration()
+        self.test_tradexchange_settings_integration()
+        self.test_webhook_database_verification()
+        
         # Print summary
         print("\n" + "=" * 60)
         print("📊 TEST SUMMARY")
