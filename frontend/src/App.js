@@ -484,6 +484,37 @@ metadata = {
     }
   };
 
+  // User Management Functions
+  const switchUser = (userName) => {
+    setCurrentUser(userName);
+    // TODO: Load user-specific data (strategies, settings, etc.)
+    loadInitialData();
+  };
+
+  const createNewUser = () => {
+    if (newUserName.trim() && !users.includes(newUserName.trim())) {
+      setUsers(prev => [...prev, newUserName.trim()]);
+      setCurrentUser(newUserName.trim());
+      setNewUserName('');
+      setShowNewUserDialog(false);
+      // TODO: Initialize user-specific data
+      loadInitialData();
+    }
+  };
+
+  const deleteUser = () => {
+    if (userToDelete && users.length > 1) {
+      setUsers(prev => prev.filter(user => user !== userToDelete));
+      if (currentUser === userToDelete) {
+        setCurrentUser(users.find(user => user !== userToDelete));
+      }
+      setUserToDelete('');
+      setShowDeleteUserDialog(false);
+      // TODO: Clean up user-specific data
+      loadInitialData();
+    }
+  };
+
   const handleAppSettingChange = (key, value) => {
     setAppSettings(prev => ({ ...prev, [key]: value }));
   };
