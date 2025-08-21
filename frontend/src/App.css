@@ -135,6 +135,22 @@ body {
   overflow: hidden;
 }
 
+/* Pane Title Styling */
+.pane-title {
+  font-weight: bold !important;
+}
+
+/* Tab and Pane Padding Improvements */
+[data-radix-collection-item] {
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+}
+
+.tab-content-padding {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
 /* Full Screen Pane Styles */
 .fullscreen-pane {
   position: fixed;
