@@ -205,15 +205,18 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
 
   - task: "Strategies Tab Button Functionality"
     implemented: true
-    working: "NA"
+    working: true
     file: "frontend/src/App.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Enhanced Strategies tab: Delete button with confirmation popup, removed copy button, edit button opens code editor with live trading check, added edit form and delete confirmation dialog"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Strategies Tab Button Functionality working correctly. Copy buttons successfully removed (0 found). Edit and Delete buttons present and functional. Live Trading toggle working perfectly - successfully tested toggling 'Test UI Strategy' to LIVE status with runtime display and Stop Live Trading button. New Strategy button opens form correctly with name field and code editor. Multiple Prior Bar Break Algo strategies visible with proper button layout."
 
   - task: "News Feed Improvements"
     implemented: true
