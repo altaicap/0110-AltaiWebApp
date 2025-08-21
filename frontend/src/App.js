@@ -633,7 +633,8 @@ metadata = {
                 id="polygonApiKey"
                 type="password"
                 placeholder="Enter Polygon API Key"
-                defaultValue="pVHWgdhIGxKg68dAyh5tVKBVLZGjFMfD"
+                value={apiKeys.polygon}
+                onChange={(e) => setApiKeys(prev => ({ ...prev, polygon: e.target.value }))}
                 className="font-mono text-sm"
               />
             </div>
@@ -646,7 +647,12 @@ metadata = {
                 {isLoading ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : <CheckCircle className="w-4 h-4 mr-2" />}
                 Test Connection
               </Button>
-              <Button size="sm" variant="outline">
+              <Button 
+                onClick={() => updateApiKey('polygon')}
+                disabled={isLoading || !apiKeys.polygon}
+                size="sm" 
+                variant="outline"
+              >
                 Save Key
               </Button>
             </div>
