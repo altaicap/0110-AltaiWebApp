@@ -1210,54 +1210,255 @@ metadata = {
             </CardHeader>
             <CardContent>
               <ScrollArea className="h-96">
-                <div className="grid grid-cols-2 gap-4">
-                  {Object.entries(PBB_ALGO_PARAMS).map(([key, param]) => (
-                    <div key={key}>
-                      <Label htmlFor={key} className="text-sm font-medium">
-                        {param.label}
-                      </Label>
-                      <p className="text-xs text-gray-500 mb-2">{param.description}</p>
-                      {param.type === 'boolean' ? (
-                        <div className="flex items-center space-x-2">
-                          <Switch 
-                            id={key}
-                            checked={strategyParams[key] !== undefined ? strategyParams[key] : param.default}
-                            onCheckedChange={(checked) => setStrategyParams(prev => ({ ...prev, [key]: checked }))}
-                          />
-                          <Label htmlFor={key} className="text-sm">
-                            {strategyParams[key] !== undefined ? strategyParams[key] : param.default ? 'Enabled' : 'Disabled'}
+                <div className="space-y-6">
+                  {/* General Settings */}
+                  <div>
+                    <h4 className="text-base font-medium mb-3 text-gray-900 border-b pb-1">General Settings</h4>
+                    <div className="grid grid-cols-2 gap-4">
+                      {Object.entries(PBB_ALGO_PARAMS).filter(([key]) => 
+                        ['take_long', 'take_short', 'use_eod', 'max_entry_count', 'timeframe'].includes(key)
+                      ).map(([key, param]) => (
+                        <div key={key} className="space-y-2">
+                          <Label htmlFor={key} className="text-sm font-medium">
+                            {param.label}
                           </Label>
+                          <p className="text-xs text-gray-500">{param.description}</p>
+                          {param.type === 'boolean' ? (
+                            <div className="flex items-center space-x-2">
+                              <Switch 
+                                id={key}
+                                checked={strategyParams[key] !== undefined ? strategyParams[key] : param.default}
+                                onCheckedChange={(checked) => setStrategyParams(prev => ({ ...prev, [key]: checked }))}
+                              />
+                              <Label htmlFor={key} className="text-sm">
+                                {strategyParams[key] !== undefined ? strategyParams[key] : param.default ? 'Enabled' : 'Disabled'}
+                              </Label>
+                            </div>
+                          ) : param.type === 'select' ? (
+                            <Select 
+                              value={strategyParams[key] !== undefined ? strategyParams[key] : param.default}
+                              onValueChange={(value) => setStrategyParams(prev => ({ ...prev, [key]: value }))}
+                            >
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {param.options?.map((option) => (
+                                  <SelectItem key={option} value={option}>
+                                    {option}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          ) : (
+                            <div className="space-y-2">
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs text-gray-500">
+                                  {param.min} - {param.max}
+                                </span>
+                                <Input 
+                                  type="number"
+                                  value={strategyParams[key] !== undefined ? strategyParams[key] : param.default}
+                                  onChange={(e) => setStrategyParams(prev => ({ ...prev, [key]: parseFloat(e.target.value) || param.default }))}
+                                  min={param.min}
+                                  max={param.max}
+                                  step={param.step}
+                                  className="text-sm w-20 h-8"
+                                />
+                              </div>
+                              {param.min !== undefined && param.max !== undefined && (
+                                <Slider
+                                  value={[strategyParams[key] !== undefined ? strategyParams[key] : param.default]}
+                                  onValueChange={(value) => setStrategyParams(prev => ({ ...prev, [key]: value[0] }))}
+                                  min={param.min}
+                                  max={param.max}
+                                  step={param.step}
+                                  className="w-full"
+                                />
+                              )}
+                            </div>
+                          )}
                         </div>
-                      ) : param.type === 'select' ? (
-                        <Select 
-                          value={strategyParams[key] !== undefined ? strategyParams[key] : param.default}
-                          onValueChange={(value) => setStrategyParams(prev => ({ ...prev, [key]: value }))}
-                        >
-                          <SelectTrigger>
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {param.options?.map((option) => (
-                              <SelectItem key={option} value={option}>
-                                {option}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      ) : (
-                        <Input 
-                          id={key}
-                          type="number"
-                          value={strategyParams[key] !== undefined ? strategyParams[key] : param.default}
-                          onChange={(e) => setStrategyParams(prev => ({ ...prev, [key]: parseFloat(e.target.value) || param.default }))}
-                          min={param.min}
-                          max={param.max}
-                          step={param.step}
-                          className="text-sm"
-                        />
-                      )}
+                      ))}
                     </div>
-                  ))}
+                  </div>
+
+                  {/* Risk Management */}
+                  <div>
+                    <h4 className="text-base font-medium mb-3 text-gray-900 border-b pb-1">Risk Management</h4>
+                    <div className="grid grid-cols-2 gap-4">
+                      {Object.entries(PBB_ALGO_PARAMS).filter(([key]) => 
+                        ['rote_input_one', 'rote_input_two', 'max_sl_perc', 'min_sl_perc'].includes(key)
+                      ).map(([key, param]) => (
+                        <div key={key} className="space-y-2">
+                          <Label htmlFor={key} className="text-sm font-medium">
+                            {param.label}
+                          </Label>
+                          <p className="text-xs text-gray-500">{param.description}</p>
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs text-gray-500">
+                                {param.min} - {param.max}
+                              </span>
+                              <Input 
+                                type="number"
+                                value={strategyParams[key] !== undefined ? strategyParams[key] : param.default}
+                                onChange={(e) => setStrategyParams(prev => ({ ...prev, [key]: parseFloat(e.target.value) || param.default }))}
+                                min={param.min}
+                                max={param.max}
+                                step={param.step}
+                                className="text-sm w-24 h-8"
+                              />
+                            </div>
+                            <Slider
+                              value={[strategyParams[key] !== undefined ? strategyParams[key] : param.default]}
+                              onValueChange={(value) => setStrategyParams(prev => ({ ...prev, [key]: value[0] }))}
+                              min={param.min}
+                              max={param.max}
+                              step={param.step}
+                              className="w-full"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Entry & Volume Settings */}
+                  <div>
+                    <h4 className="text-base font-medium mb-3 text-gray-900 border-b pb-1">Entry & Volume Settings</h4>
+                    <div className="grid grid-cols-2 gap-4">
+                      {Object.entries(PBB_ALGO_PARAMS).filter(([key]) => 
+                        ['buffer_perc', 'min_candle_perc', 'vol_ma_period', 'rvol', 'min_abs_volume'].includes(key)
+                      ).map(([key, param]) => (
+                        <div key={key} className="space-y-2">
+                          <Label htmlFor={key} className="text-sm font-medium">
+                            {param.label}
+                          </Label>
+                          <p className="text-xs text-gray-500">{param.description}</p>
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs text-gray-500">
+                                {param.min} - {param.max}
+                              </span>
+                              <Input 
+                                type="number"
+                                value={strategyParams[key] !== undefined ? strategyParams[key] : param.default}
+                                onChange={(e) => setStrategyParams(prev => ({ ...prev, [key]: parseFloat(e.target.value) || param.default }))}
+                                min={param.min}
+                                max={param.max}
+                                step={param.step}
+                                className="text-sm w-24 h-8"
+                              />
+                            </div>
+                            <Slider
+                              value={[strategyParams[key] !== undefined ? strategyParams[key] : param.default]}
+                              onValueChange={(value) => setStrategyParams(prev => ({ ...prev, [key]: value[0] }))}
+                              min={param.min}
+                              max={param.max}
+                              step={param.step}
+                              className="w-full"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Take Profit Settings */}
+                  <div>
+                    <h4 className="text-base font-medium mb-3 text-gray-900 border-b pb-1">Take Profit Settings</h4>
+                    <div className="grid grid-cols-2 gap-4">
+                      {Object.entries(PBB_ALGO_PARAMS).filter(([key]) => 
+                        key.includes('tp_')
+                      ).map(([key, param]) => (
+                        <div key={key} className="space-y-2">
+                          <Label htmlFor={key} className="text-sm font-medium">
+                            {param.label}
+                          </Label>
+                          <p className="text-xs text-gray-500">{param.description}</p>
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs text-gray-500">
+                                {param.min} - {param.max}
+                              </span>
+                              <Input 
+                                type="number"
+                                value={strategyParams[key] !== undefined ? strategyParams[key] : param.default}
+                                onChange={(e) => setStrategyParams(prev => ({ ...prev, [key]: parseFloat(e.target.value) || param.default }))}
+                                min={param.min}
+                                max={param.max}
+                                step={param.step}
+                                className="text-sm w-20 h-8"
+                              />
+                            </div>
+                            <Slider
+                              value={[strategyParams[key] !== undefined ? strategyParams[key] : param.default]}
+                              onValueChange={(value) => setStrategyParams(prev => ({ ...prev, [key]: value[0] }))}
+                              min={param.min}
+                              max={param.max}
+                              step={param.step}
+                              className="w-full"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* ADR & Advanced Settings */}
+                  <div>
+                    <h4 className="text-base font-medium mb-3 text-gray-900 border-b pb-1">ADR & Advanced Settings</h4>
+                    <div className="grid grid-cols-2 gap-4">
+                      {Object.entries(PBB_ALGO_PARAMS).filter(([key]) => 
+                        ['adrp_len', 'adr_multip', 'entry_candle_th_perc', 'use_ms', 'ms_rval', 'move_rval'].includes(key)
+                      ).map(([key, param]) => (
+                        <div key={key} className="space-y-2">
+                          <Label htmlFor={key} className="text-sm font-medium">
+                            {param.label}
+                          </Label>
+                          <p className="text-xs text-gray-500">{param.description}</p>
+                          {param.type === 'boolean' ? (
+                            <div className="flex items-center space-x-2">
+                              <Switch 
+                                id={key}
+                                checked={strategyParams[key] !== undefined ? strategyParams[key] : param.default}
+                                onCheckedChange={(checked) => setStrategyParams(prev => ({ ...prev, [key]: checked }))}
+                              />
+                              <Label htmlFor={key} className="text-sm">
+                                {strategyParams[key] !== undefined ? strategyParams[key] : param.default ? 'Enabled' : 'Disabled'}
+                              </Label>
+                            </div>
+                          ) : (
+                            <div className="space-y-2">
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs text-gray-500">
+                                  {param.min} - {param.max}
+                                </span>
+                                <Input 
+                                  type="number"
+                                  value={strategyParams[key] !== undefined ? strategyParams[key] : param.default}
+                                  onChange={(e) => setStrategyParams(prev => ({ ...prev, [key]: parseFloat(e.target.value) || param.default }))}
+                                  min={param.min}
+                                  max={param.max}
+                                  step={param.step}
+                                  className="text-sm w-20 h-8"
+                                />
+                              </div>
+                              <Slider
+                                value={[strategyParams[key] !== undefined ? strategyParams[key] : param.default]}
+                                onValueChange={(value) => setStrategyParams(prev => ({ ...prev, [key]: value[0] }))}
+                                min={param.min}
+                                max={param.max}
+                                step={param.step}
+                                className="w-full"
+                              />
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </ScrollArea>
             </CardContent>
