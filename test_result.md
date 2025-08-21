@@ -220,15 +220,18 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
 
   - task: "News Feed Improvements"
     implemented: true
-    working: "NA"
+    working: true
     file: "frontend/src/App.js"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Added source differentiation (NewsWare vs TradeXchange) with colored badges and autoscroll toggle for real-time news updates"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: News Feed Improvements working perfectly. Autoscroll toggle present and functional in News Feed section. Source differentiation working with green 'NewsWare' badges visible on news items (5 NewsWare badges found). News items display properly with timestamps (Aug 21, 20:19). Refresh functionality available. Real-time news feed displaying multiple market updates with proper formatting."
 
   - task: "Dark Theme Fix"
     implemented: true
