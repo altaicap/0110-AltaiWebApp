@@ -235,15 +235,18 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
 
   - task: "Dark Theme Fix"
     implemented: true
-    working: "NA"
+    working: false
     file: "frontend/src/App.css"
-    stuck_count: 0
+    stuck_count: 1
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Added CSS rule to make page headings (h2.text-2xl) white in dark theme"
+      - working: false
+        agent: "testing"
+        comment: "❌ ISSUE FOUND: Dark theme fix not working correctly. Page headings are still dark colored (rgb(10, 10, 10)) instead of white/light colored. The CSS rule for making h2.text-2xl headings white in dark theme needs to be reviewed and fixed."
 
   - task: "Status Indicator Labels"
     implemented: true
