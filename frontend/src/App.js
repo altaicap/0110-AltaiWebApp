@@ -1931,6 +1931,21 @@ metadata = {
     const [rvolPeriod, setRvolPeriod] = useState('1m');
     const [lookbackPeriod, setLookbackPeriod] = useState(50);
 
+    // Mock RVOL calculation (in real app, this would come from market data API)
+    const calculateRVOL = (ticker) => {
+      // Simulate RVOL calculation based on ticker
+      const mockCurrentVolume = Math.random() * 1000000 + 100000;
+      const mockAverageVolume = Math.random() * 800000 + 200000;
+      const rvol = mockCurrentVolume / mockAverageVolume;
+      return rvol;
+    };
+
+    const getRVOLColor = (rvol) => {
+      if (rvol < 1) return 'bg-red-500 text-white';
+      if (rvol >= 1 && rvol <= 3) return 'bg-yellow-500 text-black';
+      return 'bg-green-500 text-white';
+    };
+
     return (
       <div className="space-y-6">
         <div>
