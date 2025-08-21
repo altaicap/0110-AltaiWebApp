@@ -1791,35 +1791,55 @@ metadata = {
                     <TableHead>Stop</TableHead>
                     <TableHead>TP1</TableHead>
                     <TableHead>TP2</TableHead>
-                    <TableHead>Exit</TableHead>
+                    <TableHead>TP3</TableHead>
+                    <TableHead>TP4</TableHead>
+                    <TableHead>Avg Sell Price</TableHead>
                     <TableHead>PnL</TableHead>
-                    <TableHead>R-Multiple</TableHead>
+                    <TableHead>R-Return</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {tradeLog.map((trade, index) => (
-                    <TableRow key={index}>
-                      <TableCell>{trade.datetime}</TableCell>
-                      <TableCell>{trade.symbol}</TableCell>
-                      <TableCell>
-                        <Badge variant={trade.signal === 'BUY' ? 'default' : 'destructive'}>
-                          {trade.signal}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>${trade.entry}</TableCell>
-                      <TableCell>${trade.stop}</TableCell>
-                      <TableCell>${trade.tp1}</TableCell>
-                      <TableCell>${trade.tp2}</TableCell>
-                      <TableCell>${trade.exit}</TableCell>
-                      <TableCell className={trade.pnl >= 0 ? "text-green-600" : "text-red-600"}>
-                        ${trade.pnl}
-                      </TableCell>
-                      <TableCell>{trade.r_multiple}R</TableCell>
-                    </TableRow>
-                  ))}
+                  {tradeLog.map((trade, index) => {
+                    // Calculate R-Return based on the formula provided
+                    const quantity = trade.quantity || 100; // Default quantity
+                    const entryPrice = trade.entry || 0;
+                    const stopPrice = trade.stop || 0;
+                    const avgSellPrice = trade.avgSellPrice || trade.exit || 0;
+                    
+                    // R-Risk = (entry - stop) * quantity
+                    const rRisk = Math.abs((entryPrice - stopPrice) * quantity);
+                    
+                    // R-Return = ((avgSellPrice - entryPrice) * quantity) / rRisk
+                    const rReturn = rRisk > 0 ? (((avgSellPrice - entryPrice) * quantity) / rRisk).toFixed(2) : '0.00';
+                    
+                    return (
+                      <TableRow key={index}>
+                        <TableCell>{trade.datetime}</TableCell>
+                        <TableCell>{trade.symbol}</TableCell>
+                        <TableCell>
+                          <Badge variant={trade.signal === 'BUY' ? 'default' : 'destructive'}>
+                            {trade.signal}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>${trade.entry}</TableCell>
+                        <TableCell>${trade.stop}</TableCell>
+                        <TableCell>${trade.tp1}</TableCell>
+                        <TableCell>${trade.tp2}</TableCell>
+                        <TableCell>${trade.tp3 || 'N/A'}</TableCell>
+                        <TableCell>${trade.tp4 || 'N/A'}</TableCell>
+                        <TableCell>${avgSellPrice}</TableCell>
+                        <TableCell className={trade.pnl >= 0 ? "text-green-600" : "text-red-600"}>
+                          ${trade.pnl}
+                        </TableCell>
+                        <TableCell className={parseFloat(rReturn) >= 0 ? "text-green-600" : "text-red-600"}>
+                          {rReturn}R
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                   {tradeLog.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan={10} className="text-center text-gray-500 py-8">
+                      <TableCell colSpan={12} className="text-center text-gray-500 py-8">
                         No trades to display. Run a backtest to see trade details.
                       </TableCell>
                     </TableRow>
