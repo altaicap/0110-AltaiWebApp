@@ -152,6 +152,114 @@ class AltaiTraderAPITester:
             status = response.get("status")
             message = response.get("message", "")
             self.log_test("NewsWare Connection Test Result", status == "success", message)
+        
+        # Test invalid service name
+        success, response = self.run_test(
+            "Test Invalid Service Connection",
+            "POST",
+            "/api/settings/test-connection",
+            400,
+            params={"service": "invalid_service"}
+        )
+        
+        if success:
+            self.log_test("Invalid Service Handling", True, "Correctly rejected invalid service name")
+
+    def test_api_key_update_endpoint(self):
+        """Test API key update endpoint"""
+        print("\n🔍 Testing API Key Update Endpoint...")
+        
+        # Test updating Polygon API key
+        polygon_update = {
+            "service": "polygon",
+            "api_key": "test_polygon_key_12345"
+        }
+        
+        success, response = self.run_test(
+            "Update Polygon API Key",
+            "POST",
+            "/api/settings/update-api-key",
+            200,
+            data=polygon_update
+        )
+        
+        if success and response:
+            status = response.get("status")
+            message = response.get("message", "")
+            self.log_test("Polygon API Key Update", status == "success", message)
+        
+        # Test updating NewsWare API key
+        newsware_update = {
+            "service": "newsware", 
+            "api_key": "test_newsware_key_67890"
+        }
+        
+        success, response = self.run_test(
+            "Update NewsWare API Key",
+            "POST",
+            "/api/settings/update-api-key",
+            200,
+            data=newsware_update
+        )
+        
+        if success and response:
+            status = response.get("status")
+            message = response.get("message", "")
+            self.log_test("NewsWare API Key Update", status == "success", message)
+        
+        # Test invalid service name
+        invalid_update = {
+            "service": "invalid_service",
+            "api_key": "test_key"
+        }
+        
+        success, response = self.run_test(
+            "Update Invalid Service API Key",
+            "POST",
+            "/api/settings/update-api-key",
+            400,
+            data=invalid_update
+        )
+        
+        if success:
+            self.log_test("Invalid Service API Key Update", True, "Correctly rejected invalid service name")
+        
+        # Restore original API keys
+        print("\n🔄 Restoring Original API Keys...")
+        
+        # Restore Polygon key
+        polygon_restore = {
+            "service": "polygon",
+            "api_key": "pVHWgdhIGxKg68dAyh5tVKBVLZGjFMfD"
+        }
+        
+        success, response = self.run_test(
+            "Restore Polygon API Key",
+            "POST",
+            "/api/settings/update-api-key",
+            200,
+            data=polygon_restore
+        )
+        
+        if success:
+            self.log_test("Polygon API Key Restoration", True, "Original Polygon API key restored")
+        
+        # Restore NewsWare key
+        newsware_restore = {
+            "service": "newsware",
+            "api_key": "4aed023d-baac-4e76-a6f8-106a4a43c092"
+        }
+        
+        success, response = self.run_test(
+            "Restore NewsWare API Key",
+            "POST",
+            "/api/settings/update-api-key",
+            200,
+            data=newsware_restore
+        )
+        
+        if success:
+            self.log_test("NewsWare API Key Restoration", True, "Original NewsWare API key restored")
 
     def test_strategies_endpoints(self):
         """Test strategies CRUD endpoints"""
