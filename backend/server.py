@@ -109,13 +109,21 @@ class BacktestRequest(BaseModel):
 class BacktestResult(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     strategy_name: str
-    symbol: str
+    symbols: List[str] = Field(default_factory=lambda: ["AAPL"])
+    symbol: str = "AAPL"  # Primary symbol for backward compatibility  
     start_date: datetime
     end_date: datetime
     total_return: float
     max_drawdown: float
     win_rate: float
     total_trades: int
+    winning_trades: int = 0
+    losing_trades: int = 0
+    win_percentage: float = 0.0
+    avg_pnl_per_trade: float = 0.0
+    avg_winning_trade: float = 0.0
+    avg_losing_trade: float = 0.0
+    roi: float = 0.0
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 class Strategy(BaseModel):
