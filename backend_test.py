@@ -481,6 +481,7 @@ class TestStrategy:
         self.test_health_endpoint()
         self.test_settings_endpoint()
         self.test_connection_endpoints()
+        self.test_api_key_update_endpoint()
         self.test_strategies_endpoints()
         self.test_backtest_endpoints()
         self.test_news_endpoints()
