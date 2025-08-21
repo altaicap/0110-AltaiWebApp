@@ -612,7 +612,7 @@ metadata = {
       <Card className={`relative ${fullScreenPane === 'settings-connectivity' ? 'fixed inset-4 top-20 z-50' : ''}`}>
         <FullScreenButton paneId="settings-connectivity" />
         <CardHeader>
-          <CardTitle>Connectivity</CardTitle>
+          <CardTitle className="pane-title">Connectivity</CardTitle>
           <CardDescription>API connections and data sources</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
