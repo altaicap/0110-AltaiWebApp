@@ -43,7 +43,9 @@ import {
   Minimize,
   AlertCircle,
   PlayCircle,
-  StopCircle
+  StopCircle,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import { format } from "date-fns";
 import AltaiLogo from './assets/altai-logo.svg';
