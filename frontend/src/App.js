@@ -1686,7 +1686,7 @@ metadata = {
         <Card className={`relative ${fullScreenPane === 'backtest-highlights' ? 'fixed inset-4 top-20 z-50' : ''}`}>
           <FullScreenButton paneId="backtest-highlights" />
           <CardHeader>
-            <CardTitle>Backtest Highlights</CardTitle>
+            <CardTitle className="pane-title">Backtest Highlights</CardTitle>
             <CardDescription>Key performance metrics from latest backtest</CardDescription>
           </CardHeader>
           <CardContent>
