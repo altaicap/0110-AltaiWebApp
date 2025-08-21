@@ -40,6 +40,10 @@ body {
   color: #d1d5db !important;
 }
 
+[data-theme="dark"] .text-2xl {
+  color: #f9fafb !important;
+}
+
 [data-theme="dark"] .border-gray-200 {
   border-color: #2a2a2a !important;
   border-width: 1px !important;
