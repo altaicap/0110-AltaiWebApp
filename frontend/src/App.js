@@ -1928,6 +1928,8 @@ metadata = {
   // Log Tab Component
   const LogTab = () => {
     const [autoScroll, setAutoScroll] = useState(true);
+    const [rvolPeriod, setRvolPeriod] = useState('1m');
+    const [lookbackPeriod, setLookbackPeriod] = useState(50);
 
     return (
       <div className="space-y-6">
