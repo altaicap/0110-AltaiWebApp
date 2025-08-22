@@ -1403,7 +1403,7 @@ metadata = {
             <div className="flex gap-4 text-sm">
               <div>
                 <span className="font-medium text-gray-600">
-                  Uploaded: {strategies.filter(s => !configuredStrategies.some(c => c.base_strategy_id === s.id)).length}
+                  Uploaded: {strategies.filter(s => !tradingConfigurations.some(c => c.strategy_name === s.name)).length}
                 </span>
               </div>
               <div>
