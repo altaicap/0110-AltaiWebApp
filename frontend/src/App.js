@@ -965,6 +965,13 @@ metadata = {
     }
 }`
     });
+
+    const toggleLogExpansion = (strategyName) => {
+      setExpandedLogs(prev => ({
+        ...prev,
+        [strategyName]: !prev[strategyName]
+      }));
+    };
     const [codeErrors, setCodeErrors] = useState([]);
 
     const saveStrategy = async () => {
