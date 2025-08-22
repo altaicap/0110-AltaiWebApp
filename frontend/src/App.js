@@ -1671,6 +1671,265 @@ metadata = {
     );
   };
 
+  // Trading Configuration Form Component
+  const TradingConfigForm = ({ strategyName, onSubmit, onCancel }) => {
+    const [selectedBroker, setSelectedBroker] = useState('');
+    const [selectedAccount, setSelectedAccount] = useState('');
+    const [orderType, setOrderType] = useState('MARKET');
+    const [quantity, setQuantity] = useState(100);
+    const [configName, setConfigName] = useState(`${strategyName} Live Config`);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    // Get available accounts for selected broker
+    const availableAccountsForBroker = tradingAccounts.filter(
+      account => !selectedBroker || account.broker === selectedBroker
+    );
+
+    // Get connected brokers
+    const connectedBrokers = brokerConnections.filter(conn => conn.is_active && !conn.is_expired);
+
+    const handleSubmit = async () => {
+      if (!selectedBroker || !selectedAccount) {
+        alert('Please select both broker and account');
+        return;
+      }
+
+      setIsSubmitting(true);
+      
+      const config = {
+        strategy_id: strategyName,
+        broker: selectedBroker,
+        account_id: selectedAccount,
+        default_order_type: orderType,
+        default_quantity: quantity,
+        configuration_name: configName
+      };
+
+      await onSubmit(config);
+      setIsSubmitting(false);
+    };
+
+    const handleConnectBroker = (brokerType) => {
+      setAuthBroker(brokerType);
+      setShowBrokerAuth(true);
+    };
+
+    return (
+      <div className="space-y-6">
+        {/* Broker Selection */}
+        <div className="space-y-3">
+          <Label>Select Broker</Label>
+          {connectedBrokers.length > 0 ? (
+            <div className="grid grid-cols-1 gap-2">
+              {connectedBrokers.map((connection) => (
+                <div 
+                  key={connection.id}
+                  className={`p-3 border rounded-lg cursor-pointer transition-colors ${
+                    selectedBroker === connection.broker 
+                      ? 'border-blue-500 bg-blue-50' 
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                  onClick={() => setSelectedBroker(connection.broker)}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="font-medium">{connection.broker_name}</div>
+                      <div className="text-sm text-gray-500">
+                        {connection.accounts_count} account(s) • Connected
+                      </div>
+                    </div>
+                    <Badge variant="default" className="bg-green-500">Active</Badge>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-6 border rounded-lg border-dashed">
+              <div className="text-gray-500 mb-4">
+                No brokers connected. Connect a broker to enable live trading.
+              </div>
+              <div className="flex gap-2 justify-center">
+                {availableBrokers.map((broker) => (
+                  <Button
+                    key={broker.type}
+                    size="sm"
+                    variant="outline"
+                    onClick={() => handleConnectBroker(broker.type)}
+                    disabled={!broker.configured}
+                  >
+                    Connect {broker.name}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Account Selection */}
+        {selectedBroker && (
+          <div className="space-y-3">
+            <Label>Select Trading Account</Label>
+            <div className="grid grid-cols-1 gap-2">
+              {availableAccountsForBroker.map((account) => (
+                <div 
+                  key={account.id}
+                  className={`p-3 border rounded-lg cursor-pointer transition-colors ${
+                    selectedAccount === account.account_id 
+                      ? 'border-blue-500 bg-blue-50' 
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                  onClick={() => setSelectedAccount(account.account_id)}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="font-medium">{account.account_name}</div>
+                      <div className="text-sm text-gray-500">
+                        {account.account_type} • ${account.buying_power?.toFixed(2) || '0.00'} buying power
+                      </div>
+                    </div>
+                    <div className="text-right text-sm">
+                      <div className="font-medium">${account.equity?.toFixed(2) || '0.00'}</div>
+                      <div className="text-gray-500">Equity</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Trading Parameters */}
+        {selectedAccount && (
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="orderType">Default Order Type</Label>
+                <select
+                  id="orderType"
+                  value={orderType}
+                  onChange={(e) => setOrderType(e.target.value)}
+                  className="w-full p-2 border rounded-md"
+                >
+                  <option value="MARKET">Market Order</option>
+                  <option value="LIMIT">Limit Order</option>
+                </select>
+              </div>
+              <div>
+                <Label htmlFor="quantity">Default Quantity</Label>
+                <Input
+                  id="quantity"
+                  type="number"
+                  value={quantity}
+                  onChange={(e) => setQuantity(parseInt(e.target.value) || 100)}
+                  min="1"
+                  max="10000"
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="configName">Configuration Name</Label>
+              <Input
+                id="configName"
+                value={configName}
+                onChange={(e) => setConfigName(e.target.value)}
+                placeholder="Enter configuration name"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Actions */}
+        <div className="flex gap-2 pt-4 border-t">
+          <Button 
+            onClick={handleSubmit}
+            disabled={!selectedBroker || !selectedAccount || isSubmitting}
+            className="bg-green-600 hover:bg-green-700"
+          >
+            {isSubmitting ? (
+              <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+            ) : (
+              <PlayCircle className="w-4 h-4 mr-2" />
+            )}
+            Start Live Trading
+          </Button>
+          <Button variant="outline" onClick={onCancel} disabled={isSubmitting}>
+            Cancel
+          </Button>
+        </div>
+      </div>
+    );
+  };
+
+  // Broker Authentication Form Component
+  const BrokerAuthForm = ({ broker, brokerInfo, onConnect, onCancel, isConnecting }) => {
+    return (
+      <div className="space-y-4">
+        {brokerInfo && (
+          <div className="space-y-3">
+            <div className="p-4 bg-blue-50 rounded-lg">
+              <div className="text-sm font-medium text-blue-900 mb-2">Authentication Method</div>
+              <div className="text-sm text-blue-700">
+                {brokerInfo.oauth_type === 'private_key_jwt' 
+                  ? 'OAuth 2.0 with Private Key JWT (High Security)'
+                  : 'OAuth 2.0 Authorization Code Flow'
+                }
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <div className="text-sm font-medium">Supported Features:</div>
+              <div className="flex flex-wrap gap-1">
+                {brokerInfo.features?.map((feature) => (
+                  <Badge key={feature} variant="outline" className="text-xs">
+                    {feature}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="text-sm font-medium">Available Order Types:</div>
+              <div className="flex flex-wrap gap-1">
+                {brokerInfo.order_types?.map((orderType) => (
+                  <Badge key={orderType} variant="outline" className="text-xs">
+                    {orderType}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {!brokerInfo?.configured && (
+          <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+            <div className="text-sm text-yellow-800">
+              <strong>Configuration Required:</strong> This broker is not properly configured. 
+              Please ensure the necessary credentials are set up in the system.
+            </div>
+          </div>
+        )}
+
+        <div className="flex gap-2 pt-4 border-t">
+          <Button 
+            onClick={onConnect}
+            disabled={!brokerInfo?.configured || isConnecting}
+            className="flex-1"
+          >
+            {isConnecting ? (
+              <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+            ) : (
+              <ExternalLink className="w-4 h-4 mr-2" />
+            )}
+            Connect {brokerInfo?.name || broker}
+          </Button>
+          <Button variant="outline" onClick={onCancel} disabled={isConnecting}>
+            Cancel
+          </Button>
+        </div>
+      </div>
+    );
+  };
+
   // Backtest Tab Component  
   const BacktestTab = () => {
     const addSymbol = () => {
