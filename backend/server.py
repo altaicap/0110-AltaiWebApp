@@ -880,6 +880,408 @@ async def get_backtest_results():
     return results
 
 
+# Authentication and User Management Endpoints
+
+# Import new dependencies
+from database import get_db_session, get_mongodb, db_manager, create_default_users
+from auth import AuthService, get_current_user, get_current_user_optional, PasswordResetService
+from models import User, Subscription, PaymentMethod, Transaction, Notification, SUBSCRIPTION_PLANS
+from services.adyen_service import AdyenService
+from fastapi import Depends, Request, BackgroundTasks
+from fastapi.security import HTTPBearer
+from sqlalchemy.orm import Session
+from pydantic import EmailStr
+import json
+
+security = HTTPBearer()
+
+# Pydantic models for requests/responses
+class UserRegistration(BaseModel):
+    email: EmailStr
+    full_name: str
+    password: str
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+class UserUpdate(BaseModel):
+    full_name: Optional[str] = None
+    email: Optional[EmailStr] = None
+
+class PasswordUpdate(BaseModel):
+    current_password: str
+    new_password: str
+
+class PasswordReset(BaseModel):
+    email: EmailStr
+
+class PasswordResetConfirm(BaseModel):
+    token: str
+    new_password: str
+
+class SubscriptionCreate(BaseModel):
+    plan_id: str
+    payment_method_id: Optional[str] = None
+
+class UserResponse(BaseModel):
+    id: str
+    email: str
+    full_name: str
+    is_active: bool
+    created_at: datetime
+    preferences: Dict[str, Any]
+
+class NotificationResponse(BaseModel):
+    id: str
+    title: str
+    message: str
+    notification_type: str
+    priority: str
+    is_read: bool
+    created_at: datetime
+    action_type: Optional[str]
+    action_data: Optional[Dict[str, Any]]
+
+# Authentication endpoints
+@app.post("/api/auth/register", response_model=dict)
+async def register_user(user_data: UserRegistration, db: Session = Depends(get_db_session)):
+    """Register a new user"""
+    try:
+        user = AuthService.create_user(
+            db=db,
+            email=user_data.email,
+            full_name=user_data.full_name,
+            password=user_data.password
+        )
+        
+        # Create access token
+        access_token = AuthService.create_access_token(data={"sub": user.id})
+        
+        return {
+            "access_token": access_token,
+            "token_type": "bearer",
+            "user": {
+                "id": user.id,
+                "email": user.email,
+                "full_name": user.full_name,
+                "created_at": user.created_at.isoformat()
+            }
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.post("/api/auth/login", response_model=dict)
+async def login_user(user_data: UserLogin, db: Session = Depends(get_db_session)):
+    """Login user"""
+    user = AuthService.authenticate_user(db, user_data.email, user_data.password)
+    
+    if not user:
+        raise HTTPException(
+            status_code=401,
+            detail="Incorrect email or password"
+        )
+    
+    access_token = AuthService.create_access_token(data={"sub": user.id})
+    
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": {
+            "id": user.id,
+            "email": user.email,
+            "full_name": user.full_name,
+            "last_login": user.last_login.isoformat() if user.last_login else None
+        }
+    }
+
+@app.get("/api/auth/me", response_model=UserResponse)
+async def get_current_user_info(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db_session)
+):
+    """Get current user information"""
+    return UserResponse(
+        id=current_user.id,
+        email=current_user.email,
+        full_name=current_user.full_name,
+        is_active=current_user.is_active,
+        created_at=current_user.created_at,
+        preferences=current_user.preferences or {}
+    )
+
+@app.put("/api/auth/me", response_model=UserResponse)
+async def update_current_user(
+    user_data: UserUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db_session)
+):
+    """Update current user information"""
+    try:
+        if user_data.full_name:
+            current_user.full_name = user_data.full_name
+        
+        if user_data.email and user_data.email != current_user.email:
+            # Check if email already exists
+            existing_user = db.query(User).filter(User.email == user_data.email).first()
+            if existing_user:
+                raise HTTPException(status_code=400, detail="Email already in use")
+            current_user.email = user_data.email
+        
+        current_user.updated_at = datetime.utcnow()
+        db.commit()
+        db.refresh(current_user)
+        
+        return UserResponse(
+            id=current_user.id,
+            email=current_user.email,
+            full_name=current_user.full_name,
+            is_active=current_user.is_active,
+            created_at=current_user.created_at,
+            preferences=current_user.preferences or {}
+        )
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.put("/api/auth/password")
+async def update_password(
+    password_data: PasswordUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db_session)
+):
+    """Update user password"""
+    # Verify current password
+    if not AuthService.verify_password(password_data.current_password, current_user.hashed_password):
+        raise HTTPException(status_code=400, detail="Current password is incorrect")
+    
+    # Validate new password
+    if not AuthService.validate_password(password_data.new_password):
+        raise HTTPException(
+            status_code=400,
+            detail="Password must be at least 8 characters with letters and numbers"
+        )
+    
+    # Update password
+    current_user.hashed_password = AuthService.hash_password(password_data.new_password)
+    current_user.updated_at = datetime.utcnow()
+    db.commit()
+    
+    return {"message": "Password updated successfully"}
+
+# Billing and subscription endpoints
+@app.get("/api/billing/plans")
+async def get_subscription_plans():
+    """Get available subscription plans"""
+    return {"plans": list(SUBSCRIPTION_PLANS.values())}
+
+@app.post("/api/billing/payment-session")
+async def create_payment_session(
+    amount: float,
+    plan_id: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db_session)
+):
+    """Create Adyen payment session"""
+    try:
+        adyen_service = AdyenService()
+        
+        # Validate plan
+        if plan_id not in SUBSCRIPTION_PLANS:
+            raise HTTPException(status_code=400, detail="Invalid plan ID")
+        
+        plan = SUBSCRIPTION_PLANS[plan_id]
+        
+        session_data = await adyen_service.create_payment_session(
+            user=current_user,
+            amount=plan["amount"],
+            currency=plan["currency"],
+            return_url=f"{os.getenv('FRONTEND_URL', 'http://localhost:3000')}/billing/payment-result"
+        )
+        
+        return session_data
+        
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.get("/api/billing/subscriptions")
+async def get_user_subscriptions(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db_session)
+):
+    """Get user's subscriptions"""
+    subscriptions = db.query(Subscription).filter(Subscription.user_id == current_user.id).all()
+    
+    return {
+        "subscriptions": [
+            {
+                "id": sub.id,
+                "plan_id": sub.plan_id,
+                "plan_name": sub.plan_name,
+                "status": sub.status,
+                "amount": sub.amount,
+                "currency": sub.currency,
+                "billing_cycle": sub.billing_cycle,
+                "current_period_start": sub.current_period_start.isoformat() if sub.current_period_start else None,
+                "current_period_end": sub.current_period_end.isoformat() if sub.current_period_end else None,
+                "next_billing_date": sub.next_billing_date.isoformat() if sub.next_billing_date else None,
+                "created_at": sub.created_at.isoformat()
+            }
+            for sub in subscriptions
+        ]
+    }
+
+@app.post("/api/billing/subscriptions")
+async def create_subscription(
+    subscription_data: SubscriptionCreate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db_session)
+):
+    """Create a new subscription"""
+    try:
+        # Validate plan
+        if subscription_data.plan_id not in SUBSCRIPTION_PLANS:
+            raise HTTPException(status_code=400, detail="Invalid plan ID")
+        
+        plan = SUBSCRIPTION_PLANS[subscription_data.plan_id]
+        
+        # Create subscription record
+        subscription = Subscription(
+            user_id=current_user.id,
+            plan_id=plan["id"],
+            plan_name=plan["name"],
+            amount=plan["amount"],
+            currency=plan["currency"],
+            billing_cycle=plan["billing_cycle"],
+            status="pending"
+        )
+        
+        db.add(subscription)
+        db.commit()
+        db.refresh(subscription)
+        
+        return {
+            "subscription_id": subscription.id,
+            "status": subscription.status,
+            "message": "Subscription created successfully"
+        }
+        
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.get("/api/notifications")
+async def get_user_notifications(
+    limit: int = Query(20, ge=1, le=100),
+    unread_only: bool = Query(False),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db_session)
+):
+    """Get user notifications"""
+    query = db.query(Notification).filter(Notification.user_id == current_user.id)
+    
+    if unread_only:
+        query = query.filter(Notification.is_read == False)
+    
+    notifications = query.order_by(Notification.created_at.desc()).limit(limit).all()
+    
+    return {
+        "notifications": [
+            NotificationResponse(
+                id=notif.id,
+                title=notif.title,
+                message=notif.message,
+                notification_type=notif.notification_type,
+                priority=notif.priority,
+                is_read=notif.is_read,
+                created_at=notif.created_at,
+                action_type=notif.action_type,
+                action_data=notif.action_data
+            )
+            for notif in notifications
+        ]
+    }
+
+@app.put("/api/notifications/{notification_id}/read")
+async def mark_notification_read(
+    notification_id: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db_session)
+):
+    """Mark notification as read"""
+    notification = db.query(Notification).filter(
+        Notification.id == notification_id,
+        Notification.user_id == current_user.id
+    ).first()
+    
+    if not notification:
+        raise HTTPException(status_code=404, detail="Notification not found")
+    
+    notification.is_read = True
+    notification.read_at = datetime.utcnow()
+    db.commit()
+    
+    return {"message": "Notification marked as read"}
+
+# Adyen webhook endpoint
+@app.post("/api/webhooks/adyen")
+async def handle_adyen_webhook(
+    request: Request,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db_session)
+):
+    """Handle Adyen webhook notifications"""
+    try:
+        # Get raw payload for signature verification
+        payload = await request.body()
+        payload_str = payload.decode('utf-8')
+        
+        # Get HMAC signature from headers
+        signature = request.headers.get("hmac-signature")
+        
+        adyen_service = AdyenService()
+        
+        # Verify webhook signature (skip in development if key not configured)
+        if signature and not adyen_service.verify_webhook_signature(payload_str, signature):
+            raise HTTPException(status_code=403, detail="Invalid webhook signature")
+        
+        # Parse webhook payload
+        webhook_data = json.loads(payload_str)
+        notification_items = webhook_data.get("notificationItems", [])
+        
+        # Process each notification in background
+        for item in notification_items:
+            notification = item.get("NotificationRequestItem", {})
+            background_tasks.add_task(
+                adyen_service.process_webhook_notification,
+                db,
+                notification
+            )
+        
+        # Return success response to Adyen
+        return {"notificationResponse": "[accepted]"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error handling Adyen webhook: {str(e)}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+# System health endpoint
+@app.get("/api/system/health")
+async def system_health():
+    """Get system health status"""
+    from database import check_database_health
+    
+    health_data = await check_database_health()
+    
+    return {
+        "status": "healthy" if all(health_data[key] for key in ["mongodb", "sql"]) else "degraded",
+        "databases": health_data,
+        "version": "2.0.0-auth",
+        "timestamp": datetime.utcnow().isoformat()
+    }
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001, reload=True)
