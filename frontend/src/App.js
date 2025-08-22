@@ -1314,12 +1314,66 @@ metadata = {
 
     return (
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-bold">Strategies</h2>
-            <p className="text-gray-600">Manage your Python trading strategies</p>
+        <div className="tab-header-enhanced">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold">STRATEGIES</h2>
+              <p className="text-gray-600">Manage your uploaded and configured trading strategies</p>
+            </div>
+            
+            <div className="flex gap-4 text-sm">
+              <div>
+                <span className="font-medium text-gray-600">
+                  Uploaded: {strategies.filter(s => !configuredStrategies.some(c => c.base_strategy_id === s.id)).length}
+                </span>
+              </div>
+              <div>
+                <span className="font-medium text-gray-600">
+                  Configured: {configuredStrategies.length}
+                </span>
+              </div>
+              <div>
+                <span className="font-medium text-gray-600">
+                  Live Trading: {liveStrategies.length}
+                </span>
+              </div>
+            </div>
           </div>
-          <Button onClick={() => setSelectedStrategy('new')}>
+        </div>
+
+        {/* Display Configured Strategies First */}
+        {configuredStrategies.length > 0 && (
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <h3 className="text-lg font-semibold">CONFIGURED STRATEGIES</h3>
+              <Badge variant="default" className="bg-green-500">
+                {configuredStrategies.length}
+              </Badge>
+            </div>
+            <p className="text-sm text-gray-600">
+              These strategies have been configured with specific settings and can be used for live trading.
+            </p>
+          </div>
+        )}
+
+        {/* Display Uploaded Strategies */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <h3 className="text-lg font-semibold">UPLOADED STRATEGIES</h3>
+            <Badge variant="secondary">
+              {strategies.filter(s => !configuredStrategies.some(c => c.base_strategy_id === s.id)).length}
+            </Badge>
+          </div>
+          <p className="text-sm text-gray-600">
+            Base strategy files that can be configured in the Backtest tab for live trading.
+          </p>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <div className="text-sm text-gray-500">
+            Configure strategies in the Backtest tab by clicking "Save Configuration" to enable live trading.
+          </div>
+          <Button onClick={() => setSelectedStrategy('new')} className="bg-blue-600 hover:bg-blue-700">
             <Plus className="w-4 h-4 mr-2" />
             New Strategy
           </Button>
