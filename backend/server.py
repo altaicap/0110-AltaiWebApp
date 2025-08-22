@@ -958,7 +958,15 @@ class NotificationResponse(BaseModel):
     action_type: Optional[str]
     action_data: Optional[Dict[str, Any]]
 
-# Authentication endpoints
+# Update get_current_user dependency to include database session
+def get_current_user_with_db(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: Session = Depends(get_db_session)
+) -> User:
+    """Get current authenticated user with database session"""
+    return get_current_user(credentials, db)
+
+# Update authentication endpoints to use proper dependency
 @app.post("/api/auth/register", response_model=dict)
 async def register_user(user_data: UserRegistration, db: Session = Depends(get_db_session)):
     """Register a new user"""
@@ -1012,8 +1020,7 @@ async def login_user(user_data: UserLogin, db: Session = Depends(get_db_session)
 
 @app.get("/api/auth/me", response_model=UserResponse)
 async def get_current_user_info(
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db_session)
+    current_user: User = Depends(get_current_user_with_db)
 ):
     """Get current user information"""
     return UserResponse(
@@ -1028,7 +1035,7 @@ async def get_current_user_info(
 @app.put("/api/auth/me", response_model=UserResponse)
 async def update_current_user(
     user_data: UserUpdate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_user_with_db),
     db: Session = Depends(get_db_session)
 ):
     """Update current user information"""
@@ -1062,7 +1069,7 @@ async def update_current_user(
 @app.put("/api/auth/password")
 async def update_password(
     password_data: PasswordUpdate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_user_with_db),
     db: Session = Depends(get_db_session)
 ):
     """Update user password"""
