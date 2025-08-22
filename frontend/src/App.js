@@ -1464,8 +1464,8 @@ metadata = {
           <CardContent className="p-6">
             <div className="grid gap-4">
               {/* Render Configured Strategies First */}
-              {configuredStrategies.map((configStrategy) => {
-                const baseStrategy = strategies.find(s => s.id === configStrategy.base_strategy_id);
+              {tradingConfigurations.map((configStrategy) => {
+                const baseStrategy = strategies.find(s => s.name === configStrategy.strategy_name);
                 if (!baseStrategy) return null;
                 
                 const isLive = liveStrategies.some(ls => ls.name === baseStrategy.name);
