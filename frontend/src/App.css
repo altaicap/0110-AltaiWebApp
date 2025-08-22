@@ -162,6 +162,39 @@ body {
   background: white;
   border-radius: 8px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fullscreen content scaling */
+.fullscreen-content {
+  flex: 1;
+  overflow: auto;
+  padding: 1rem;
+}
+
+.fullscreen-scrollarea {
+  height: calc(100vh - 250px) !important;
+}
+
+/* Apply to all fullscreen cards */
+[class*="fixed inset-4"] {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+[class*="fixed inset-4"] > * {
+  flex-shrink: 0;
+}
+
+[class*="fixed inset-4"] [class*="CardContent"] {
+  flex: 1 !important;
+  overflow: auto !important;
+  padding: 1.5rem !important;
+}
+
+[class*="fixed inset-4"] [class*="ScrollArea"] {
+  height: 100% !important;
 }
 
 [data-theme="dark"] .fullscreen-pane {
