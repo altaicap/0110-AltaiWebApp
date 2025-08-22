@@ -1303,6 +1303,618 @@ async def system_health():
         "timestamp": datetime.utcnow().isoformat()
     }
 
+# Trading Integration Endpoints
+
+# Import trading services and models
+from services.broker_service import broker_service, UnifiedOrder, BrokerType
+from models.trading_models import BrokerConnection, TradingAccount, TradingConfiguration, OrderHistory, add_trading_relationships_to_user
+
+# Add trading relationships to User model
+add_trading_relationships_to_user()
+
+# Trading-specific Pydantic models
+class BrokerAuthRequest(BaseModel):
+    broker: str
+    state: Optional[str] = None
+
+class BrokerCallbackRequest(BaseModel):
+    broker: str
+    code: str
+    state: str
+
+class OrderRequest(BaseModel):
+    broker: str
+    account_id: str
+    symbol: str
+    action: str  # BUY, SELL, BTC, SS
+    quantity: int
+    order_type: str = "MARKET"  # MARKET, LIMIT, STOP, STOP_LIMIT
+    limit_price: Optional[float] = None
+    stop_price: Optional[float] = None
+    time_in_force: str = "DAY"
+
+class TradingConfigRequest(BaseModel):
+    strategy_id: str
+    broker: str
+    account_id: str
+    default_order_type: str = "MARKET"
+    default_quantity: int = 100
+    max_position_size: Optional[float] = None
+    daily_loss_limit: Optional[float] = None
+    configuration_name: Optional[str] = None
+
+@app.get("/api/trading/brokers")
+async def get_available_brokers():
+    """Get list of available brokers and their configuration status"""
+    try:
+        brokers = broker_service.get_available_brokers()
+        return {
+            "brokers": brokers,
+            "total_count": len(brokers)
+        }
+    except Exception as e:
+        logger.error(f"Error fetching brokers: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error fetching brokers: {str(e)}"
+        )
+
+@app.post("/api/trading/auth/initiate")
+async def initiate_broker_auth(
+    request: BrokerAuthRequest,
+    current_user: User = Depends(get_current_user_with_db)
+):
+    """Initiate OAuth flow for broker authentication"""
+    try:
+        auth_data = broker_service.generate_auth_url(request.broker, request.state)
+        
+        return {
+            "broker": request.broker,
+            "authorization_url": auth_data["authorization_url"],
+            "state": auth_data["state"],
+            "oauth_type": auth_data.get("oauth_type", "authorization_code"),
+            "public_key": auth_data.get("public_key"),
+            "registration_required": auth_data.get("registration_required", False),
+            "instructions": auth_data.get("instructions")
+        }
+    except Exception as e:
+        logger.error(f"Error initiating broker auth: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error initiating authentication: {str(e)}"
+        )
+
+@app.post("/api/trading/auth/callback")
+async def handle_broker_auth_callback(
+    request: BrokerCallbackRequest,
+    current_user: User = Depends(get_current_user_with_db),
+    db: Session = Depends(get_db_session)
+):
+    """Handle OAuth callback and store broker connection"""
+    try:
+        # Exchange code for tokens
+        tokens = await broker_service.handle_oauth_callback(
+            request.broker, request.code, request.state
+        )
+        
+        # Store broker connection in database
+        existing_connection = db.query(BrokerConnection).filter(
+            BrokerConnection.user_id == current_user.id,
+            BrokerConnection.broker_type == request.broker.lower()
+        ).first()
+        
+        if existing_connection:
+            # Update existing connection
+            existing_connection.access_token = tokens["access_token"]
+            existing_connection.refresh_token = tokens.get("refresh_token")
+            existing_connection.token_expires_at = datetime.utcnow() + timedelta(seconds=tokens.get("expires_in", 3600))
+            existing_connection.is_active = True
+            existing_connection.last_used = datetime.utcnow()
+            existing_connection.updated_at = datetime.utcnow()
+            connection = existing_connection
+        else:
+            # Create new connection
+            connection = BrokerConnection(
+                user_id=current_user.id,
+                broker_type=request.broker.lower(),
+                access_token=tokens["access_token"],
+                refresh_token=tokens.get("refresh_token"),
+                token_expires_at=datetime.utcnow() + timedelta(seconds=tokens.get("expires_in", 3600)),
+                connection_name=f"{request.broker.capitalize()} Connection",
+                is_active=True,
+                last_used=datetime.utcnow()
+            )
+            db.add(connection)
+        
+        db.commit()
+        db.refresh(connection)
+        
+        # Fetch and store user's accounts
+        try:
+            accounts = await broker_service.get_accounts(request.broker, tokens["access_token"])
+            
+            for account_data in accounts:
+                existing_account = db.query(TradingAccount).filter(
+                    TradingAccount.broker_connection_id == connection.id,
+                    TradingAccount.account_id == account_data["account_id"]
+                ).first()
+                
+                if existing_account:
+                    # Update existing account
+                    existing_account.account_name = account_data["name"]
+                    existing_account.account_type = account_data["type"]
+                    existing_account.status = account_data["status"]
+                    existing_account.margin_enabled = account_data["margin_enabled"]
+                    existing_account.cash_balance = account_data["cash_balance"]
+                    existing_account.equity = account_data["equity"]
+                    existing_account.buying_power = account_data["buying_power"]
+                    existing_account.last_sync = datetime.utcnow()
+                else:
+                    # Create new account
+                    account = TradingAccount(
+                        broker_connection_id=connection.id,
+                        account_id=account_data["account_id"],
+                        account_name=account_data["name"],
+                        account_type=account_data["type"],
+                        currency=account_data["currency"],
+                        status=account_data["status"],
+                        margin_enabled=account_data["margin_enabled"],
+                        cash_balance=account_data["cash_balance"],
+                        equity=account_data["equity"],
+                        buying_power=account_data["buying_power"],
+                        last_sync=datetime.utcnow()
+                    )
+                    db.add(account)
+            
+            db.commit()
+            
+        except Exception as e:
+            logger.warning(f"Failed to fetch accounts during OAuth callback: {str(e)}")
+        
+        return {
+            "success": True,
+            "broker": request.broker,
+            "connection_id": connection.id,
+            "message": f"{request.broker.capitalize()} connected successfully",
+            "expires_at": connection.token_expires_at.isoformat() if connection.token_expires_at else None
+        }
+        
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Error handling OAuth callback: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"OAuth callback failed: {str(e)}"
+        )
+
+@app.get("/api/trading/connections")
+async def get_broker_connections(
+    current_user: User = Depends(get_current_user_with_db),
+    db: Session = Depends(get_db_session)
+):
+    """Get user's broker connections"""
+    try:
+        connections = db.query(BrokerConnection).filter(
+            BrokerConnection.user_id == current_user.id,
+            BrokerConnection.is_active == True
+        ).all()
+        
+        result = []
+        for conn in connections:
+            # Check token expiration
+            is_expired = conn.token_expires_at and conn.token_expires_at < datetime.utcnow()
+            
+            result.append({
+                "id": conn.id,
+                "broker": conn.broker_type,
+                "broker_name": conn.broker_type.capitalize(),
+                "connection_name": conn.connection_name,
+                "is_active": conn.is_active and not is_expired,
+                "is_expired": is_expired,
+                "last_used": conn.last_used.isoformat() if conn.last_used else None,
+                "expires_at": conn.token_expires_at.isoformat() if conn.token_expires_at else None,
+                "created_at": conn.created_at.isoformat(),
+                "accounts_count": len(conn.trading_accounts)
+            })
+        
+        return {
+            "connections": result,
+            "total_count": len(result)
+        }
+        
+    except Exception as e:
+        logger.error(f"Error fetching broker connections: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error fetching connections: {str(e)}"
+        )
+
+@app.get("/api/trading/accounts")
+async def get_trading_accounts(
+    broker: Optional[str] = Query(None),
+    current_user: User = Depends(get_current_user_with_db),
+    db: Session = Depends(get_db_session)
+):
+    """Get user's trading accounts"""
+    try:
+        query = db.query(TradingAccount).join(BrokerConnection).filter(
+            BrokerConnection.user_id == current_user.id,
+            BrokerConnection.is_active == True
+        )
+        
+        if broker:
+            query = query.filter(BrokerConnection.broker_type == broker.lower())
+        
+        accounts = query.all()
+        
+        result = []
+        for account in accounts:
+            result.append({
+                "id": account.id,
+                "account_id": account.account_id,
+                "account_name": account.account_name,
+                "nickname": account.nickname,
+                "broker": account.broker_connection.broker_type,
+                "broker_name": account.broker_connection.broker_type.capitalize(),
+                "account_type": account.account_type,
+                "currency": account.currency,
+                "status": account.status,
+                "margin_enabled": account.margin_enabled,
+                "cash_balance": account.cash_balance,
+                "equity": account.equity,
+                "buying_power": account.buying_power,
+                "is_preferred": account.is_preferred,
+                "last_sync": account.last_sync.isoformat() if account.last_sync else None
+            })
+        
+        return {
+            "accounts": result,
+            "total_count": len(result)
+        }
+        
+    except Exception as e:
+        logger.error(f"Error fetching trading accounts: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error fetching accounts: {str(e)}"
+        )
+
+@app.post("/api/trading/orders")
+async def place_trading_order(
+    request: OrderRequest,
+    current_user: User = Depends(get_current_user_with_db),
+    db: Session = Depends(get_db_session)
+):
+    """Place a trading order"""
+    try:
+        # Get broker connection and account
+        account = db.query(TradingAccount).join(BrokerConnection).filter(
+            TradingAccount.account_id == request.account_id,
+            BrokerConnection.user_id == current_user.id,
+            BrokerConnection.broker_type == request.broker.lower(),
+            BrokerConnection.is_active == True
+        ).first()
+        
+        if not account:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Trading account not found"
+            )
+        
+        # Check token expiration
+        if account.broker_connection.token_expires_at and account.broker_connection.token_expires_at < datetime.utcnow():
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Broker connection expired. Please re-authenticate."
+            )
+        
+        # Create unified order
+        try:
+            unified_order = UnifiedOrder(
+                symbol=request.symbol,
+                action=request.action,
+                quantity=request.quantity,
+                order_type=request.order_type,
+                limit_price=request.limit_price,
+                stop_price=request.stop_price,
+                time_in_force=request.time_in_force
+            )
+        except ValueError as e:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Invalid order parameters: {str(e)}"
+            )
+        
+        # Place order through broker
+        result = await broker_service.place_order(
+            request.broker,
+            account.broker_connection.access_token,
+            request.account_id,
+            unified_order
+        )
+        
+        # Record order in history
+        platform_order_id = str(uuid.uuid4())
+        order_history = OrderHistory(
+            user_id=current_user.id,
+            trading_account_id=account.id,
+            broker_order_id=result.get("order_id"),
+            platform_order_id=platform_order_id,
+            symbol=request.symbol.upper(),
+            action=request.action.upper(),
+            quantity=request.quantity,
+            order_type=request.order_type.upper(),
+            limit_price=request.limit_price,
+            stop_price=request.stop_price,
+            status="SUBMITTED",
+            time_in_force=request.time_in_force.upper(),
+            submitted_at=datetime.utcnow()
+        )
+        
+        db.add(order_history)
+        db.commit()
+        db.refresh(order_history)
+        
+        # Update account last used
+        account.broker_connection.last_used = datetime.utcnow()
+        db.commit()
+        
+        result["platform_order_id"] = platform_order_id
+        return result
+        
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Error placing trading order: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error placing order: {str(e)}"
+        )
+
+@app.get("/api/trading/orders")
+async def get_trading_orders(
+    broker: Optional[str] = Query(None),
+    account_id: Optional[str] = Query(None),
+    limit: int = Query(50, ge=1, le=200),
+    current_user: User = Depends(get_current_user_with_db),
+    db: Session = Depends(get_db_session)
+):
+    """Get user's trading orders"""
+    try:
+        query = db.query(OrderHistory).filter(OrderHistory.user_id == current_user.id)
+        
+        if broker or account_id:
+            query = query.join(TradingAccount).join(BrokerConnection)
+            
+            if broker:
+                query = query.filter(BrokerConnection.broker_type == broker.lower())
+            
+            if account_id:
+                query = query.filter(TradingAccount.account_id == account_id)
+        
+        orders = query.order_by(OrderHistory.submitted_at.desc()).limit(limit).all()
+        
+        result = []
+        for order in orders:
+            result.append({
+                "id": order.id,
+                "platform_order_id": order.platform_order_id,
+                "broker_order_id": order.broker_order_id,
+                "symbol": order.symbol,
+                "action": order.action,
+                "quantity": order.quantity,
+                "filled_quantity": order.filled_quantity,
+                "order_type": order.order_type,
+                "limit_price": order.limit_price,
+                "stop_price": order.stop_price,
+                "average_fill_price": order.average_fill_price,
+                "status": order.status,
+                "time_in_force": order.time_in_force,
+                "commission": order.commission,
+                "fees": order.fees,
+                "realized_pnl": order.realized_pnl,
+                "submitted_at": order.submitted_at.isoformat(),
+                "filled_at": order.filled_at.isoformat() if order.filled_at else None,
+                "cancelled_at": order.cancelled_at.isoformat() if order.cancelled_at else None,
+                "broker": order.trading_account.broker_connection.broker_type if order.trading_account else None,
+                "account_name": order.trading_account.account_name if order.trading_account else None
+            })
+        
+        return {
+            "orders": result,
+            "total_count": len(result)
+        }
+        
+    except Exception as e:
+        logger.error(f"Error fetching trading orders: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error fetching orders: {str(e)}"
+        )
+
+@app.post("/api/trading/configurations")
+async def create_trading_configuration(
+    request: TradingConfigRequest,
+    current_user: User = Depends(get_current_user_with_db),
+    db: Session = Depends(get_db_session)
+):
+    """Create trading configuration linking strategy to broker account"""
+    try:
+        # Verify account exists and belongs to user
+        account = db.query(TradingAccount).join(BrokerConnection).filter(
+            TradingAccount.account_id == request.account_id,
+            BrokerConnection.user_id == current_user.id,
+            BrokerConnection.broker_type == request.broker.lower(),
+            BrokerConnection.is_active == True
+        ).first()
+        
+        if not account:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Trading account not found"
+            )
+        
+        # Check if configuration already exists
+        existing_config = db.query(TradingConfiguration).filter(
+            TradingConfiguration.user_id == current_user.id,
+            TradingConfiguration.strategy_id == request.strategy_id
+        ).first()
+        
+        if existing_config:
+            # Update existing configuration
+            existing_config.broker_connection_id = account.broker_connection_id
+            existing_config.trading_account_id = account.id
+            existing_config.default_order_type = request.default_order_type
+            existing_config.default_quantity = request.default_quantity
+            existing_config.max_position_size = request.max_position_size
+            existing_config.daily_loss_limit = request.daily_loss_limit
+            existing_config.configuration_name = request.configuration_name
+            existing_config.updated_at = datetime.utcnow()
+            config = existing_config
+        else:
+            # Create new configuration
+            config = TradingConfiguration(
+                user_id=current_user.id,
+                strategy_id=request.strategy_id,
+                broker_connection_id=account.broker_connection_id,
+                trading_account_id=account.id,
+                default_order_type=request.default_order_type,
+                default_quantity=request.default_quantity,
+                max_position_size=request.max_position_size,
+                daily_loss_limit=request.daily_loss_limit,
+                configuration_name=request.configuration_name or f"Config for {request.strategy_id}"
+            )
+            db.add(config)
+        
+        db.commit()
+        db.refresh(config)
+        
+        return {
+            "id": config.id,
+            "strategy_id": config.strategy_id,
+            "broker": account.broker_connection.broker_type,
+            "account_id": account.account_id,
+            "account_name": account.account_name,
+            "default_order_type": config.default_order_type,
+            "default_quantity": config.default_quantity,
+            "configuration_name": config.configuration_name,
+            "is_live": config.is_live,
+            "created_at": config.created_at.isoformat()
+        }
+        
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Error creating trading configuration: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error creating configuration: {str(e)}"
+        )
+
+@app.get("/api/trading/configurations")
+async def get_trading_configurations(
+    strategy_id: Optional[str] = Query(None),
+    current_user: User = Depends(get_current_user_with_db),
+    db: Session = Depends(get_db_session)
+):
+    """Get user's trading configurations"""
+    try:
+        query = db.query(TradingConfiguration).filter(
+            TradingConfiguration.user_id == current_user.id
+        )
+        
+        if strategy_id:
+            query = query.filter(TradingConfiguration.strategy_id == strategy_id)
+        
+        configs = query.all()
+        
+        result = []
+        for config in configs:
+            result.append({
+                "id": config.id,
+                "strategy_id": config.strategy_id,
+                "broker": config.broker_connection.broker_type,
+                "broker_name": config.broker_connection.broker_type.capitalize(),
+                "account_id": config.trading_account.account_id,
+                "account_name": config.trading_account.account_name,
+                "default_order_type": config.default_order_type,
+                "default_quantity": config.default_quantity,
+                "max_position_size": config.max_position_size,
+                "daily_loss_limit": config.daily_loss_limit,
+                "configuration_name": config.configuration_name,
+                "is_live": config.is_live,
+                "auto_execute": config.auto_execute,
+                "last_executed": config.last_executed.isoformat() if config.last_executed else None,
+                "created_at": config.created_at.isoformat()
+            })
+        
+        return {
+            "configurations": result,
+            "total_count": len(result)
+        }
+        
+    except Exception as e:
+        logger.error(f"Error fetching trading configurations: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error fetching configurations: {str(e)}"
+        )
+
+@app.put("/api/trading/configurations/{config_id}/live")
+async def toggle_live_trading(
+    config_id: str,
+    is_live: bool,
+    current_user: User = Depends(get_current_user_with_db),
+    db: Session = Depends(get_db_session)
+):
+    """Toggle live trading for a configuration"""
+    try:
+        config = db.query(TradingConfiguration).filter(
+            TradingConfiguration.id == config_id,
+            TradingConfiguration.user_id == current_user.id
+        ).first()
+        
+        if not config:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Trading configuration not found"
+            )
+        
+        # Verify broker connection is still active
+        if is_live:
+            if not config.broker_connection.is_active:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Broker connection is not active"
+                )
+            
+            if config.broker_connection.token_expires_at and config.broker_connection.token_expires_at < datetime.utcnow():
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="Broker connection expired. Please re-authenticate."
+                )
+        
+        config.is_live = is_live
+        config.updated_at = datetime.utcnow()
+        
+        if is_live:
+            config.last_executed = datetime.utcnow()
+        
+        db.commit()
+        
+        return {
+            "id": config.id,
+            "strategy_id": config.strategy_id,
+            "is_live": config.is_live,
+            "message": f"Live trading {'enabled' if is_live else 'disabled'} for strategy {config.strategy_id}"
+        }
+        
+    except Exception as e:
+        db.rollback()
+        logger.error(f"Error toggling live trading: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error updating configuration: {str(e)}"
+        )
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001, reload=True)
