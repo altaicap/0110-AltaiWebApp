@@ -30,3 +30,10 @@ redis>=5.1.0
 backtrader>=1.9.78.123
 pytz>=2023.3
 psutil>=5.9.0
+
+# Authentication and payment processing dependencies
+bcrypt>=4.0.1
+python-jose[cryptography]>=3.3.0
+adyen>=13.4.0
+sqlalchemy>=2.0.0
+alembic>=1.13.0
