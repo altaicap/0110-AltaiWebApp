@@ -10,6 +10,696 @@ import json
 from datetime import datetime, timedelta
 from typing import Dict, Any
 
+class TradingIntegrationTester:
+    def __init__(self, base_url="https://altai-trader.preview.emergentagent.com"):
+        self.base_url = base_url
+        self.tests_run = 0
+        self.tests_passed = 0
+        self.test_results = []
+        self.auth_token = None
+        self.test_user_id = None
+
+    def log_test(self, name: str, success: bool, message: str = "", response_data: Any = None):
+        """Log test result"""
+        self.tests_run += 1
+        if success:
+            self.tests_passed += 1
+            print(f"✅ {name}: PASSED - {message}")
+        else:
+            print(f"❌ {name}: FAILED - {message}")
+        
+        self.test_results.append({
+            "name": name,
+            "success": success,
+            "message": message,
+            "response_data": response_data
+        })
+
+    def run_test(self, name: str, method: str, endpoint: str, expected_status: int, 
+                 data: Dict = None, params: Dict = None, headers: Dict = None) -> tuple:
+        """Run a single API test"""
+        url = f"{self.base_url}/{endpoint.lstrip('/')}"
+        default_headers = {'Content-Type': 'application/json'}
+        
+        if headers:
+            default_headers.update(headers)
+        
+        try:
+            if method == 'GET':
+                response = requests.get(url, headers=default_headers, params=params, timeout=30)
+            elif method == 'POST':
+                response = requests.post(url, json=data, headers=default_headers, params=params, timeout=30)
+            elif method == 'PUT':
+                response = requests.put(url, json=data, headers=default_headers, timeout=30)
+            elif method == 'DELETE':
+                response = requests.delete(url, headers=default_headers, timeout=30)
+            else:
+                self.log_test(name, False, f"Unsupported method: {method}")
+                return False, {}
+
+            success = response.status_code == expected_status
+            try:
+                response_json = response.json()
+            except:
+                response_json = {"raw_response": response.text}
+
+            if success:
+                self.log_test(name, True, f"Status: {response.status_code}", response_json)
+            else:
+                self.log_test(name, False, f"Expected {expected_status}, got {response.status_code}. Response: {response.text[:200]}")
+
+            return success, response_json
+
+        except requests.exceptions.Timeout:
+            self.log_test(name, False, "Request timeout (30s)")
+            return False, {}
+        except requests.exceptions.ConnectionError:
+            self.log_test(name, False, "Connection error - backend may be down")
+            return False, {}
+        except Exception as e:
+            self.log_test(name, False, f"Error: {str(e)}")
+            return False, {}
+
+    def setup_authentication(self):
+        """Setup authentication for protected endpoints"""
+        print("\n🔐 Setting up authentication for trading tests...")
+        
+        # Login with default user Alex G
+        alex_login = {
+            "email": "alex@altaitrader.com",
+            "password": "Altai2025"
+        }
+        
+        success, response = self.run_test(
+            "Login for Trading Tests",
+            "POST",
+            "/api/auth/login",
+            200,
+            data=alex_login
+        )
+        
+        if success and response:
+            self.auth_token = response.get("access_token")
+            user_info = response.get("user", {})
+            self.test_user_id = user_info.get("id")
+            
+            if self.auth_token:
+                self.log_test("Authentication Setup", True, f"Token obtained, length: {len(self.auth_token)}")
+                return True
+            else:
+                self.log_test("Authentication Setup", False, "No access token received")
+                return False
+        else:
+            self.log_test("Authentication Setup", False, "Login failed")
+            return False
+
+    def test_available_brokers(self):
+        """Test GET /api/trading/brokers endpoint"""
+        print("\n🔍 Testing Available Brokers Endpoint...")
+        
+        success, response = self.run_test(
+            "Get Available Brokers",
+            "GET",
+            "/api/trading/brokers",
+            200
+        )
+        
+        if success and response:
+            brokers = response.get("brokers", {})
+            total_count = response.get("total_count", 0)
+            
+            self.log_test("Brokers Response Structure", "brokers" in response and "total_count" in response, 
+                         f"Found {total_count} brokers")
+            
+            # Check for expected brokers
+            expected_brokers = ["tradestation", "ibkr"]
+            found_brokers = list(brokers.keys())
+            
+            for broker in expected_brokers:
+                if broker in found_brokers:
+                    broker_info = brokers[broker]
+                    required_fields = ["name", "type", "configured", "oauth_type", "features", "order_types"]
+                    missing_fields = [field for field in required_fields if field not in broker_info]
+                    
+                    if missing_fields:
+                        self.log_test(f"{broker.upper()} Broker Structure", False, f"Missing fields: {missing_fields}")
+                    else:
+                        self.log_test(f"{broker.upper()} Broker Structure", True, 
+                                     f"Name: {broker_info['name']}, OAuth: {broker_info['oauth_type']}")
+                        
+                        # Check configuration status
+                        configured = broker_info.get("configured", False)
+                        self.log_test(f"{broker.upper()} Configuration Status", True, 
+                                     f"Configured: {configured}")
+                else:
+                    self.log_test(f"{broker.upper()} Broker Present", False, f"Broker {broker} not found")
+
+    def test_oauth_initiation(self):
+        """Test POST /api/trading/auth/initiate endpoint"""
+        print("\n🔍 Testing OAuth Initiation Endpoints...")
+        
+        if not self.auth_token:
+            self.log_test("OAuth Initiation Setup", False, "No auth token available")
+            return
+        
+        auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
+        
+        # Test TradeStation OAuth initiation
+        ts_request = {
+            "broker": "tradestation",
+            "state": "test_state_123"
+        }
+        
+        success, response = self.run_test(
+            "TradeStation OAuth Initiation",
+            "POST",
+            "/api/trading/auth/initiate",
+            500,  # Expected to fail due to missing credentials
+            data=ts_request,
+            headers=auth_headers
+        )
+        
+        # Since credentials are not configured, we expect a 500 error with proper message
+        if success:
+            self.log_test("TradeStation OAuth Error Handling", True, "Properly handled missing credentials")
+        
+        # Test IBKR OAuth initiation
+        ibkr_request = {
+            "broker": "ibkr",
+            "state": "test_state_456"
+        }
+        
+        success, response = self.run_test(
+            "IBKR OAuth Initiation",
+            "POST",
+            "/api/trading/auth/initiate",
+            500,  # Expected to fail due to missing credentials
+            data=ibkr_request,
+            headers=auth_headers
+        )
+        
+        if success:
+            self.log_test("IBKR OAuth Error Handling", True, "Properly handled missing credentials")
+        
+        # Test invalid broker type
+        invalid_request = {
+            "broker": "invalid_broker",
+            "state": "test_state_789"
+        }
+        
+        success, response = self.run_test(
+            "Invalid Broker Type",
+            "POST",
+            "/api/trading/auth/initiate",
+            400,  # Should return 400 for invalid broker
+            data=invalid_request,
+            headers=auth_headers
+        )
+        
+        if success:
+            self.log_test("Invalid Broker Handling", True, "Correctly rejected invalid broker type")
+
+    def test_oauth_callback(self):
+        """Test POST /api/trading/auth/callback endpoint"""
+        print("\n🔍 Testing OAuth Callback Endpoint...")
+        
+        if not self.auth_token:
+            self.log_test("OAuth Callback Setup", False, "No auth token available")
+            return
+        
+        auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
+        
+        # Test with mock callback data (will fail but should handle gracefully)
+        callback_request = {
+            "broker": "tradestation",
+            "code": "mock_auth_code_123",
+            "state": "test_state_123"
+        }
+        
+        success, response = self.run_test(
+            "OAuth Callback with Mock Data",
+            "POST",
+            "/api/trading/auth/callback",
+            400,  # Expected to fail with mock data
+            data=callback_request,
+            headers=auth_headers
+        )
+        
+        if success:
+            self.log_test("OAuth Callback Error Handling", True, "Properly handled invalid callback data")
+        
+        # Test missing required fields
+        incomplete_request = {
+            "broker": "tradestation"
+            # Missing code and state
+        }
+        
+        success, response = self.run_test(
+            "OAuth Callback Missing Fields",
+            "POST",
+            "/api/trading/auth/callback",
+            422,  # Should return 422 for validation error
+            data=incomplete_request,
+            headers=auth_headers
+        )
+        
+        if success:
+            self.log_test("OAuth Callback Validation", True, "Correctly validated required fields")
+
+    def test_broker_connections(self):
+        """Test GET /api/trading/connections endpoint"""
+        print("\n🔍 Testing Broker Connections Endpoint...")
+        
+        if not self.auth_token:
+            self.log_test("Broker Connections Setup", False, "No auth token available")
+            return
+        
+        auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
+        
+        success, response = self.run_test(
+            "Get Broker Connections",
+            "GET",
+            "/api/trading/connections",
+            200,
+            headers=auth_headers
+        )
+        
+        if success and response:
+            connections = response.get("connections", [])
+            total_count = response.get("total_count", 0)
+            
+            self.log_test("Connections Response Structure", "connections" in response and "total_count" in response, 
+                         f"Found {total_count} connections")
+            
+            # For new user, should have 0 connections
+            self.log_test("Initial Connections Count", total_count == 0, 
+                         f"Expected 0 connections for new user, got {total_count}")
+            
+            if connections:
+                # If there are connections, verify structure
+                connection = connections[0]
+                required_fields = ["id", "broker", "broker_name", "connection_name", "is_active", "created_at"]
+                missing_fields = [field for field in required_fields if field not in connection]
+                
+                if missing_fields:
+                    self.log_test("Connection Structure", False, f"Missing fields: {missing_fields}")
+                else:
+                    self.log_test("Connection Structure", True, "All required fields present")
+
+    def test_trading_accounts(self):
+        """Test GET /api/trading/accounts endpoint"""
+        print("\n🔍 Testing Trading Accounts Endpoint...")
+        
+        if not self.auth_token:
+            self.log_test("Trading Accounts Setup", False, "No auth token available")
+            return
+        
+        auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
+        
+        success, response = self.run_test(
+            "Get Trading Accounts",
+            "GET",
+            "/api/trading/accounts",
+            200,
+            headers=auth_headers
+        )
+        
+        if success and response:
+            accounts = response.get("accounts", [])
+            total_count = response.get("total_count", 0)
+            
+            self.log_test("Accounts Response Structure", "accounts" in response and "total_count" in response, 
+                         f"Found {total_count} accounts")
+            
+            # For new user without broker connections, should have 0 accounts
+            self.log_test("Initial Accounts Count", total_count == 0, 
+                         f"Expected 0 accounts for user without connections, got {total_count}")
+            
+            if accounts:
+                # If there are accounts, verify structure
+                account = accounts[0]
+                required_fields = ["id", "account_id", "account_name", "broker", "account_type", "currency", "status"]
+                missing_fields = [field for field in required_fields if field not in account]
+                
+                if missing_fields:
+                    self.log_test("Account Structure", False, f"Missing fields: {missing_fields}")
+                else:
+                    self.log_test("Account Structure", True, "All required fields present")
+        
+        # Test with broker filter
+        success, response = self.run_test(
+            "Get Trading Accounts with Broker Filter",
+            "GET",
+            "/api/trading/accounts",
+            200,
+            params={"broker": "tradestation"},
+            headers=auth_headers
+        )
+        
+        if success:
+            self.log_test("Accounts Broker Filter", True, "Broker filter parameter accepted")
+
+    def test_trading_orders_get(self):
+        """Test GET /api/trading/orders endpoint"""
+        print("\n🔍 Testing Get Trading Orders Endpoint...")
+        
+        if not self.auth_token:
+            self.log_test("Trading Orders Setup", False, "No auth token available")
+            return
+        
+        auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
+        
+        success, response = self.run_test(
+            "Get Trading Orders",
+            "GET",
+            "/api/trading/orders",
+            200,
+            headers=auth_headers
+        )
+        
+        if success and response:
+            orders = response.get("orders", [])
+            total_count = response.get("total_count", 0)
+            
+            self.log_test("Orders Response Structure", "orders" in response and "total_count" in response, 
+                         f"Found {total_count} orders")
+            
+            # For new user, should have 0 orders
+            self.log_test("Initial Orders Count", total_count == 0, 
+                         f"Expected 0 orders for new user, got {total_count}")
+            
+            if orders:
+                # If there are orders, verify structure
+                order = orders[0]
+                required_fields = ["id", "platform_order_id", "symbol", "action", "quantity", "order_type", "status"]
+                missing_fields = [field for field in required_fields if field not in order]
+                
+                if missing_fields:
+                    self.log_test("Order Structure", False, f"Missing fields: {missing_fields}")
+                else:
+                    self.log_test("Order Structure", True, "All required fields present")
+        
+        # Test with filters
+        success, response = self.run_test(
+            "Get Trading Orders with Filters",
+            "GET",
+            "/api/trading/orders",
+            200,
+            params={"broker": "tradestation", "limit": 10},
+            headers=auth_headers
+        )
+        
+        if success:
+            self.log_test("Orders Filter Parameters", True, "Filter parameters accepted")
+
+    def test_place_trading_order(self):
+        """Test POST /api/trading/orders endpoint"""
+        print("\n🔍 Testing Place Trading Order Endpoint...")
+        
+        if not self.auth_token:
+            self.log_test("Place Order Setup", False, "No auth token available")
+            return
+        
+        auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
+        
+        # Test order placement (will fail due to no broker connection)
+        order_request = {
+            "broker": "tradestation",
+            "account_id": "test_account_123",
+            "symbol": "AAPL",
+            "action": "BUY",
+            "quantity": 100,
+            "order_type": "MARKET",
+            "time_in_force": "DAY"
+        }
+        
+        success, response = self.run_test(
+            "Place Trading Order",
+            "POST",
+            "/api/trading/orders",
+            404,  # Expected to fail - no trading account found
+            data=order_request,
+            headers=auth_headers
+        )
+        
+        if success:
+            self.log_test("Order Placement Error Handling", True, "Correctly handled missing trading account")
+        
+        # Test invalid order parameters
+        invalid_order = {
+            "broker": "tradestation",
+            "account_id": "test_account_123",
+            "symbol": "AAPL",
+            "action": "INVALID_ACTION",  # Invalid action
+            "quantity": -10,  # Invalid quantity
+            "order_type": "MARKET"
+        }
+        
+        success, response = self.run_test(
+            "Place Order with Invalid Parameters",
+            "POST",
+            "/api/trading/orders",
+            400,  # Should return 400 for invalid parameters
+            data=invalid_order,
+            headers=auth_headers
+        )
+        
+        if success:
+            self.log_test("Order Parameter Validation", True, "Correctly validated order parameters")
+        
+        # Test missing required fields
+        incomplete_order = {
+            "broker": "tradestation",
+            "symbol": "AAPL"
+            # Missing required fields
+        }
+        
+        success, response = self.run_test(
+            "Place Order Missing Fields",
+            "POST",
+            "/api/trading/orders",
+            422,  # Should return 422 for validation error
+            data=incomplete_order,
+            headers=auth_headers
+        )
+        
+        if success:
+            self.log_test("Order Required Fields Validation", True, "Correctly validated required fields")
+
+    def test_trading_configurations_get(self):
+        """Test GET /api/trading/configurations endpoint"""
+        print("\n🔍 Testing Get Trading Configurations Endpoint...")
+        
+        if not self.auth_token:
+            self.log_test("Trading Configurations Setup", False, "No auth token available")
+            return
+        
+        auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
+        
+        success, response = self.run_test(
+            "Get Trading Configurations",
+            "GET",
+            "/api/trading/configurations",
+            200,
+            headers=auth_headers
+        )
+        
+        if success and response:
+            configurations = response.get("configurations", [])
+            total_count = response.get("total_count", 0)
+            
+            self.log_test("Configurations Response Structure", "configurations" in response and "total_count" in response, 
+                         f"Found {total_count} configurations")
+            
+            # For new user, should have 0 configurations
+            self.log_test("Initial Configurations Count", total_count == 0, 
+                         f"Expected 0 configurations for new user, got {total_count}")
+            
+            if configurations:
+                # If there are configurations, verify structure
+                config = configurations[0]
+                required_fields = ["id", "strategy_id", "broker", "account_name", "is_live", "created_at"]
+                missing_fields = [field for field in required_fields if field not in config]
+                
+                if missing_fields:
+                    self.log_test("Configuration Structure", False, f"Missing fields: {missing_fields}")
+                else:
+                    self.log_test("Configuration Structure", True, "All required fields present")
+
+    def test_create_trading_configuration(self):
+        """Test POST /api/trading/configurations endpoint"""
+        print("\n🔍 Testing Create Trading Configuration Endpoint...")
+        
+        if not self.auth_token:
+            self.log_test("Create Configuration Setup", False, "No auth token available")
+            return
+        
+        auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
+        
+        # Test configuration creation (will fail due to no broker connection)
+        config_request = {
+            "strategy_id": "test_strategy_123",
+            "broker": "tradestation",
+            "account_id": "test_account_123",
+            "default_order_type": "MARKET",
+            "default_quantity": 100,
+            "configuration_name": "Test Configuration"
+        }
+        
+        success, response = self.run_test(
+            "Create Trading Configuration",
+            "POST",
+            "/api/trading/configurations",
+            404,  # Expected to fail - no trading account found
+            data=config_request,
+            headers=auth_headers
+        )
+        
+        if success:
+            self.log_test("Configuration Creation Error Handling", True, "Correctly handled missing trading account")
+        
+        # Test missing required fields
+        incomplete_config = {
+            "strategy_id": "test_strategy_123"
+            # Missing required fields
+        }
+        
+        success, response = self.run_test(
+            "Create Configuration Missing Fields",
+            "POST",
+            "/api/trading/configurations",
+            422,  # Should return 422 for validation error
+            data=incomplete_config,
+            headers=auth_headers
+        )
+        
+        if success:
+            self.log_test("Configuration Required Fields Validation", True, "Correctly validated required fields")
+
+    def test_toggle_live_trading(self):
+        """Test PUT /api/trading/configurations/{config_id}/live endpoint"""
+        print("\n🔍 Testing Toggle Live Trading Endpoint...")
+        
+        if not self.auth_token:
+            self.log_test("Toggle Live Trading Setup", False, "No auth token available")
+            return
+        
+        auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
+        
+        # Test with non-existent configuration ID
+        test_config_id = "non_existent_config_123"
+        
+        success, response = self.run_test(
+            "Toggle Live Trading - Non-existent Config",
+            "PUT",
+            f"/api/trading/configurations/{test_config_id}/live",
+            404,  # Should return 404 for non-existent configuration
+            headers=auth_headers
+        )
+        
+        if success:
+            self.log_test("Live Trading Toggle Error Handling", True, "Correctly handled non-existent configuration")
+
+    def test_authentication_required(self):
+        """Test that trading endpoints require authentication"""
+        print("\n🔍 Testing Authentication Requirements...")
+        
+        # Test endpoints without authentication token
+        endpoints_to_test = [
+            ("GET", "/api/trading/connections"),
+            ("GET", "/api/trading/accounts"),
+            ("GET", "/api/trading/orders"),
+            ("POST", "/api/trading/orders"),
+            ("GET", "/api/trading/configurations"),
+            ("POST", "/api/trading/configurations"),
+        ]
+        
+        for method, endpoint in endpoints_to_test:
+            success, response = self.run_test(
+                f"Unauthenticated {method} {endpoint}",
+                method,
+                endpoint,
+                401,  # Should return 401 for unauthenticated requests
+                data={"test": "data"} if method == "POST" else None
+            )
+            
+            if success:
+                self.log_test(f"Authentication Required - {endpoint}", True, "Correctly required authentication")
+
+    def test_database_operations(self):
+        """Test database operations for trading models"""
+        print("\n🔍 Testing Database Operations...")
+        
+        # Test that the trading endpoints are properly connected to database
+        # This is implicitly tested through the other endpoint tests
+        
+        # Test system health to ensure database is working
+        success, response = self.run_test(
+            "Database Health for Trading",
+            "GET",
+            "/api/system/health",
+            200
+        )
+        
+        if success and response:
+            databases = response.get("databases", {})
+            mongodb_status = databases.get("mongodb", False)
+            sql_status = databases.get("sql", False)
+            
+            self.log_test("MongoDB for Trading Data", mongodb_status, f"MongoDB status: {mongodb_status}")
+            self.log_test("SQL Database for Trading Models", sql_status, f"SQL DB status: {sql_status}")
+            
+            # Both databases should be healthy for trading functionality
+            both_healthy = mongodb_status and sql_status
+            self.log_test("Database Health for Trading", both_healthy, 
+                         f"Both databases required for trading: {both_healthy}")
+
+    def run_all_trading_tests(self):
+        """Run all trading integration tests"""
+        print("🚀 Starting Trading Integration Tests")
+        print(f"🎯 Testing against: {self.base_url}")
+        print("=" * 70)
+        
+        # Setup authentication first
+        if not self.setup_authentication():
+            print("❌ Authentication setup failed - skipping protected endpoint tests")
+            return False
+        
+        # Run all test suites
+        self.test_available_brokers()
+        self.test_oauth_initiation()
+        self.test_oauth_callback()
+        self.test_broker_connections()
+        self.test_trading_accounts()
+        self.test_trading_orders_get()
+        self.test_place_trading_order()
+        self.test_trading_configurations_get()
+        self.test_create_trading_configuration()
+        self.test_toggle_live_trading()
+        self.test_authentication_required()
+        self.test_database_operations()
+        
+        # Print summary
+        print("\n" + "=" * 70)
+        print("📊 TRADING INTEGRATION TEST SUMMARY")
+        print("=" * 70)
+        print(f"Total Tests: {self.tests_run}")
+        print(f"Passed: {self.tests_passed}")
+        print(f"Failed: {self.tests_run - self.tests_passed}")
+        print(f"Success Rate: {(self.tests_passed/self.tests_run*100):.1f}%" if self.tests_run > 0 else "0%")
+        
+        # List failed tests
+        failed_tests = [test for test in self.test_results if not test["success"]]
+        if failed_tests:
+            print("\n❌ FAILED TESTS:")
+            for test in failed_tests:
+                print(f"  - {test['name']}: {test['message']}")
+        else:
+            print("\n🎉 ALL TRADING TESTS PASSED!")
+        
+        return self.tests_passed == self.tests_run
+
+
 class Phase1AuthBillingTester:
     def __init__(self, base_url="https://altai-trader.preview.emergentagent.com"):
         self.base_url = base_url
