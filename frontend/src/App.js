@@ -631,14 +631,30 @@ metadata = {
   };
 
   const toggleLiveTrading = async (strategyName) => {
+    // Check if strategy has trading configuration
+    const config = tradingConfigurations.find(c => c.strategy_id === strategyName);
+    
+    if (!config && !liveStrategies.find(s => s.name === strategyName)) {
+      // No trading configuration - show trading setup dialog
+      setSelectedStrategyForTrading(strategyName);
+      setShowTradingDialog(true);
+      return;
+    }
+    
     const existingStrategy = liveStrategies.find(s => s.name === strategyName);
     
     if (existingStrategy) {
       // Stop live trading
+      if (config) {
+        await toggleConfigurationLive(config.id, false);
+      }
       setLiveStrategies(prev => prev.filter(s => s.name !== strategyName));
       setLiveTabs(prev => prev.filter(tab => tab !== strategyName));
     } else {
       // Start live trading
+      if (config) {
+        await toggleConfigurationLive(config.id, true);
+      }
       const newStrategy = {
         name: strategyName,
         startTime: new Date(),
@@ -648,6 +664,191 @@ metadata = {
       setLiveTabs(prev => [...prev, strategyName]);
     }
   };
+
+  // Trading Integration Functions
+  const loadTradingData = async () => {
+    try {
+      const token = localStorage.getItem('access_token');
+      if (!token) return;
+
+      const [brokersResponse, connectionsResponse, accountsResponse, configurationsResponse] = await Promise.all([
+        fetch(`${BACKEND_URL}/api/trading/brokers`),
+        fetch(`${BACKEND_URL}/api/trading/connections`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        }),
+        fetch(`${BACKEND_URL}/api/trading/accounts`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        }),
+        fetch(`${BACKEND_URL}/api/trading/configurations`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        })
+      ]);
+
+      if (brokersResponse.ok) {
+        const brokersData = await brokersResponse.json();
+        setAvailableBrokers(Object.values(brokersData.brokers || {}));
+      }
+
+      if (connectionsResponse.ok) {
+        const connectionsData = await connectionsResponse.json();
+        setBrokerConnections(connectionsData.connections || []);
+      }
+
+      if (accountsResponse.ok) {
+        const accountsData = await accountsResponse.json();
+        setTradingAccounts(accountsData.accounts || []);
+      }
+
+      if (configurationsResponse.ok) {
+        const configurationsData = await configurationsResponse.json();
+        setTradingConfigurations(configurationsData.configurations || []);
+      }
+    } catch (error) {
+      console.error('Error loading trading data:', error);
+    }
+  };
+
+  const initiateOAuth = async (brokerType) => {
+    try {
+      setAuthInProgress(true);
+      const token = localStorage.getItem('access_token');
+      
+      const response = await fetch(`${BACKEND_URL}/api/trading/auth/initiate`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ broker: brokerType })
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        // Store state in localStorage for callback verification
+        localStorage.setItem('oauth_state', data.state);
+        localStorage.setItem('oauth_broker', brokerType);
+        
+        // Show IBKR-specific instructions if needed
+        if (data.registration_required) {
+          alert(
+            `IBKR Registration Required:\n\n${data.instructions}\n\nPublic Key:\n${data.public_key}\n\nAfter registration, you'll be redirected to complete the OAuth flow.`
+          );
+        }
+        
+        // Redirect to broker's OAuth page
+        window.location.href = data.authorization_url;
+      } else {
+        setError(data.detail || 'Failed to initiate OAuth');
+      }
+    } catch (error) {
+      setError(`OAuth initiation failed: ${error.message}`);
+    } finally {
+      setAuthInProgress(false);
+    }
+  };
+
+  const handleOAuthCallback = async (code, state, broker) => {
+    try {
+      const token = localStorage.getItem('access_token');
+      
+      const response = await fetch(`${BACKEND_URL}/api/trading/auth/callback`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ broker, code, state })
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        setSuccess(`${broker} connected successfully!`);
+        await loadTradingData(); // Refresh trading data
+        setShowBrokerAuth(false);
+      } else {
+        setError(data.detail || 'OAuth callback failed');
+      }
+    } catch (error) {
+      setError(`OAuth callback failed: ${error.message}`);
+    }
+  };
+
+  const createTradingConfiguration = async (configData) => {
+    try {
+      const token = localStorage.getItem('access_token');
+      
+      const response = await fetch(`${BACKEND_URL}/api/trading/configurations`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(configData)
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        setSuccess('Trading configuration created successfully!');
+        await loadTradingData(); // Refresh configurations
+        setShowTradingDialog(false);
+        return data;
+      } else {
+        setError(data.detail || 'Failed to create trading configuration');
+        return null;
+      }
+    } catch (error) {
+      setError(`Configuration creation failed: ${error.message}`);
+      return null;
+    }
+  };
+
+  const toggleConfigurationLive = async (configId, isLive) => {
+    try {
+      const token = localStorage.getItem('access_token');
+      
+      const response = await fetch(`${BACKEND_URL}/api/trading/configurations/${configId}/live?is_live=${isLive}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        await loadTradingData(); // Refresh configurations
+        return data;
+      } else {
+        setError(data.detail || 'Failed to update trading configuration');
+        return null;
+      }
+    } catch (error) {
+      setError(`Configuration update failed: ${error.message}`);
+      return null;
+    }
+  };
+
+  // Check for OAuth callback on page load
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    const state = urlParams.get('state');
+    const storedState = localStorage.getItem('oauth_state');
+    const storedBroker = localStorage.getItem('oauth_broker');
+
+    if (code && state && storedState === state && storedBroker) {
+      handleOAuthCallback(code, state, storedBroker);
+      
+      // Clean up localStorage and URL
+      localStorage.removeItem('oauth_state');
+      localStorage.removeItem('oauth_broker');
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
 
   const formatRuntime = (startTime) => {
     const now = new Date();
