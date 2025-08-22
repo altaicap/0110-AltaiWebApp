@@ -2276,6 +2276,76 @@ metadata = {
                 </div>
               </div>
 
+              {/* Notification Bell */}
+              <div className="relative">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="relative"
+                  onClick={() => setShowNotificationPanel(!showNotificationPanel)}
+                >
+                  <Bell className="w-4 h-4" />
+                  {unreadNotifications > 0 && (
+                    <Badge 
+                      variant="destructive" 
+                      className="absolute -top-2 -right-2 w-5 h-5 p-0 flex items-center justify-center text-xs"
+                    >
+                      {unreadNotifications}
+                    </Badge>
+                  )}
+                </Button>
+                
+                {/* Notification Dropdown */}
+                {showNotificationPanel && (
+                  <div className="absolute right-0 top-full mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                    <div className="p-4 border-b">
+                      <h3 className="font-semibold">Notifications</h3>
+                      {unreadNotifications > 0 && (
+                        <p className="text-sm text-gray-600">{unreadNotifications} unread</p>
+                      )}
+                    </div>
+                    <ScrollArea className="max-h-96">
+                      {notifications.length > 0 ? (
+                        <div className="p-2">
+                          {notifications.slice(0, 10).map((notification) => (
+                            <div 
+                              key={notification.id}
+                              className={`p-3 rounded mb-2 cursor-pointer hover:bg-gray-50 ${!notification.is_read ? 'bg-blue-50 border-l-4 border-blue-500' : ''}`}
+                              onClick={() => markNotificationAsRead(notification.id)}
+                            >
+                              <div className="flex items-start justify-between">
+                                <div className="flex-1">
+                                  <h4 className="text-sm font-medium">{notification.title}</h4>
+                                  <p className="text-xs text-gray-600 mt-1">{notification.message}</p>
+                                  <p className="text-xs text-gray-400 mt-2">
+                                    {format(new Date(notification.created_at), "MMM dd, HH:mm")}
+                                  </p>
+                                </div>
+                                <Badge 
+                                  variant="outline" 
+                                  className={`ml-2 text-xs ${
+                                    notification.notification_type === 'billing' ? 'border-green-500 text-green-600' :
+                                    notification.notification_type === 'trade' ? 'border-blue-500 text-blue-600' :
+                                    'border-gray-500 text-gray-600'
+                                  }`}
+                                >
+                                  {notification.notification_type}
+                                </Badge>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="p-8 text-center text-gray-500">
+                          <Bell className="w-8 h-8 mx-auto mb-2 text-gray-300" />
+                          <p>No notifications</p>
+                        </div>
+                      )}
+                    </ScrollArea>
+                  </div>
+                )}
+              </div>
+
               {/* User Selector */}
               <div className="ml-4">
                 <DropdownMenu>
@@ -2287,6 +2357,15 @@ metadata = {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem onClick={() => console.log('Navigate to My Account')}>
+                      <Settings2 className="w-4 h-4 mr-2" />
+                      My Account
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => console.log('Navigate to Billing')}>
+                      <CreditCard className="w-4 h-4 mr-2" />
+                      Billing
+                    </DropdownMenuItem>
+                    <Separator className="my-1" />
                     {users.map((user) => (
                       <DropdownMenuItem 
                         key={user}
@@ -2308,6 +2387,11 @@ metadata = {
                     >
                       <Trash2 className="w-4 h-4 mr-2" />
                       Delete User
+                    </DropdownMenuItem>
+                    <Separator className="my-1" />
+                    <DropdownMenuItem onClick={() => console.log('Logout')} className="text-red-600">
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Logout
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
