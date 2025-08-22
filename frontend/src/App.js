@@ -1604,40 +1604,68 @@ metadata = {
 
         {/* Trading Configuration Dialog */}
         {showTradingDialog && selectedStrategyForTrading && (
-          <TradingConfigurationDialog 
-            strategyName={selectedStrategyForTrading}
-            onClose={() => {
-              setShowTradingDialog(false);
-              setSelectedStrategyForTrading(null);
-            }}
-            onConfigured={async (config) => {
-              await createTradingConfiguration(config);
-              // Auto-start live trading after configuration
-              const newStrategy = {
-                name: selectedStrategyForTrading,
-                startTime: new Date(),
-                status: 'running'
-              };
-              setLiveStrategies(prev => [...prev, newStrategy]);
-              setLiveTabs(prev => [...prev, selectedStrategyForTrading]);
-            }}
-          />
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <Card className="w-[600px] max-h-[80vh] overflow-y-auto">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Settings className="w-5 h-5" />
+                  Configure Live Trading - {selectedStrategyForTrading}
+                </CardTitle>
+                <CardDescription>
+                  Set up broker connection and trading parameters for this strategy
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <TradingConfigForm 
+                  strategyName={selectedStrategyForTrading}
+                  onSubmit={async (config) => {
+                    await createTradingConfiguration(config);
+                    // Auto-start live trading after configuration
+                    const newStrategy = {
+                      name: selectedStrategyForTrading,
+                      startTime: new Date(),
+                      status: 'running'
+                    };
+                    setLiveStrategies(prev => [...prev, newStrategy]);
+                    setLiveTabs(prev => [...prev, selectedStrategyForTrading]);
+                  }}
+                  onCancel={() => {
+                    setShowTradingDialog(false);
+                    setSelectedStrategyForTrading(null);
+                  }}
+                />
+              </CardContent>
+            </Card>
+          </div>
         )}
 
         {/* Broker Authentication Dialog */}
         {showBrokerAuth && (
-          <BrokerAuthDialog 
-            broker={authBroker}
-            onClose={() => {
-              setShowBrokerAuth(false);
-              setAuthBroker('');
-            }}
-            onAuthenticated={() => {
-              setShowBrokerAuth(false);
-              setAuthBroker('');
-              loadTradingData();
-            }}
-          />
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <Card className="w-[500px]">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Link className="w-5 h-5" />
+                  Connect {availableBrokers.find(b => b.type === authBroker)?.name || authBroker}
+                </CardTitle>
+                <CardDescription>
+                  {availableBrokers.find(b => b.type === authBroker)?.description || `Connect your ${authBroker} account for live trading`}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <BrokerAuthForm 
+                  broker={authBroker}
+                  brokerInfo={availableBrokers.find(b => b.type === authBroker)}
+                  onConnect={() => initiateOAuth(authBroker)}
+                  onCancel={() => {
+                    setShowBrokerAuth(false);
+                    setAuthBroker('');
+                  }}
+                  isConnecting={authInProgress}
+                />
+              </CardContent>
+            </Card>
+          </div>
         )}
       </div>
     );
