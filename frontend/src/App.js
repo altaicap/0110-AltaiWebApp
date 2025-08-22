@@ -1608,38 +1608,6 @@ metadata = {
             </div>
           </CardContent>
         </Card>
-                          <div className="space-y-3">
-                            <div className="flex items-center justify-between text-sm">
-                              <span className="text-gray-600">Strategy Status:</span>
-                              <Badge variant="default" className="bg-green-500">
-                                LIVE - {formatRuntime(liveStrategy.startTime)}
-                              </Badge>
-                            </div>
-                            <div className="border rounded-lg p-4 bg-gray-50">
-                              <div className="space-y-2">
-                                <div className="text-sm font-medium text-gray-700">Recent Activity</div>
-                                <div className="text-xs text-gray-500 space-y-1">
-                                  <p>• Strategy started at {liveStrategy.startTime.toLocaleString()}</p>
-                                  <p>• Monitoring market conditions...</p>
-                                  <p>• Orders and fills will appear here as the strategy executes</p>
-                                  <p>• Entry signals, stop losses, and take profits will be logged</p>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="text-center text-xs text-gray-400 py-4">
-                              <Clock className="w-4 h-4 mx-auto mb-2" />
-                              Waiting for trade signals...
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
 
         {/* New Strategy Form */}
         {selectedStrategy === 'new' && (
