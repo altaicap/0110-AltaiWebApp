@@ -1588,7 +1588,7 @@ class Feedback80Tester:
             "POST",
             "/api/settings/test-connection",
             200,
-            data={"service": "newsware"}
+            params={"service": "newsware"}
         )
         
         if success and response:
