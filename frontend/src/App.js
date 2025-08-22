@@ -905,8 +905,8 @@ metadata = {
   // Settings Tab Component
   const SettingsTab = () => (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold mb-4">Settings</h2>
+      <div className="tab-header-enhanced">
+        <h2 className="text-2xl font-bold mb-4">SETTINGS</h2>
         <p className="text-gray-600 mb-6">Configure API connections and application preferences</p>
       </div>
 
