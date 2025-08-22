@@ -133,7 +133,8 @@ function App() {
     polygon: 'connected',
     newsware: 'connected', 
     tradestation: 'disconnected',
-    tradexchange: 'disconnected'
+    tradexchange: 'disconnected',
+    ibkr: 'disconnected'
   });
   const [apiKeys, setApiKeys] = useState({
     polygon: 'pVHWgdhIGxKg68dAyh5tVKBVLZGjFMfD',
