@@ -2636,7 +2636,7 @@ metadata = {
         </Card>
 
         {/* Chart Panel */}
-        <Card className={`relative ${fullScreenPane === 'chart-panel' ? 'fixed inset-4 top-20 z-50' : ''}`}>
+        <Card className={`relative pane-enhanced ${fullScreenPane === 'chart-panel' ? 'fixed inset-4 top-20 z-50' : ''}`}>
           <FullScreenButton paneId="chart-panel" />
           <CardHeader>
             <div className="flex items-center justify-between mb-4">
