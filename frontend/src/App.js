@@ -1601,6 +1601,44 @@ metadata = {
             </Card>
           </div>
         )}
+
+        {/* Trading Configuration Dialog */}
+        {showTradingDialog && selectedStrategyForTrading && (
+          <TradingConfigurationDialog 
+            strategyName={selectedStrategyForTrading}
+            onClose={() => {
+              setShowTradingDialog(false);
+              setSelectedStrategyForTrading(null);
+            }}
+            onConfigured={async (config) => {
+              await createTradingConfiguration(config);
+              // Auto-start live trading after configuration
+              const newStrategy = {
+                name: selectedStrategyForTrading,
+                startTime: new Date(),
+                status: 'running'
+              };
+              setLiveStrategies(prev => [...prev, newStrategy]);
+              setLiveTabs(prev => [...prev, selectedStrategyForTrading]);
+            }}
+          />
+        )}
+
+        {/* Broker Authentication Dialog */}
+        {showBrokerAuth && (
+          <BrokerAuthDialog 
+            broker={authBroker}
+            onClose={() => {
+              setShowBrokerAuth(false);
+              setAuthBroker('');
+            }}
+            onAuthenticated={() => {
+              setShowBrokerAuth(false);
+              setAuthBroker('');
+              loadTradingData();
+            }}
+          />
+        )}
       </div>
     );
   };
