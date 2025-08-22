@@ -177,6 +177,16 @@ function App() {
   const [authBroker, setAuthBroker] = useState('');
   const [authInProgress, setAuthInProgress] = useState(false);
 
+  // Feedback 7.0 New State Variables
+  const [showAccountSettings, setShowAccountSettings] = useState(false);
+  const [configuredStrategies, setConfiguredStrategies] = useState([]);
+  const [uploadedStrategies, setUploadedStrategies] = useState([]);
+  const [strategyVisualizationSettings, setStrategyVisualizationSettings] = useState({
+    dateRange: { start: null, end: null },
+    timeframe: '1-minute',
+    ticker: 'AAPL'
+  });
+
   useEffect(() => {
     loadInitialData();
     loadPriorBarBreakAlgo();
