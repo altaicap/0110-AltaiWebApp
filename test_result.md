@@ -424,7 +424,11 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
 
 ## test_plan:
   current_focus:
-    - "TradeXchange Webhook Integration"
+    - "Phase 1 Authentication System"
+    - "Phase 1 Billing System"
+    - "Phase 1 Notifications System"
+    - "Phase 1 System Health Monitoring"
+    - "Phase 1 Database Initialization"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
