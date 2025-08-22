@@ -1398,10 +1398,39 @@ class Phase1AuthBillingTester:
 
 def main():
     """Main test runner"""
-    tester = Phase1AuthBillingTester()
-    success = tester.run_all_tests()
+    print("🚀 COMPREHENSIVE BACKEND TESTING SUITE")
+    print("=" * 70)
     
-    return 0 if success else 1
+    # Run Phase 1 Authentication and Billing Tests
+    print("\n📋 PHASE 1: Authentication and Billing System Tests")
+    auth_tester = Phase1AuthBillingTester()
+    auth_success = auth_tester.run_all_tests()
+    
+    # Run Trading Integration Tests
+    print("\n📋 PHASE 2: Trading Integration Tests")
+    trading_tester = TradingIntegrationTester()
+    trading_success = trading_tester.run_all_trading_tests()
+    
+    # Overall summary
+    print("\n" + "=" * 70)
+    print("🎯 OVERALL TEST SUMMARY")
+    print("=" * 70)
+    
+    total_tests = auth_tester.tests_run + trading_tester.tests_run
+    total_passed = auth_tester.tests_passed + trading_tester.tests_passed
+    
+    print(f"Phase 1 (Auth/Billing): {auth_tester.tests_passed}/{auth_tester.tests_run} passed")
+    print(f"Phase 2 (Trading): {trading_tester.tests_passed}/{trading_tester.tests_run} passed")
+    print(f"Overall: {total_passed}/{total_tests} passed ({(total_passed/total_tests*100):.1f}%)" if total_tests > 0 else "No tests run")
+    
+    overall_success = auth_success and trading_success
+    
+    if overall_success:
+        print("\n🎉 ALL TESTS PASSED - BACKEND IS READY!")
+    else:
+        print("\n⚠️  SOME TESTS FAILED - REVIEW RESULTS ABOVE")
+    
+    return 0 if overall_success else 1
 
 if __name__ == "__main__":
     sys.exit(main())
