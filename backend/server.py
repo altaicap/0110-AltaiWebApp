@@ -122,14 +122,26 @@ async def lifespan(app: FastAPI):
     # Startup
     logger.info(f"Starting Altai Trader API (Production Mode: {PRODUCTION_MODE})")
     
-    # Initialize database
+    # Initialize databases (MongoDB + SQLite/PostgreSQL)
+    try:
+        await db_manager.initialize_databases()
+        logger.info("All databases initialized successfully")
+        
+        # Create default users for authentication
+        await create_default_users()
+        logger.info("Default users created/verified")
+        
+    except Exception as e:
+        logger.error(f"Database initialization failed: {e}")
+    
+    # Initialize MongoDB for existing functionality
     client = AsyncIOMotorClient(settings.mongo_url)
     db = client[settings.db_name]
     
     # Test database connection
     try:
         await client.admin.command('ping')
-        logger.info("Database connected successfully")
+        logger.info("MongoDB connected successfully")
         
         # Create indexes
         await create_database_indexes()
@@ -175,8 +187,11 @@ async def lifespan(app: FastAPI):
     if backtest_service and hasattr(backtest_service, 'cleanup'):
         backtest_service.cleanup()
         
+    # Close database connections
     if client:
         client.close()
+        
+    await db_manager.close_connections()
 
 
 async def create_database_indexes():
