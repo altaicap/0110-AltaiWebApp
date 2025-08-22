@@ -3146,8 +3146,7 @@ metadata = {
                         if (response.ok) {
                           setSuccess('Account settings updated successfully');
                           setShowAccountSettings(false);
-                          // Reload user data
-                          await loadUserData();
+                          // Reload user data if needed
                         } else {
                           const error = await response.json();
                           setError(error.detail || 'Failed to update account settings');
