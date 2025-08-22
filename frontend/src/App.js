@@ -57,6 +57,7 @@ import {
 } from 'lucide-react';
 import { format } from "date-fns";
 import AltaiLogo from './assets/altai-logo.svg';
+import AltaiLogoDark from './assets/altai-logo-dark.svg';
 import './App.css';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
