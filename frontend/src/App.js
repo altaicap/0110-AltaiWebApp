@@ -1380,28 +1380,33 @@ metadata = {
         </div>
 
         {/* Strategy List */}
-        <Card className={`relative ${fullScreenPane === 'strategies-list' ? 'fixed inset-4 top-20 z-50' : ''}`}>
+        <Card className={`relative pane-enhanced ${fullScreenPane === 'strategies-list' ? 'fixed inset-4 top-20 z-50' : ''}`}>
           <FullScreenButton paneId="strategies-list" />
           <CardContent className="p-6">
             <div className="grid gap-4">
-              {strategies.map((strategy) => {
-                const isLive = liveStrategies.some(ls => ls.name === strategy.name);
-                const liveStrategy = liveStrategies.find(ls => ls.name === strategy.name);
-                const logsExpanded = expandedLogs[strategy.name] || false;
+              {/* Render Configured Strategies First */}
+              {configuredStrategies.map((configStrategy) => {
+                const baseStrategy = strategies.find(s => s.id === configStrategy.base_strategy_id);
+                if (!baseStrategy) return null;
+                
+                const isLive = liveStrategies.some(ls => ls.name === baseStrategy.name);
+                const liveStrategy = liveStrategies.find(ls => ls.name === baseStrategy.name);
+                const logsExpanded = expandedLogs[baseStrategy.name] || false;
                 
                 return (
-                  <div key={strategy.id} className="space-y-2">
-                    <Card className="cursor-pointer hover:shadow-md transition-shadow">
+                  <div key={configStrategy.id} className="space-y-2">
+                    <Card className={`cursor-pointer hover:shadow-md transition-shadow strategy-configured`}>
                       <CardHeader>
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <div>
                               <CardTitle className="text-lg flex items-center gap-2">
-                                {strategy.name}
-                                {strategy.hasErrors && <ErrorNotification error="Strategy has code errors" />}
-                                {isLive && <Badge variant="default" className="bg-green-500">LIVE</Badge>}
+                                {baseStrategy.name}
+                                <Badge variant="default" className="bg-green-500">CONFIGURED</Badge>
+                                {baseStrategy.hasErrors && <ErrorNotification error="Strategy has code errors" />}
+                                {isLive && <Badge variant="default" className="bg-blue-500">LIVE</Badge>}
                               </CardTitle>
-                              <CardDescription>{strategy.description}</CardDescription>
+                              <CardDescription>{baseStrategy.description}</CardDescription>
                               {isLive && (
                                 <p className="text-xs text-green-600 mt-1">
                                   Runtime: {formatRuntime(liveStrategy.startTime)} - {liveStrategy.startTime.toLocaleString()}
@@ -1413,14 +1418,14 @@ metadata = {
                             <Button 
                               size="sm" 
                               variant="outline"
-                              onClick={() => handleEditStrategy(strategy)}
+                              onClick={() => handleEditStrategy(baseStrategy)}
                             >
                               <Edit className="w-4 h-4" />
                             </Button>
                             <Button 
                               size="sm" 
                               variant="outline"
-                              onClick={() => handleDeleteStrategy(strategy)}
+                              onClick={() => handleDeleteStrategy(baseStrategy)}
                             >
                               <Trash2 className="w-4 h-4" />
                             </Button>
@@ -1429,15 +1434,24 @@ metadata = {
                       </CardHeader>
                       <CardContent>
                         <div className="flex gap-2 items-center flex-wrap">
-                          <Button size="sm">
+                          <Button 
+                            size="sm"
+                            onClick={() => {
+                              // Load saved configuration in Backtest tab
+                              setActiveTab('backtest');
+                              setBacktestForm(configStrategy.configuration || {});
+                              setSuccess(`Loaded configuration for ${baseStrategy.name} in Backtest tab`);
+                            }}
+                          >
                             <BarChart3 className="w-4 h-4 mr-2" />
-                            Backtest
+                            Backtest (Load Config)
                           </Button>
+                          {/* Only configured strategies can have Live Trade button */}
                           {isLive ? (
                             <Button 
                               size="sm" 
                               variant="destructive"
-                              onClick={() => toggleLiveTrading(strategy.name)}
+                              onClick={() => toggleLiveTrading(baseStrategy.name)}
                             >
                               <StopCircle className="w-4 h-4 mr-2" />
                               Stop Live Trading ({formatRuntime(liveStrategy.startTime)} runtime)
@@ -1446,7 +1460,7 @@ metadata = {
                             <Button 
                               size="sm" 
                               className="bg-green-600 hover:bg-green-700"
-                              onClick={() => toggleLiveTrading(strategy.name)}
+                              onClick={() => toggleLiveTrading(baseStrategy.name)}
                             >
                               <PlayCircle className="w-4 h-4 mr-2" />
                               Live Trade
@@ -1457,7 +1471,7 @@ metadata = {
                               <Button 
                                 size="sm" 
                                 variant="outline"
-                                onClick={() => toggleLogExpansion(strategy.name)}
+                                onClick={() => toggleLogExpansion(baseStrategy.name)}
                               >
                                 <FileText className="w-4 h-4 mr-2" />
                                 {logsExpanded ? 'Hide' : 'Show'} Order Log
@@ -1470,14 +1484,128 @@ metadata = {
                             </>
                           )}
                         </div>
+                        
+                        {/* Configuration Details */}
+                        <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                          <div className="grid grid-cols-2 gap-2 text-sm">
+                            <div>
+                              <span className="font-medium text-gray-600">Broker:</span>
+                              <span className="ml-2">{configStrategy.broker_config?.broker || 'Not set'}</span>
+                            </div>
+                            <div>
+                              <span className="font-medium text-gray-600">Order Type:</span>
+                              <span className="ml-2">{configStrategy.trading_config?.default_order_type || 'Market'}</span>
+                            </div>
+                          </div>
+                        </div>
                       </CardContent>
                     </Card>
                     
-                    {/* Collapsible Order & Trade Log */}
+                    {/* Collapsible Order & Trade Log for Configured Strategies */}
                     {isLive && logsExpanded && (
                       <Card className="border-t-0 rounded-t-none">
                         <CardHeader>
-                          <CardTitle className="text-base">Order & Trade Log - {strategy.name}</CardTitle>
+                          <CardTitle className="text-base">Order & Trade Log - {baseStrategy.name}</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-2 max-h-48 overflow-y-auto">
+                            {tradeLog
+                              .filter(log => log.strategy === baseStrategy.name)
+                              .slice(0, 10)
+                              .map((log, idx) => (
+                                <div key={idx} className="flex justify-between items-center p-2 bg-gray-50 rounded text-sm">
+                                  <div className="flex items-center gap-2">
+                                    <Badge variant={log.side === 'BUY' ? 'default' : 'destructive'}>
+                                      {log.side}
+                                    </Badge>
+                                    <span className="font-medium">{log.symbol}</span>
+                                    <span>Qty: {log.quantity}</span>
+                                  </div>
+                                  <div className="text-right">
+                                    <div className="font-medium">${log.price?.toFixed(2)}</div>
+                                    <div className="text-gray-500 text-xs">{log.timestamp}</div>
+                                  </div>
+                                </div>
+                              ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+                  </div>
+                );
+              })}
+              
+              {/* Render Uploaded Strategies (not configured) */}
+              {strategies
+                .filter(strategy => !configuredStrategies.some(c => c.base_strategy_id === strategy.id))
+                .map((strategy) => {
+                  return (
+                    <div key={strategy.id} className="space-y-2">
+                      <Card className={`cursor-pointer hover:shadow-md transition-shadow strategy-uploaded`}>
+                        <CardHeader>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div>
+                                <CardTitle className="text-lg flex items-center gap-2">
+                                  {strategy.name}
+                                  <Badge variant="secondary">UPLOADED</Badge>
+                                  {strategy.hasErrors && <ErrorNotification error="Strategy has code errors" />}
+                                </CardTitle>
+                                <CardDescription>{strategy.description}</CardDescription>
+                                <p className="text-xs text-blue-600 mt-1">
+                                  Configure in Backtest tab to enable live trading
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex gap-2">
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => handleEditStrategy(strategy)}
+                              >
+                                <Edit className="w-4 h-4" />
+                              </Button>
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => handleDeleteStrategy(strategy)}
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="flex gap-2 items-center flex-wrap">
+                            <Button 
+                              size="sm"
+                              onClick={() => {
+                                // Open in Backtest tab
+                                setActiveTab('backtest');
+                                setBacktestForm(prev => ({ ...prev, strategy_name: strategy.name }));
+                                setSuccess(`Opened ${strategy.name} in Backtest tab for configuration`);
+                              }}
+                            >
+                              <BarChart3 className="w-4 h-4 mr-2" />
+                              Backtest & Configure
+                            </Button>
+                            {/* No Live Trade button for uploaded strategies */}
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              disabled
+                              title="Configure this strategy in the Backtest tab first"
+                            >
+                              <Settings className="w-4 h-4 mr-2" />
+                              Configure Required
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  );
+                })}
+            </div>
                           <CardDescription>Real-time trading activity for this strategy</CardDescription>
                         </CardHeader>
                         <CardContent>
