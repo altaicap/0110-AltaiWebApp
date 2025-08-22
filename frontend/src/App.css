@@ -655,3 +655,107 @@ body {
   max-width: 200px;
   text-align: center;
 }
+
+/* Feedback 7.0 Enhancements */
+
+/* Enhanced Tab Header Padding */
+.tab-header-enhanced {
+  padding: 1.5rem !important;
+  margin-bottom: 1rem !important;
+}
+
+[data-theme="dark"] .tab-header-enhanced {
+  padding: 2rem 1.5rem !important;
+}
+
+/* Enhanced Pane Corner Padding */
+.pane-enhanced {
+  padding: 1.5rem !important;
+  position: relative;
+}
+
+.pane-enhanced .absolute {
+  top: 1.25rem !important;
+  right: 1.25rem !important;
+}
+
+/* Enhanced Backtest Highlights Colors */
+.backtest-highlight-positive {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%) !important;
+  border: 2px solid #22c55e !important;
+  color: #15803d !important;
+}
+
+.backtest-highlight-negative {
+  background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%) !important;
+  border: 2px solid #ef4444 !important;
+  color: #dc2626 !important;
+}
+
+.backtest-highlight-neutral {
+  background: linear-gradient(135deg, #f0f9ff 0%, #dbeafe 100%) !important;
+  border: 2px solid #3b82f6 !important;
+  color: #1d4ed8 !important;
+}
+
+[data-theme="dark"] .backtest-highlight-positive {
+  background: linear-gradient(135deg, #14532d 0%, #166534 100%) !important;
+  border: 2px solid #22c55e !important;
+  color: #bbf7d0 !important;
+}
+
+[data-theme="dark"] .backtest-highlight-negative {
+  background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%) !important;
+  border: 2px solid #ef4444 !important;
+  color: #fecaca !important;
+}
+
+[data-theme="dark"] .backtest-highlight-neutral {
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%) !important;
+  border: 2px solid #3b82f6 !important;
+  color: #dbeafe !important;
+}
+
+/* Font Size Enhancement for Altai Trader Logo */
+[data-font-size="small"] .logo-text {
+  font-size: 1.25rem !important;
+}
+
+[data-font-size="medium"] .logo-text {
+  font-size: 1.5rem !important;
+}
+
+[data-font-size="large"] .logo-text {
+  font-size: 1.75rem !important;
+}
+
+[data-font-size="extra-large"] .logo-text {
+  font-size: 2rem !important;
+}
+
+/* News Feed Full Height Enhancement */
+.news-feed-full {
+  height: calc(100vh - 200px) !important;
+  min-height: 600px !important;
+}
+
+/* Strategy Type Differentiation */
+.strategy-uploaded {
+  border-left: 4px solid #3b82f6 !important;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+}
+
+.strategy-configured {
+  border-left: 4px solid #10b981 !important;
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%) !important;
+}
+
+[data-theme="dark"] .strategy-uploaded {
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%) !important;
+  border-left: 4px solid #60a5fa !important;
+}
+
+[data-theme="dark"] .strategy-configured {
+  background: linear-gradient(135deg, #064e3b 0%, #065f46 100%) !important;
+  border-left: 4px solid #34d399 !important;
+}
