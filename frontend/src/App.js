@@ -2421,44 +2421,44 @@ metadata = {
         <Card className={`relative ${fullScreenPane === 'backtest-highlights' ? 'fixed inset-4 top-20 z-50' : ''}`}>
           <FullScreenButton paneId="backtest-highlights" />
           <CardHeader>
-            <CardTitle className="pane-title">Backtest Highlights</CardTitle>
+            <CardTitle className="pane-title">BACKTEST HIGHLIGHTS</CardTitle>
             <CardDescription>Key performance metrics from latest backtest</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-4 gap-4 mb-4">
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-blue-600">0</div>
-                <div className="text-sm text-gray-600">Total Trades</div>
+              <div className="text-center p-4 backtest-highlight-neutral">
+                <div className="text-2xl font-bold">0</div>
+                <div className="text-sm font-medium">Total Trades</div>
               </div>
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-green-600">0</div>
-                <div className="text-sm text-gray-600">Winning Trades</div>
+              <div className="text-center p-4 backtest-highlight-positive">
+                <div className="text-2xl font-bold">0</div>
+                <div className="text-sm font-medium">Winning Trades</div>
               </div>
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-red-600">0</div>
-                <div className="text-sm text-gray-600">Losing Trades</div>
+              <div className="text-center p-4 backtest-highlight-negative">
+                <div className="text-2xl font-bold">0</div>
+                <div className="text-sm font-medium">Losing Trades</div>
               </div>
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-purple-600">0%</div>
-                <div className="text-sm text-gray-600">Win Percentage</div>
+              <div className="text-center p-4 backtest-highlight-neutral">
+                <div className="text-2xl font-bold">0%</div>
+                <div className="text-sm font-medium">Win Percentage</div>
               </div>
             </div>
             <div className="grid grid-cols-4 gap-4">
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-yellow-600">$0</div>
-                <div className="text-sm text-gray-600">Average PnL</div>
+              <div className="text-center p-4 backtest-highlight-neutral">
+                <div className="text-2xl font-bold">$0</div>
+                <div className="text-sm font-medium">Average PnL</div>
               </div>
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-green-600">$0</div>
-                <div className="text-sm text-gray-600">Avg Winning Trade</div>
+              <div className="text-center p-4 backtest-highlight-positive">
+                <div className="text-2xl font-bold">$0</div>
+                <div className="text-sm font-medium">Avg Winning Trade</div>
               </div>
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-red-600">$0</div>
-                <div className="text-sm text-gray-600">Avg Losing Trade</div>
+              <div className="text-center p-4 backtest-highlight-negative">
+                <div className="text-2xl font-bold">$0</div>
+                <div className="text-sm font-medium">Avg Losing Trade</div>
               </div>
-              <div className="text-center p-4 bg-gray-50 rounded-lg">
-                <div className="text-2xl font-bold text-blue-600">0%</div>
-                <div className="text-sm text-gray-600">ROI</div>
+              <div className="text-center p-4 backtest-highlight-positive">
+                <div className="text-2xl font-bold">0%</div>
+                <div className="text-sm font-medium">ROI</div>
               </div>
             </div>
           </CardContent>
