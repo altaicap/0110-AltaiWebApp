@@ -1107,78 +1107,127 @@ metadata = {
               {strategies.map((strategy) => {
                 const isLive = liveStrategies.some(ls => ls.name === strategy.name);
                 const liveStrategy = liveStrategies.find(ls => ls.name === strategy.name);
+                const logsExpanded = expandedLogs[strategy.name] || false;
                 
                 return (
-                  <Card key={strategy.id} className="cursor-pointer hover:shadow-md transition-shadow">
-                    <CardHeader>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div>
-                            <CardTitle className="text-lg flex items-center gap-2">
-                              {strategy.name}
-                              {strategy.hasErrors && <ErrorNotification error="Strategy has code errors" />}
-                              {isLive && <Badge variant="default" className="bg-green-500">LIVE</Badge>}
-                            </CardTitle>
-                            <CardDescription>{strategy.description}</CardDescription>
-                            {isLive && (
-                              <p className="text-xs text-green-600 mt-1">
-                                Runtime: {formatRuntime(liveStrategy.startTime)} - {liveStrategy.startTime.toLocaleString()}
-                              </p>
-                            )}
+                  <div key={strategy.id} className="space-y-2">
+                    <Card className="cursor-pointer hover:shadow-md transition-shadow">
+                      <CardHeader>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <div>
+                              <CardTitle className="text-lg flex items-center gap-2">
+                                {strategy.name}
+                                {strategy.hasErrors && <ErrorNotification error="Strategy has code errors" />}
+                                {isLive && <Badge variant="default" className="bg-green-500">LIVE</Badge>}
+                              </CardTitle>
+                              <CardDescription>{strategy.description}</CardDescription>
+                              {isLive && (
+                                <p className="text-xs text-green-600 mt-1">
+                                  Runtime: {formatRuntime(liveStrategy.startTime)} - {liveStrategy.startTime.toLocaleString()}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => handleEditStrategy(strategy)}
+                            >
+                              <Edit className="w-4 h-4" />
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => handleDeleteStrategy(strategy)}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
                           </div>
                         </div>
-                        <div className="flex gap-2">
-                          <Button 
-                            size="sm" 
-                            variant="outline"
-                            onClick={() => handleEditStrategy(strategy)}
-                          >
-                            <Edit className="w-4 h-4" />
+                      </CardHeader>
+                      <CardContent>
+                        <div className="flex gap-2 items-center flex-wrap">
+                          <Button size="sm">
+                            <BarChart3 className="w-4 h-4 mr-2" />
+                            Backtest
                           </Button>
-                          <Button 
-                            size="sm" 
-                            variant="outline"
-                            onClick={() => handleDeleteStrategy(strategy)}
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
+                          {isLive ? (
+                            <Button 
+                              size="sm" 
+                              variant="destructive"
+                              onClick={() => toggleLiveTrading(strategy.name)}
+                            >
+                              <StopCircle className="w-4 h-4 mr-2" />
+                              Stop Live Trading ({formatRuntime(liveStrategy.startTime)} runtime)
+                            </Button>
+                          ) : (
+                            <Button 
+                              size="sm" 
+                              className="bg-green-600 hover:bg-green-700"
+                              onClick={() => toggleLiveTrading(strategy.name)}
+                            >
+                              <PlayCircle className="w-4 h-4 mr-2" />
+                              Live Trade
+                            </Button>
+                          )}
+                          {isLive && (
+                            <>
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => toggleLogExpansion(strategy.name)}
+                              >
+                                <FileText className="w-4 h-4 mr-2" />
+                                {logsExpanded ? 'Hide' : 'Show'} Order Log
+                                <ChevronDown className={`w-4 h-4 ml-1 transition-transform ${logsExpanded ? 'rotate-180' : ''}`} />
+                              </Button>
+                              <Button size="sm" variant="outline">
+                                <Download className="w-4 h-4 mr-2" />
+                                Export Logs
+                              </Button>
+                            </>
+                          )}
                         </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex gap-2">
-                        <Button size="sm">
-                          <BarChart3 className="w-4 h-4 mr-2" />
-                          Backtest
-                        </Button>
-                        {isLive ? (
-                          <Button 
-                            size="sm" 
-                            variant="destructive"
-                            onClick={() => toggleLiveTrading(strategy.name)}
-                          >
-                            <StopCircle className="w-4 h-4 mr-2" />
-                            Stop Live Trading ({formatRuntime(liveStrategy.startTime)} runtime)
-                          </Button>
-                        ) : (
-                          <Button 
-                            size="sm" 
-                            className="bg-green-600 hover:bg-green-700"
-                            onClick={() => toggleLiveTrading(strategy.name)}
-                          >
-                            <PlayCircle className="w-4 h-4 mr-2" />
-                            Live Trade
-                          </Button>
-                        )}
-                        {isLive && (
-                          <Button size="sm" variant="outline">
-                            <Download className="w-4 h-4 mr-2" />
-                            Export Logs
-                          </Button>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
+                      </CardContent>
+                    </Card>
+                    
+                    {/* Collapsible Order & Trade Log */}
+                    {isLive && logsExpanded && (
+                      <Card className="border-t-0 rounded-t-none">
+                        <CardHeader>
+                          <CardTitle className="text-base">Order & Trade Log - {strategy.name}</CardTitle>
+                          <CardDescription>Real-time trading activity for this strategy</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between text-sm">
+                              <span className="text-gray-600">Strategy Status:</span>
+                              <Badge variant="default" className="bg-green-500">
+                                LIVE - {formatRuntime(liveStrategy.startTime)}
+                              </Badge>
+                            </div>
+                            <div className="border rounded-lg p-4 bg-gray-50">
+                              <div className="space-y-2">
+                                <div className="text-sm font-medium text-gray-700">Recent Activity</div>
+                                <div className="text-xs text-gray-500 space-y-1">
+                                  <p>• Strategy started at {liveStrategy.startTime.toLocaleString()}</p>
+                                  <p>• Monitoring market conditions...</p>
+                                  <p>• Orders and fills will appear here as the strategy executes</p>
+                                  <p>• Entry signals, stop losses, and take profits will be logged</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="text-center text-xs text-gray-400 py-4">
+                              <Clock className="w-4 h-4 mx-auto mb-2" />
+                              Waiting for trade signals...
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+                  </div>
                 );
               })}
             </div>
