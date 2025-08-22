@@ -1606,9 +1606,8 @@ metadata = {
                   );
                 })}
             </div>
-                          <CardDescription>Real-time trading activity for this strategy</CardDescription>
-                        </CardHeader>
-                        <CardContent>
+          </CardContent>
+        </Card>
                           <div className="space-y-3">
                             <div className="flex items-center justify-between text-sm">
                               <span className="text-gray-600">Strategy Status:</span>
