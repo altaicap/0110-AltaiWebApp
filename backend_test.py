@@ -1560,7 +1560,7 @@ class Feedback80Tester:
             "POST",
             "/api/settings/test-connection",
             200,
-            data={"service": "polygon"}
+            params={"service": "polygon"}
         )
         
         if success and response:
