@@ -3216,4 +3216,177 @@ metadata = {
   );
 }
 
+// Account Settings Form Component
+const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
+  const [formData, setFormData] = useState({
+    name: currentUser || 'Alex G',
+    email: '',
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPasswordFields, setShowPasswordFields] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (formData.newPassword && formData.newPassword !== formData.confirmPassword) {
+      alert('New passwords do not match');
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    const updateData = {
+      name: formData.name,
+      email: formData.email
+    };
+    
+    if (formData.newPassword) {
+      updateData.currentPassword = formData.currentPassword;
+      updateData.newPassword = formData.newPassword;
+    }
+
+    await onSave(updateData);
+    setIsSubmitting(false);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Personal Information */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold">PERSONAL INFORMATION</h3>
+        
+        <div>
+          <Label htmlFor="name">Full Name</Label>
+          <Input
+            id="name"
+            value={formData.name}
+            onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+            placeholder="Enter your full name"
+          />
+        </div>
+        
+        <div>
+          <Label htmlFor="email">Email Address</Label>
+          <Input
+            id="email"
+            type="email"
+            value={formData.email}
+            onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+            placeholder="Enter your email address"
+          />
+        </div>
+      </div>
+
+      {/* Password Management */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-semibold">PASSWORD MANAGEMENT</h3>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => setShowPasswordFields(!showPasswordFields)}
+          >
+            {showPasswordFields ? 'Cancel Password Change' : 'Change Password'}
+          </Button>
+        </div>
+
+        {showPasswordFields && (
+          <div className="space-y-4 p-4 border rounded-lg bg-gray-50">
+            <div>
+              <Label htmlFor="currentPassword">Current Password</Label>
+              <Input
+                id="currentPassword"
+                type="password"
+                value={formData.currentPassword}
+                onChange={(e) => setFormData(prev => ({ ...prev, currentPassword: e.target.value }))}
+                placeholder="Enter current password"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="newPassword">New Password</Label>
+              <Input
+                id="newPassword"
+                type="password"
+                value={formData.newPassword}
+                onChange={(e) => setFormData(prev => ({ ...prev, newPassword: e.target.value }))}
+                placeholder="Enter new password"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="confirmPassword">Confirm New Password</Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                value={formData.confirmPassword}
+                onChange={(e) => setFormData(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                placeholder="Confirm new password"
+              />
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Billing Information */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold">BILLING & SUBSCRIPTION</h3>
+        <div className="p-4 border rounded-lg">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <div className="font-medium">Current Plan</div>
+              <div className="text-sm text-gray-600">Professional Trading Plan</div>
+            </div>
+            <Badge variant="default" className="bg-green-500">Active</Badge>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <span className="font-medium text-gray-600">Next Billing:</span>
+              <span className="ml-2">Jan 15, 2025</span>
+            </div>
+            <div>
+              <span className="font-medium text-gray-600">Amount:</span>
+              <span className="ml-2">$99/month</span>
+            </div>
+          </div>
+          
+          <div className="flex gap-2 mt-4">
+            <Button type="button" variant="outline" size="sm">
+              <CreditCard className="w-4 h-4 mr-2" />
+              Update Payment Method
+            </Button>
+            <Button type="button" variant="outline" size="sm">
+              View Billing History
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Actions */}
+      <div className="flex gap-2 pt-4 border-t">
+        <Button 
+          type="submit"
+          disabled={isSubmitting}
+          className="bg-blue-600 hover:bg-blue-700"
+        >
+          {isSubmitting ? (
+            <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+          ) : (
+            <Settings2 className="w-4 h-4 mr-2" />
+          )}
+          Save Changes
+        </Button>
+        <Button type="button" variant="outline" onClick={onCancel} disabled={isSubmitting}>
+          Cancel
+        </Button>
+      </div>
+    </form>
+  );
+};
+
 export default App;
