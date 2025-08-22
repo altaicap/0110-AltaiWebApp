@@ -1980,19 +1980,78 @@ metadata = {
     );
   };
 
-  // Log Tab Component
-  const LogTab = () => {
+  // News Tab Component (formerly Log Tab)
+  const NewsTab = () => {
     const [autoScroll, setAutoScroll] = useState(true);
     const [rvolPeriod, setRvolPeriod] = useState('1m');
     const [lookbackPeriod, setLookbackPeriod] = useState(50);
+    const [currentTime, setCurrentTime] = useState(new Date());
 
-    // Mock RVOL calculation (in real app, this would come from market data API)
-    const calculateRVOL = (ticker) => {
-      // Simulate RVOL calculation based on ticker
-      const mockCurrentVolume = Math.random() * 1000000 + 100000;
-      const mockAverageVolume = Math.random() * 800000 + 200000;
-      const rvol = mockCurrentVolume / mockAverageVolume;
-      return rvol;
+    // Update current time every second
+    useEffect(() => {
+      const timer = setInterval(() => {
+        setCurrentTime(new Date());
+      }, 1000);
+      
+      return () => clearInterval(timer);
+    }, []);
+
+    // Auto-refresh news feed every 30 seconds
+    useEffect(() => {
+      const interval = setInterval(() => {
+        if (autoScroll) {
+          loadNews();
+        }
+      }, 30000);
+      
+      return () => clearInterval(interval);
+    }, [autoScroll]);
+
+    // Mock RVOL calculation with improved time-based period matching
+    const calculateRVOL = (ticker, newsTimestamp) => {
+      try {
+        const newsTime = new Date(newsTimestamp);
+        const currentMinute = newsTime.getMinutes();
+        const currentHour = newsTime.getHours();
+        
+        // Calculate the relevant period start time based on selected period
+        let periodStart;
+        switch(rvolPeriod) {
+          case '1m':
+            // Round down to the current minute
+            periodStart = new Date(newsTime);
+            periodStart.setSeconds(0, 0);
+            break;
+          case '5m':
+            // Round down to the nearest 5-minute interval
+            const minute5 = Math.floor(currentMinute / 5) * 5;
+            periodStart = new Date(newsTime);
+            periodStart.setMinutes(minute5, 0, 0);
+            break;
+          case '15m':
+            // Round down to the nearest 15-minute interval
+            const minute15 = Math.floor(currentMinute / 15) * 15;
+            periodStart = new Date(newsTime);
+            periodStart.setMinutes(minute15, 0, 0);
+            break;
+          case '1h':
+            // Round down to the current hour
+            periodStart = new Date(newsTime);
+            periodStart.setMinutes(0, 0, 0);
+            break;
+          default:
+            periodStart = new Date(newsTime);
+        }
+        
+        // Simulate RVOL calculation based on ticker and period
+        const mockCurrentVolume = Math.random() * 1000000 + 100000;
+        const mockAverageVolume = Math.random() * 800000 + 200000;
+        const rvol = mockCurrentVolume / mockAverageVolume;
+        
+        return rvol;
+      } catch (error) {
+        return 1.0; // Default RVOL if calculation fails
+      }
     };
 
     const getRVOLColor = (rvol) => {
@@ -2004,63 +2063,27 @@ metadata = {
     return (
       <div className="space-y-6">
         <div>
-          <h2 className="text-2xl font-bold">Log</h2>
-          <p className="text-gray-600">Monitor system activity and news feeds</p>
+          <h2 className="text-2xl font-bold">News</h2>
+          <p className="text-gray-600">Real-time market news and analysis</p>
         </div>
 
-        {/* Order & Trade Log */}
-        <Card className={`relative ${fullScreenPane === 'order-log' ? 'fixed inset-4 top-20 z-50' : ''}`}>
-          <FullScreenButton paneId="order-log" />
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle>Order & Trade Log</CardTitle>
-                <CardDescription>Real-time trading activity from live strategies</CardDescription>
-              </div>
-              <Button size="sm" variant="outline">
-                <Download className="w-4 h-4 mr-2" />
-                Export Logs
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent>
-            {liveStrategies.length > 0 ? (
-              <div className="space-y-4">
-                {liveStrategies.map((strategy, index) => (
-                  <div key={index} className="border rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-medium">{strategy.name}</h4>
-                      <Badge variant="default" className="bg-green-500">
-                        LIVE - {formatRuntime(strategy.startTime)}
-                      </Badge>
-                    </div>
-                    <p className="text-sm text-gray-600">
-                      Started: {strategy.startTime.toLocaleString()}
-                    </p>
-                    <p className="text-sm text-gray-500 mt-2">
-                      Orders and fills will appear here as the strategy executes trades
-                    </p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8 text-gray-500">
-                <Clock className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-                <p>No live strategies running</p>
-                <p className="text-sm">Start a live strategy to see order activity</p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
         {/* News Feed */}
-        <Card className={`relative ${fullScreenPane === 'news-feed' ? 'fixed inset-4 top-20 z-50' : ''}`}>
+        <Card className={`relative ${fullScreenPane === 'news-feed' ? 'fixed inset-4 top-20 z-50 bg-white' : ''}`}>
           <FullScreenButton paneId="news-feed" />
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="pane-title">News Feed</CardTitle>
-                <CardDescription>Real-time news from NewsWare and TradeXchange APIs</CardDescription>
+                <CardDescription>Real-time news from connected APIs</CardDescription>
+                {/* Current Time Display */}
+                <div className="text-sm text-gray-500 mt-1">
+                  Current Time: {currentTime.toLocaleTimeString([], { 
+                    hour12: false, 
+                    hour: '2-digit', 
+                    minute: '2-digit', 
+                    second: '2-digit' 
+                  })}
+                </div>
               </div>
               <div className="flex items-center gap-4">
                 <div className="text-sm space-y-2">
@@ -2075,6 +2098,7 @@ metadata = {
                         <SelectItem value="5m">5m</SelectItem>
                         <SelectItem value="15m">15m</SelectItem>
                         <SelectItem value="1h">1h</SelectItem>
+                        <SelectItem value="1d">1d</SelectItem>
                       </SelectContent>
                     </Select>
                     <Label className="whitespace-nowrap">Lookback Period:</Label>
@@ -2086,6 +2110,7 @@ metadata = {
                       min="1"
                       max="200"
                     />
+                    <span className="text-xs text-gray-500">bars</span>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -2105,8 +2130,8 @@ metadata = {
               </div>
             </div>
           </CardHeader>
-          <CardContent>
-            <ScrollArea className="h-96">
+          <CardContent className={fullScreenPane === 'news-feed' ? 'h-full overflow-auto' : ''}>
+            <ScrollArea className={fullScreenPane === 'news-feed' ? 'h-[calc(100vh-200px)]' : 'h-96'}>
               <div className="space-y-4">
                 {news.map((article) => (
                   <div key={article.id} className="border-b pb-4">
@@ -2130,7 +2155,7 @@ metadata = {
                     <div className="flex items-center justify-between text-xs text-gray-500">
                       <div className="flex gap-2 flex-wrap">
                         {article.tickers?.slice(0, 3).map((ticker) => {
-                          const rvol = calculateRVOL(ticker);
+                          const rvol = calculateRVOL(ticker, article.published_at);
                           return (
                             <div key={ticker} className="flex items-center gap-1">
                               <Badge variant="secondary" className="text-xs">
@@ -2138,7 +2163,7 @@ metadata = {
                               </Badge>
                               <Badge 
                                 className={`text-xs px-1.5 py-0.5 ${getRVOLColor(rvol)}`}
-                                title={`RVOL: ${rvol.toFixed(2)} (Period: ${rvolPeriod}, Lookback: ${lookbackPeriod})`}
+                                title={`RVOL: ${rvol.toFixed(2)} (Period: ${rvolPeriod}, Lookback: ${lookbackPeriod} bars)`}
                               >
                                 {rvol.toFixed(1)}
                               </Badge>
