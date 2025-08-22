@@ -517,11 +517,11 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
 
 ## test_plan:
   current_focus:
-    - "Phase 1 Authentication System"
-    - "Phase 1 Billing System"
-    - "Phase 1 Notifications System"
-    - "Phase 1 System Health Monitoring"
-    - "Phase 1 Database Initialization"
+    - "Trading Broker Endpoints"
+    - "Unified Broker Service"
+    - "Trading Database Models"
+    - "TradeStation Integration"
+    - "IBKR Integration"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
