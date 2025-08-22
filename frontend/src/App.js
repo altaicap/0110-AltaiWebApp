@@ -2676,7 +2676,7 @@ metadata = {
         </div>
 
         {/* News Feed */}
-        <Card className={`relative ${fullScreenPane === 'news-feed' ? 'fixed inset-4 top-20 z-50 bg-white' : ''}`}>
+        <Card className={`relative pane-enhanced ${fullScreenPane === 'news-feed' ? 'fixed inset-4 top-20 z-50 bg-white' : ''} ${fullScreenPane !== 'news-feed' ? 'news-feed-full' : ''}`}>
           <FullScreenButton paneId="news-feed" />
           <CardHeader>
             <div className="flex items-center justify-between">
