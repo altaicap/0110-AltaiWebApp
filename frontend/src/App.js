@@ -466,19 +466,6 @@ metadata = {
     }
   };
 
-  // Helper function to determine status color based on connection state
-  const getStatusColor = (status, service) => {
-    switch (status) {
-      case 'connected':
-        return 'bg-green-500'; // Green for working
-      case 'connected_with_issues':
-        return 'bg-yellow-500'; // Yellow for connected with issues/delays
-      case 'disconnected':
-      default:
-        return 'bg-red-500'; // Red for not connected
-    }
-  };
-
   const checkIntegrationStatus = async () => {
     try {
       // Check actual connection status by testing each service
@@ -489,9 +476,9 @@ metadata = {
         try {
           const response = await fetch(`${BACKEND_URL}/api/settings/test-connection?service=polygon`, { method: 'POST' });
           const data = await response.json();
-          statusChecks.polygon = data.status === 'success' ? 'connected' : 'connected_with_issues';
+          statusChecks.polygon = data.status === 'success' ? 'connected' : 'warning';
         } catch (error) {
-          statusChecks.polygon = 'connected_with_issues';
+          statusChecks.polygon = 'warning';
         }
       } else {
         statusChecks.polygon = 'disconnected';
@@ -502,9 +489,9 @@ metadata = {
         try {
           const response = await fetch(`${BACKEND_URL}/api/settings/test-connection?service=newsware`, { method: 'POST' });
           const data = await response.json();
-          statusChecks.newsware = data.status === 'success' ? 'connected' : 'connected_with_issues';
+          statusChecks.newsware = data.status === 'success' ? 'connected' : 'warning';
         } catch (error) {
-          statusChecks.newsware = 'connected_with_issues';
+          statusChecks.newsware = 'warning';
         }
       } else {
         statusChecks.newsware = 'disconnected';
