@@ -1101,8 +1101,7 @@ async def get_subscription_plans():
 async def create_payment_session(
     amount: float,
     plan_id: str,
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db_session)
+    current_user: User = Depends(get_current_user_with_db)
 ):
     """Create Adyen payment session"""
     try:
@@ -1128,7 +1127,7 @@ async def create_payment_session(
 
 @app.get("/api/billing/subscriptions")
 async def get_user_subscriptions(
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_user_with_db),
     db: Session = Depends(get_db_session)
 ):
     """Get user's subscriptions"""
@@ -1156,7 +1155,7 @@ async def get_user_subscriptions(
 @app.post("/api/billing/subscriptions")
 async def create_subscription(
     subscription_data: SubscriptionCreate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_user_with_db),
     db: Session = Depends(get_db_session)
 ):
     """Create a new subscription"""
@@ -1196,7 +1195,7 @@ async def create_subscription(
 async def get_user_notifications(
     limit: int = Query(20, ge=1, le=100),
     unread_only: bool = Query(False),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_user_with_db),
     db: Session = Depends(get_db_session)
 ):
     """Get user notifications"""
@@ -1227,7 +1226,7 @@ async def get_user_notifications(
 @app.put("/api/notifications/{notification_id}/read")
 async def mark_notification_read(
     notification_id: str,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_user_with_db),
     db: Session = Depends(get_db_session)
 ):
     """Mark notification as read"""
