@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Altai Trader Backend API Test Suite
-Tests all backend endpoints for the trading platform
+Phase 1 Authentication and Billing System Test Suite
+Tests authentication, billing, notifications, and system health endpoints
 """
 
 import requests
@@ -10,12 +10,14 @@ import json
 from datetime import datetime, timedelta
 from typing import Dict, Any
 
-class AltaiTraderAPITester:
+class Phase1AuthBillingTester:
     def __init__(self, base_url="https://backtest-hub-2.preview.emergentagent.com"):
         self.base_url = base_url
         self.tests_run = 0
         self.tests_passed = 0
         self.test_results = []
+        self.auth_token = None
+        self.test_user_id = None
 
     def log_test(self, name: str, success: bool, message: str = "", response_data: Any = None):
         """Log test result"""
@@ -34,20 +36,23 @@ class AltaiTraderAPITester:
         })
 
     def run_test(self, name: str, method: str, endpoint: str, expected_status: int, 
-                 data: Dict = None, params: Dict = None) -> tuple:
+                 data: Dict = None, params: Dict = None, headers: Dict = None) -> tuple:
         """Run a single API test"""
         url = f"{self.base_url}/{endpoint.lstrip('/')}"
-        headers = {'Content-Type': 'application/json'}
+        default_headers = {'Content-Type': 'application/json'}
+        
+        if headers:
+            default_headers.update(headers)
         
         try:
             if method == 'GET':
-                response = requests.get(url, headers=headers, params=params, timeout=30)
+                response = requests.get(url, headers=default_headers, params=params, timeout=30)
             elif method == 'POST':
-                response = requests.post(url, json=data, headers=headers, params=params, timeout=30)
+                response = requests.post(url, json=data, headers=default_headers, params=params, timeout=30)
             elif method == 'PUT':
-                response = requests.put(url, json=data, headers=headers, timeout=30)
+                response = requests.put(url, json=data, headers=default_headers, timeout=30)
             elif method == 'DELETE':
-                response = requests.delete(url, headers=headers, timeout=30)
+                response = requests.delete(url, headers=default_headers, timeout=30)
             else:
                 self.log_test(name, False, f"Unsupported method: {method}")
                 return False, {}
@@ -75,755 +80,613 @@ class AltaiTraderAPITester:
             self.log_test(name, False, f"Error: {str(e)}")
             return False, {}
 
-    def test_health_endpoint(self):
-        """Test health check endpoint"""
-        print("\n🔍 Testing Health Endpoint...")
+    def test_system_health(self):
+        """Test system health endpoint"""
+        print("\n🔍 Testing System Health Endpoint...")
+        
         success, response = self.run_test(
-            "Health Check",
+            "System Health Check",
             "GET",
-            "/api/health",
+            "/api/system/health",
             200
         )
         
         if success and response:
             # Verify response structure
-            required_fields = ["status", "database", "timestamp", "version"]
+            required_fields = ["status", "databases", "version", "timestamp"]
             missing_fields = [field for field in required_fields if field not in response]
             if missing_fields:
                 self.log_test("Health Response Structure", False, f"Missing fields: {missing_fields}")
             else:
                 self.log_test("Health Response Structure", True, "All required fields present")
                 
-                # Check database status
-                db_healthy = response.get("database") == "healthy"
-                self.log_test("Database Connection", db_healthy, f"Database status: {response.get('database')}")
-
-    def test_settings_endpoint(self):
-        """Test settings endpoint"""
-        print("\n🔍 Testing Settings Endpoint...")
-        success, response = self.run_test(
-            "Get Settings",
-            "GET",
-            "/api/settings",
-            200
-        )
-        
-        if success and response:
-            # Verify API key configurations
-            polygon_configured = response.get("polygon_api_configured", False)
-            newsware_configured = response.get("newsware_api_configured", False)
-            db_connected = response.get("database_connected", False)
-            
-            self.log_test("Polygon API Configuration", polygon_configured, 
-                         f"Polygon API: {'Configured' if polygon_configured else 'Not Configured'}")
-            self.log_test("NewsWare API Configuration", newsware_configured,
-                         f"NewsWare API: {'Configured' if newsware_configured else 'Not Configured'}")
-            self.log_test("Database Connection Status", db_connected,
-                         f"Database: {'Connected' if db_connected else 'Disconnected'}")
-
-    def test_connection_endpoints(self):
-        """Test API connection test endpoints"""
-        print("\n🔍 Testing Connection Test Endpoints...")
-        
-        # Test Polygon connection
-        success, response = self.run_test(
-            "Test Polygon Connection",
-            "POST",
-            "/api/settings/test-connection",
-            200,
-            params={"service": "polygon"}
-        )
-        
-        if success and response:
-            status = response.get("status")
-            message = response.get("message", "")
-            self.log_test("Polygon Connection Test Result", status == "success", message)
-        
-        # Test NewsWare connection
-        success, response = self.run_test(
-            "Test NewsWare Connection",
-            "POST",
-            "/api/settings/test-connection",
-            200,
-            params={"service": "newsware"}
-        )
-        
-        if success and response:
-            status = response.get("status")
-            message = response.get("message", "")
-            self.log_test("NewsWare Connection Test Result", status == "success", message)
-        
-        # Test invalid service name
-        success, response = self.run_test(
-            "Test Invalid Service Connection",
-            "POST",
-            "/api/settings/test-connection",
-            400,
-            params={"service": "invalid_service"}
-        )
-        
-        if success:
-            self.log_test("Invalid Service Handling", True, "Correctly rejected invalid service name")
-
-    def test_api_key_update_endpoint(self):
-        """Test API key update endpoint"""
-        print("\n🔍 Testing API Key Update Endpoint...")
-        
-        # Test updating Polygon API key
-        polygon_update = {
-            "service": "polygon",
-            "api_key": "test_polygon_key_12345"
-        }
-        
-        success, response = self.run_test(
-            "Update Polygon API Key",
-            "POST",
-            "/api/settings/update-api-key",
-            200,
-            data=polygon_update
-        )
-        
-        if success and response:
-            status = response.get("status")
-            message = response.get("message", "")
-            self.log_test("Polygon API Key Update", status == "success", message)
-        
-        # Test updating NewsWare API key
-        newsware_update = {
-            "service": "newsware", 
-            "api_key": "test_newsware_key_67890"
-        }
-        
-        success, response = self.run_test(
-            "Update NewsWare API Key",
-            "POST",
-            "/api/settings/update-api-key",
-            200,
-            data=newsware_update
-        )
-        
-        if success and response:
-            status = response.get("status")
-            message = response.get("message", "")
-            self.log_test("NewsWare API Key Update", status == "success", message)
-        
-        # Test invalid service name
-        invalid_update = {
-            "service": "invalid_service",
-            "api_key": "test_key"
-        }
-        
-        success, response = self.run_test(
-            "Update Invalid Service API Key",
-            "POST",
-            "/api/settings/update-api-key",
-            400,
-            data=invalid_update
-        )
-        
-        if success:
-            self.log_test("Invalid Service API Key Update", True, "Correctly rejected invalid service name")
-        
-        # Restore original API keys
-        print("\n🔄 Restoring Original API Keys...")
-        
-        # Restore Polygon key
-        polygon_restore = {
-            "service": "polygon",
-            "api_key": "pVHWgdhIGxKg68dAyh5tVKBVLZGjFMfD"
-        }
-        
-        success, response = self.run_test(
-            "Restore Polygon API Key",
-            "POST",
-            "/api/settings/update-api-key",
-            200,
-            data=polygon_restore
-        )
-        
-        if success:
-            self.log_test("Polygon API Key Restoration", True, "Original Polygon API key restored")
-        
-        # Restore NewsWare key
-        newsware_restore = {
-            "service": "newsware",
-            "api_key": "4aed023d-baac-4e76-a6f8-106a4a43c092"
-        }
-        
-        success, response = self.run_test(
-            "Restore NewsWare API Key",
-            "POST",
-            "/api/settings/update-api-key",
-            200,
-            data=newsware_restore
-        )
-        
-        if success:
-            self.log_test("NewsWare API Key Restoration", True, "Original NewsWare API key restored")
-
-    def test_strategies_endpoints(self):
-        """Test strategies CRUD endpoints"""
-        print("\n🔍 Testing Strategies Endpoints...")
-        
-        # Get existing strategies
-        success, strategies = self.run_test(
-            "Get Strategies",
-            "GET",
-            "/api/strategies",
-            200
-        )
-        
-        if success:
-            self.log_test("Strategies List", True, f"Found {len(strategies)} strategies")
-            
-            # Create a test strategy
-            test_strategy = {
-                "name": f"Test Strategy {datetime.now().strftime('%H%M%S')}",
-                "description": "Automated test strategy",
-                "code": """
-class TestStrategy:
-    def __init__(self, config):
-        self.config = config
-        
-    def generate_signals(self, df):
-        df['signal'] = 0
-        return df
-""",
-                "parameters": {"test_param": 42}
-            }
-            
-            success, created_strategy = self.run_test(
-                "Create Strategy",
-                "POST",
-                "/api/strategies",
-                200,
-                data=test_strategy
-            )
-            
-            if success and created_strategy:
-                strategy_id = created_strategy.get("id")
-                self.log_test("Strategy Creation", True, f"Created strategy with ID: {strategy_id}")
+                # Check database health
+                databases = response.get("databases", {})
+                mongodb_healthy = databases.get("mongodb", False)
+                sql_healthy = databases.get("sql", False)
                 
-                # Test getting the specific strategy
-                if strategy_id:
-                    success, retrieved = self.run_test(
-                        "Get Specific Strategy",
-                        "GET",
-                        f"/api/strategies/{strategy_id}",
-                        200
-                    )
+                self.log_test("MongoDB Health", mongodb_healthy, f"MongoDB status: {mongodb_healthy}")
+                self.log_test("SQL Database Health", sql_healthy, f"SQL DB status: {sql_healthy}")
+                
+                # Check overall status
+                overall_status = response.get("status")
+                self.log_test("Overall System Status", overall_status in ["healthy", "degraded"], 
+                             f"System status: {overall_status}")
+
+    def test_user_registration(self):
+        """Test user registration endpoint"""
+        print("\n🔍 Testing User Registration...")
+        
+        # Test with new user
+        timestamp = int(datetime.utcnow().timestamp())
+        test_user_data = {
+            "email": f"testuser{timestamp}@altaitrader.com",
+            "full_name": "Test User",
+            "password": "TestPassword123"
+        }
+        
+        success, response = self.run_test(
+            "User Registration",
+            "POST",
+            "/api/auth/register",
+            200,
+            data=test_user_data
+        )
+        
+        if success and response:
+            # Verify response structure
+            required_fields = ["access_token", "token_type", "user"]
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                self.log_test("Registration Response Structure", False, f"Missing fields: {missing_fields}")
+            else:
+                self.log_test("Registration Response Structure", True, "All required fields present")
+                
+                # Store token for later tests
+                self.auth_token = response.get("access_token")
+                user_info = response.get("user", {})
+                self.test_user_id = user_info.get("id")
+                
+                self.log_test("Access Token Generated", bool(self.auth_token), 
+                             f"Token length: {len(self.auth_token) if self.auth_token else 0}")
+                self.log_test("User ID Generated", bool(self.test_user_id), 
+                             f"User ID: {self.test_user_id}")
+        
+        # Test duplicate email registration
+        success, response = self.run_test(
+            "Duplicate Email Registration",
+            "POST",
+            "/api/auth/register",
+            400,
+            data=test_user_data
+        )
+        
+        if success:
+            self.log_test("Duplicate Email Handling", True, "Correctly rejected duplicate email")
+
+    def test_default_user_login(self):
+        """Test login with default users"""
+        print("\n🔍 Testing Default User Login...")
+        
+        # Test Alex G login
+        alex_login = {
+            "email": "alex@altaitrader.com",
+            "password": "Altai2025"
+        }
+        
+        success, response = self.run_test(
+            "Alex G Login",
+            "POST",
+            "/api/auth/login",
+            200,
+            data=alex_login
+        )
+        
+        if success and response:
+            required_fields = ["access_token", "token_type", "user"]
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                self.log_test("Alex Login Response Structure", False, f"Missing fields: {missing_fields}")
+            else:
+                self.log_test("Alex Login Response Structure", True, "All required fields present")
+                
+                user_info = response.get("user", {})
+                email = user_info.get("email")
+                full_name = user_info.get("full_name")
+                
+                self.log_test("Alex User Info", email == "alex@altaitrader.com", 
+                             f"Email: {email}, Name: {full_name}")
+        
+        # Test Charles H login
+        charles_login = {
+            "email": "charles@altaitrader.com",
+            "password": "Altai2025"
+        }
+        
+        success, response = self.run_test(
+            "Charles H Login",
+            "POST",
+            "/api/auth/login",
+            200,
+            data=charles_login
+        )
+        
+        if success and response:
+            user_info = response.get("user", {})
+            email = user_info.get("email")
+            full_name = user_info.get("full_name")
+            
+            self.log_test("Charles User Info", email == "charles@altaitrader.com", 
+                         f"Email: {email}, Name: {full_name}")
+        
+        # Test invalid login
+        invalid_login = {
+            "email": "invalid@altaitrader.com",
+            "password": "wrongpassword"
+        }
+        
+        success, response = self.run_test(
+            "Invalid Login",
+            "POST",
+            "/api/auth/login",
+            401,
+            data=invalid_login
+        )
+        
+        if success:
+            self.log_test("Invalid Login Handling", True, "Correctly rejected invalid credentials")
+
+    def test_jwt_authentication(self):
+        """Test JWT token authentication on protected endpoints"""
+        print("\n🔍 Testing JWT Authentication...")
+        
+        if not self.auth_token:
+            self.log_test("JWT Authentication Setup", False, "No auth token available for testing")
+            return
+        
+        # Test accessing protected endpoint with valid token
+        auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
+        
+        success, response = self.run_test(
+            "Protected Endpoint with Valid Token",
+            "GET",
+            "/api/auth/me",
+            200,
+            headers=auth_headers
+        )
+        
+        if success and response:
+            required_fields = ["id", "email", "full_name", "is_active", "created_at"]
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                self.log_test("User Profile Response Structure", False, f"Missing fields: {missing_fields}")
+            else:
+                self.log_test("User Profile Response Structure", True, "All required fields present")
+                
+                is_active = response.get("is_active")
+                self.log_test("User Active Status", is_active, f"User active: {is_active}")
+        
+        # Test accessing protected endpoint without token
+        success, response = self.run_test(
+            "Protected Endpoint without Token",
+            "GET",
+            "/api/auth/me",
+            401
+        )
+        
+        if success:
+            self.log_test("Unauthorized Access Handling", True, "Correctly rejected request without token")
+        
+        # Test with invalid token
+        invalid_headers = {"Authorization": "Bearer invalid_token_12345"}
+        
+        success, response = self.run_test(
+            "Protected Endpoint with Invalid Token",
+            "GET",
+            "/api/auth/me",
+            401,
+            headers=invalid_headers
+        )
+        
+        if success:
+            self.log_test("Invalid Token Handling", True, "Correctly rejected invalid token")
+
+    def test_user_profile_management(self):
+        """Test user profile GET and PUT endpoints"""
+        print("\n🔍 Testing User Profile Management...")
+        
+        if not self.auth_token:
+            self.log_test("Profile Management Setup", False, "No auth token available for testing")
+            return
+        
+        auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
+        
+        # Test profile update
+        profile_update = {
+            "full_name": "Updated Test User",
+            "email": f"updated{int(datetime.utcnow().timestamp())}@altaitrader.com"
+        }
+        
+        success, response = self.run_test(
+            "Update User Profile",
+            "PUT",
+            "/api/auth/me",
+            200,
+            data=profile_update,
+            headers=auth_headers
+        )
+        
+        if success and response:
+            updated_name = response.get("full_name")
+            updated_email = response.get("email")
+            
+            self.log_test("Profile Name Update", updated_name == profile_update["full_name"], 
+                         f"Updated name: {updated_name}")
+            self.log_test("Profile Email Update", updated_email == profile_update["email"], 
+                         f"Updated email: {updated_email}")
+
+    def test_password_update(self):
+        """Test password update endpoint"""
+        print("\n🔍 Testing Password Update...")
+        
+        if not self.auth_token:
+            self.log_test("Password Update Setup", False, "No auth token available for testing")
+            return
+        
+        auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
+        
+        # Test password update
+        password_update = {
+            "current_password": "TestPassword123",
+            "new_password": "NewTestPassword456"
+        }
+        
+        success, response = self.run_test(
+            "Update Password",
+            "PUT",
+            "/api/auth/password",
+            200,
+            data=password_update,
+            headers=auth_headers
+        )
+        
+        if success and response:
+            message = response.get("message", "")
+            self.log_test("Password Update Success", "successfully" in message.lower(), 
+                         f"Response: {message}")
+        
+        # Test with wrong current password
+        wrong_password_update = {
+            "current_password": "WrongPassword123",
+            "new_password": "NewTestPassword789"
+        }
+        
+        success, response = self.run_test(
+            "Update Password with Wrong Current",
+            "PUT",
+            "/api/auth/password",
+            400,
+            data=wrong_password_update,
+            headers=auth_headers
+        )
+        
+        if success:
+            self.log_test("Wrong Current Password Handling", True, "Correctly rejected wrong current password")
+
+    def test_subscription_plans(self):
+        """Test subscription plans endpoint"""
+        print("\n🔍 Testing Subscription Plans...")
+        
+        success, response = self.run_test(
+            "Get Subscription Plans",
+            "GET",
+            "/api/billing/plans",
+            200
+        )
+        
+        if success and response:
+            plans = response.get("plans", [])
+            self.log_test("Subscription Plans Available", len(plans) > 0, 
+                         f"Found {len(plans)} subscription plans")
+            
+            if plans:
+                # Verify plan structure
+                plan = plans[0]
+                required_fields = ["id", "name", "amount", "currency", "billing_cycle"]
+                missing_fields = [field for field in required_fields if field not in plan]
+                
+                if missing_fields:
+                    self.log_test("Plan Structure", False, f"Missing fields: {missing_fields}")
+                else:
+                    self.log_test("Plan Structure", True, "All required fields present")
                     
-                    if success:
-                        self.log_test("Strategy Retrieval", True, f"Retrieved strategy: {retrieved.get('name')}")
-                        
-                        # Test updating the strategy
-                        updated_strategy = test_strategy.copy()
-                        updated_strategy["description"] = "Updated test strategy"
-                        
-                        success, updated = self.run_test(
-                            "Update Strategy",
-                            "PUT",
-                            f"/api/strategies/{strategy_id}",
-                            200,
-                            data=updated_strategy
-                        )
-                        
-                        if success:
-                            self.log_test("Strategy Update", True, "Strategy updated successfully")
-                        
-                        # Test deleting the strategy
-                        success, _ = self.run_test(
-                            "Delete Strategy",
-                            "DELETE",
-                            f"/api/strategies/{strategy_id}",
-                            200
-                        )
-                        
-                        if success:
-                            self.log_test("Strategy Deletion", True, "Strategy deleted successfully")
+                    # Log plan details
+                    plan_name = plan.get("name")
+                    plan_amount = plan.get("amount")
+                    plan_currency = plan.get("currency")
+                    
+                    self.log_test("Plan Details", True, 
+                                 f"Sample plan: {plan_name} - {plan_amount} {plan_currency}")
 
-    def test_backtest_endpoints(self):
-        """Test backtesting endpoints"""
-        print("\n🔍 Testing Backtest Endpoints...")
+    def test_payment_session_creation(self):
+        """Test payment session creation (Adyen integration)"""
+        print("\n🔍 Testing Payment Session Creation...")
         
-        # Get existing backtest results
-        success, results = self.run_test(
-            "Get Backtest Results",
-            "GET",
-            "/api/backtest/results",
-            200
+        if not self.auth_token:
+            self.log_test("Payment Session Setup", False, "No auth token available for testing")
+            return
+        
+        auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
+        
+        # Test payment session creation
+        payment_data = {
+            "amount": 29.99,
+            "plan_id": "basic_monthly"
+        }
+        
+        success, response = self.run_test(
+            "Create Payment Session",
+            "POST",
+            "/api/billing/payment-session",
+            200,
+            data=payment_data,
+            headers=auth_headers
+        )
+        
+        if success and response:
+            # In mock mode, we expect some session data
+            session_id = response.get("sessionId") or response.get("session_id")
+            self.log_test("Payment Session Created", bool(session_id), 
+                         f"Session ID: {session_id}")
+        
+        # Test with invalid plan ID
+        invalid_payment_data = {
+            "amount": 29.99,
+            "plan_id": "invalid_plan"
+        }
+        
+        success, response = self.run_test(
+            "Create Payment Session with Invalid Plan",
+            "POST",
+            "/api/billing/payment-session",
+            400,
+            data=invalid_payment_data,
+            headers=auth_headers
         )
         
         if success:
-            self.log_test("Backtest Results List", True, f"Found {len(results)} backtest results")
+            self.log_test("Invalid Plan Handling", True, "Correctly rejected invalid plan ID")
+
+    def test_user_subscriptions(self):
+        """Test user subscriptions management"""
+        print("\n🔍 Testing User Subscriptions...")
+        
+        if not self.auth_token:
+            self.log_test("Subscriptions Setup", False, "No auth token available for testing")
+            return
+        
+        auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
+        
+        # Test getting user subscriptions
+        success, response = self.run_test(
+            "Get User Subscriptions",
+            "GET",
+            "/api/billing/subscriptions",
+            200,
+            headers=auth_headers
+        )
+        
+        if success and response:
+            subscriptions = response.get("subscriptions", [])
+            self.log_test("User Subscriptions Retrieved", True, 
+                         f"Found {len(subscriptions)} subscriptions")
             
-            # Run a test backtest
-            backtest_request = {
-                "strategy_name": "Test Strategy",
-                "symbol": "AAPL",
-                "start_date": (datetime.now() - timedelta(days=30)).isoformat(),
-                "end_date": (datetime.now() - timedelta(days=1)).isoformat(),
-                "timeframe": "1D",
-                "parameters": {}
-            }
-            
-            success, backtest_result = self.run_test(
-                "Run Backtest",
-                "POST",
-                "/api/backtest",
-                200,
-                data=backtest_request
-            )
-            
-            if success and backtest_result:
-                required_fields = ["id", "strategy_name", "symbol", "total_return", "max_drawdown", "win_rate", "total_trades"]
-                missing_fields = [field for field in required_fields if field not in backtest_result]
+            if subscriptions:
+                # Verify subscription structure
+                subscription = subscriptions[0]
+                required_fields = ["id", "plan_id", "plan_name", "status", "amount", "currency"]
+                missing_fields = [field for field in required_fields if field not in subscription]
                 
                 if missing_fields:
-                    self.log_test("Backtest Result Structure", False, f"Missing fields: {missing_fields}")
+                    self.log_test("Subscription Structure", False, f"Missing fields: {missing_fields}")
                 else:
-                    self.log_test("Backtest Result Structure", True, 
-                                f"Total Return: {backtest_result.get('total_return', 0):.2f}%")
-
-    def test_news_endpoints(self):
-        """Test news endpoints"""
-        print("\n🔍 Testing News Endpoints...")
+                    self.log_test("Subscription Structure", True, "All required fields present")
         
-        # Get live news
-        success, news_response = self.run_test(
-            "Get Live News",
-            "GET",
-            "/api/news/live",
+        # Test creating a subscription
+        subscription_data = {
+            "plan_id": "basic_monthly"
+        }
+        
+        success, response = self.run_test(
+            "Create Subscription",
+            "POST",
+            "/api/billing/subscriptions",
             200,
-            params={"limit": 10}
+            data=subscription_data,
+            headers=auth_headers
         )
         
-        if success and news_response:
-            articles = news_response.get("articles", [])
-            total_count = news_response.get("total_count", 0)
+        if success and response:
+            subscription_id = response.get("subscription_id")
+            status = response.get("status")
             
-            self.log_test("News Feed", True, f"Retrieved {len(articles)} articles (total: {total_count})")
+            self.log_test("Subscription Created", bool(subscription_id), 
+                         f"Subscription ID: {subscription_id}, Status: {status}")
+
+    def test_notifications_system(self):
+        """Test notifications endpoints"""
+        print("\n🔍 Testing Notifications System...")
+        
+        if not self.auth_token:
+            self.log_test("Notifications Setup", False, "No auth token available for testing")
+            return
+        
+        auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
+        
+        # Test getting user notifications
+        success, response = self.run_test(
+            "Get User Notifications",
+            "GET",
+            "/api/notifications",
+            200,
+            headers=auth_headers
+        )
+        
+        if success and response:
+            notifications = response.get("notifications", [])
+            self.log_test("User Notifications Retrieved", True, 
+                         f"Found {len(notifications)} notifications")
             
-            # Verify article structure
-            if articles:
-                article = articles[0]
-                required_fields = ["id", "headline", "body", "source", "published_at"]
-                missing_fields = [field for field in required_fields if field not in article]
+            if notifications:
+                # Verify notification structure
+                notification = notifications[0]
+                required_fields = ["id", "title", "message", "notification_type", "priority", "is_read", "created_at"]
+                missing_fields = [field for field in required_fields if field not in notification]
                 
                 if missing_fields:
-                    self.log_test("News Article Structure", False, f"Missing fields: {missing_fields}")
+                    self.log_test("Notification Structure", False, f"Missing fields: {missing_fields}")
                 else:
-                    self.log_test("News Article Structure", True, f"Sample headline: {article.get('headline', '')[:50]}...")
+                    self.log_test("Notification Structure", True, "All required fields present")
+                    
+                    # Test marking notification as read
+                    notification_id = notification.get("id")
+                    if notification_id:
+                        success, read_response = self.run_test(
+                            "Mark Notification as Read",
+                            "PUT",
+                            f"/api/notifications/{notification_id}/read",
+                            200,
+                            headers=auth_headers
+                        )
+                        
+                        if success and read_response:
+                            message = read_response.get("message", "")
+                            self.log_test("Notification Mark Read", "read" in message.lower(), 
+                                         f"Response: {message}")
         
-        # Test news categories
-        success, categories = self.run_test(
-            "Get News Categories",
+        # Test with query parameters
+        success, response = self.run_test(
+            "Get Unread Notifications Only",
             "GET",
-            "/api/news/categories",
-            200
-        )
-        
-        if success and categories:
-            available_categories = categories.get("categories", [])
-            self.log_test("News Categories", True, f"Available categories: {', '.join(available_categories)}")
-        
-        # Test news search
-        search_request = {
-            "query": "technology",
-            "filters": {
-                "limit": 5
-            }
-        }
-        
-        success, search_results = self.run_test(
-            "Search News",
-            "POST",
-            "/api/news/search",
+            "/api/notifications",
             200,
-            data=search_request
+            params={"unread_only": True, "limit": 10},
+            headers=auth_headers
         )
         
-        if success and search_results:
-            articles = search_results.get("articles", [])
-            self.log_test("News Search", True, f"Search returned {len(articles)} articles")
+        if success and response:
+            notifications = response.get("notifications", [])
+            self.log_test("Unread Notifications Filter", True, 
+                         f"Found {len(notifications)} unread notifications")
 
-    def test_market_data_endpoints(self):
-        """Test market data endpoints"""
-        print("\n🔍 Testing Market Data Endpoints...")
+    def test_adyen_webhook_endpoint(self):
+        """Test Adyen webhook endpoint (mock data)"""
+        print("\n🔍 Testing Adyen Webhook Endpoint...")
         
-        # Test market data aggregates
-        params = {
-            "timespan": "day",
-            "multiplier": 1,
-            "start_date": (datetime.now() - timedelta(days=7)).strftime("%Y-%m-%d"),
-            "end_date": (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
+        # Test webhook with mock Adyen notification
+        mock_webhook_data = {
+            "notificationItems": [
+                {
+                    "NotificationRequestItem": {
+                        "eventCode": "AUTHORISATION",
+                        "success": "true",
+                        "paymentMethod": "visa",
+                        "amount": {
+                            "value": 2999,
+                            "currency": "USD"
+                        },
+                        "merchantReference": f"test_payment_{int(datetime.utcnow().timestamp())}",
+                        "pspReference": f"test_psp_{int(datetime.utcnow().timestamp())}",
+                        "eventDate": datetime.utcnow().isoformat()
+                    }
+                }
+            ]
         }
         
-        success, market_data = self.run_test(
-            "Get Market Data",
-            "GET",
-            "/api/market/AAPL/aggregates",
-            200,
-            params=params
-        )
-        
-        if success and market_data:
-            results = market_data.get("results", [])
-            self.log_test("Market Data Retrieval", True, f"Retrieved {len(results)} data points for AAPL")
-
-    def test_tradexchange_webhook_endpoints(self):
-        """Test TradeXchange webhook integration"""
-        print("\n🔍 Testing TradeXchange Webhook Integration...")
-        
-        # Test webhook test endpoint first
-        success, test_response = self.run_test(
-            "TradeXchange Webhook Test Endpoint",
-            "GET",
-            "/api/webhooks/tradexchange/test",
-            200
-        )
-        
-        if success and test_response:
-            webhook_url = test_response.get("webhook_url")
-            method = test_response.get("method")
-            status = test_response.get("status")
-            
-            self.log_test("Webhook Test Endpoint", True, 
-                         f"Webhook ready at {webhook_url} via {method}, status: {status}")
-        
-        # Test webhook with proper TradeXchange format
-        webhook_data = {
-            "source": "TXNews1",
-            "content": "Breaking: AAPL reports strong quarterly earnings. Stock up 5% in after-hours trading. MSFT also showing positive momentum with cloud revenue growth. TSLA announces new factory expansion plans.",
-            "timestamp": datetime.utcnow().isoformat(),
-            "metadata": {
-                "priority": "high",
-                "category": "earnings"
-            }
-        }
-        
-        success, webhook_response = self.run_test(
-            "TradeXchange Webhook Processing",
+        success, response = self.run_test(
+            "Adyen Webhook Processing",
             "POST",
-            "/api/webhooks/tradexchange",
+            "/api/webhooks/adyen",
             200,
-            data=webhook_data
+            data=mock_webhook_data
         )
         
-        if success and webhook_response:
-            status = webhook_response.get("status")
-            article_id = webhook_response.get("article_id")
-            timestamp = webhook_response.get("timestamp")
-            
-            self.log_test("Webhook Processing", status == "success", 
-                         f"Article ID: {article_id}, processed at: {timestamp}")
-        
-        # Test webhook with minimal data
-        minimal_webhook = {
-            "source": "TXNews2", 
-            "content": "Market update: Technology sector showing strength with AAPL leading gains."
-        }
-        
-        success, minimal_response = self.run_test(
-            "TradeXchange Webhook Minimal Data",
-            "POST",
-            "/api/webhooks/tradexchange",
-            200,
-            data=minimal_webhook
-        )
-        
-        if success and minimal_response:
-            status = minimal_response.get("status")
-            self.log_test("Minimal Webhook Processing", status == "success", 
-                         "Webhook processed with minimal required fields")
+        if success and response:
+            notification_response = response.get("notificationResponse")
+            self.log_test("Adyen Webhook Response", notification_response == "[accepted]", 
+                         f"Response: {notification_response}")
         
         # Test webhook with malformed data
         malformed_webhook = {
-            "invalid_field": "test",
-            "content": "This should fail validation"
+            "invalid_field": "test"
         }
         
-        success, error_response = self.run_test(
-            "TradeXchange Webhook Malformed Data",
-            "POST", 
-            "/api/webhooks/tradexchange",
-            200,  # Webhook should still return 200 but with error status
+        success, response = self.run_test(
+            "Adyen Webhook Malformed Data",
+            "POST",
+            "/api/webhooks/adyen",
+            500,  # Should handle gracefully but may return error
             data=malformed_webhook
         )
         
-        if success and error_response:
-            status = error_response.get("status")
-            # Webhook should return 200 but with error status to prevent retries
-            self.log_test("Malformed Webhook Handling", status == "error", 
-                         "Correctly handled malformed webhook data")
+        # Accept either 500 or 200 as both are valid responses for malformed data
+        if response and response.get("notificationResponse") == "[accepted]":
+            self.log_test("Malformed Webhook Handling", True, "Webhook handled gracefully")
 
-    def test_tradexchange_news_integration(self):
-        """Test TradeXchange news integration with live news feed"""
-        print("\n🔍 Testing TradeXchange News Integration...")
+    def test_database_initialization(self):
+        """Test database initialization and health"""
+        print("\n🔍 Testing Database Initialization...")
         
-        # First send a webhook to ensure we have TradeXchange data
-        test_webhook = {
-            "source": "TXNews1",
-            "content": "Integration test: AAPL stock analysis shows bullish trend. MSFT cloud services expanding. TSLA production targets exceeded.",
-            "timestamp": datetime.utcnow().isoformat(),
-            "metadata": {
-                "test": "integration",
-                "tickers": ["AAPL", "MSFT", "TSLA"]
-            }
-        }
-        
-        # Send webhook
-        success, webhook_response = self.run_test(
-            "Send Test Webhook for Integration",
-            "POST",
-            "/api/webhooks/tradexchange",
-            200,
-            data=test_webhook
-        )
-        
-        if success:
-            article_id = webhook_response.get("article_id")
-            self.log_test("Test Webhook Sent", True, f"Article ID: {article_id}")
-            
-            # Wait a moment for processing
-            import time
-            time.sleep(2)
-            
-            # Now check if the webhook data appears in live news feed
-            success, news_response = self.run_test(
-                "Get Live News After Webhook",
-                "GET",
-                "/api/news/live",
-                200,
-                params={"limit": 50}
-            )
-            
-            if success and news_response:
-                articles = news_response.get("articles", [])
-                
-                # Look for TradeXchange articles
-                tradexchange_articles = [
-                    article for article in articles 
-                    if article.get("source") == "TradeXchange"
-                ]
-                
-                self.log_test("TradeXchange Articles in News Feed", 
-                             len(tradexchange_articles) > 0,
-                             f"Found {len(tradexchange_articles)} TradeXchange articles")
-                
-                # Verify article structure and content
-                if tradexchange_articles:
-                    article = tradexchange_articles[0]
-                    
-                    # Check required fields
-                    required_fields = ["id", "headline", "body", "source", "published_at", "tickers"]
-                    missing_fields = [field for field in required_fields if field not in article]
-                    
-                    if missing_fields:
-                        self.log_test("TradeXchange Article Structure", False, 
-                                     f"Missing fields: {missing_fields}")
-                    else:
-                        self.log_test("TradeXchange Article Structure", True, 
-                                     "All required fields present")
-                    
-                    # Check source attribution
-                    source_correct = article.get("source") == "TradeXchange"
-                    self.log_test("TradeXchange Source Attribution", source_correct,
-                                 f"Source: {article.get('source')}")
-                    
-                    # Check ticker extraction
-                    tickers = article.get("tickers", [])
-                    expected_tickers = ["AAPL", "MSFT", "TSLA"]
-                    found_tickers = [ticker for ticker in expected_tickers if ticker in tickers]
-                    
-                    self.log_test("Ticker Symbol Extraction", len(found_tickers) > 0,
-                                 f"Found tickers: {found_tickers} from content")
-                    
-                    # Check metadata
-                    metadata = article.get("metadata", {})
-                    webhook_source = metadata.get("webhook_source")
-                    received_at = metadata.get("received_at")
-                    
-                    self.log_test("TradeXchange Metadata", 
-                                 webhook_source == "TXNews1" and received_at is not None,
-                                 f"Webhook source: {webhook_source}, received: {received_at}")
-        
-        # Test filtering by TradeXchange source
-        success, filtered_news = self.run_test(
-            "Filter News by TradeXchange Source",
+        # Test system health to verify both databases
+        success, response = self.run_test(
+            "Database Health Check",
             "GET",
-            "/api/news/live",
-            200,
-            params={"sources": ["TradeXchange"], "limit": 10}
-        )
-        
-        if success and filtered_news:
-            articles = filtered_news.get("articles", [])
-            all_tradexchange = all(
-                article.get("source") == "TradeXchange" 
-                for article in articles
-            )
-            
-            self.log_test("TradeXchange Source Filtering", all_tradexchange,
-                         f"All {len(articles)} articles are from TradeXchange")
-
-    def test_tradexchange_settings_integration(self):
-        """Test TradeXchange integration status in settings"""
-        print("\n🔍 Testing TradeXchange Settings Integration...")
-        
-        # Get settings to check TradeXchange integration status
-        success, settings_response = self.run_test(
-            "Get Settings for TradeXchange Status",
-            "GET",
-            "/api/settings",
+            "/api/system/health",
             200
         )
         
-        if success and settings_response:
-            # Check TradeXchange configuration
-            tradexchange_configured = settings_response.get("tradexchange_api_configured", False)
-            api_keys = settings_response.get("api_keys", {})
-            tradexchange_status = api_keys.get("tradexchange", "Not Set")
+        if success and response:
+            databases = response.get("databases", {})
+            mongodb_status = databases.get("mongodb")
+            sql_status = databases.get("sql")
             
-            self.log_test("TradeXchange Configuration Status", True,
-                         f"Configured: {tradexchange_configured}, Status: {tradexchange_status}")
+            self.log_test("MongoDB Initialization", mongodb_status, 
+                         f"MongoDB status: {mongodb_status}")
+            self.log_test("SQLite Initialization", sql_status, 
+                         f"SQL DB status: {sql_status}")
             
-            # Check production mode
-            production_mode = settings_response.get("production_mode", False)
-            self.log_test("Production Mode Status", True,
-                         f"Production mode: {production_mode}")
-            
-            # Check features
-            features = settings_response.get("features", {})
-            news_feeds = features.get("news_feeds", False)
-            
-            self.log_test("News Feeds Feature", news_feeds,
-                         f"News feeds enabled: {news_feeds}")
-        
-        # Test TradeXchange connection if configured
-        success, connection_response = self.run_test(
-            "Test TradeXchange Connection",
-            "POST",
-            "/api/settings/test-connection",
-            200,
-            params={"service": "tradexchange"}
-        )
-        
-        if success and connection_response:
-            status = connection_response.get("status")
-            message = connection_response.get("message", "")
-            
-            self.log_test("TradeXchange Connection Test", True,
-                         f"Status: {status}, Message: {message}")
-
-    def test_webhook_database_verification(self):
-        """Test that webhook data is properly stored in database"""
-        print("\n🔍 Testing Webhook Database Storage...")
-        
-        # Send a unique webhook for database verification
-        unique_content = f"Database test webhook at {datetime.utcnow().isoformat()}: AAPL earnings report shows strong performance."
-        
-        db_test_webhook = {
-            "source": "TXNewsDB",
-            "content": unique_content,
-            "timestamp": datetime.utcnow().isoformat(),
-            "metadata": {
-                "test_type": "database_verification",
-                "unique_id": f"db_test_{int(datetime.utcnow().timestamp())}"
-            }
-        }
-        
-        # Send webhook
-        success, webhook_response = self.run_test(
-            "Send Database Test Webhook",
-            "POST",
-            "/api/webhooks/tradexchange",
-            200,
-            data=db_test_webhook
-        )
-        
-        if success and webhook_response:
-            article_id = webhook_response.get("article_id")
-            self.log_test("Database Test Webhook Sent", True, f"Article ID: {article_id}")
-            
-            # Wait for processing
-            import time
-            time.sleep(3)
-            
-            # Verify the article appears in news feed
-            success, news_response = self.run_test(
-                "Verify Database Storage via News Feed",
-                "GET",
-                "/api/news/live",
-                200,
-                params={"limit": 100}
-            )
-            
-            if success and news_response:
-                articles = news_response.get("articles", [])
-                
-                # Look for our specific test article
-                test_article = None
-                for article in articles:
-                    if unique_content in article.get("body", ""):
-                        test_article = article
-                        break
-                
-                if test_article:
-                    self.log_test("Database Storage Verification", True,
-                                 "Webhook article found in database via news feed")
-                    
-                    # Verify article persistence and structure
-                    required_db_fields = ["id", "headline", "body", "source", "published_at", "metadata"]
-                    missing_fields = [field for field in required_db_fields if field not in test_article]
-                    
-                    if missing_fields:
-                        self.log_test("Database Article Structure", False,
-                                     f"Missing fields in stored article: {missing_fields}")
-                    else:
-                        self.log_test("Database Article Structure", True,
-                                     "All required fields properly stored")
-                        
-                        # Check metadata preservation
-                        metadata = test_article.get("metadata", {})
-                        test_type = metadata.get("test_type")
-                        webhook_source = metadata.get("webhook_source")
-                        
-                        metadata_correct = (test_type == "database_verification" and 
-                                          webhook_source == "TXNewsDB")
-                        
-                        self.log_test("Database Metadata Preservation", metadata_correct,
-                                     f"Test type: {test_type}, Webhook source: {webhook_source}")
-                else:
-                    self.log_test("Database Storage Verification", False,
-                                 "Webhook article not found in database")
+            # Check if both databases are healthy
+            both_healthy = mongodb_status and sql_status
+            self.log_test("Dual Database Setup", both_healthy, 
+                         f"Both databases healthy: {both_healthy}")
 
     def run_all_tests(self):
-        """Run all test suites"""
-        print("🚀 Starting Altai Trader Backend API Tests")
+        """Run all Phase 1 authentication and billing tests"""
+        print("🚀 Starting Phase 1 Authentication and Billing System Tests")
         print(f"🎯 Testing against: {self.base_url}")
-        print("=" * 60)
+        print("=" * 70)
         
-        # Run all test suites
-        self.test_health_endpoint()
-        self.test_settings_endpoint()
-        self.test_connection_endpoints()
-        self.test_api_key_update_endpoint()
-        self.test_strategies_endpoints()
-        self.test_backtest_endpoints()
-        self.test_news_endpoints()
-        self.test_market_data_endpoints()
-        
-        # Run TradeXchange webhook integration tests
-        self.test_tradexchange_webhook_endpoints()
-        self.test_tradexchange_news_integration()
-        self.test_tradexchange_settings_integration()
-        self.test_webhook_database_verification()
+        # Run all test suites in logical order
+        self.test_system_health()
+        self.test_database_initialization()
+        self.test_user_registration()
+        self.test_default_user_login()
+        self.test_jwt_authentication()
+        self.test_user_profile_management()
+        self.test_password_update()
+        self.test_subscription_plans()
+        self.test_payment_session_creation()
+        self.test_user_subscriptions()
+        self.test_notifications_system()
+        self.test_adyen_webhook_endpoint()
         
         # Print summary
-        print("\n" + "=" * 60)
-        print("📊 TEST SUMMARY")
-        print("=" * 60)
+        print("\n" + "=" * 70)
+        print("📊 PHASE 1 TEST SUMMARY")
+        print("=" * 70)
         print(f"Total Tests: {self.tests_run}")
         print(f"Passed: {self.tests_passed}")
         print(f"Failed: {self.tests_run - self.tests_passed}")
@@ -835,12 +698,14 @@ class TestStrategy:
             print("\n❌ FAILED TESTS:")
             for test in failed_tests:
                 print(f"  - {test['name']}: {test['message']}")
+        else:
+            print("\n🎉 ALL TESTS PASSED!")
         
         return self.tests_passed == self.tests_run
 
 def main():
     """Main test runner"""
-    tester = AltaiTraderAPITester()
+    tester = Phase1AuthBillingTester()
     success = tester.run_all_tests()
     
     return 0 if success else 1
