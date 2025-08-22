@@ -2005,9 +2005,9 @@ metadata = {
 
     return (
       <div className="space-y-6">
-        <div>
-          <h2 className="text-2xl font-bold">Backtest</h2>
-          <p className="text-gray-600">Test your strategies against historical data</p>
+        <div className="tab-header-enhanced">
+          <h2 className="text-2xl font-bold">BACKTEST</h2>
+          <p className="text-gray-600">Test your strategies against historical data and save configurations</p>
         </div>
 
         {/* Configuration Panel */}
