@@ -125,7 +125,7 @@ class Transaction(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # Additional data
-    metadata = Column(JSON, default={})
+    transaction_metadata = Column(JSON, default={})
     
     # Relationships
     user = relationship("User", back_populates="transactions")
