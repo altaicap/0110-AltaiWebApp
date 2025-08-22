@@ -1757,7 +1757,7 @@ class Feedback80Tester:
             "POST",
             "/api/settings/test-connection",
             422,  # Should return validation error
-            data={}
+            params={}
         )
         
         if success:
