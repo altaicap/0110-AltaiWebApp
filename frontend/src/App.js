@@ -185,7 +185,8 @@ function App() {
         loadSettings(),
         loadStrategies(),
         loadBacktestResults(),
-        loadNews()
+        loadNews(),
+        loadNotifications() // Add notification loading
       ]);
     } catch (error) {
       console.error('Failed to load initial data:', error);
