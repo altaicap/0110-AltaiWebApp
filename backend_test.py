@@ -1616,7 +1616,7 @@ class Feedback80Tester:
             "POST",
             "/api/settings/test-connection",
             400,
-            data={"service": "invalid_service"}
+            params={"service": "invalid_service"}
         )
         
         if success:
