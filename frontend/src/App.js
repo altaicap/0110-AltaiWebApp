@@ -2790,6 +2790,9 @@ metadata = {
     );
   };
 
+  // Define theme helper
+  const isDarkTheme = appSettings.theme === 'dark' || (appSettings.theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
   return (
     <div className={`min-h-screen bg-gray-50 ${appSettings.theme === 'dark' ? 'dark' : ''} font-size-${appSettings.fontSize}`}>
       {/* Header */}
