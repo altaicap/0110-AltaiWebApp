@@ -123,6 +123,11 @@ function App() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [fullScreenPane, setFullScreenPane] = useState(null);
+  const [notifications, setNotifications] = useState([]);
+  const [unreadNotifications, setUnreadNotifications] = useState(0);
+  const [showNotificationPanel, setShowNotificationPanel] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentAuthUser, setCurrentAuthUser] = useState(null);
   const [integrationStatus, setIntegrationStatus] = useState({
     polygon: 'connected',
     newsware: 'connected', 
