@@ -3115,6 +3115,54 @@ metadata = {
             </div>
           )}
 
+          {/* Account Settings Dialog */}
+          {showAccountSettings && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <Card className="w-[600px] max-h-[80vh] overflow-y-auto">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Settings2 className="w-5 h-5" />
+                    MY ACCOUNT SETTINGS
+                  </CardTitle>
+                  <CardDescription>
+                    Manage your account details and billing settings
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <AccountSettingsForm 
+                    currentUser={currentUser}
+                    onSave={async (settings) => {
+                      try {
+                        const token = localStorage.getItem('access_token');
+                        const response = await fetch(`${BACKEND_URL}/api/users/profile`, {
+                          method: 'PUT',
+                          headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify(settings)
+                        });
+
+                        if (response.ok) {
+                          setSuccess('Account settings updated successfully');
+                          setShowAccountSettings(false);
+                          // Reload user data
+                          await loadUserData();
+                        } else {
+                          const error = await response.json();
+                          setError(error.detail || 'Failed to update account settings');
+                        }
+                      } catch (error) {
+                        setError(`Settings update failed: ${error.message}`);
+                      }
+                    }}
+                    onCancel={() => setShowAccountSettings(false)}
+                  />
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
           {/* Live Strategy Tab Contents */}
           {liveTabs.map((tabName) => (
             <TabsContent key={`live-${tabName}`} value={`live-${tabName}`}>
