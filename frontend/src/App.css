@@ -759,3 +759,69 @@ body {
   background: linear-gradient(135deg, #064e3b 0%, #065f46 100%) !important;
   border-left: 4px solid #34d399 !important;
 }
+
+/* Feedback 8.0 Dark Theme Text Fixes */
+
+/* Fix notification and user button text in dark theme */
+[data-theme="dark"] .text-gray-900 {
+  color: #f9fafb !important;
+}
+
+[data-theme="dark"] .text-gray-800 {
+  color: #f1f5f9 !important;
+}
+
+[data-theme="dark"] .text-gray-700 {
+  color: #e2e8f0 !important;
+}
+
+[data-theme="dark"] .text-gray-600 {
+  color: #cbd5e1 !important;
+}
+
+/* Fix strategy section headers in dark theme */
+[data-theme="dark"] .text-lg.font-semibold {
+  color: #f9fafb !important;
+}
+
+/* Fix instructional text consistency in dark theme */
+[data-theme="dark"] .text-sm.text-gray-500 {
+  color: #94a3b8 !important;
+}
+
+/* Ensure high contrast text matches */
+[data-theme="dark"] .text-gray-600.mb-6 {
+  color: #94a3b8 !important;
+}
+
+/* Fix notification button and user dropdown text */
+[data-theme="dark"] button .text-gray-900,
+[data-theme="dark"] .dropdown-menu .text-gray-900 {
+  color: #f9fafb !important;
+}
+
+/* Status bar connection colors */
+.connection-status-connected {
+  background-color: #22c55e !important; /* Green */
+}
+
+.connection-status-warning {
+  background-color: #f59e0b !important; /* Yellow */
+}
+
+.connection-status-disconnected {
+  background-color: #ef4444 !important; /* Red */
+}
+
+/* Remove uploaded strategies shading */
+.strategy-uploaded {
+  border-left: 4px solid #3b82f6 !important;
+  background: #ffffff !important; /* Normal white background */
+  border: 1px solid #e5e7eb !important;
+}
+
+[data-theme="dark"] .strategy-uploaded {
+  background: #1a1a1a !important; /* Normal dark background */
+  border: 1px solid #374151 !important;
+  border-left: 4px solid #60a5fa !important;
+}
