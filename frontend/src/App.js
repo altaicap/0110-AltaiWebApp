@@ -2567,14 +2567,15 @@ metadata = {
             <div className="h-96 bg-gray-50 rounded-lg flex items-center justify-center">
               <div className="text-center">
                 <LineChart className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-                <p className="text-gray-500">Chart visualization will show:</p>
+                <p className="text-gray-500">HLOC Candlestick Chart visualization will show:</p>
                 <ul className="text-sm text-gray-400 mt-2">
+                  <li>• Classic HLOC candlestick bars</li>
                   <li>• Entry signals with "CB $100, SL $90" labels</li>
                   <li>• Take profit levels (TP1, TP2, TP3)</li>
                   <li>• Stop loss movements and breakeven</li>
                   <li>• Trade execution points with timestamps</li>
                 </ul>
-                <p className="text-xs text-gray-400 mt-4">TradingView Charting Library integration ready</p>
+                <p className="text-xs text-gray-400 mt-4">Chart updates based on selected symbol, timeframe, and date range</p>
               </div>
             </div>
           </CardContent>
