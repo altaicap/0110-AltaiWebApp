@@ -2719,6 +2719,7 @@ metadata = {
                       max="200"
                     />
                     <span className="text-xs text-gray-500">bars</span>
+                    <span className="text-xs text-gray-500">bars</span>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
