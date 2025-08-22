@@ -466,18 +466,72 @@ metadata = {
     }
   };
 
+  // Helper function to determine status color based on connection state
+  const getStatusColor = (status, service) => {
+    switch (status) {
+      case 'connected':
+        return 'bg-green-500'; // Green for working
+      case 'connected_with_issues':
+        return 'bg-yellow-500'; // Yellow for connected with issues/delays
+      case 'disconnected':
+      default:
+        return 'bg-red-500'; // Red for not connected
+    }
+  };
+
   const checkIntegrationStatus = async () => {
     try {
-      // This would normally check actual connection status
-      // For now, we'll simulate based on configured APIs
-      setIntegrationStatus({
-        polygon: settings.polygon_api_configured ? 'connected' : 'disconnected',
-        newsware: settings.newsware_api_configured ? 'connected' : 'disconnected',
-        tradestation: 'disconnected', // Not implemented
-        tradexchange: 'disconnected'  // Not implemented
-      });
+      // Check actual connection status by testing each service
+      const statusChecks = {};
+      
+      // Polygon API status
+      if (settings.polygon_api_configured) {
+        try {
+          const response = await fetch(`${BACKEND_URL}/api/settings/test-connection?service=polygon`, { method: 'POST' });
+          const data = await response.json();
+          statusChecks.polygon = data.status === 'success' ? 'connected' : 'connected_with_issues';
+        } catch (error) {
+          statusChecks.polygon = 'connected_with_issues';
+        }
+      } else {
+        statusChecks.polygon = 'disconnected';
+      }
+
+      // NewsWare API status
+      if (settings.newsware_api_configured) {
+        try {
+          const response = await fetch(`${BACKEND_URL}/api/settings/test-connection?service=newsware`, { method: 'POST' });
+          const data = await response.json();
+          statusChecks.newsware = data.status === 'success' ? 'connected' : 'connected_with_issues';
+        } catch (error) {
+          statusChecks.newsware = 'connected_with_issues';
+        }
+      } else {
+        statusChecks.newsware = 'disconnected';
+      }
+
+      // TradeXchange status - check if webhook is configured
+      statusChecks.tradexchange = apiKeys.tradexchange ? 'connected' : 'disconnected';
+
+      // TradeStation status - check broker connection
+      const tsConnection = brokerConnections.find(conn => conn.broker_type === 'tradestation');
+      statusChecks.tradestation = tsConnection ? 'connected' : 'disconnected';
+
+      // IBKR status - check broker connection
+      const ibkrConnection = brokerConnections.find(conn => conn.broker_type === 'ibkr');
+      statusChecks.ibkr = ibkrConnection ? 'connected' : 'disconnected';
+
+      setIntegrationStatus(statusChecks);
     } catch (error) {
       console.error('Failed to check integration status:', error);
+      // Set all to disconnected on error
+      setIntegrationStatus({
+        polygon: 'disconnected',
+        newsware: 'disconnected',
+        tradestation: 'disconnected',
+        tradexchange: 'disconnected',
+        ibkr: 'disconnected'
+      });
     }
   };
 
