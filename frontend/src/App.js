@@ -2252,9 +2252,9 @@ metadata = {
               <BarChart3 className="w-4 h-4" />
               BACKTEST
             </TabsTrigger>
-            <TabsTrigger value="log" className="flex items-center gap-2 px-6 uppercase">
+            <TabsTrigger value="news" className="flex items-center gap-2 px-6 uppercase">
               <Activity className="w-4 h-4" />
-              LOG
+              NEWS
             </TabsTrigger>
           </TabsList>
 
