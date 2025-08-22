@@ -424,8 +424,8 @@ class Phase1AuthBillingTester:
         
         auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
         
-        # Test payment session creation
-        payment_data = {
+        # Test payment session creation with query parameters
+        payment_params = {
             "amount": 29.99,
             "plan_id": "basic_monthly"
         }
@@ -435,7 +435,7 @@ class Phase1AuthBillingTester:
             "POST",
             "/api/billing/payment-session",
             200,
-            data=payment_data,
+            params=payment_params,
             headers=auth_headers
         )
         
@@ -446,7 +446,7 @@ class Phase1AuthBillingTester:
                          f"Session ID: {session_id}")
         
         # Test with invalid plan ID
-        invalid_payment_data = {
+        invalid_payment_params = {
             "amount": 29.99,
             "plan_id": "invalid_plan"
         }
@@ -456,7 +456,7 @@ class Phase1AuthBillingTester:
             "POST",
             "/api/billing/payment-session",
             400,
-            data=invalid_payment_data,
+            params=invalid_payment_params,
             headers=auth_headers
         )
         
