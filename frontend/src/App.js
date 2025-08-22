@@ -2770,9 +2770,9 @@ metadata = {
 
     return (
       <div className="space-y-6">
-        <div>
-          <h2 className="text-2xl font-bold">News</h2>
-          <p className="text-gray-600">Real-time market news and analysis</p>
+        <div className="tab-header-enhanced">
+          <h2 className="text-2xl font-bold">NEWS</h2>
+          <p className="text-gray-600">Real-time market news and analysis with RVOL indicators</p>
         </div>
 
         {/* News Feed */}
