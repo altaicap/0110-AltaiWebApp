@@ -2832,6 +2832,11 @@ metadata = {
                   <div className={`w-3 h-3 rounded ${integrationStatus.tradestation === 'connected' ? 'bg-green-500' : 'bg-yellow-500'}`} />
                   <span className="text-xs text-gray-600">TradeStation</span>
                 </div>
+                
+                <div className="flex items-center gap-1">
+                  <div className={`w-3 h-3 rounded ${integrationStatus.ibkr === 'connected' ? 'bg-green-500' : 'bg-yellow-500'}`} />
+                  <span className="text-xs text-gray-600">IBKR</span>
+                </div>
               </div>
 
               {/* Notification Bell */}
