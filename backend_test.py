@@ -153,7 +153,7 @@ class Phase1AuthBillingTester:
                 self.log_test("User ID Generated", bool(self.test_user_id), 
                              f"User ID: {self.test_user_id}")
         
-        # Test duplicate email registration
+        # Test duplicate email registration - try the same email again
         success, response = self.run_test(
             "Duplicate Email Registration",
             "POST",
@@ -162,7 +162,10 @@ class Phase1AuthBillingTester:
             data=test_user_data
         )
         
-        if success:
+        # If it returns 200, it means duplicate validation isn't working properly
+        if not success and response.get("access_token"):
+            self.log_test("Duplicate Email Handling", False, "Duplicate email was allowed - validation issue")
+        elif success:
             self.log_test("Duplicate Email Handling", True, "Correctly rejected duplicate email")
 
     def test_default_user_login(self):
