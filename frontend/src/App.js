@@ -2914,13 +2914,9 @@ metadata = {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-48">
-                    <DropdownMenuItem onClick={() => console.log('Navigate to My Account')}>
+                    <DropdownMenuItem onClick={() => setShowAccountSettings(true)}>
                       <Settings2 className="w-4 h-4 mr-2" />
                       My Account
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => console.log('Navigate to Billing')}>
-                      <CreditCard className="w-4 h-4 mr-2" />
-                      Billing
                     </DropdownMenuItem>
                     <Separator className="my-1" />
                     {users.map((user) => (
