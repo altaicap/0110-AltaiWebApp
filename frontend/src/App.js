@@ -49,7 +49,11 @@ import {
   EyeOff,
   UserPlus,
   User,
-  ChevronDown
+  ChevronDown,
+  Bell,
+  CreditCard,
+  Settings2,
+  LogOut
 } from 'lucide-react';
 import { format } from "date-fns";
 import AltaiLogo from './assets/altai-logo.svg';
