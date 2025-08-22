@@ -8,7 +8,11 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from datetime import datetime
 import uuid
+import sys
+import os
 
+# Add parent directory to path to import models
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from models import Base
 
 class BrokerConnection(Base):
