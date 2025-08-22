@@ -2379,7 +2379,7 @@ metadata = {
                     };
                     
                     // Add to configured strategies
-                    setConfiguredStrategies(prev => {
+                    setTradingConfigurations(prev => {
                       const existingIndex = prev.findIndex(c => c.strategy_name === backtestForm.strategy_name);
                       if (existingIndex >= 0) {
                         const updated = [...prev];
