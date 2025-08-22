@@ -180,7 +180,6 @@ function App() {
 
   // Feedback 7.0 New State Variables
   const [showAccountSettings, setShowAccountSettings] = useState(false);
-  const [configuredStrategies, setConfiguredStrategies] = useState([]);
   const [uploadedStrategies, setUploadedStrategies] = useState([]);
   const [strategyVisualizationSettings, setStrategyVisualizationSettings] = useState({
     dateRange: { start: null, end: null },
