@@ -1135,6 +1135,44 @@ metadata = {
               </Button>
             </div>
           </div>
+
+          <Separator />
+
+          {/* Interactive Brokers (IBKR) */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <Label className="text-base font-medium">Interactive Brokers (IBKR)</Label>
+                <p className="text-sm text-gray-500">Professional trading platform with OAuth 2.0</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <ErrorNotification error="IBKR integration requires OAuth setup" />
+                <Badge variant="secondary">OAuth Required</Badge>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="ibkrClientId">Client ID</Label>
+              <Input
+                id="ibkrClientId"
+                type="password"
+                placeholder="Enter IBKR Client ID"
+                disabled
+                className="font-mono text-sm"
+              />
+              <p className="text-xs text-gray-500">
+                Requires RSA key pair generation and OAuth 2.0 registration with IBKR API team
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <Button disabled size="sm">
+                <XCircle className="w-4 h-4 mr-2" />
+                Generate Keys & Connect
+              </Button>
+              <Button disabled size="sm" variant="outline">
+                OAuth Setup Guide
+              </Button>
+            </div>
+          </div>
         </CardContent>
       </Card>
 
