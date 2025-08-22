@@ -177,6 +177,17 @@ body {
   height: calc(100vh - 250px) !important;
 }
 
+/* Fullscreen Enhancement */
+.fixed.inset-4 {
+  top: 5rem !important; /* Account for header */
+  display: flex !important;
+  flex-direction: column !important;
+  max-width: calc(100vw - 2rem) !important;
+  max-height: calc(100vh - 6rem) !important;
+  overflow: auto !important;
+  z-index: 50 !important;
+}
+
 /* Apply to all fullscreen cards */
 [class*="fixed inset-4"] {
   display: flex !important;
