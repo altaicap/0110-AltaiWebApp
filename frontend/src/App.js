@@ -1408,7 +1408,7 @@ metadata = {
               </div>
               <div>
                 <span className="font-medium text-gray-600">
-                  Configured: {configuredStrategies.length}
+                  Configured: {tradingConfigurations.length}
                 </span>
               </div>
               <div>
