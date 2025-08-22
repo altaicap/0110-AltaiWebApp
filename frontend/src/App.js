@@ -1616,7 +1616,7 @@ metadata = {
               
               {/* Render Uploaded Strategies (not configured) */}
               {strategies
-                .filter(strategy => !configuredStrategies.some(c => c.base_strategy_id === strategy.id))
+                .filter(strategy => !tradingConfigurations.some(c => c.strategy_name === strategy.name))
                 .map((strategy) => {
                   return (
                     <div key={strategy.id} className="space-y-2">
