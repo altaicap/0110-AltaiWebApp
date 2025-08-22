@@ -567,6 +567,52 @@ metadata = {
     return errors;
   };
 
+  const loadNotifications = async () => {
+    try {
+      const token = localStorage.getItem('access_token');
+      if (!token) return;
+
+      const response = await fetch(`${BACKEND_URL}/api/notifications`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setNotifications(data.notifications || []);
+        setUnreadNotifications(data.notifications?.filter(n => !n.is_read).length || 0);
+      }
+    } catch (error) {
+      console.error('Error loading notifications:', error);
+    }
+  };
+
+  const markNotificationAsRead = async (notificationId) => {
+    try {
+      const token = localStorage.getItem('access_token');
+      if (!token) return;
+
+      const response = await fetch(`${BACKEND_URL}/api/notifications/${notificationId}/read`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        setNotifications(prev => 
+          prev.map(n => n.id === notificationId ? { ...n, is_read: true } : n)
+        );
+        setUnreadNotifications(prev => Math.max(0, prev - 1));
+      }
+    } catch (error) {
+      console.error('Error marking notification as read:', error);
+    }
+  };
+
   const toggleFullScreen = (paneId) => {
     setFullScreenPane(fullScreenPane === paneId ? null : paneId);
   };
