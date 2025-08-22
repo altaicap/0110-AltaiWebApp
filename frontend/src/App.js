@@ -2468,22 +2468,99 @@ metadata = {
         <Card className={`relative ${fullScreenPane === 'chart-panel' ? 'fixed inset-4 top-20 z-50' : ''}`}>
           <FullScreenButton paneId="chart-panel" />
           <CardHeader>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-4">
               <div>
-                <CardTitle>Strategy Visualization</CardTitle>
+                <CardTitle>STRATEGY VISUALIZATION</CardTitle>
                 <CardDescription>Chart with entry/exit signals and price levels</CardDescription>
               </div>
-              <div className="flex gap-2">
+            </div>
+            
+            {/* Chart Controls */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+              <div>
+                <Label htmlFor="chart-symbol" className="text-xs font-medium">Symbol</Label>
                 <Input 
-                  placeholder="Symbol"
+                  id="chart-symbol"
+                  placeholder="Ticker"
                   value={chartSymbol}
                   onChange={(e) => setChartSymbol(e.target.value.toUpperCase())}
-                  className="w-24"
+                  className="h-8"
                 />
-                <Button size="sm">
-                  <RefreshCw className="w-4 h-4" />
-                </Button>
               </div>
+              
+              <div>
+                <Label htmlFor="chart-timeframe" className="text-xs font-medium">Timeframe</Label>
+                <select
+                  id="chart-timeframe"
+                  value={strategyVisualizationSettings.timeframe}
+                  onChange={(e) => setStrategyVisualizationSettings(prev => ({ 
+                    ...prev, 
+                    timeframe: e.target.value 
+                  }))}
+                  className="w-full h-8 px-2 border rounded-md text-sm"
+                >
+                  <option value="15-second">15 Second</option>
+                  <option value="1-minute">1 Minute</option>
+                  <option value="2-minute">2 Minute</option>
+                  <option value="5-minute">5 Minute</option>
+                  <option value="15-minute">15 Minute</option>
+                  <option value="30-minute">30 Minute</option>
+                  <option value="1-day">1 Day</option>
+                  <option value="1-week">1 Week</option>
+                </select>
+              </div>
+              
+              <div>
+                <Label htmlFor="date-start" className="text-xs font-medium">Start Date</Label>
+                <Input 
+                  id="date-start"
+                  type="date"
+                  value={strategyVisualizationSettings.dateRange.start || ''}
+                  onChange={(e) => setStrategyVisualizationSettings(prev => ({
+                    ...prev,
+                    dateRange: { ...prev.dateRange, start: e.target.value }
+                  }))}
+                  className="h-8"
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="date-end" className="text-xs font-medium">End Date</Label>
+                <Input 
+                  id="date-end"
+                  type="date"
+                  value={strategyVisualizationSettings.dateRange.end || ''}
+                  onChange={(e) => setStrategyVisualizationSettings(prev => ({
+                    ...prev,
+                    dateRange: { ...prev.dateRange, end: e.target.value }
+                  }))}
+                  className="h-8"
+                />
+              </div>
+            </div>
+            
+            <div className="flex justify-between items-center">
+              <div className="text-sm text-gray-600">
+                {chartSymbol} • {strategyVisualizationSettings.timeframe} • 
+                {strategyVisualizationSettings.dateRange.start && strategyVisualizationSettings.dateRange.end 
+                  ? `${strategyVisualizationSettings.dateRange.start} to ${strategyVisualizationSettings.dateRange.end}`
+                  : 'Date range not set'
+                }
+              </div>
+              <Button 
+                size="sm" 
+                onClick={() => {
+                  // Refresh chart with new settings
+                  console.log('Refreshing chart with settings:', {
+                    symbol: chartSymbol,
+                    timeframe: strategyVisualizationSettings.timeframe,
+                    dateRange: strategyVisualizationSettings.dateRange
+                  });
+                }}
+              >
+                <RefreshCw className="w-4 h-4 mr-2" />
+                Update Chart
+              </Button>
             </div>
           </CardHeader>
           <CardContent>
