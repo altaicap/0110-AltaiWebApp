@@ -2140,12 +2140,34 @@ metadata = {
                 </Button>
               ) : (
                 <Button 
-                  className="bg-green-600 hover:bg-green-700"
-                  onClick={() => toggleLiveTrading(backtestForm.strategy_name)}
+                  className="bg-blue-600 hover:bg-blue-700"
+                  onClick={() => {
+                    // Save configuration instead of starting live trade
+                    const configurationData = {
+                      strategy_name: backtestForm.strategy_name,
+                      configuration: backtestForm,
+                      strategy_settings: selectedStrategy ? selectedStrategy.parameters : {},
+                      saved_at: new Date().toISOString()
+                    };
+                    
+                    // Add to configured strategies
+                    setConfiguredStrategies(prev => {
+                      const existingIndex = prev.findIndex(c => c.strategy_name === backtestForm.strategy_name);
+                      if (existingIndex >= 0) {
+                        const updated = [...prev];
+                        updated[existingIndex] = { ...updated[existingIndex], ...configurationData };
+                        return updated;
+                      } else {
+                        return [...prev, { id: Date.now().toString(), ...configurationData }];
+                      }
+                    });
+                    
+                    setSuccess(`Configuration saved for ${backtestForm.strategy_name}. Check Strategies tab for configured strategy.`);
+                  }}
                   disabled={!backtestForm.strategy_name}
                 >
-                  <PlayCircle className="w-4 h-4 mr-2" />
-                  Live Trade
+                  <Settings className="w-4 h-4 mr-2" />
+                  Save Configuration
                 </Button>
               )}
             </div>
