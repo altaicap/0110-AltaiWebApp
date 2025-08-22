@@ -934,6 +934,7 @@ metadata = {
     const [selectedStrategy, setSelectedStrategy] = useState(null);
     const [editingStrategy, setEditingStrategy] = useState(null);
     const [deleteConfirm, setDeleteConfirm] = useState(null);
+    const [expandedLogs, setExpandedLogs] = useState({});
     const [newStrategy, setNewStrategy] = useState({
       name: '',
       description: '',
