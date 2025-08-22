@@ -517,11 +517,8 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
 
 ## test_plan:
   current_focus:
-    - "Trading Broker Endpoints"
-    - "Unified Broker Service"
-    - "Trading Database Models"
-    - "TradeStation Integration"
-    - "IBKR Integration"
+    - "Feedback 8.0 - Three-color Status Indicators (Point 8)"
+    - "Feedback 8.0 - Configured Strategies Dropdown Fix (Point 4)"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
