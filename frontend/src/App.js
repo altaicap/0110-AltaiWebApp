@@ -165,9 +165,21 @@ function App() {
   const [symbolInput, setSymbolInput] = useState('');
   const [chartSymbol, setChartSymbol] = useState('AAPL');
 
+  // Trading Integration State
+  const [availableBrokers, setAvailableBrokers] = useState([]);
+  const [brokerConnections, setBrokerConnections] = useState([]);
+  const [tradingAccounts, setTradingAccounts] = useState([]);
+  const [tradingConfigurations, setTradingConfigurations] = useState([]);
+  const [showTradingDialog, setShowTradingDialog] = useState(false);
+  const [selectedStrategyForTrading, setSelectedStrategyForTrading] = useState(null);
+  const [showBrokerAuth, setShowBrokerAuth] = useState(false);
+  const [authBroker, setAuthBroker] = useState('');
+  const [authInProgress, setAuthInProgress] = useState(false);
+
   useEffect(() => {
     loadInitialData();
     loadPriorBarBreakAlgo();
+    loadTradingData();
     // Check integration status periodically
     const interval = setInterval(checkIntegrationStatus, 30000);
     return () => clearInterval(interval);
