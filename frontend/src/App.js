@@ -2291,8 +2291,8 @@ metadata = {
             <BacktestTab />
           </TabsContent>
 
-          <TabsContent value="log" className="tab-content-padding">
-            <LogTab />
+          <TabsContent value="news" className="tab-content-padding">
+            <NewsTab />
           </TabsContent>
 
           {/* New User Dialog */}
