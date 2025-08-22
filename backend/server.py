@@ -903,7 +903,7 @@ from auth import AuthService, get_current_user, get_current_user_optional, Passw
 from models import User, Subscription, PaymentMethod, Transaction, Notification, SUBSCRIPTION_PLANS
 from services.adyen_service import AdyenService
 from fastapi import Depends, Request, BackgroundTasks
-from fastapi.security import HTTPBearer
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from pydantic import EmailStr
 import json
