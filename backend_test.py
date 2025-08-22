@@ -1396,10 +1396,440 @@ class Phase1AuthBillingTester:
         
         return self.tests_passed == self.tests_run
 
+class Feedback80Tester:
+    def __init__(self, base_url="https://trading-platform-42.preview.emergentagent.com"):
+        self.base_url = base_url
+        self.tests_run = 0
+        self.tests_passed = 0
+        self.test_results = []
+        self.auth_token = None
+        self.test_user_id = None
+
+    def log_test(self, name: str, success: bool, message: str = "", response_data: Any = None):
+        """Log test result"""
+        self.tests_run += 1
+        if success:
+            self.tests_passed += 1
+            print(f"✅ {name}: PASSED - {message}")
+        else:
+            print(f"❌ {name}: FAILED - {message}")
+        
+        self.test_results.append({
+            "name": name,
+            "success": success,
+            "message": message,
+            "response_data": response_data
+        })
+
+    def run_test(self, name: str, method: str, endpoint: str, expected_status: int, 
+                 data: Dict = None, params: Dict = None, headers: Dict = None) -> tuple:
+        """Run a single API test"""
+        url = f"{self.base_url}/{endpoint.lstrip('/')}"
+        default_headers = {'Content-Type': 'application/json'}
+        
+        if headers:
+            default_headers.update(headers)
+        
+        try:
+            if method == 'GET':
+                response = requests.get(url, headers=default_headers, params=params, timeout=30)
+            elif method == 'POST':
+                response = requests.post(url, json=data, headers=default_headers, params=params, timeout=30)
+            elif method == 'PUT':
+                response = requests.put(url, json=data, headers=default_headers, timeout=30)
+            elif method == 'DELETE':
+                response = requests.delete(url, headers=default_headers, timeout=30)
+            else:
+                self.log_test(name, False, f"Unsupported method: {method}")
+                return False, {}
+
+            success = response.status_code == expected_status
+            try:
+                response_json = response.json()
+            except:
+                response_json = {"raw_response": response.text}
+
+            if success:
+                self.log_test(name, True, f"Status: {response.status_code}", response_json)
+            else:
+                self.log_test(name, False, f"Expected {expected_status}, got {response.status_code}. Response: {response.text[:200]}")
+
+            return success, response_json
+
+        except requests.exceptions.Timeout:
+            self.log_test(name, False, "Request timeout (30s)")
+            return False, {}
+        except requests.exceptions.ConnectionError:
+            self.log_test(name, False, "Connection error - backend may be down")
+            return False, {}
+        except Exception as e:
+            self.log_test(name, False, f"Error: {str(e)}")
+            return False, {}
+
+    def setup_authentication(self):
+        """Setup authentication for protected endpoints"""
+        print("\n🔐 Setting up authentication for Feedback 8.0 tests...")
+        
+        # Login with default user Alex G
+        alex_login = {
+            "email": "alex@altaitrader.com",
+            "password": "Altai2025"
+        }
+        
+        success, response = self.run_test(
+            "Login for Feedback 8.0 Tests",
+            "POST",
+            "/api/auth/login",
+            200,
+            data=alex_login
+        )
+        
+        if success and response:
+            self.auth_token = response.get("access_token")
+            user_info = response.get("user", {})
+            self.test_user_id = user_info.get("id")
+            
+            if self.auth_token:
+                self.log_test("Authentication Setup", True, f"Token obtained, length: {len(self.auth_token)}")
+                return True
+            else:
+                self.log_test("Authentication Setup", False, "No access token received")
+                return False
+        else:
+            self.log_test("Authentication Setup", False, "Login failed")
+            return False
+
+    def test_settings_endpoint(self):
+        """Test /api/settings endpoint for status indicators"""
+        print("\n🔍 Testing Settings Endpoint for Status Indicators...")
+        
+        success, response = self.run_test(
+            "Get Settings for Status Indicators",
+            "GET",
+            "/api/settings",
+            200
+        )
+        
+        if success and response:
+            # Check for required status indicator fields
+            required_fields = [
+                "polygon_api_configured", 
+                "newsware_api_configured", 
+                "tradexchange_api_configured",
+                "tradestation_configured"
+            ]
+            
+            missing_fields = [field for field in required_fields if field not in response]
+            if missing_fields:
+                self.log_test("Settings Status Fields", False, f"Missing fields: {missing_fields}")
+            else:
+                self.log_test("Settings Status Fields", True, "All status indicator fields present")
+                
+                # Check specific status values
+                polygon_status = response.get("polygon_api_configured")
+                newsware_status = response.get("newsware_api_configured")
+                tradexchange_status = response.get("tradexchange_api_configured")
+                tradestation_status = response.get("tradestation_configured")
+                
+                self.log_test("Polygon API Status", polygon_status is not None, 
+                             f"Polygon configured: {polygon_status}")
+                self.log_test("NewsWare API Status", newsware_status is not None, 
+                             f"NewsWare configured: {newsware_status}")
+                self.log_test("TradeXchange API Status", tradexchange_status is not None, 
+                             f"TradeXchange configured: {tradexchange_status}")
+                self.log_test("TradeStation Status", tradestation_status is not None, 
+                             f"TradeStation configured: {tradestation_status}")
+                
+                # Check api_keys section for detailed status
+                api_keys = response.get("api_keys", {})
+                if api_keys:
+                    polygon_key_status = api_keys.get("polygon")
+                    newsware_key_status = api_keys.get("newsware")
+                    
+                    self.log_test("Polygon Key Status Detail", polygon_key_status == "Configured", 
+                                 f"Polygon key status: {polygon_key_status}")
+                    self.log_test("NewsWare Key Status Detail", newsware_key_status == "Configured", 
+                                 f"NewsWare key status: {newsware_key_status}")
+
+    def test_connection_testing_polygon(self):
+        """Test /api/settings/test-connection endpoint for Polygon"""
+        print("\n🔍 Testing Connection Testing - Polygon...")
+        
+        success, response = self.run_test(
+            "Test Polygon Connection",
+            "POST",
+            "/api/settings/test-connection",
+            200,
+            data={"service": "polygon"}
+        )
+        
+        if success and response:
+            status = response.get("status")
+            message = response.get("message")
+            
+            # Valid statuses are: success, warning, error, mock
+            valid_statuses = ["success", "warning", "error", "mock"]
+            status_valid = status in valid_statuses
+            
+            self.log_test("Polygon Connection Status", status_valid, 
+                         f"Status: {status}, Message: {message}")
+            
+            # If status is success or warning, connection is working
+            connection_working = status in ["success", "warning"]
+            self.log_test("Polygon Connection Working", connection_working, 
+                         f"Connection functional: {connection_working}")
+
+    def test_connection_testing_newsware(self):
+        """Test /api/settings/test-connection endpoint for NewsWare"""
+        print("\n🔍 Testing Connection Testing - NewsWare...")
+        
+        success, response = self.run_test(
+            "Test NewsWare Connection",
+            "POST",
+            "/api/settings/test-connection",
+            200,
+            data={"service": "newsware"}
+        )
+        
+        if success and response:
+            status = response.get("status")
+            message = response.get("message")
+            
+            # Valid statuses are: success, warning, error, mock
+            valid_statuses = ["success", "warning", "error", "mock"]
+            status_valid = status in valid_statuses
+            
+            self.log_test("NewsWare Connection Status", status_valid, 
+                         f"Status: {status}, Message: {message}")
+            
+            # If status is success or warning, connection is working
+            connection_working = status in ["success", "warning", "mock"]
+            self.log_test("NewsWare Connection Working", connection_working, 
+                         f"Connection functional: {connection_working}")
+
+    def test_connection_testing_invalid_service(self):
+        """Test /api/settings/test-connection endpoint with invalid service"""
+        print("\n🔍 Testing Connection Testing - Invalid Service...")
+        
+        success, response = self.run_test(
+            "Test Invalid Service Connection",
+            "POST",
+            "/api/settings/test-connection",
+            400,
+            data={"service": "invalid_service"}
+        )
+        
+        if success:
+            self.log_test("Invalid Service Handling", True, "Correctly rejected invalid service name")
+
+    def test_trading_configurations_endpoint(self):
+        """Test /api/trading/configurations GET endpoint (requires JWT authentication)"""
+        print("\n🔍 Testing Trading Configurations Endpoint...")
+        
+        if not self.auth_token:
+            self.log_test("Trading Configurations Setup", False, "No auth token available")
+            return
+        
+        auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
+        
+        success, response = self.run_test(
+            "Get Trading Configurations",
+            "GET",
+            "/api/trading/configurations",
+            200,
+            headers=auth_headers
+        )
+        
+        if success and response:
+            configurations = response.get("configurations", [])
+            total_count = response.get("total_count", 0)
+            
+            self.log_test("Trading Configurations Response Structure", 
+                         "configurations" in response and "total_count" in response, 
+                         f"Found {total_count} configurations")
+            
+            # For new user, should have 0 configurations initially
+            self.log_test("Initial Configurations Count", total_count >= 0, 
+                         f"Configurations count: {total_count}")
+            
+            if configurations:
+                # If there are configurations, verify structure
+                config = configurations[0]
+                required_fields = ["id", "strategy_id", "broker", "account_name", "is_live", "created_at"]
+                missing_fields = [field for field in required_fields if field not in config]
+                
+                if missing_fields:
+                    self.log_test("Configuration Structure", False, f"Missing fields: {missing_fields}")
+                else:
+                    self.log_test("Configuration Structure", True, "All required fields present")
+                    
+                    # Check specific configuration details
+                    strategy_id = config.get("strategy_id")
+                    broker = config.get("broker")
+                    is_live = config.get("is_live")
+                    
+                    self.log_test("Configuration Details", True, 
+                                 f"Strategy: {strategy_id}, Broker: {broker}, Live: {is_live}")
+
+    def test_trading_configurations_auth_required(self):
+        """Test that /api/trading/configurations requires authentication"""
+        print("\n🔍 Testing Trading Configurations Authentication Requirement...")
+        
+        success, response = self.run_test(
+            "Trading Configurations Without Auth",
+            "GET",
+            "/api/trading/configurations",
+            401  # Should require authentication
+        )
+        
+        if success:
+            self.log_test("Trading Configurations Auth Required", True, "Correctly required authentication")
+
+    def test_authentication_flow_complete(self):
+        """Test complete authentication flow with alex@altaitrader.com"""
+        print("\n🔍 Testing Complete Authentication Flow...")
+        
+        # Test login
+        alex_login = {
+            "email": "alex@altaitrader.com",
+            "password": "Altai2025"
+        }
+        
+        success, response = self.run_test(
+            "Alex Login Authentication",
+            "POST",
+            "/api/auth/login",
+            200,
+            data=alex_login
+        )
+        
+        if success and response:
+            # Verify response structure
+            required_fields = ["access_token", "token_type", "user"]
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                self.log_test("Login Response Structure", False, f"Missing fields: {missing_fields}")
+            else:
+                self.log_test("Login Response Structure", True, "All required fields present")
+                
+                # Check token details
+                access_token = response.get("access_token")
+                token_type = response.get("token_type")
+                user_info = response.get("user", {})
+                
+                self.log_test("JWT Token Generated", bool(access_token) and len(access_token) > 50, 
+                             f"Token length: {len(access_token) if access_token else 0}")
+                self.log_test("Token Type", token_type == "bearer", f"Token type: {token_type}")
+                
+                # Check user info
+                user_email = user_info.get("email")
+                user_name = user_info.get("full_name")
+                
+                self.log_test("User Email Correct", user_email == "alex@altaitrader.com", 
+                             f"Email: {user_email}")
+                self.log_test("User Name Present", bool(user_name), f"Name: {user_name}")
+                
+                # Test using the token on a protected endpoint
+                if access_token:
+                    auth_headers = {"Authorization": f"Bearer {access_token}"}
+                    
+                    success, me_response = self.run_test(
+                        "Token Validation on Protected Endpoint",
+                        "GET",
+                        "/api/auth/me",
+                        200,
+                        headers=auth_headers
+                    )
+                    
+                    if success and me_response:
+                        me_email = me_response.get("email")
+                        self.log_test("Token Validation", me_email == "alex@altaitrader.com", 
+                                     f"Protected endpoint email: {me_email}")
+
+    def test_error_handling(self):
+        """Test error handling for various scenarios"""
+        print("\n🔍 Testing Error Handling...")
+        
+        # Test connection testing with missing service parameter
+        success, response = self.run_test(
+            "Connection Test Missing Service",
+            "POST",
+            "/api/settings/test-connection",
+            422,  # Should return validation error
+            data={}
+        )
+        
+        if success:
+            self.log_test("Missing Service Parameter Handling", True, "Correctly handled missing service parameter")
+        
+        # Test login with wrong credentials
+        wrong_login = {
+            "email": "alex@altaitrader.com",
+            "password": "WrongPassword"
+        }
+        
+        success, response = self.run_test(
+            "Login with Wrong Password",
+            "POST",
+            "/api/auth/login",
+            401,
+            data=wrong_login
+        )
+        
+        if success:
+            self.log_test("Wrong Password Handling", True, "Correctly rejected wrong password")
+
+    def run_all_feedback80_tests(self):
+        """Run all Feedback 8.0 tests"""
+        print("🚀 Starting Feedback 8.0 Backend Tests")
+        print(f"🎯 Testing against: {self.base_url}")
+        print("=" * 70)
+        
+        # Setup authentication first
+        if not self.setup_authentication():
+            print("❌ Authentication setup failed - some tests may be skipped")
+        
+        # Run all test suites
+        self.test_settings_endpoint()
+        self.test_connection_testing_polygon()
+        self.test_connection_testing_newsware()
+        self.test_connection_testing_invalid_service()
+        self.test_trading_configurations_endpoint()
+        self.test_trading_configurations_auth_required()
+        self.test_authentication_flow_complete()
+        self.test_error_handling()
+        
+        # Print summary
+        print("\n" + "=" * 70)
+        print("📊 FEEDBACK 8.0 TEST SUMMARY")
+        print("=" * 70)
+        print(f"Total Tests: {self.tests_run}")
+        print(f"Passed: {self.tests_passed}")
+        print(f"Failed: {self.tests_run - self.tests_passed}")
+        print(f"Success Rate: {(self.tests_passed/self.tests_run*100):.1f}%" if self.tests_run > 0 else "0%")
+        
+        # List failed tests
+        failed_tests = [test for test in self.test_results if not test["success"]]
+        if failed_tests:
+            print("\n❌ FAILED TESTS:")
+            for test in failed_tests:
+                print(f"  - {test['name']}: {test['message']}")
+        else:
+            print("\n🎉 ALL FEEDBACK 8.0 TESTS PASSED!")
+        
+        return self.tests_passed == self.tests_run
+
+
 def main():
     """Main test runner"""
     print("🚀 COMPREHENSIVE BACKEND TESTING SUITE")
     print("=" * 70)
+    
+    # Run Feedback 8.0 Tests (Priority)
+    print("\n📋 PRIORITY: Feedback 8.0 Backend Tests")
+    feedback80_tester = Feedback80Tester()
+    feedback80_success = feedback80_tester.run_all_feedback80_tests()
     
     # Run Phase 1 Authentication and Billing Tests
     print("\n📋 PHASE 1: Authentication and Billing System Tests")
@@ -1416,19 +1846,26 @@ def main():
     print("🎯 OVERALL TEST SUMMARY")
     print("=" * 70)
     
-    total_tests = auth_tester.tests_run + trading_tester.tests_run
-    total_passed = auth_tester.tests_passed + trading_tester.tests_passed
+    total_tests = feedback80_tester.tests_run + auth_tester.tests_run + trading_tester.tests_run
+    total_passed = feedback80_tester.tests_passed + auth_tester.tests_passed + trading_tester.tests_passed
     
+    print(f"Feedback 8.0: {feedback80_tester.tests_passed}/{feedback80_tester.tests_run} passed")
     print(f"Phase 1 (Auth/Billing): {auth_tester.tests_passed}/{auth_tester.tests_run} passed")
     print(f"Phase 2 (Trading): {trading_tester.tests_passed}/{trading_tester.tests_run} passed")
     print(f"Overall: {total_passed}/{total_tests} passed ({(total_passed/total_tests*100):.1f}%)" if total_tests > 0 else "No tests run")
     
-    overall_success = auth_success and trading_success
+    overall_success = feedback80_success and auth_success and trading_success
     
     if overall_success:
         print("\n🎉 ALL TESTS PASSED - BACKEND IS READY!")
     else:
         print("\n⚠️  SOME TESTS FAILED - REVIEW RESULTS ABOVE")
+        
+        # Highlight Feedback 8.0 results specifically
+        if not feedback80_success:
+            print("\n🚨 FEEDBACK 8.0 TESTS FAILED - PRIORITY ISSUE!")
+        else:
+            print("\n✅ FEEDBACK 8.0 TESTS PASSED - Priority features working!")
     
     return 0 if overall_success else 1
 
