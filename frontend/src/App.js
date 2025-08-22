@@ -3082,6 +3082,16 @@ metadata = {
   // Define theme helper
   const isDarkTheme = appSettings.theme === 'dark' || (appSettings.theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
+  // Helper function for status colors (green=working, yellow=connected but issues, red=not connected)
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'connected': return 'connection-status-connected'; // Green - working
+      case 'warning': return 'connection-status-warning'; // Yellow - connected but issues
+      case 'disconnected': 
+      default: return 'connection-status-disconnected'; // Red - not connected
+    }
+  };
+
   return (
     <div className={`min-h-screen bg-gray-50 ${appSettings.theme === 'dark' ? 'dark' : ''} font-size-${appSettings.fontSize}`}>
       {/* Header */}
