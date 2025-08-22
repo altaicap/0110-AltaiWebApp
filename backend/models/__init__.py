@@ -2,19 +2,5 @@
 Models package for Altai Trader backend
 """
 
-# Import base models from the main models.py file
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-
-from models import Base, User, Subscription, PaymentMethod, Transaction, Notification, SUBSCRIPTION_PLANS
-
-__all__ = [
-    'Base',
-    'User', 
-    'Subscription',
-    'PaymentMethod',
-    'Transaction',
-    'Notification',
-    'SUBSCRIPTION_PLANS'
-]
+# This file makes the models directory a Python package
+# The actual models are imported from the parent directory's models.py file
