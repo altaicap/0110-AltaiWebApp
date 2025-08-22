@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Phase 1 Authentication and Billing System Test Suite
-Tests authentication, billing, notifications, and system health endpoints
+Comprehensive Backend Test Suite
+Tests authentication, billing, notifications, system health, and trading integration endpoints
 """
 
 import requests
