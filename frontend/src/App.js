@@ -3153,27 +3153,27 @@ metadata = {
               {/* Integration Status Indicators */}
               <div className="flex gap-3 items-center">
                 <div className="flex items-center gap-1">
-                  <div className={`w-3 h-3 rounded ${integrationStatus.polygon === 'connected' ? 'bg-green-500' : 'bg-yellow-500'}`} />
+                  <div className={`w-3 h-3 rounded ${getStatusColor(integrationStatus.polygon)}`} />
                   <span className="text-xs text-gray-600">Polygon API</span>
                 </div>
                 
                 <div className="flex items-center gap-1">
-                  <div className={`w-3 h-3 rounded ${integrationStatus.newsware === 'connected' ? 'bg-green-500' : 'bg-yellow-500'}`} />
+                  <div className={`w-3 h-3 rounded ${getStatusColor(integrationStatus.newsware)}`} />
                   <span className="text-xs text-gray-600">NewsWare API</span>
                 </div>
                 
                 <div className="flex items-center gap-1">
-                  <div className={`w-3 h-3 rounded ${integrationStatus.tradexchange === 'connected' ? 'bg-green-500' : 'bg-yellow-500'}`} />
+                  <div className={`w-3 h-3 rounded ${getStatusColor(integrationStatus.tradexchange)}`} />
                   <span className="text-xs text-gray-600">TradeXchange API</span>
                 </div>
                 
                 <div className="flex items-center gap-1">
-                  <div className={`w-3 h-3 rounded ${integrationStatus.tradestation === 'connected' ? 'bg-green-500' : 'bg-yellow-500'}`} />
+                  <div className={`w-3 h-3 rounded ${getStatusColor(integrationStatus.tradestation)}`} />
                   <span className="text-xs text-gray-600">TradeStation</span>
                 </div>
                 
                 <div className="flex items-center gap-1">
-                  <div className={`w-3 h-3 rounded ${integrationStatus.ibkr === 'connected' ? 'bg-green-500' : 'bg-yellow-500'}`} />
+                  <div className={`w-3 h-3 rounded ${getStatusColor(integrationStatus.ibkr)}`} />
                   <span className="text-xs text-gray-600">IBKR</span>
                 </div>
               </div>
