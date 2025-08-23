@@ -1226,10 +1226,12 @@ metadata = {
           <div className="space-y-3 p-4 border rounded-lg bg-gradient-to-r from-blue-50 to-cyan-50">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM14 17H7V15H14V17ZM17 13H7V11H17V13ZM17 9H7V7H17V9Z" />
-                  </svg>
+                <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center border shadow-sm">
+                  <img 
+                    src="/src/assets/newsware-logo.png" 
+                    alt="NewsWare" 
+                    className="w-10 h-10 object-contain"
+                  />
                 </div>
                 <div>
                   <Label className="text-base font-semibold flex items-center gap-2">
