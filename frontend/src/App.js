@@ -1602,22 +1602,27 @@ metadata = {
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold">STRATEGIES</h2>
-              <p className="text-gray-600">Manage your uploaded and configured trading strategies</p>
+              <p className="text-gray-600">Manage your configured, uploaded, and archived trading strategies</p>
             </div>
             
             <div className="flex gap-4 text-sm">
               <div>
-                <span className="font-medium text-gray-600">
-                  Uploaded: {strategies.filter(s => !tradingConfigurations.some(c => c.strategy_name === s.name)).length}
-                </span>
-              </div>
-              <div>
-                <span className="font-medium text-gray-600">
+                <span className="font-medium text-green-600">
                   Configured: {tradingConfigurations.length}
                 </span>
               </div>
               <div>
+                <span className="font-medium text-blue-600">
+                  Uploaded: {strategies.length}
+                </span>
+              </div>
+              <div>
                 <span className="font-medium text-gray-600">
+                  Archived: {archivedStrategies.length}
+                </span>
+              </div>
+              <div>
+                <span className="font-medium text-purple-600">
                   Live Trading: {liveStrategies.length}
                 </span>
               </div>
@@ -1625,35 +1630,7 @@ metadata = {
           </div>
         </div>
 
-        {/* Display Configured Strategies First */}
-        {tradingConfigurations.length > 0 && (
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <h3 className="text-lg font-semibold">CONFIGURED STRATEGIES</h3>
-              <Badge variant="default" className="bg-green-500">
-                {tradingConfigurations.length}
-              </Badge>
-            </div>
-            <p className="text-sm text-gray-600">
-              These strategies have been configured with specific settings and can be used for live trading.
-            </p>
-          </div>
-        )}
-
-        {/* Display Uploaded Strategies */}
-        <div className="space-y-4">
-          <div className="flex items-center gap-3">
-            <h3 className="text-lg font-semibold">UPLOADED STRATEGIES</h3>
-            <Badge variant="secondary">
-              {strategies.length}
-            </Badge>
-          </div>
-          <p className="text-sm text-gray-600">
-            Base strategy files that can be configured in the Backtest tab for live trading.
-          </p>
-        </div>
-
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-6">
           <div className="text-sm text-gray-500">
             Configure strategies in the Backtest tab by clicking "Save Configuration" to enable live trading.
           </div>
@@ -1662,6 +1639,9 @@ metadata = {
             New Strategy
           </Button>
         </div>
+
+        {/* Three Pane Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
         {/* Strategy List */}
         <Card className={`relative pane-enhanced ${fullScreenPane === 'strategies-list' ? 'fullscreen-enhanced' : ''}`}>
