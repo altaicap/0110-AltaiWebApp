@@ -1318,7 +1318,7 @@ metadata = {
           <Separator />
 
           {/* TradeXchange API */}
-          <div className="space-y-3 p-4 border rounded-lg bg-gradient-to-r from-orange-50 to-red-50">
+          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-orange-50 to-red-50 ${isDarkTheme ? 'dark:from-orange-900/20 dark:to-red-900/20 dark:border-gray-600' : ''}`}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
@@ -1327,11 +1327,11 @@ metadata = {
                   </svg>
                 </div>
                 <div>
-                  <Label className="text-base font-semibold flex items-center gap-2">
+                  <Label className={`text-base font-semibold flex items-center gap-2 ${isDarkTheme ? 'text-white' : ''}`}>
                     TradeXchange API
                     <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.tradexchange)} animate-pulse`} />
                   </Label>
-                  <p className="text-sm text-gray-600">Trade execution and exchange data</p>
+                  <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>Trade execution and exchange data</p>
                 </div>
               </div>
               <Badge variant={settings.tradexchange_api_configured ? "default" : "secondary"} className="px-3 py-1">
