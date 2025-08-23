@@ -3,7 +3,7 @@ Production-ready Altai Trader Backend Server
 Full implementation replacing mock logic with real APIs, backtesting, and safety controls
 """
 
-from fastapi import FastAPI, HTTPException, Query, BackgroundTasks, status
+from fastapi import FastAPI, HTTPException, Query, BackgroundTasks, status, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from motor.motor_asyncio import AsyncIOMotorClient
