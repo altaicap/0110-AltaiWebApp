@@ -3776,6 +3776,77 @@ metadata = {
             </div>
           )}
 
+          {/* Delete Strategy Confirmation Dialog */}
+          {showDeleteConfirmDialog && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <Card className="w-96">
+                <CardHeader>
+                  <CardTitle className="text-red-600 flex items-center gap-2">
+                    <AlertTriangle className="w-5 h-5" />
+                    Archive Strategy?
+                  </CardTitle>
+                  <CardDescription>
+                    This will move "{deleteConfirmData?.strategy?.name || deleteConfirmData?.strategy?.configuration_name}" to the Archive. You can restore it later if needed.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="destructive"
+                      onClick={confirmDeleteStrategy}
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      Move to Archive
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => {
+                        setShowDeleteConfirmDialog(false);
+                        setDeleteConfirmData(null);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Permanent Delete Confirmation Dialog */}
+          {showPermanentDeleteDialog && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <Card className="w-96">
+                <CardHeader>
+                  <CardTitle className="text-red-600 flex items-center gap-2">
+                    <AlertTriangle className="w-5 h-5" />
+                    Permanent Deletion Warning
+                  </CardTitle>
+                  <CardDescription>
+                    Are you sure you want to permanently delete {selectedArchiveStrategies.length} strategy(ies)? This action cannot be undone.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="destructive"
+                      onClick={confirmPermanentDelete}
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      Delete Permanently
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => setShowPermanentDeleteDialog(false)}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
           {/* Account Settings Dialog */}
           {showAccountSettings && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
