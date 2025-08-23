@@ -3286,9 +3286,9 @@ metadata = {
                         {user}
                       </DropdownMenuItem>
                     ))}
-                    <DropdownMenuItem onClick={() => setShowNewUserDialog(true)}>
-                      <UserPlus className="w-4 h-4 mr-2" />
-                      New User
+                    <DropdownMenuItem onClick={() => setShowHelpDialog(true)}>
+                      <HelpCircle className="w-4 h-4 mr-2" />
+                      Help
                     </DropdownMenuItem>
                     <DropdownMenuItem 
                       onClick={() => setShowDeleteUserDialog(true)}
