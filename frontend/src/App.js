@@ -3325,7 +3325,7 @@ metadata = {
                       {/* Remove "Tradexchange Update from TX-Filings" prefix and show headline as main content */}
                       <div className="flex items-start justify-between mb-2">
                         <h4 className="font-semibold text-base leading-tight text-gray-900 flex-1 pr-2">
-                          {article.headline?.replace(/^Tradexchange Update from TX-Filings:\s*/i, '') || 'No headline available'}
+                          {article.headline?.replace(/^(TradeXchange Update from TX-Filings:|TradeXchange Update from TX-News:|TradeXchange Update from TXNews1:)\s*/i, '') || 'No headline available'}
                         </h4>
                         <div className="flex gap-2 ml-2 flex-shrink-0">
                           <Badge 
