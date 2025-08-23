@@ -507,7 +507,7 @@ metadata = {
 
   const loadNews = async () => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/news/live?limit=50`);
+      const response = await fetch(`${BACKEND_URL}/api/news/live?limit=100`);
       const data = await response.json();
       setNews(data.articles || []);
     } catch (error) {
