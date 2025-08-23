@@ -1531,7 +1531,7 @@ metadata = {
         </div>
 
         {/* Strategy List */}
-        <Card className={`relative pane-enhanced ${fullScreenPane === 'strategies-list' ? 'fixed inset-4 top-20 z-50' : ''}`}>
+        <Card className={`relative pane-enhanced ${fullScreenPane === 'strategies-list' ? 'fullscreen-enhanced' : ''}`}>
           <FullScreenButton paneId="strategies-list" />
           <CardContent className="p-6">
             <div className="grid gap-4">
