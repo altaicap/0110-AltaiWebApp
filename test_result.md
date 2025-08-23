@@ -516,7 +516,8 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
   run_ui: false
 
 ## test_plan:
-  current_focus: []
+  current_focus:
+    - "Help Contact Form Support Endpoint"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
