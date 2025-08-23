@@ -593,3 +593,18 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
       - working: true
         agent: "testing"
         comment: "✅ COMPREHENSIVE FEEDBACK 8.0 TESTING COMPLETE: Configured strategies dropdown fix working perfectly. SUCCESS RATE: 100% (10/10 core workflow steps verified). ✅ COMPLETE WORKFLOW TESTED: Step 1: Navigate to BACKTEST tab ✓, Step 2: Select Prior Bar Break Algo strategy ✓, Step 3: Click Save Configuration button ✓, Step 4: Return to STRATEGIES tab ✓, Step 5: Verify CONFIGURED STRATEGIES section shows content with count > 0 ✓. ✅ CONFIGURED STRATEGIES SECTION: Section properly displays when configurations exist, shows count 'Configured: 1', includes proper description text. ✅ STRATEGY CATEGORIZATION: Clear separation between UPLOADED STRATEGIES (count: 0) and CONFIGURED STRATEGIES (count: 1) with proper badges and styling. ✅ CONFIGURED BADGE: Strategy displays with green 'CONFIGURED' badge as expected. ✅ LIVE TRADE FUNCTIONALITY: Live Trade button appears only on configured strategies, not on uploaded strategies. ✅ SAVE CONFIGURATION WORKFLOW: Complete end-to-end workflow from Backtest tab to Strategies tab working seamlessly. ✅ STRATEGY COUNTS UPDATE: Header counts update correctly (Uploaded: 0, Configured: 1, Live Trading: 0). Configured strategies dropdown fix is production-ready and fully functional."
+
+  - task: "Help Contact Form Support Endpoint"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented /api/support/submit endpoint for Help contact form functionality. Accepts POST requests with form data (name, email, issueType, message) and optional file attachments. Validates required fields, handles file uploads to /tmp/support_attachments directory, stores requests in MongoDB support_requests collection, and returns proper success/error responses."
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Help Contact Form Support Endpoint working excellently. SUCCESS RATE: 100% (33/33 tests passed). ✅ VALID SUBMISSIONS: All required fields (name, email, issueType, message) properly accepted and processed with success responses and unique request IDs generated. ✅ FILE ATTACHMENTS: Single and multiple file attachments working correctly - files saved to /tmp/support_attachments with proper naming (request_id_filename format), attachment metadata stored in database. ✅ FIELD VALIDATION: Missing required fields properly rejected with 422 status codes (FastAPI validation working correctly). ✅ ISSUE TYPES: All specified issue types accepted (connectivity, strategies, backtest, news). ✅ DATABASE STORAGE: Support requests properly stored in MongoDB support_requests collection with all required fields (id, name, email, issue_type, message, status, created_at, attachments). ✅ SPECIAL CHARACTERS: Unicode characters, emojis, and special symbols properly handled. ✅ LARGE CONTENT: Large messages (8800+ characters) accepted without issues. ✅ ERROR HANDLING: Proper error responses for validation failures. Fixed database check issue (changed 'if db:' to 'if db is not None:' for MongoDB motor compatibility). Support endpoint is production-ready and fully functional."
