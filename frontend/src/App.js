@@ -1292,16 +1292,25 @@ metadata = {
           <Separator />
 
           {/* Interactive Brokers (IBKR) */}
-          <div className="space-y-3">
+          <div className="space-y-3 p-4 border rounded-lg bg-gradient-to-r from-indigo-50 to-purple-50 opacity-60">
             <div className="flex items-center justify-between">
-              <div>
-                <Label className="text-base font-medium">Interactive Brokers (IBKR)</Label>
-                <p className="text-sm text-gray-500">Professional trading platform with OAuth 2.0</p>
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center">
+                  <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 3H21C21.55 3 22 3.45 22 4V20C22 20.55 21.55 21 21 21H3C2.45 21 2 20.55 2 20V4C2 3.45 2.45 3 3 3ZM20 8H4V19H20V8ZM20 6V5H4V6H20ZM6 10H8V17H6V10ZM10 12H12V17H10V12ZM14 14H16V17H14V14Z" />
+                  </svg>
+                </div>
+                <div>
+                  <Label className="text-base font-semibold flex items-center gap-2">
+                    Interactive Brokers (IBKR)
+                    <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.ibkr)} animate-pulse`} />
+                  </Label>
+                  <p className="text-sm text-gray-600">Professional trading platform with OAuth 2.0</p>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <ErrorNotification error="IBKR integration requires OAuth setup" />
-                <Badge variant="secondary">OAuth Required</Badge>
-              </div>
+              <Badge variant="secondary" className="px-3 py-1">
+                OAuth Required
+              </Badge>
             </div>
             <div className="space-y-2">
               <Label htmlFor="ibkrClientId">Client ID</Label>
