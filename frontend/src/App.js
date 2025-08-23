@@ -1829,7 +1829,7 @@ metadata = {
 
         {/* Edit Strategy Form */}
         {editingStrategy && (
-          <Card className={`relative ${fullScreenPane === 'strategies-edit' ? 'fixed inset-4 top-20 z-50' : ''}`}>
+          <Card className={`relative ${fullScreenPane === 'strategies-edit' ? 'fullscreen-enhanced' : ''}`}>
             <FullScreenButton paneId="strategies-edit" />
             <CardHeader>
               <CardTitle>Edit Strategy: {editingStrategy.name}</CardTitle>
