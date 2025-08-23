@@ -2464,27 +2464,21 @@ metadata = {
                 <Button 
                   className="bg-blue-600 hover:bg-blue-700"
                   onClick={() => {
-                    // Save configuration instead of starting live trade
+                    // Save configuration as a separate instance
                     const configurationData = {
+                      id: `config_${Date.now()}`, // Unique ID for each configuration
                       strategy_name: backtestForm.strategy_name,
+                      configuration_name: `${backtestForm.strategy_name} Config ${new Date().toLocaleDateString()}`,
+                      base_strategy_id: selectedStrategy?.id, // Reference to the original uploaded strategy
                       configuration: backtestForm,
                       strategy_settings: selectedStrategy ? selectedStrategy.parameters : {},
                       saved_at: new Date().toISOString()
                     };
                     
-                    // Add to configured strategies
-                    setTradingConfigurations(prev => {
-                      const existingIndex = prev.findIndex(c => c.strategy_name === backtestForm.strategy_name);
-                      if (existingIndex >= 0) {
-                        const updated = [...prev];
-                        updated[existingIndex] = { ...updated[existingIndex], ...configurationData };
-                        return updated;
-                      } else {
-                        return [...prev, { id: Date.now().toString(), ...configurationData }];
-                      }
-                    });
+                    // Add to configured strategies (always append, never replace)
+                    setTradingConfigurations(prev => [...prev, configurationData]);
                     
-                    setSuccess(`Configuration saved for ${backtestForm.strategy_name}. Check Strategies tab for configured strategy.`);
+                    setSuccess(`New configuration saved for ${backtestForm.strategy_name}. Check Strategies tab for the configured strategy.`);
                   }}
                   disabled={!backtestForm.strategy_name}
                 >
