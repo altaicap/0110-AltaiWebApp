@@ -685,6 +685,83 @@ metadata = {
     }));
   };
 
+  // Archive and Delete Functions
+  const handleDeleteStrategy = (strategy, type = 'uploaded') => {
+    setDeleteConfirmData({ strategy, type });
+    setShowDeleteConfirmDialog(true);
+  };
+
+  const confirmDeleteStrategy = () => {
+    if (!deleteConfirmData) return;
+    
+    const { strategy, type } = deleteConfirmData;
+    
+    // Add to archive with metadata
+    const archivedStrategy = {
+      ...strategy,
+      archived_at: new Date().toISOString(),
+      original_type: type,
+      id: `archived_${strategy.id}_${Date.now()}`
+    };
+    
+    setArchivedStrategies(prev => [...prev, archivedStrategy]);
+    
+    // Remove from original location
+    if (type === 'uploaded') {
+      setStrategies(prev => prev.filter(s => s.id !== strategy.id));
+    } else if (type === 'configured') {
+      setTradingConfigurations(prev => prev.filter(s => s.id !== strategy.id));
+    }
+    
+    setSuccess(`${strategy.name || strategy.configuration_name} moved to archive`);
+    setShowDeleteConfirmDialog(false);
+    setDeleteConfirmData(null);
+  };
+
+  const handleArchiveSelection = (strategyId) => {
+    setSelectedArchiveStrategies(prev => 
+      prev.includes(strategyId) 
+        ? prev.filter(id => id !== strategyId)
+        : [...prev, strategyId]
+    );
+  };
+
+  const handlePermanentDelete = () => {
+    if (selectedArchiveStrategies.length === 0) return;
+    setShowPermanentDeleteDialog(true);
+  };
+
+  const confirmPermanentDelete = () => {
+    setArchivedStrategies(prev => 
+      prev.filter(s => !selectedArchiveStrategies.includes(s.id))
+    );
+    setSelectedArchiveStrategies([]);
+    setSuccess(`${selectedArchiveStrategies.length} strategies permanently deleted`);
+    setShowPermanentDeleteDialog(false);
+  };
+
+  const restoreFromArchive = (strategy) => {
+    // Remove from archive
+    setArchivedStrategies(prev => prev.filter(s => s.id !== strategy.id));
+    
+    // Restore to original location
+    if (strategy.original_type === 'uploaded') {
+      const restoredStrategy = { ...strategy };
+      delete restoredStrategy.archived_at;
+      delete restoredStrategy.original_type;
+      restoredStrategy.id = strategy.id.replace(/^archived_/, '').split('_')[0];
+      setStrategies(prev => [...prev, restoredStrategy]);
+    } else if (strategy.original_type === 'configured') {
+      const restoredStrategy = { ...strategy };
+      delete restoredStrategy.archived_at;
+      delete restoredStrategy.original_type;
+      restoredStrategy.id = strategy.id.replace(/^archived_/, '').split('_')[0];
+      setTradingConfigurations(prev => [...prev, restoredStrategy]);
+    }
+    
+    setSuccess(`${strategy.name || strategy.configuration_name} restored from archive`);
+  };
+
   const handleAppSettingChange = (key, value) => {
     setAppSettings(prev => ({ ...prev, [key]: value }));
   };
