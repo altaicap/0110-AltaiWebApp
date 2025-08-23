@@ -618,6 +618,66 @@ metadata = {
     }
   };
 
+  // Help Form Functions
+  const submitHelpForm = async () => {
+    if (!helpForm.issueType || !helpForm.message.trim()) {
+      setError('Issue type and message are required');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append('name', helpForm.name || currentUser);
+      formData.append('email', helpForm.email || `${currentUser.toLowerCase().replace(' ', '.')}@altaitrader.com`);
+      formData.append('issueType', helpForm.issueType);
+      formData.append('message', helpForm.message);
+      
+      // Add attachments
+      helpForm.attachments.forEach((file, index) => {
+        formData.append(`attachment_${index}`, file);
+      });
+
+      const response = await fetch(`${BACKEND_URL}/api/support/submit`, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        setSuccess('Help request submitted successfully! We will get back to you soon.');
+        setShowHelpDialog(false);
+        setHelpForm({
+          name: '',
+          email: '',
+          issueType: '',
+          message: '',
+          attachments: []
+        });
+      } else {
+        setError('Failed to submit help request');
+      }
+    } catch (error) {
+      setError(`Help request failed: ${error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleFileAttachment = (event) => {
+    const files = Array.from(event.target.files);
+    setHelpForm(prev => ({
+      ...prev,
+      attachments: [...prev.attachments, ...files]
+    }));
+  };
+
+  const removeAttachment = (index) => {
+    setHelpForm(prev => ({
+      ...prev,
+      attachments: prev.attachments.filter((_, i) => i !== index)
+    }));
+  };
+
   const handleAppSettingChange = (key, value) => {
     setAppSettings(prev => ({ ...prev, [key]: value }));
   };
