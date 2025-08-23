@@ -517,14 +517,16 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
 
 ## test_plan:
   current_focus:
-    - "Help Contact Form Support Endpoint"
+    - "News Feed UI Boundary Fix"
+    - "Archive Functionality Debug" 
+    - "Broker Account Selection for Configured Strategies"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
 ## agent_communication:
   - agent: "main"
-    message: "Implemented core features: 1) Updated API keys in backend/.env with user provided values, 2) Added API key management UI in Settings tab with input fields and save buttons, 3) Enhanced Strategy Specific Settings with categorized parameters and slider controls for PBH Algo, 4) Added backend endpoint for dynamic API key updates. Ready for backend testing to verify API functionality."
+    message: "Starting work on three pending issues: 1) News Feed UI extending beyond pane boundaries (needs proper containment), 2) Archive functionality not working - strategies marked as archived don't appear in Archive pane (need to debug archiving mechanism), 3) Missing broker/account dropdown for Configured Strategies pane to enable live trading with specific broker accounts like 'TradeStation Paper', 'IBKR Stocks' etc."
   - agent: "testing"
     message: "✅ BACKEND TESTING COMPLETE: Comprehensive testing performed on all backend APIs. 44/45 tests passed (97.8% success rate). All critical functionality working: API keys properly configured and loaded, API key update endpoint functional with .env persistence, settings endpoints returning correct status, connection testing successful for both Polygon and NewsWare APIs, strategy CRUD operations working, backtest endpoint functional with PBB Algo parameters. Only minor issue: error handling returns 500 instead of 400 for invalid service names, but core functionality is solid. Backend is ready for production use."
   - agent: "main"
