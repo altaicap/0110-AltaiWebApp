@@ -1896,8 +1896,6 @@ metadata = {
           </Card>
         
         </div>
-        
-        </div>
 
         {/* New Strategy Form */}
         {selectedStrategy === 'new' && (
