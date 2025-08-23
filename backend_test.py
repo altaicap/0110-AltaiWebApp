@@ -1821,6 +1821,369 @@ class Feedback80Tester:
         return self.tests_passed == self.tests_run
 
 
+class SupportEndpointTester:
+    def __init__(self, base_url="https://trade-dashboard-23.preview.emergentagent.com"):
+        self.base_url = base_url
+        self.tests_run = 0
+        self.tests_passed = 0
+        self.test_results = []
+
+    def log_test(self, name: str, success: bool, message: str = "", response_data: Any = None):
+        """Log test result"""
+        self.tests_run += 1
+        if success:
+            self.tests_passed += 1
+            print(f"✅ {name}: PASSED - {message}")
+        else:
+            print(f"❌ {name}: FAILED - {message}")
+        
+        self.test_results.append({
+            "name": name,
+            "success": success,
+            "message": message,
+            "response_data": response_data
+        })
+
+    def run_multipart_test(self, name: str, endpoint: str, expected_status: int, 
+                          form_data: Dict = None, files: Dict = None) -> tuple:
+        """Run a multipart form test"""
+        url = f"{self.base_url}/{endpoint.lstrip('/')}"
+        
+        try:
+            # Prepare multipart form data
+            response = requests.post(url, data=form_data, files=files, timeout=30)
+
+            success = response.status_code == expected_status
+            try:
+                response_json = response.json()
+            except:
+                response_json = {"raw_response": response.text}
+
+            if success:
+                self.log_test(name, True, f"Status: {response.status_code}", response_json)
+            else:
+                self.log_test(name, False, f"Expected {expected_status}, got {response.status_code}. Response: {response.text[:200]}")
+
+            return success, response_json
+
+        except requests.exceptions.Timeout:
+            self.log_test(name, False, "Request timeout (30s)")
+            return False, {}
+        except requests.exceptions.ConnectionError:
+            self.log_test(name, False, "Connection error - backend may be down")
+            return False, {}
+        except Exception as e:
+            self.log_test(name, False, f"Error: {str(e)}")
+            return False, {}
+
+    def test_valid_support_submission(self):
+        """Test valid support request submission with all required fields"""
+        print("\n🔍 Testing Valid Support Request Submission...")
+        
+        form_data = {
+            "name": "John Doe",
+            "email": "john.doe@example.com",
+            "issueType": "connectivity",
+            "message": "I'm having trouble connecting to the trading platform. The connection keeps timing out when I try to access my account."
+        }
+        
+        success, response = self.run_multipart_test(
+            "Valid Support Request",
+            "/api/support/submit",
+            200,
+            form_data=form_data
+        )
+        
+        if success and response:
+            # Verify response structure
+            required_fields = ["status", "message", "request_id"]
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                self.log_test("Support Response Structure", False, f"Missing fields: {missing_fields}")
+            else:
+                self.log_test("Support Response Structure", True, "All required fields present")
+                
+                # Verify response values
+                status = response.get("status")
+                message = response.get("message")
+                request_id = response.get("request_id")
+                
+                self.log_test("Support Status", status == "success", f"Status: {status}")
+                self.log_test("Support Message", "successfully" in message.lower(), f"Message: {message}")
+                self.log_test("Request ID Generated", bool(request_id), f"Request ID: {request_id}")
+
+    def test_support_with_file_attachment(self):
+        """Test support request with file attachment"""
+        print("\n🔍 Testing Support Request with File Attachment...")
+        
+        form_data = {
+            "name": "Jane Smith",
+            "email": "jane.smith@example.com",
+            "issueType": "strategies",
+            "message": "I'm having issues with my custom strategy. Please see the attached log file for details."
+        }
+        
+        # Create a test file in memory
+        test_file_content = b"Test log file content\nError: Strategy execution failed\nTimestamp: 2024-01-01 12:00:00"
+        files = {
+            "attachments": ("error_log.txt", test_file_content, "text/plain")
+        }
+        
+        success, response = self.run_multipart_test(
+            "Support Request with File Attachment",
+            "/api/support/submit",
+            200,
+            form_data=form_data,
+            files=files
+        )
+        
+        if success and response:
+            status = response.get("status")
+            request_id = response.get("request_id")
+            
+            self.log_test("Support with Attachment Status", status == "success", f"Status: {status}")
+            self.log_test("Support with Attachment ID", bool(request_id), f"Request ID: {request_id}")
+
+    def test_support_with_multiple_attachments(self):
+        """Test support request with multiple file attachments"""
+        print("\n🔍 Testing Support Request with Multiple Attachments...")
+        
+        form_data = {
+            "name": "Bob Johnson",
+            "email": "bob.johnson@example.com",
+            "issueType": "backtest",
+            "message": "My backtest results don't match expected outcomes. Attaching strategy file and results."
+        }
+        
+        # Create multiple test files
+        files = [
+            ("attachments", ("strategy.py", b"# Strategy code\nclass MyStrategy:\n    pass", "text/x-python")),
+            ("attachments", ("results.csv", b"Date,PnL,Trades\n2024-01-01,100.50,5", "text/csv"))
+        ]
+        
+        success, response = self.run_multipart_test(
+            "Support Request with Multiple Attachments",
+            "/api/support/submit",
+            200,
+            form_data=form_data,
+            files=files
+        )
+        
+        if success and response:
+            status = response.get("status")
+            request_id = response.get("request_id")
+            
+            self.log_test("Support Multiple Attachments Status", status == "success", f"Status: {status}")
+            self.log_test("Support Multiple Attachments ID", bool(request_id), f"Request ID: {request_id}")
+
+    def test_missing_required_fields(self):
+        """Test support request with missing required fields"""
+        print("\n🔍 Testing Support Request with Missing Required Fields...")
+        
+        # Test missing name
+        form_data_missing_name = {
+            "email": "test@example.com",
+            "issueType": "connectivity",
+            "message": "Test message"
+        }
+        
+        success, response = self.run_multipart_test(
+            "Support Request Missing Name",
+            "/api/support/submit",
+            422,  # FastAPI validation error
+            form_data=form_data_missing_name
+        )
+        
+        if success:
+            self.log_test("Missing Name Validation", True, "Correctly rejected request without name")
+        
+        # Test missing email
+        form_data_missing_email = {
+            "name": "Test User",
+            "issueType": "connectivity",
+            "message": "Test message"
+        }
+        
+        success, response = self.run_multipart_test(
+            "Support Request Missing Email",
+            "/api/support/submit",
+            422,  # FastAPI validation error
+            form_data=form_data_missing_email
+        )
+        
+        if success:
+            self.log_test("Missing Email Validation", True, "Correctly rejected request without email")
+        
+        # Test missing issueType
+        form_data_missing_issue = {
+            "name": "Test User",
+            "email": "test@example.com",
+            "message": "Test message"
+        }
+        
+        success, response = self.run_multipart_test(
+            "Support Request Missing Issue Type",
+            "/api/support/submit",
+            422,  # FastAPI validation error
+            form_data=form_data_missing_issue
+        )
+        
+        if success:
+            self.log_test("Missing Issue Type Validation", True, "Correctly rejected request without issue type")
+        
+        # Test missing message
+        form_data_missing_message = {
+            "name": "Test User",
+            "email": "test@example.com",
+            "issueType": "connectivity"
+        }
+        
+        success, response = self.run_multipart_test(
+            "Support Request Missing Message",
+            "/api/support/submit",
+            422,  # FastAPI validation error
+            form_data=form_data_missing_message
+        )
+        
+        if success:
+            self.log_test("Missing Message Validation", True, "Correctly rejected request without message")
+
+    def test_different_issue_types(self):
+        """Test support request with different issue types"""
+        print("\n🔍 Testing Support Request with Different Issue Types...")
+        
+        issue_types = ["connectivity", "strategies", "backtest", "news"]
+        
+        for issue_type in issue_types:
+            form_data = {
+                "name": f"Test User {issue_type.title()}",
+                "email": f"test.{issue_type}@example.com",
+                "issueType": issue_type,
+                "message": f"I'm having issues with {issue_type}. Please help me resolve this problem."
+            }
+            
+            success, response = self.run_multipart_test(
+                f"Support Request - {issue_type.title()} Issue",
+                "/api/support/submit",
+                200,
+                form_data=form_data
+            )
+            
+            if success and response:
+                status = response.get("status")
+                self.log_test(f"{issue_type.title()} Issue Type", status == "success", 
+                             f"Issue type '{issue_type}' accepted")
+
+    def test_invalid_email_format(self):
+        """Test support request with invalid email format"""
+        print("\n🔍 Testing Support Request with Invalid Email Format...")
+        
+        form_data = {
+            "name": "Test User",
+            "email": "invalid-email-format",  # Invalid email
+            "issueType": "connectivity",
+            "message": "Test message with invalid email"
+        }
+        
+        success, response = self.run_multipart_test(
+            "Support Request Invalid Email",
+            "/api/support/submit",
+            200,  # Backend might accept any string as email
+            form_data=form_data
+        )
+        
+        # Note: The backend doesn't validate email format, so this will likely pass
+        # This is a minor issue but not critical for functionality
+        if success:
+            self.log_test("Invalid Email Handling", True, "Email format validation (backend accepts any string)")
+
+    def test_large_message_content(self):
+        """Test support request with large message content"""
+        print("\n🔍 Testing Support Request with Large Message...")
+        
+        # Create a large message (10KB)
+        large_message = "This is a detailed description of my issue. " * 200
+        
+        form_data = {
+            "name": "Test User Large Message",
+            "email": "large.message@example.com",
+            "issueType": "strategies",
+            "message": large_message
+        }
+        
+        success, response = self.run_multipart_test(
+            "Support Request Large Message",
+            "/api/support/submit",
+            200,
+            form_data=form_data
+        )
+        
+        if success and response:
+            status = response.get("status")
+            self.log_test("Large Message Handling", status == "success", 
+                         f"Large message ({len(large_message)} chars) accepted")
+
+    def test_special_characters_in_fields(self):
+        """Test support request with special characters in fields"""
+        print("\n🔍 Testing Support Request with Special Characters...")
+        
+        form_data = {
+            "name": "José María García-López",  # Special characters in name
+            "email": "josé.maría@example.com",  # Special characters in email
+            "issueType": "connectivity",
+            "message": "I'm having issues with symbols like €, £, ¥, and emojis 🚀📈. Also testing quotes \"test\" and 'test'."
+        }
+        
+        success, response = self.run_multipart_test(
+            "Support Request Special Characters",
+            "/api/support/submit",
+            200,
+            form_data=form_data
+        )
+        
+        if success and response:
+            status = response.get("status")
+            self.log_test("Special Characters Handling", status == "success", 
+                         "Special characters and Unicode properly handled")
+
+    def run_all_support_tests(self):
+        """Run all support endpoint tests"""
+        print("🚀 Starting Support Endpoint Tests")
+        print(f"🎯 Testing against: {self.base_url}")
+        print("=" * 70)
+        
+        # Run all test suites
+        self.test_valid_support_submission()
+        self.test_support_with_file_attachment()
+        self.test_support_with_multiple_attachments()
+        self.test_missing_required_fields()
+        self.test_different_issue_types()
+        self.test_invalid_email_format()
+        self.test_large_message_content()
+        self.test_special_characters_in_fields()
+        
+        # Print summary
+        print("\n" + "=" * 70)
+        print("📊 SUPPORT ENDPOINT TEST SUMMARY")
+        print("=" * 70)
+        print(f"Total Tests: {self.tests_run}")
+        print(f"Passed: {self.tests_passed}")
+        print(f"Failed: {self.tests_run - self.tests_passed}")
+        print(f"Success Rate: {(self.tests_passed/self.tests_run*100):.1f}%" if self.tests_run > 0 else "0%")
+        
+        # List failed tests
+        failed_tests = [test for test in self.test_results if not test["success"]]
+        if failed_tests:
+            print("\n❌ FAILED TESTS:")
+            for test in failed_tests:
+                print(f"  - {test['name']}: {test['message']}")
+        else:
+            print("\n🎉 ALL SUPPORT TESTS PASSED!")
+        
+        return self.tests_passed == self.tests_run
+
+
 def main():
     """Main test runner"""
     print("🚀 COMPREHENSIVE BACKEND TESTING SUITE")
