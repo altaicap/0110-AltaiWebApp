@@ -1362,10 +1362,10 @@ metadata = {
           <Separator />
 
           {/* TradeStation Integration */}
-          <div className="space-y-3 p-4 border rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 opacity-60">
+          <div className="space-y-3 p-4 border rounded-lg bg-gradient-to-r from-blue-50 to-sky-50 opacity-60">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
+                <div className="w-12 h-12 bg-sky-400 rounded-lg flex items-center justify-center">
                   <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M13 3C13.55 3 14 3.45 14 4V12C14 12.55 13.55 13 13 13H4C3.45 13 3 12.55 3 12V4C3 3.45 3.45 3 4 3H13ZM13 21C13.55 21 14 20.55 14 20V16C14 15.45 13.55 15 13 15H4C3.45 15 3 15.45 3 16V20C3 20.55 3.45 21 4 21H13ZM21 16C21.55 16 22 15.55 22 15V4C22 3.45 21.55 3 21 3H16C15.45 3 15 3.45 15 4V15C15 15.55 15.45 16 16 16H21Z" />
                   </svg>
