@@ -53,7 +53,10 @@ import {
   Bell,
   CreditCard,
   Settings2,
-  LogOut
+  LogOut,
+  HelpCircle,
+  Upload,
+  Send
 } from 'lucide-react';
 import { format } from "date-fns";
 import AltaiLogo from './assets/altai-logo.svg';
