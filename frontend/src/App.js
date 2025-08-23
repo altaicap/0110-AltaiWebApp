@@ -3310,9 +3310,9 @@ metadata = {
               </div>
             </div>
           </CardHeader>
-          <CardContent className={fullScreenPane === 'news-feed' ? 'h-full overflow-auto p-6' : 'p-6'}>
-            <ScrollArea className={fullScreenPane === 'news-feed' ? 'h-[calc(100vh-280px)]' : 'h-[500px] border-b'}>
-              <div className="space-y-3 pr-4">
+          <CardContent className={fullScreenPane === 'news-feed' ? 'h-full overflow-hidden p-6' : 'p-6'}>
+            <ScrollArea className={fullScreenPane === 'news-feed' ? 'h-[calc(100vh-280px)] border rounded' : 'h-[500px] border rounded'}>
+              <div className="space-y-3 pr-4 pb-4">
                 {news.length === 0 ? (
                   <div className="text-center py-12 text-gray-500">
                     <FileText className="w-12 h-12 mx-auto mb-4 opacity-50" />
@@ -3320,60 +3320,67 @@ metadata = {
                     <p className="text-xs">Check your API connections and try refreshing</p>
                   </div>
                 ) : (
-                  news.map((article) => (
-                    <div key={article.id} className="border-b border-gray-100 pb-3 last:border-b-0">
-                      {/* Remove "Tradexchange Update from TX-Filings" prefix and show headline as main content */}
-                      <div className="flex items-start justify-between mb-2">
-                        <h4 className="font-semibold text-base leading-tight text-gray-900 flex-1 pr-2">
-                          {(() => {
-                            let cleanHeadline = article.headline || 'No headline available';
-                            // Remove common TradeXchange prefixes
-                            cleanHeadline = cleanHeadline.replace(/^TradeXchange Update from [^:]+:\s*/gi, '');
-                            cleanHeadline = cleanHeadline.replace(/^TX[^:]*:\s*/gi, '');
-                            cleanHeadline = cleanHeadline.replace(/^TXNews[^:]*:\s*/gi, '');
-                            cleanHeadline = cleanHeadline.replace(/^TXFilings[^:]*:\s*/gi, '');
-                            return cleanHeadline;
-                          })()}
-                        </h4>
-                        <div className="flex gap-2 ml-2 flex-shrink-0">
-                          <Badge 
-                            variant="outline" 
-                            className={`text-xs ${article.source === 'NewsWare' ? 'border-blue-500 text-blue-600' : 'border-orange-500 text-orange-600'}`}
-                          >
-                            {article.source === 'MockNews' ? 'NewsWare' : article.source}
-                          </Badge>
-                          {article.source !== 'TradeXchange' && (
-                            <Badge variant="secondary" className="text-xs">
-                              {article.source === 'MockNews' ? 'NW' : 'TX'}
+                  <>
+                    {news.map((article, index) => (
+                      <div key={article.id} className="border-b border-gray-100 pb-3 last:border-b-0">
+                        {/* Remove "Tradexchange Update from TX-Filings" prefix and show headline as main content */}
+                        <div className="flex items-start justify-between mb-2">
+                          <h4 className="font-semibold text-base leading-tight text-gray-900 flex-1 pr-2">
+                            {(() => {
+                              let cleanHeadline = article.headline || 'No headline available';
+                              // Remove common TradeXchange prefixes
+                              cleanHeadline = cleanHeadline.replace(/^TradeXchange Update from [^:]+:\s*/gi, '');
+                              cleanHeadline = cleanHeadline.replace(/^TX[^:]*:\s*/gi, '');
+                              cleanHeadline = cleanHeadline.replace(/^TXNews[^:]*:\s*/gi, '');
+                              cleanHeadline = cleanHeadline.replace(/^TXFilings[^:]*:\s*/gi, '');
+                              return cleanHeadline;
+                            })()}
+                          </h4>
+                          <div className="flex gap-2 ml-2 flex-shrink-0">
+                            <Badge 
+                              variant="outline" 
+                              className={`text-xs ${article.source === 'NewsWare' ? 'border-blue-500 text-blue-600' : 'border-orange-500 text-orange-600'}`}
+                            >
+                              {article.source === 'MockNews' ? 'NewsWare' : article.source}
                             </Badge>
-                          )}
+                            {article.source !== 'TradeXchange' && (
+                              <Badge variant="secondary" className="text-xs">
+                                {article.source === 'MockNews' ? 'NW' : 'TX'}
+                              </Badge>
+                            )}
+                          </div>
+                        </div>
+                        
+                        {/* Remove body text completely, keep tickers and RVOL */}
+                        <div className="flex items-center justify-between text-xs text-gray-500">
+                          <div className="flex gap-2 flex-wrap">
+                            {article.tickers?.slice(0, 4).map((ticker) => {
+                              const rvol = calculateRVOL(ticker, article.published_at);
+                              return (
+                                <div key={ticker} className="flex items-center gap-1">
+                                  <Badge variant="secondary" className="text-xs">
+                                    {ticker}
+                                  </Badge>
+                                  <Badge 
+                                    className={`text-xs px-1.5 py-0.5 ${getRVOLColor(rvol)}`}
+                                    title={`RVOL: ${rvol.toFixed(2)} (Period: ${rvolPeriod}, Lookback: ${lookbackPeriod} bars)`}
+                                  >
+                                    {rvol.toFixed(1)}
+                                  </Badge>
+                                </div>
+                              );
+                            })}
+                          </div>
+                          <span className="text-xs">{format(new Date(article.published_at), "MMM dd, HH:mm:ss")}</span>
                         </div>
                       </div>
-                      
-                      {/* Remove body text completely, keep tickers and RVOL */}
-                      <div className="flex items-center justify-between text-xs text-gray-500">
-                        <div className="flex gap-2 flex-wrap">
-                          {article.tickers?.slice(0, 4).map((ticker) => {
-                            const rvol = calculateRVOL(ticker, article.published_at);
-                            return (
-                              <div key={ticker} className="flex items-center gap-1">
-                                <Badge variant="secondary" className="text-xs">
-                                  {ticker}
-                                </Badge>
-                                <Badge 
-                                  className={`text-xs px-1.5 py-0.5 ${getRVOLColor(rvol)}`}
-                                  title={`RVOL: ${rvol.toFixed(2)} (Period: ${rvolPeriod}, Lookback: ${lookbackPeriod} bars)`}
-                                >
-                                  {rvol.toFixed(1)}
-                                </Badge>
-                              </div>
-                            );
-                          })}
-                        </div>
-                        <span className="text-xs">{format(new Date(article.published_at), "MMM dd, HH:mm:ss")}</span>
-                      </div>
+                    ))}
+                    
+                    {/* Add a visual indicator at the bottom */}
+                    <div className="text-center py-3 text-gray-400 text-xs border-t">
+                      {news.length} articles loaded • Scroll up to see more
                     </div>
-                  ))
+                  </>
                 )}
               </div>
             </ScrollArea>
