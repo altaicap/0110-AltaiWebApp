@@ -1726,24 +1726,64 @@ metadata = {
                           </CardDescription>
                         </CardHeader>
                         <CardContent className="pt-2">
-                          <div className="flex gap-1 flex-wrap">
-                            <Button size="sm" className="text-xs h-7">
-                              <PlayCircle className="w-3 h-3 mr-1" />
-                              {isLive ? 'Stop' : 'Live Trade'}
-                            </Button>
-                            <Button size="sm" variant="outline" className="text-xs h-7">
-                              <BarChart3 className="w-3 h-3 mr-1" />
-                              Backtest
-                            </Button>
-                            <Button 
-                              size="sm" 
-                              variant="outline" 
-                              className="text-xs h-7"
-                              onClick={() => handleDeleteStrategy(configStrategy, 'configured')}
-                            >
-                              <Trash2 className="w-3 h-3 mr-1" />
-                              Archive
-                            </Button>
+                          <div className="space-y-2">
+                            {/* Broker Account Selection Dropdown */}
+                            <div className="mb-2">
+                              <Label className="text-xs text-gray-600">Broker Account</Label>
+                              <Select 
+                                value={configStrategy.broker_account || ''} 
+                                onValueChange={(value) => {
+                                  // Update the trading configuration with selected broker account
+                                  const [broker, accountType] = value.split('|');
+                                  setTradingConfigurations(prev => 
+                                    prev.map(config => 
+                                      config.id === configStrategy.id 
+                                        ? { ...config, broker, account_type: accountType, broker_account: value }
+                                        : config
+                                    )
+                                  );
+                                }}
+                              >
+                                <SelectTrigger className="h-7 text-xs">
+                                  <SelectValue placeholder="Select broker account" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="tradestation|paper">TradeStation Paper</SelectItem>
+                                  <SelectItem value="tradestation|stocks">TradeStation Stocks</SelectItem>
+                                  <SelectItem value="tradestation|options">TradeStation Options</SelectItem>
+                                  <SelectItem value="ibkr|paper">IBKR Paper Trading</SelectItem>
+                                  <SelectItem value="ibkr|stocks">IBKR Stocks</SelectItem>
+                                  <SelectItem value="ibkr|options">IBKR Options</SelectItem>
+                                  <SelectItem value="ibkr|forex">IBKR Forex</SelectItem>
+                                  <SelectItem value="ibkr|crypto">IBKR Crypto</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            
+                            <div className="flex gap-1 flex-wrap">
+                              <Button 
+                                size="sm" 
+                                className="text-xs h-7"
+                                disabled={!configStrategy.broker_account}
+                                title={!configStrategy.broker_account ? "Select a broker account to enable live trading" : ""}
+                              >
+                                <PlayCircle className="w-3 h-3 mr-1" />
+                                {isLive ? 'Stop' : 'Live Trade'}
+                              </Button>
+                              <Button size="sm" variant="outline" className="text-xs h-7">
+                                <BarChart3 className="w-3 h-3 mr-1" />
+                                Backtest
+                              </Button>
+                              <Button 
+                                size="sm" 
+                                variant="outline" 
+                                className="text-xs h-7"
+                                onClick={() => handleDeleteStrategy(configStrategy, 'configured')}
+                              >
+                                <Trash2 className="w-3 h-3 mr-1" />
+                                Archive
+                              </Button>
+                            </div>
                           </div>
                         </CardContent>
                       </Card>
