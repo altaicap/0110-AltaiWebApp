@@ -179,11 +179,11 @@ body {
 
 /* Fullscreen Enhancement */
 .fixed.inset-4 {
-  top: 5rem !important; /* Account for header */
+  top: 8.5rem !important; /* Account for header (4rem) + main padding (2rem) + tabs (2.5rem) */
   display: flex !important;
   flex-direction: column !important;
   max-width: calc(100vw - 2rem) !important;
-  max-height: calc(100vh - 6rem) !important;
+  max-height: calc(100vh - 9.5rem) !important; /* Increased to match top spacing */
   overflow: auto !important;
   z-index: 50 !important;
 }
