@@ -1024,7 +1024,7 @@ metadata = {
       </div>
 
       {/* General Settings */}
-      <Card className={`relative pane-enhanced ${fullScreenPane === 'settings-general' ? 'fixed inset-4 top-20 z-50' : ''}`}>
+      <Card className={`relative pane-enhanced ${fullScreenPane === 'settings-general' ? 'fullscreen-enhanced' : ''}`}>
         <FullScreenButton paneId="settings-general" />
         <CardHeader>
           <CardTitle className="pane-title">General</CardTitle>
