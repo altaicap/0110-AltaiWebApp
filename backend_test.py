@@ -2189,6 +2189,11 @@ def main():
     print("🚀 COMPREHENSIVE BACKEND TESTING SUITE")
     print("=" * 70)
     
+    # Run Support Endpoint Tests (NEW - Priority for review request)
+    print("\n📋 PRIORITY: Support Endpoint Tests")
+    support_tester = SupportEndpointTester()
+    support_success = support_tester.run_all_support_tests()
+    
     # Run Feedback 8.0 Tests (Priority)
     print("\n📋 PRIORITY: Feedback 8.0 Backend Tests")
     feedback80_tester = Feedback80Tester()
@@ -2209,21 +2214,28 @@ def main():
     print("🎯 OVERALL TEST SUMMARY")
     print("=" * 70)
     
-    total_tests = feedback80_tester.tests_run + auth_tester.tests_run + trading_tester.tests_run
-    total_passed = feedback80_tester.tests_passed + auth_tester.tests_passed + trading_tester.tests_passed
+    total_tests = support_tester.tests_run + feedback80_tester.tests_run + auth_tester.tests_run + trading_tester.tests_run
+    total_passed = support_tester.tests_passed + feedback80_tester.tests_passed + auth_tester.tests_passed + trading_tester.tests_passed
     
+    print(f"Support Endpoint: {support_tester.tests_passed}/{support_tester.tests_run} passed")
     print(f"Feedback 8.0: {feedback80_tester.tests_passed}/{feedback80_tester.tests_run} passed")
     print(f"Phase 1 (Auth/Billing): {auth_tester.tests_passed}/{auth_tester.tests_run} passed")
     print(f"Phase 2 (Trading): {trading_tester.tests_passed}/{trading_tester.tests_run} passed")
     print(f"Overall: {total_passed}/{total_tests} passed ({(total_passed/total_tests*100):.1f}%)" if total_tests > 0 else "No tests run")
     
-    overall_success = feedback80_success and auth_success and trading_success
+    overall_success = support_success and feedback80_success and auth_success and trading_success
     
     if overall_success:
         print("\n🎉 ALL TESTS PASSED - BACKEND IS READY!")
     else:
         print("\n⚠️  SOME TESTS FAILED - REVIEW RESULTS ABOVE")
         
+        # Highlight Support Endpoint results specifically (priority for review)
+        if not support_success:
+            print("\n🚨 SUPPORT ENDPOINT TESTS FAILED - REVIEW REQUEST PRIORITY ISSUE!")
+        else:
+            print("\n✅ SUPPORT ENDPOINT TESTS PASSED - Review request features working!")
+            
         # Highlight Feedback 8.0 results specifically
         if not feedback80_success:
             print("\n🚨 FEEDBACK 8.0 TESTS FAILED - PRIORITY ISSUE!")
