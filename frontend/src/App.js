@@ -167,6 +167,13 @@ function App() {
     message: '',
     attachments: []
   });
+
+  // Archive and Delete States
+  const [archivedStrategies, setArchivedStrategies] = useState([]);
+  const [showDeleteConfirmDialog, setShowDeleteConfirmDialog] = useState(false);
+  const [deleteConfirmData, setDeleteConfirmData] = useState(null);
+  const [selectedArchiveStrategies, setSelectedArchiveStrategies] = useState([]);
+  const [showPermanentDeleteDialog, setShowPermanentDeleteDialog] = useState(false);
   
   // Backtest Form State (moved from BacktestTab to prevent resets)
   const [backtestForm, setBacktestForm] = useState({
