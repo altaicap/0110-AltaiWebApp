@@ -1915,6 +1915,75 @@ async def toggle_live_trading(
             detail=f"Error updating configuration: {str(e)}"
         )
 
+# ================================
+# Support Endpoints
+# ================================
+
+@app.post("/api/support/submit")
+async def submit_support_request(
+    name: str = Form(...),
+    email: str = Form(...),
+    issueType: str = Form(...),
+    message: str = Form(...),
+    attachments: List[UploadFile] = File(default=[])
+):
+    """Submit a support request with optional file attachments"""
+    try:
+        # Create support request document
+        support_request = {
+            "id": str(uuid.uuid4()),
+            "name": name,
+            "email": email,
+            "issue_type": issueType,
+            "message": message,
+            "status": "new",
+            "created_at": datetime.utcnow(),
+            "attachments": []
+        }
+
+        # Handle file attachments
+        attachment_dir = "/tmp/support_attachments"
+        os.makedirs(attachment_dir, exist_ok=True)
+        
+        for attachment in attachments:
+            if attachment.filename:
+                # Sanitize filename
+                safe_filename = f"{support_request['id']}_{attachment.filename}"
+                file_path = os.path.join(attachment_dir, safe_filename)
+                
+                # Save file
+                with open(file_path, "wb") as buffer:
+                    content = await attachment.read()
+                    buffer.write(content)
+                
+                support_request["attachments"].append({
+                    "filename": attachment.filename,
+                    "filepath": file_path,
+                    "content_type": attachment.content_type,
+                    "size": len(content)
+                })
+
+        # Store in database (MongoDB)
+        if db:
+            await db.support_requests.insert_one(support_request)
+            logger.info(f"Support request submitted: {support_request['id']}")
+        
+        # Log the request for debugging
+        logger.info(f"Support request from {email}: {issueType} - {message[:100]}...")
+        
+        return {
+            "status": "success",
+            "message": "Support request submitted successfully",
+            "request_id": support_request["id"]
+        }
+
+    except Exception as e:
+        logger.error(f"Error submitting support request: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error submitting support request: {str(e)}"
+        )
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001, reload=True)
