@@ -3310,8 +3310,8 @@ metadata = {
               </div>
             </div>
           </CardHeader>
-          <CardContent className={fullScreenPane === 'news-feed' ? 'h-full overflow-hidden p-0' : 'p-0 flex flex-col'}>
-            <ScrollArea className={fullScreenPane === 'news-feed' ? 'h-[calc(100vh-280px)] border rounded m-6' : 'flex-1 border rounded m-6'} style={{ minHeight: fullScreenPane === 'news-feed' ? 'calc(100vh-280px)' : 'calc(100vh - 400px)' }}>
+          <CardContent className="p-6 flex flex-col h-full">
+            <ScrollArea className="flex-1 border rounded" style={{ maxHeight: 'calc(100vh - 500px)' }}>
               <div className="space-y-3 p-4 pb-4">
                 {news.length === 0 ? (
                   <div className="text-center py-12 text-gray-500">
@@ -3377,7 +3377,7 @@ metadata = {
                     
                     {/* Add a visual indicator at the bottom */}
                     <div className="text-center py-3 text-gray-400 text-xs border-t">
-                      {news.length} articles loaded • Scroll up to see more
+                      {news.length} articles loaded
                     </div>
                   </>
                 )}
