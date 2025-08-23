@@ -2904,7 +2904,7 @@ metadata = {
         </Card>
 
         {/* Backtest Trade Log */}
-        <Card className={`relative ${fullScreenPane === 'trade-log' ? 'fixed inset-4 top-20 z-50' : ''}`}>
+        <Card className={`relative ${fullScreenPane === 'trade-log' ? 'fullscreen-enhanced' : ''}`}>
           <FullScreenButton paneId="trade-log" />
           <CardHeader>
             <div className="flex items-center justify-between">
