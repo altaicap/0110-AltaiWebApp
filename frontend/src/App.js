@@ -1584,7 +1584,7 @@ metadata = {
       }
     };
 
-    const handleDeleteStrategy = (strategy) => {
+    const handlePermanentDeleteStrategy = (strategy) => {
       setDeleteConfirm(strategy);
     };
 
