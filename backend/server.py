@@ -431,6 +431,20 @@ async def update_api_key(request: ApiKeyUpdate):
             
             return {"status": "success", "message": "NewsWare API key updated successfully"}
         
+        elif request.service == "tradexchange":
+            # Update settings
+            settings.tradexchange_api_key = request.api_key
+            os.environ["TRADEXCHANGE_API_KEY"] = request.api_key
+            
+            # Reinitialize news service if in production mode
+            if PRODUCTION_MODE:
+                news_service = NewsService(
+                    newsware_api_key=getattr(settings, 'newsware_api_key', None),
+                    tradexchange_api_key=request.api_key
+                )
+            
+            return {"status": "success", "message": "TradeXchange API key updated successfully"}
+        
         else:
             raise HTTPException(status_code=400, detail="Invalid service name")
             
