@@ -1552,12 +1552,18 @@ metadata = {
                           <div className="flex items-center gap-2">
                             <div>
                               <CardTitle className="text-lg flex items-center gap-2">
-                                {baseStrategy.name}
+                                {configStrategy.configuration_name || `${baseStrategy.name} Configuration`}
                                 <Badge variant="default" className="bg-green-500">CONFIGURED</Badge>
                                 {baseStrategy.hasErrors && <ErrorNotification error="Strategy has code errors" />}
                                 {isLive && <Badge variant="default" className="bg-blue-500">LIVE</Badge>}
                               </CardTitle>
-                              <CardDescription>{baseStrategy.description}</CardDescription>
+                              <CardDescription>
+                                {baseStrategy.description}
+                                <br />
+                                <span className="text-xs text-gray-500">
+                                  Based on: {baseStrategy.name} | Saved: {new Date(configStrategy.saved_at).toLocaleString()}
+                                </span>
+                              </CardDescription>
                               {isLive && (
                                 <p className="text-xs text-green-600 mt-1">
                                   Runtime: {formatRuntime(liveStrategy.startTime)} - {liveStrategy.startTime.toLocaleString()}
