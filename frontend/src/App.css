@@ -757,10 +757,10 @@ body {
   font-size: 2rem !important;
 }
 
-/* News Feed Full Height Enhancement */
-.news-feed-full {
-  height: calc(100vh - 200px) !important;
-  min-height: 600px !important;
+/* News Feed Fixed Height to Stay Within Boundaries */
+.news-feed-contained {
+  max-height: 500px;
+  overflow: hidden;
 }
 
 /* Strategy Type Differentiation */
