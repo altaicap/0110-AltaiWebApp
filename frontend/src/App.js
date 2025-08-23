@@ -1253,7 +1253,7 @@ metadata = {
           <Separator />
 
           {/* NewsWare API */}
-          <div className="space-y-3 p-4 border rounded-lg bg-gradient-to-r from-blue-50 to-cyan-50">
+          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-blue-50 to-cyan-50 ${isDarkTheme ? 'dark:from-blue-900/20 dark:to-cyan-900/20 dark:border-gray-600' : ''}`}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
@@ -1262,11 +1262,11 @@ metadata = {
                   </svg>
                 </div>
                 <div>
-                  <Label className="text-base font-semibold flex items-center gap-2">
+                  <Label className={`text-base font-semibold flex items-center gap-2 ${isDarkTheme ? 'text-white' : ''}`}>
                     NewsWare API
                     <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.newsware)} animate-pulse`} />
                   </Label>
-                  <p className="text-sm text-gray-600">Real-time financial news feeds</p>
+                  <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>Real-time financial news feeds</p>
                 </div>
               </div>
               <Badge variant={settings.newsware_api_configured ? "default" : "secondary"} className="px-3 py-1">
