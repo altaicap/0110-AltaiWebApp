@@ -615,8 +615,8 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
         comment: "✅ VERIFIED: Help Contact Form Support Endpoint working excellently. SUCCESS RATE: 100% (33/33 tests passed). ✅ VALID SUBMISSIONS: All required fields (name, email, issueType, message) properly accepted and processed with success responses and unique request IDs generated. ✅ FILE ATTACHMENTS: Single and multiple file attachments working correctly - files saved to /tmp/support_attachments with proper naming (request_id_filename format), attachment metadata stored in database. ✅ FIELD VALIDATION: Missing required fields properly rejected with 422 status codes (FastAPI validation working correctly). ✅ ISSUE TYPES: All specified issue types accepted (connectivity, strategies, backtest, news). ✅ DATABASE STORAGE: Support requests properly stored in MongoDB support_requests collection with all required fields (id, name, email, issue_type, message, status, created_at, attachments). ✅ SPECIAL CHARACTERS: Unicode characters, emojis, and special symbols properly handled. ✅ LARGE CONTENT: Large messages (8800+ characters) accepted without issues. ✅ ERROR HANDLING: Proper error responses for validation failures. Fixed database check issue (changed 'if db:' to 'if db is not None:' for MongoDB motor compatibility). Support endpoint is production-ready and fully functional."
 
   - task: "News Feed UI Boundary Fix"
-    implemented: false
-    working: false
+    implemented: true
+    working: true
     file: "frontend/src/App.js"
     stuck_count: 0
     priority: "high"
@@ -625,10 +625,13 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
       - working: false
         agent: "main"
         comment: "News feed container extending beyond visible pane boundaries. Need to fix ScrollArea height and containment to ensure content stays within pane edges."
+      - working: true
+        agent: "main"
+        comment: "✅ FIXED: Removed problematic 'news-feed-full' class and set fixed ScrollArea height of 400px. News feed now properly contained within pane boundaries and doesn't extend beyond visible area."
 
   - task: "Archive Functionality Debug"
-    implemented: false
-    working: false  
+    implemented: true
+    working: true  
     file: "frontend/src/App.js"
     stuck_count: 0
     priority: "high"
@@ -637,10 +640,13 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
       - working: false
         agent: "main"
         comment: "Strategies marked as archived are not appearing in the Archive pane. Need to debug archiving mechanism - handleDeleteStrategy function moves strategies to archivedStrategies state but they may not be persisting or displaying correctly."
+      - working: true
+        agent: "main"
+        comment: "✅ FIXED: Resolved function name conflict where local 'handleDeleteStrategy' was overriding global archiving function. Renamed local function to 'handlePermanentDeleteStrategy'. Archive functionality now works correctly - strategies can be archived, appear in Archive section, and count updates properly."
 
   - task: "Broker Account Selection for Configured Strategies"
-    implemented: false
-    working: false
+    implemented: true
+    working: true
     file: "frontend/src/App.js"
     stuck_count: 0
     priority: "high"
@@ -649,3 +655,6 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
       - working: false
         agent: "main"
         comment: "Configured Strategy pane lacks dropdown for selecting broker accounts (e.g., TradeStation Paper, IBKR Stocks). Need to add broker/account selection UI to enable live trading with specific accounts."
+      - working: true
+        agent: "main"
+        comment: "✅ IMPLEMENTED: Added comprehensive broker/account selection dropdown to configured strategies with options for TradeStation (Paper/Stocks/Options) and IBKR (Paper/Stocks/Options/Forex/Crypto). Live Trade button becomes enabled when broker account is selected. Dropdown properly updates trading configuration state."
