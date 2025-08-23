@@ -188,6 +188,19 @@ body {
   z-index: 50 !important;
 }
 
+/* Enhanced Fullscreen class for proper spacing */
+.fullscreen-enhanced {
+  position: fixed !important;
+  top: 8.5rem !important; /* Account for header + main padding + tabs */
+  left: 1rem !important;
+  right: 1rem !important;
+  bottom: 1rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  z-index: 50 !important;
+  overflow: auto !important;
+}
+
 /* Apply to all fullscreen cards */
 [class*="fixed inset-4"] {
   display: flex !important;
