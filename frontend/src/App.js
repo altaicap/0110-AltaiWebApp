@@ -1293,10 +1293,12 @@ metadata = {
           <div className="space-y-3 p-4 border rounded-lg bg-gradient-to-r from-orange-50 to-red-50 opacity-60">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
-                  <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z" />
-                  </svg>
+                <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center border shadow-sm">
+                  <img 
+                    src="/src/assets/tradexchange-logo.png" 
+                    alt="TradeXchange" 
+                    className="w-10 h-10 object-contain"
+                  />
                 </div>
                 <div>
                   <Label className="text-base font-semibold flex items-center gap-2">
