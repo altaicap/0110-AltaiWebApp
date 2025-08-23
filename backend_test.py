@@ -2184,6 +2184,549 @@ class SupportEndpointTester:
         return self.tests_passed == self.tests_run
 
 
+class ReviewRequestTester:
+    """Test suite for the specific review request areas"""
+    def __init__(self, base_url="https://altai-trader-1.preview.emergentagent.com"):
+        self.base_url = base_url
+        self.tests_run = 0
+        self.tests_passed = 0
+        self.test_results = []
+        self.auth_token = None
+        self.test_user_id = None
+
+    def log_test(self, name: str, success: bool, message: str = "", response_data: Any = None):
+        """Log test result"""
+        self.tests_run += 1
+        if success:
+            self.tests_passed += 1
+            print(f"✅ {name}: PASSED - {message}")
+        else:
+            print(f"❌ {name}: FAILED - {message}")
+        
+        self.test_results.append({
+            "name": name,
+            "success": success,
+            "message": message,
+            "response_data": response_data
+        })
+
+    def run_test(self, name: str, method: str, endpoint: str, expected_status: int, 
+                 data: Dict = None, params: Dict = None, headers: Dict = None) -> tuple:
+        """Run a single API test"""
+        url = f"{self.base_url}/{endpoint.lstrip('/')}"
+        default_headers = {'Content-Type': 'application/json'}
+        
+        if headers:
+            default_headers.update(headers)
+        
+        try:
+            if method == 'GET':
+                response = requests.get(url, headers=default_headers, params=params, timeout=30)
+            elif method == 'POST':
+                response = requests.post(url, json=data, headers=default_headers, params=params, timeout=30)
+            elif method == 'PUT':
+                response = requests.put(url, json=data, headers=default_headers, timeout=30)
+            elif method == 'DELETE':
+                response = requests.delete(url, headers=default_headers, timeout=30)
+            else:
+                self.log_test(name, False, f"Unsupported method: {method}")
+                return False, {}
+
+            success = response.status_code == expected_status
+            try:
+                response_json = response.json()
+            except:
+                response_json = {"raw_response": response.text}
+
+            if success:
+                self.log_test(name, True, f"Status: {response.status_code}", response_json)
+            else:
+                self.log_test(name, False, f"Expected {expected_status}, got {response.status_code}. Response: {response.text[:200]}")
+
+            return success, response_json
+
+        except requests.exceptions.Timeout:
+            self.log_test(name, False, "Request timeout (30s)")
+            return False, {}
+        except requests.exceptions.ConnectionError:
+            self.log_test(name, False, "Connection error - backend may be down")
+            return False, {}
+        except Exception as e:
+            self.log_test(name, False, f"Error: {str(e)}")
+            return False, {}
+
+    def setup_authentication(self):
+        """Setup authentication for protected endpoints"""
+        print("\n🔐 Setting up authentication...")
+        
+        # Login with default user Alex G
+        alex_login = {
+            "email": "alex@altaitrader.com",
+            "password": "Altai2025"
+        }
+        
+        success, response = self.run_test(
+            "Authentication Setup",
+            "POST",
+            "/api/auth/login",
+            200,
+            data=alex_login
+        )
+        
+        if success and response:
+            self.auth_token = response.get("access_token")
+            user_info = response.get("user", {})
+            self.test_user_id = user_info.get("id")
+            
+            if self.auth_token:
+                self.log_test("Authentication Token", True, f"Token obtained, length: {len(self.auth_token)}")
+                return True
+            else:
+                self.log_test("Authentication Token", False, "No access token received")
+                return False
+        else:
+            self.log_test("Authentication Setup", False, "Login failed")
+            return False
+
+    def test_news_feed_api(self):
+        """Test News Feed API endpoints"""
+        print("\n📰 Testing News Feed API...")
+        
+        # Test basic news feed endpoint
+        success, response = self.run_test(
+            "News Feed - Basic Endpoint",
+            "GET",
+            "/api/news/live",
+            200
+        )
+        
+        if success and response:
+            # Verify response structure
+            required_fields = ["articles", "total_count", "has_more", "cached", "production_mode"]
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                self.log_test("News Feed Response Structure", False, f"Missing fields: {missing_fields}")
+            else:
+                self.log_test("News Feed Response Structure", True, "All required fields present")
+                
+                articles = response.get("articles", [])
+                total_count = response.get("total_count", 0)
+                production_mode = response.get("production_mode", False)
+                
+                self.log_test("News Articles Retrieved", total_count >= 0, 
+                             f"Found {total_count} articles, Production mode: {production_mode}")
+                
+                # If articles exist, verify article structure
+                if articles:
+                    article = articles[0]
+                    article_fields = ["id", "headline", "source", "published_at"]
+                    missing_article_fields = [field for field in article_fields if field not in article]
+                    
+                    if missing_article_fields:
+                        self.log_test("News Article Structure", False, f"Missing fields: {missing_article_fields}")
+                    else:
+                        self.log_test("News Article Structure", True, "Article structure valid")
+                        
+                        # Check for TradeXchange articles specifically
+                        tradexchange_articles = [a for a in articles if a.get("source") == "TradeXchange"]
+                        self.log_test("TradeXchange Articles Present", len(tradexchange_articles) > 0, 
+                                     f"Found {len(tradexchange_articles)} TradeXchange articles")
+        
+        # Test news feed with parameters
+        success, response = self.run_test(
+            "News Feed - With Parameters",
+            "GET",
+            "/api/news/live",
+            200,
+            params={"limit": 10, "sources": ["TradeXchange", "NewsWare"]}
+        )
+        
+        if success and response:
+            articles = response.get("articles", [])
+            self.log_test("News Feed Filtering", len(articles) <= 10, 
+                         f"Returned {len(articles)} articles (limit: 10)")
+        
+        # Test news feed with ticker filter
+        success, response = self.run_test(
+            "News Feed - Ticker Filter",
+            "GET",
+            "/api/news/live",
+            200,
+            params={"tickers": ["AAPL", "MSFT", "TSLA"]}
+        )
+        
+        if success:
+            self.log_test("News Feed Ticker Filtering", True, "Ticker filter parameter accepted")
+
+    def test_strategy_crud_endpoints(self):
+        """Test Strategy CRUD endpoints for archive functionality"""
+        print("\n🎯 Testing Strategy CRUD Endpoints...")
+        
+        # Test getting all strategies
+        success, response = self.run_test(
+            "Get All Strategies",
+            "GET",
+            "/api/strategies",
+            200
+        )
+        
+        if success and response:
+            strategies = response if isinstance(response, list) else []
+            self.log_test("Strategies Retrieved", True, f"Found {len(strategies)} strategies")
+            
+            # Store strategy ID for further tests
+            test_strategy_id = None
+            if strategies:
+                strategy = strategies[0]
+                test_strategy_id = strategy.get("id")
+                
+                # Verify strategy structure
+                required_fields = ["id", "name", "description", "code", "created_at", "updated_at"]
+                missing_fields = [field for field in required_fields if field not in strategy]
+                
+                if missing_fields:
+                    self.log_test("Strategy Structure", False, f"Missing fields: {missing_fields}")
+                else:
+                    self.log_test("Strategy Structure", True, "Strategy structure valid")
+        
+        # Test creating a new strategy
+        new_strategy = {
+            "name": "Test Archive Strategy",
+            "description": "Strategy for testing archive functionality",
+            "code": "# Test strategy code\nclass TestStrategy:\n    def __init__(self):\n        pass",
+            "parameters": {
+                "test_param": 100,
+                "archive_test": True
+            }
+        }
+        
+        success, response = self.run_test(
+            "Create New Strategy",
+            "POST",
+            "/api/strategies",
+            200,
+            data=new_strategy
+        )
+        
+        created_strategy_id = None
+        if success and response:
+            created_strategy_id = response.get("id")
+            self.log_test("Strategy Creation", bool(created_strategy_id), 
+                         f"Created strategy ID: {created_strategy_id}")
+            
+            # Verify created strategy data
+            created_name = response.get("name")
+            self.log_test("Created Strategy Data", created_name == new_strategy["name"], 
+                         f"Strategy name: {created_name}")
+        
+        # Test getting specific strategy
+        if created_strategy_id:
+            success, response = self.run_test(
+                "Get Specific Strategy",
+                "GET",
+                f"/api/strategies/{created_strategy_id}",
+                200
+            )
+            
+            if success and response:
+                strategy_name = response.get("name")
+                self.log_test("Get Strategy by ID", strategy_name == new_strategy["name"], 
+                             f"Retrieved strategy: {strategy_name}")
+        
+        # Test updating strategy (simulating archive state change)
+        if created_strategy_id:
+            updated_strategy = {
+                "id": created_strategy_id,
+                "name": "Test Archive Strategy - Updated",
+                "description": "Strategy updated for archive testing",
+                "code": new_strategy["code"],
+                "parameters": {
+                    **new_strategy["parameters"],
+                    "archived": True,
+                    "archive_date": datetime.utcnow().isoformat()
+                }
+            }
+            
+            success, response = self.run_test(
+                "Update Strategy (Archive Simulation)",
+                "PUT",
+                f"/api/strategies/{created_strategy_id}",
+                200,
+                data=updated_strategy
+            )
+            
+            if success and response:
+                updated_name = response.get("name")
+                updated_params = response.get("parameters", {})
+                archived_status = updated_params.get("archived", False)
+                
+                self.log_test("Strategy Update", updated_name == updated_strategy["name"], 
+                             f"Updated name: {updated_name}")
+                self.log_test("Archive State Update", archived_status, 
+                             f"Archive status: {archived_status}")
+        
+        # Test deleting strategy
+        if created_strategy_id:
+            success, response = self.run_test(
+                "Delete Strategy",
+                "DELETE",
+                f"/api/strategies/{created_strategy_id}",
+                200
+            )
+            
+            if success and response:
+                message = response.get("message", "")
+                self.log_test("Strategy Deletion", "deleted" in message.lower(), 
+                             f"Delete response: {message}")
+                
+                # Verify strategy is deleted
+                success, response = self.run_test(
+                    "Verify Strategy Deleted",
+                    "GET",
+                    f"/api/strategies/{created_strategy_id}",
+                    404
+                )
+                
+                if success:
+                    self.log_test("Strategy Delete Verification", True, "Strategy properly deleted")
+
+    def test_trading_configuration_endpoints(self):
+        """Test Trading Configuration endpoints"""
+        print("\n⚙️ Testing Trading Configuration Endpoints...")
+        
+        if not self.auth_token:
+            self.log_test("Trading Config Setup", False, "No auth token available")
+            return
+        
+        auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
+        
+        # Test getting trading configurations
+        success, response = self.run_test(
+            "Get Trading Configurations",
+            "GET",
+            "/api/trading/configurations",
+            200,
+            headers=auth_headers
+        )
+        
+        if success and response:
+            configurations = response.get("configurations", [])
+            total_count = response.get("total_count", 0)
+            
+            self.log_test("Trading Configurations Retrieved", True, 
+                         f"Found {total_count} configurations")
+            
+            # Verify response structure
+            required_fields = ["configurations", "total_count"]
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                self.log_test("Trading Config Response Structure", False, f"Missing fields: {missing_fields}")
+            else:
+                self.log_test("Trading Config Response Structure", True, "All required fields present")
+                
+                # If configurations exist, verify structure
+                if configurations:
+                    config = configurations[0]
+                    config_fields = ["id", "strategy_id", "broker", "account_name", "is_live", "created_at"]
+                    missing_config_fields = [field for field in config_fields if field not in config]
+                    
+                    if missing_config_fields:
+                        self.log_test("Trading Config Structure", False, f"Missing fields: {missing_config_fields}")
+                    else:
+                        self.log_test("Trading Config Structure", True, "Configuration structure valid")
+        
+        # Test creating trading configuration (will fail without broker connection but should validate)
+        test_config = {
+            "strategy_id": "test_strategy_123",
+            "broker": "tradestation",
+            "account_id": "test_account_456",
+            "default_order_type": "MARKET",
+            "default_quantity": 100,
+            "configuration_name": "Test Broker Config"
+        }
+        
+        success, response = self.run_test(
+            "Create Trading Configuration",
+            "POST",
+            "/api/trading/configurations",
+            404,  # Expected to fail - no trading account
+            data=test_config,
+            headers=auth_headers
+        )
+        
+        if success:
+            self.log_test("Trading Config Creation Validation", True, "Properly validated configuration creation")
+        
+        # Test broker account selection endpoints
+        success, response = self.run_test(
+            "Get Available Brokers",
+            "GET",
+            "/api/trading/brokers",
+            200
+        )
+        
+        if success and response:
+            brokers = response.get("brokers", {})
+            total_count = response.get("total_count", 0)
+            
+            self.log_test("Available Brokers", total_count > 0, 
+                         f"Found {total_count} available brokers")
+            
+            # Check for expected brokers
+            expected_brokers = ["tradestation", "ibkr"]
+            for broker in expected_brokers:
+                if broker in brokers:
+                    broker_info = brokers[broker]
+                    configured = broker_info.get("configured", False)
+                    self.log_test(f"{broker.upper()} Broker Available", True, 
+                                 f"Configured: {configured}")
+        
+        # Test trading accounts endpoint
+        success, response = self.run_test(
+            "Get Trading Accounts",
+            "GET",
+            "/api/trading/accounts",
+            200,
+            headers=auth_headers
+        )
+        
+        if success and response:
+            accounts = response.get("accounts", [])
+            total_count = response.get("total_count", 0)
+            
+            self.log_test("Trading Accounts Retrieved", True, 
+                         f"Found {total_count} trading accounts")
+
+    def test_system_health(self):
+        """Test overall system health"""
+        print("\n🏥 Testing Overall System Health...")
+        
+        # Test main health endpoint
+        success, response = self.run_test(
+            "System Health Check",
+            "GET",
+            "/api/health",
+            200
+        )
+        
+        if success and response:
+            status = response.get("status")
+            database = response.get("database")
+            production_mode = response.get("production_mode", False)
+            version = response.get("version")
+            
+            self.log_test("System Status", status == "healthy", f"Status: {status}")
+            self.log_test("Database Health", database == "healthy", f"Database: {database}")
+            self.log_test("Production Mode", production_mode is not None, f"Production mode: {production_mode}")
+            self.log_test("API Version", version is not None, f"Version: {version}")
+            
+            # Check services status if available
+            services = response.get("services", {})
+            if services:
+                for service, service_status in services.items():
+                    self.log_test(f"{service.capitalize()} Service", 
+                                 service_status in ["healthy", "warning", "error"], 
+                                 f"{service}: {service_status}")
+        
+        # Test settings endpoint for API configurations
+        success, response = self.run_test(
+            "Settings Configuration Check",
+            "GET",
+            "/api/settings",
+            200
+        )
+        
+        if success and response:
+            # Check API configurations
+            api_configs = {
+                "polygon_api_configured": response.get("polygon_api_configured"),
+                "newsware_api_configured": response.get("newsware_api_configured"),
+                "tradexchange_api_configured": response.get("tradexchange_api_configured"),
+                "tradestation_configured": response.get("tradestation_configured")
+            }
+            
+            for api, configured in api_configs.items():
+                self.log_test(f"{api.replace('_', ' ').title()}", configured is not None, 
+                             f"{api}: {configured}")
+            
+            # Check database connectivity
+            db_connected = response.get("database_connected")
+            self.log_test("Database Connectivity", db_connected, f"DB Connected: {db_connected}")
+            
+            # Check features availability
+            features = response.get("features", {})
+            if features:
+                for feature, available in features.items():
+                    self.log_test(f"{feature.replace('_', ' ').title()} Feature", 
+                                 available is not None, 
+                                 f"{feature}: {available}")
+        
+        # Test root endpoint
+        success, response = self.run_test(
+            "Root API Endpoint",
+            "GET",
+            "/",
+            200
+        )
+        
+        if success and response:
+            message = response.get("message", "")
+            api_status = response.get("status")
+            version = response.get("version")
+            
+            self.log_test("API Root Response", "Altai Trader" in message, f"Message: {message}")
+            self.log_test("API Status", api_status == "running", f"Status: {api_status}")
+            self.log_test("API Version Info", version is not None, f"Version: {version}")
+
+    def run_review_request_tests(self):
+        """Run all tests for the review request"""
+        print("🚀 Starting Review Request Backend Tests")
+        print(f"🎯 Testing against: {self.base_url}")
+        print("=" * 70)
+        print("Testing the following areas:")
+        print("1. News Feed API - Verify endpoints return data for UI boundaries")
+        print("2. Archive Strategy Data Flow - Test strategy CRUD for state changes")
+        print("3. Trading Configuration Endpoints - Test broker account selection")
+        print("4. Overall System Health - Ensure core functionality is operational")
+        print("=" * 70)
+        
+        # Setup authentication for protected endpoints
+        auth_success = self.setup_authentication()
+        
+        # Run all test suites
+        self.test_news_feed_api()
+        self.test_strategy_crud_endpoints()
+        
+        if auth_success:
+            self.test_trading_configuration_endpoints()
+        else:
+            print("⚠️ Skipping trading configuration tests due to authentication failure")
+        
+        self.test_system_health()
+        
+        # Print summary
+        print("\n" + "=" * 70)
+        print("📊 REVIEW REQUEST TEST SUMMARY")
+        print("=" * 70)
+        print(f"Total Tests: {self.tests_run}")
+        print(f"Passed: {self.tests_passed}")
+        print(f"Failed: {self.tests_run - self.tests_passed}")
+        print(f"Success Rate: {(self.tests_passed/self.tests_run*100):.1f}%" if self.tests_run > 0 else "0%")
+        
+        # List failed tests
+        failed_tests = [test for test in self.test_results if not test["success"]]
+        if failed_tests:
+            print("\n❌ FAILED TESTS:")
+            for test in failed_tests:
+                print(f"  - {test['name']}: {test['message']}")
+        else:
+            print("\n🎉 ALL REVIEW REQUEST TESTS PASSED!")
+        
+        return self.tests_passed == self.tests_run
+
+
 def main():
     """Main test runner"""
     print("🚀 COMPREHENSIVE BACKEND TESTING SUITE")
