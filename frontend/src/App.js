@@ -3310,9 +3310,9 @@ metadata = {
               </div>
             </div>
           </CardHeader>
-          <CardContent className={fullScreenPane === 'news-feed' ? 'h-full overflow-hidden p-6' : 'p-6'}>
-            <ScrollArea className={fullScreenPane === 'news-feed' ? 'h-[calc(100vh-280px)] border rounded' : 'h-[500px] border rounded'}>
-              <div className="space-y-3 pr-4 pb-4">
+          <CardContent className={fullScreenPane === 'news-feed' ? 'h-full overflow-hidden p-0' : 'p-0 flex flex-col'}>
+            <ScrollArea className={fullScreenPane === 'news-feed' ? 'h-[calc(100vh-280px)] border rounded m-6' : 'flex-1 border rounded m-6'} style={{ minHeight: fullScreenPane === 'news-feed' ? 'calc(100vh-280px)' : 'calc(100vh - 400px)' }}>
+              <div className="space-y-3 p-4 pb-4">
                 {news.length === 0 ? (
                   <div className="text-center py-12 text-gray-500">
                     <FileText className="w-12 h-12 mx-auto mb-4 opacity-50" />
@@ -3350,7 +3350,7 @@ metadata = {
                           </div>
                         </div>
                         
-                        {/* Remove body text completely, keep tickers and RVOL */}
+                        {/* Keep tickers and RVOL */}
                         <div className="flex items-center justify-between text-xs text-gray-500">
                           <div className="flex gap-2 flex-wrap">
                             {article.tickers?.slice(0, 4).map((ticker) => {
