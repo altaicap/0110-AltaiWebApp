@@ -2729,63 +2729,39 @@ class ReviewRequestTester:
 
 def main():
     """Main test runner"""
-    print("🚀 COMPREHENSIVE BACKEND TESTING SUITE")
-    print("=" * 70)
-    
-    # Run Support Endpoint Tests (NEW - Priority for review request)
-    print("\n📋 PRIORITY: Support Endpoint Tests")
-    support_tester = SupportEndpointTester()
-    support_success = support_tester.run_all_support_tests()
-    
-    # Run Feedback 8.0 Tests (Priority)
-    print("\n📋 PRIORITY: Feedback 8.0 Backend Tests")
-    feedback80_tester = Feedback80Tester()
-    feedback80_success = feedback80_tester.run_all_feedback80_tests()
-    
-    # Run Phase 1 Authentication and Billing Tests
-    print("\n📋 PHASE 1: Authentication and Billing System Tests")
-    auth_tester = Phase1AuthBillingTester()
-    auth_success = auth_tester.run_all_tests()
-    
-    # Run Trading Integration Tests
-    print("\n📋 PHASE 2: Trading Integration Tests")
-    trading_tester = TradingIntegrationTester()
-    trading_success = trading_tester.run_all_trading_tests()
-    
-    # Overall summary
-    print("\n" + "=" * 70)
-    print("🎯 OVERALL TEST SUMMARY")
-    print("=" * 70)
-    
-    total_tests = support_tester.tests_run + feedback80_tester.tests_run + auth_tester.tests_run + trading_tester.tests_run
-    total_passed = support_tester.tests_passed + feedback80_tester.tests_passed + auth_tester.tests_passed + trading_tester.tests_passed
-    
-    print(f"Support Endpoint: {support_tester.tests_passed}/{support_tester.tests_run} passed")
-    print(f"Feedback 8.0: {feedback80_tester.tests_passed}/{feedback80_tester.tests_run} passed")
-    print(f"Phase 1 (Auth/Billing): {auth_tester.tests_passed}/{auth_tester.tests_run} passed")
-    print(f"Phase 2 (Trading): {trading_tester.tests_passed}/{trading_tester.tests_run} passed")
-    print(f"Overall: {total_passed}/{total_tests} passed ({(total_passed/total_tests*100):.1f}%)" if total_tests > 0 else "No tests run")
-    
-    overall_success = support_success and feedback80_success and auth_success and trading_success
-    
-    if overall_success:
-        print("\n🎉 ALL TESTS PASSED - BACKEND IS READY!")
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "trading":
+            tester = TradingIntegrationTester()
+            success = tester.run_all_trading_tests()
+            return 0 if success else 1
+        elif sys.argv[1] == "auth":
+            tester = Phase1AuthBillingTester()
+            success = tester.run_all_tests()
+            return 0 if success else 1
+        elif sys.argv[1] == "feedback80":
+            tester = Feedback80Tester()
+            success = tester.run_all_feedback80_tests()
+            return 0 if success else 1
+        elif sys.argv[1] == "support":
+            tester = SupportEndpointTester()
+            success = tester.run_all_support_tests()
+            return 0 if success else 1
+        elif sys.argv[1] == "review":
+            tester = ReviewRequestTester()
+            success = tester.run_review_request_tests()
+            return 0 if success else 1
+        else:
+            print("Usage: python backend_test.py [trading|auth|feedback80|support|review]")
+            return 1
     else:
-        print("\n⚠️  SOME TESTS FAILED - REVIEW RESULTS ABOVE")
-        
-        # Highlight Support Endpoint results specifically (priority for review)
-        if not support_success:
-            print("\n🚨 SUPPORT ENDPOINT TESTS FAILED - REVIEW REQUEST PRIORITY ISSUE!")
-        else:
-            print("\n✅ SUPPORT ENDPOINT TESTS PASSED - Review request features working!")
-            
-        # Highlight Feedback 8.0 results specifically
-        if not feedback80_success:
-            print("\n🚨 FEEDBACK 8.0 TESTS FAILED - PRIORITY ISSUE!")
-        else:
-            print("\n✅ FEEDBACK 8.0 TESTS PASSED - Priority features working!")
-    
-    return 0 if overall_success else 1
+        print("Usage: python backend_test.py [trading|auth|feedback80|support|review]")
+        print("Available test suites:")
+        print("  trading   - Test trading integration endpoints")
+        print("  auth      - Test authentication and billing endpoints")
+        print("  feedback80 - Test Feedback 8.0 specific endpoints")
+        print("  support   - Test support contact form endpoint")
+        print("  review    - Test review request specific areas")
+        return 1
 
 if __name__ == "__main__":
     sys.exit(main())
