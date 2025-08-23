@@ -2311,7 +2311,7 @@ metadata = {
         </div>
 
         {/* Configuration Panel */}
-        <Card className={`relative pane-enhanced ${fullScreenPane === 'backtest-config' ? 'fixed inset-4 top-20 z-50' : ''}`}>
+        <Card className={`relative pane-enhanced ${fullScreenPane === 'backtest-config' ? 'fullscreen-enhanced' : ''}`}>
           <FullScreenButton paneId="backtest-config" />
           <CardHeader>
             <div className="flex items-center justify-between">
