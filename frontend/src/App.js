@@ -2476,7 +2476,7 @@ metadata = {
 
         {/* Strategy Specific Settings Panel */}
         {selectedStrategy && selectedStrategy.name === 'Prior Bar Break Algo' && (
-          <Card className={`relative ${fullScreenPane === 'strategy-settings' ? 'fixed inset-4 top-20 z-50' : ''}`}>
+          <Card className={`relative ${fullScreenPane === 'strategy-settings' ? 'fullscreen-enhanced' : ''}`}>
             <FullScreenButton paneId="strategy-settings" />
             <CardHeader>
               <CardTitle className="pane-title">Strategy Specific Settings</CardTitle>
