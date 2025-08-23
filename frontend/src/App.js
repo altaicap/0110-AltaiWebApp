@@ -1512,7 +1512,7 @@ metadata = {
           <div className="flex items-center gap-3">
             <h3 className="text-lg font-semibold">UPLOADED STRATEGIES</h3>
             <Badge variant="secondary">
-              {strategies.filter(s => !tradingConfigurations.some(c => c.strategy_name === s.name)).length}
+              {strategies.length}
             </Badge>
           </div>
           <p className="text-sm text-gray-600">
