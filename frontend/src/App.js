@@ -1416,7 +1416,7 @@ metadata = {
           <Separator />
 
           {/* Interactive Brokers (IBKR) */}
-          <div className="space-y-3 p-4 border rounded-lg bg-gradient-to-r from-red-50 to-rose-50 opacity-60">
+          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-red-50 to-rose-50 opacity-60 ${isDarkTheme ? 'dark:from-red-900/20 dark:to-rose-900/20 dark:border-gray-600' : ''}`}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center">
@@ -1425,11 +1425,11 @@ metadata = {
                   </svg>
                 </div>
                 <div>
-                  <Label className="text-base font-semibold flex items-center gap-2">
+                  <Label className={`text-base font-semibold flex items-center gap-2 ${isDarkTheme ? 'text-white' : ''}`}>
                     Interactive Brokers (IBKR)
                     <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.ibkr)} animate-pulse`} />
                   </Label>
-                  <p className="text-sm text-gray-600">Professional trading platform with OAuth 2.0</p>
+                  <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>Professional trading platform with OAuth 2.0</p>
                 </div>
               </div>
               <Badge variant="secondary" className="px-3 py-1">
