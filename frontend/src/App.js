@@ -1607,7 +1607,7 @@ metadata = {
             
             <div className="flex gap-4 text-sm">
               <div>
-                <span className="font-medium text-green-600">
+                <span className="font-medium text-yellow-600">
                   Configured: {tradingConfigurations.length}
                 </span>
               </div>
@@ -1622,7 +1622,7 @@ metadata = {
                 </span>
               </div>
               <div>
-                <span className="font-medium text-purple-600">
+                <span className="font-medium text-green-600">
                   Live Trading: {liveStrategies.length}
                 </span>
               </div>
