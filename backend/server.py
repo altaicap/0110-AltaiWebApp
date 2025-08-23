@@ -1964,7 +1964,7 @@ async def submit_support_request(
                 })
 
         # Store in database (MongoDB)
-        if db:
+        if db is not None:
             await db.support_requests.insert_one(support_request)
             logger.info(f"Support request submitted: {support_request['id']}")
         
