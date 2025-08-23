@@ -1372,7 +1372,7 @@ metadata = {
           <Separator />
 
           {/* TradeStation Integration */}
-          <div className="space-y-3 p-4 border rounded-lg bg-gradient-to-r from-blue-50 to-sky-50 opacity-60">
+          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-blue-50 to-sky-50 opacity-60 ${isDarkTheme ? 'dark:from-blue-900/20 dark:to-sky-900/20 dark:border-gray-600' : ''}`}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-sky-400 rounded-lg flex items-center justify-center">
@@ -1381,11 +1381,11 @@ metadata = {
                   </svg>
                 </div>
                 <div>
-                  <Label className="text-base font-semibold flex items-center gap-2">
+                  <Label className={`text-base font-semibold flex items-center gap-2 ${isDarkTheme ? 'text-white' : ''}`}>
                     TradeStation
                     <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.tradestation)} animate-pulse`} />
                   </Label>
-                  <p className="text-sm text-gray-600">Brokerage integration for live trading</p>
+                  <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>Brokerage integration for live trading</p>
                 </div>
               </div>
               <Badge variant="secondary" className="px-3 py-1">
