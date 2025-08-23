@@ -1318,7 +1318,7 @@ metadata = {
           <Separator />
 
           {/* TradeXchange API */}
-          <div className="space-y-3 p-4 border rounded-lg bg-gradient-to-r from-orange-50 to-red-50 opacity-60">
+          <div className="space-y-3 p-4 border rounded-lg bg-gradient-to-r from-orange-50 to-red-50">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
@@ -1334,8 +1334,8 @@ metadata = {
                   <p className="text-sm text-gray-600">Trade execution and exchange data</p>
                 </div>
               </div>
-              <Badge variant="secondary" className="px-3 py-1">
-                Not Implemented
+              <Badge variant={settings.tradexchange_api_configured ? "default" : "secondary"} className="px-3 py-1">
+                {settings.tradexchange_api_configured ? "Configured" : "Not Configured"}
               </Badge>
             </div>
             <div className="space-y-2">
@@ -1344,16 +1344,26 @@ metadata = {
                 id="tradexchangeApiKey"
                 type="password"
                 placeholder="Enter TradeXchange API Key"
-                disabled
-                className="font-mono text-sm"
+                value={apiKeys.tradexchange || ''}
+                onChange={(e) => setApiKeys(prev => ({ ...prev, tradexchange: e.target.value }))}
+                className="font-mono text-sm flex-1"
               />
             </div>
             <div className="flex gap-2">
-              <Button disabled size="sm">
-                <XCircle className="w-4 h-4 mr-2" />
+              <Button 
+                onClick={() => testConnection('tradexchange')} 
+                disabled={isLoading || !settings.tradexchange_api_configured}
+                size="sm"
+              >
+                {isLoading ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : <CheckCircle className="w-4 h-4 mr-2" />}
                 Test Connection
               </Button>
-              <Button disabled size="sm" variant="outline">
+              <Button 
+                onClick={() => updateApiKey('tradexchange')}
+                disabled={isLoading || !apiKeys.tradexchange}
+                size="sm" 
+                variant="outline"
+              >
                 Save Key
               </Button>
             </div>
