@@ -630,6 +630,9 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
       - working: true
         agent: "main"
         comment: "✅ FIXED: Removed problematic 'news-feed-full' class and set fixed ScrollArea height of 400px. News feed now properly contained within pane boundaries and doesn't extend beyond visible area."
+      - working: true
+        agent: "testing"
+        comment: "✅ BACKEND VERIFIED: News Feed API endpoints working perfectly. /api/news/live returning proper data structure with 6 TradeXchange articles, all required fields present (articles, total_count, has_more, cached, production_mode). Parameter filtering functional for limit, sources, and tickers. Article structure valid with proper id, headline, source, published_at fields. Backend ready to support fixed UI boundaries."
 
   - task: "Archive Functionality Debug"
     implemented: true
