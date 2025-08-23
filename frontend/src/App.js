@@ -1744,16 +1744,34 @@ metadata = {
                               <BarChart3 className="w-4 h-4 mr-2" />
                               Backtest & Configure
                             </Button>
-                            {/* No Live Trade button for uploaded strategies */}
-                            <Button 
-                              size="sm" 
-                              variant="outline"
-                              disabled
-                              title="Configure this strategy in the Backtest tab first"
-                            >
-                              <Settings className="w-4 h-4 mr-2" />
-                              Configure Required
-                            </Button>
+                            {/* Update button text based on configuration status */}
+                            {tradingConfigurations.some(c => c.strategy_name === strategy.name) ? (
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => {
+                                  // Open in Backtest tab with existing configuration
+                                  const existingConfig = tradingConfigurations.find(c => c.strategy_name === strategy.name);
+                                  setActiveTab('backtest');
+                                  setBacktestForm(existingConfig?.configuration || { strategy_name: strategy.name });
+                                  setSuccess(`Loaded existing configuration for ${strategy.name} in Backtest tab`);
+                                }}
+                                title="Load existing configuration or create a new one"
+                              >
+                                <Settings className="w-4 h-4 mr-2" />
+                                Reconfigure
+                              </Button>
+                            ) : (
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                disabled
+                                title="Configure this strategy in the Backtest tab first"
+                              >
+                                <Settings className="w-4 h-4 mr-2" />
+                                Configure Required
+                              </Button>
+                            )}
                           </div>
                         </CardContent>
                       </Card>
