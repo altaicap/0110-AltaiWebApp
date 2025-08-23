@@ -648,6 +648,9 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
       - working: true
         agent: "main"
         comment: "✅ FIXED: Resolved function name conflict where local 'handleDeleteStrategy' was overriding global archiving function. Renamed local function to 'handlePermanentDeleteStrategy'. Archive functionality now works correctly - strategies can be archived, appear in Archive section, and count updates properly."
+      - working: true
+        agent: "testing"
+        comment: "✅ BACKEND VERIFIED: Strategy CRUD endpoints fully operational for archive data flow. Complete testing performed: GET /api/strategies (retrieved 2 strategies with valid structure), POST /api/strategies (successful creation), GET /api/strategies/{id} (individual retrieval working), PUT /api/strategies/{id} (update with archive state simulation successful - archived: true parameter properly stored), DELETE /api/strategies/{id} (deletion confirmed with 404 verification). All strategy state changes properly handled by backend persistence layer."
 
   - task: "Broker Account Selection for Configured Strategies"
     implemented: true
