@@ -1686,9 +1686,8 @@ metadata = {
                 );
               })}
               
-              {/* Render Uploaded Strategies (not configured) */}
+              {/* Render All Uploaded Strategies (always visible) */}
               {strategies
-                .filter(strategy => !tradingConfigurations.some(c => c.strategy_name === strategy.name))
                 .map((strategy) => {
                   return (
                     <div key={strategy.id} className="space-y-2">
@@ -1701,6 +1700,11 @@ metadata = {
                                   {strategy.name}
                                   <Badge variant="secondary">UPLOADED</Badge>
                                   {strategy.hasErrors && <ErrorNotification error="Strategy has code errors" />}
+                                  {tradingConfigurations.some(c => c.strategy_name === strategy.name) && (
+                                    <Badge variant="outline" className="text-xs">
+                                      CONFIGURED
+                                    </Badge>
+                                  )}
                                 </CardTitle>
                                 <CardDescription>{strategy.description}</CardDescription>
                                 <p className="text-xs text-blue-600 mt-1">
