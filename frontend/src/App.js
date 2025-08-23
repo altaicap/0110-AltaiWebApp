@@ -3323,19 +3323,18 @@ metadata = {
                   <>
                     {news.map((article, index) => (
                       <div key={article.id} className="border-b border-gray-100 pb-3 last:border-b-0">
-                        {/* Remove "Tradexchange Update from TX-Filings" prefix and show headline as main content */}
+                        {/* Show body text as main header, headline as subtitle */}
                         <div className="flex items-start justify-between mb-2">
-                          <h4 className="font-semibold text-base leading-tight text-gray-900 flex-1 pr-2">
-                            {(() => {
-                              let cleanHeadline = article.headline || 'No headline available';
-                              // Remove common TradeXchange prefixes
-                              cleanHeadline = cleanHeadline.replace(/^TradeXchange Update from [^:]+:\s*/gi, '');
-                              cleanHeadline = cleanHeadline.replace(/^TX[^:]*:\s*/gi, '');
-                              cleanHeadline = cleanHeadline.replace(/^TXNews[^:]*:\s*/gi, '');
-                              cleanHeadline = cleanHeadline.replace(/^TXFilings[^:]*:\s*/gi, '');
-                              return cleanHeadline;
-                            })()}
-                          </h4>
+                          <div className="flex-1 pr-2">
+                            {/* Main content from body text - large and prominent */}
+                            <h4 className="font-semibold text-base leading-tight text-gray-900 mb-1">
+                              {article.body || 'No content available'}
+                            </h4>
+                            {/* Source identifier as smaller subtitle */}
+                            <p className="text-sm text-gray-600 leading-snug">
+                              {article.headline || 'TradeXchange Update'}
+                            </p>
+                          </div>
                           <div className="flex gap-2 ml-2 flex-shrink-0">
                             <Badge 
                               variant="outline" 
