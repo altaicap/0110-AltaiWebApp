@@ -227,7 +227,30 @@ function App() {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', appSettings.theme);
     document.documentElement.setAttribute('data-font-size', appSettings.fontSize);
-  }, [appSettings]);
+    
+    // Handle theme change detection for system preference
+    const handleThemeChange = () => {
+      if (appSettings.theme === 'system') {
+        setAppSettings(prev => ({
+          ...prev,
+          _systemPrefersDark: window.matchMedia('(prefers-color-scheme: dark)').matches
+        }));
+      }
+    };
+
+    // Set up media query listener for system theme changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    mediaQuery.addEventListener('change', handleThemeChange);
+    
+    // Mark theme as loaded after first render
+    if (!initialThemeLoaded) {
+      setInitialThemeLoaded(true);
+    }
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleThemeChange);
+    };
+  }, [appSettings, initialThemeLoaded]);
 
   const loadInitialData = async () => {
     try {
