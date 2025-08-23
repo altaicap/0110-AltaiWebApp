@@ -1648,10 +1648,10 @@ metadata = {
           </Button>
         </div>
 
-        {/* Three Pane Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Three Row Layout - Configured, Uploaded, Archive */}
+        <div className="space-y-6">
           
-          {/* Pane 1: Configured Strategies */}
+          {/* Row 1: Configured Strategies */}
           <Card className={`relative pane-enhanced ${fullScreenPane === 'configured-strategies' ? 'fullscreen-enhanced' : ''}`}>
             <FullScreenButton paneId="configured-strategies" />
             <CardHeader>
@@ -1666,9 +1666,9 @@ metadata = {
               </CardDescription>
             </CardHeader>
             <CardContent className="p-6">
-              <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {tradingConfigurations.length === 0 ? (
-                  <div className="text-center py-8 text-gray-500">
+                  <div className="col-span-full text-center py-8 text-gray-500">
                     <Settings className="w-12 h-12 mx-auto mb-2 opacity-50" />
                     <p>No configured strategies yet</p>
                     <p className="text-xs">Configure strategies in the Backtest tab</p>
@@ -1722,7 +1722,7 @@ metadata = {
             </CardContent>
           </Card>
 
-          {/* Pane 2: Uploaded Strategies */}
+          {/* Row 2: Uploaded Strategies */}
           <Card className={`relative pane-enhanced ${fullScreenPane === 'uploaded-strategies' ? 'fullscreen-enhanced' : ''}`}>
             <FullScreenButton paneId="uploaded-strategies" />
             <CardHeader>
@@ -1737,9 +1737,9 @@ metadata = {
               </CardDescription>
             </CardHeader>
             <CardContent className="p-6">
-              <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {strategies.length === 0 ? (
-                  <div className="text-center py-8 text-gray-500">
+                  <div className="col-span-full text-center py-8 text-gray-500">
                     <Upload className="w-12 h-12 mx-auto mb-2 opacity-50" />
                     <p>No uploaded strategies</p>
                     <p className="text-xs">Click "New Strategy" to add one</p>
@@ -1800,7 +1800,7 @@ metadata = {
             </CardContent>
           </Card>
 
-          {/* Pane 3: Archive */}
+          {/* Row 3: Archive */}
           <Card className={`relative pane-enhanced ${fullScreenPane === 'archived-strategies' ? 'fullscreen-enhanced' : ''}`}>
             <FullScreenButton paneId="archived-strategies" />
             <CardHeader>
@@ -1815,37 +1815,37 @@ metadata = {
               </CardDescription>
             </CardHeader>
             <CardContent className="p-6">
-              <div className="space-y-4">
-                {archivedStrategies.length > 0 && (
-                  <div className="flex gap-2 mb-4">
+              {archivedStrategies.length > 0 && (
+                <div className="flex gap-2 mb-4">
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => setSelectedArchiveStrategies(
+                      selectedArchiveStrategies.length === archivedStrategies.length 
+                        ? [] 
+                        : archivedStrategies.map(s => s.id)
+                    )}
+                    className="text-xs h-7"
+                  >
+                    {selectedArchiveStrategies.length === archivedStrategies.length ? 'Deselect All' : 'Select All'}
+                  </Button>
+                  {selectedArchiveStrategies.length > 0 && (
                     <Button 
                       size="sm" 
-                      variant="outline"
-                      onClick={() => setSelectedArchiveStrategies(
-                        selectedArchiveStrategies.length === archivedStrategies.length 
-                          ? [] 
-                          : archivedStrategies.map(s => s.id)
-                      )}
+                      variant="destructive" 
+                      onClick={handlePermanentDelete}
                       className="text-xs h-7"
                     >
-                      {selectedArchiveStrategies.length === archivedStrategies.length ? 'Deselect All' : 'Select All'}
+                      <Trash2 className="w-3 h-3 mr-1" />
+                      Delete Permanently ({selectedArchiveStrategies.length})
                     </Button>
-                    {selectedArchiveStrategies.length > 0 && (
-                      <Button 
-                        size="sm" 
-                        variant="destructive" 
-                        onClick={handlePermanentDelete}
-                        className="text-xs h-7"
-                      >
-                        <Trash2 className="w-3 h-3 mr-1" />
-                        Delete Permanently ({selectedArchiveStrategies.length})
-                      </Button>
-                    )}
-                  </div>
-                )}
-                
+                  )}
+                </div>
+              )}
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {archivedStrategies.length === 0 ? (
-                  <div className="text-center py-8 text-gray-500">
+                  <div className="col-span-full text-center py-8 text-gray-500">
                     <Trash2 className="w-12 h-12 mx-auto mb-2 opacity-50" />
                     <p>No archived strategies</p>
                     <p className="text-xs">Deleted strategies will appear here</p>
