@@ -3247,7 +3247,7 @@ metadata = {
         </div>
 
         {/* News Feed */}
-        <Card className={`relative pane-enhanced ${fullScreenPane === 'news-feed' ? 'fullscreen-enhanced bg-white' : ''} ${fullScreenPane !== 'news-feed' ? 'news-feed-full' : ''}`}>
+        <Card className={`relative pane-enhanced ${fullScreenPane === 'news-feed' ? 'fullscreen-enhanced bg-white' : ''}`}>
           <FullScreenButton paneId="news-feed" />
           <CardHeader>
             <div className="flex items-center justify-between">
@@ -3310,8 +3310,8 @@ metadata = {
               </div>
             </div>
           </CardHeader>
-          <CardContent className="p-6 flex flex-col h-full">
-            <ScrollArea className="flex-1 border rounded" style={{ maxHeight: 'calc(100vh - 500px)' }}>
+          <CardContent className="p-6">
+            <ScrollArea className="border rounded" style={{ height: '400px' }}>
               <div className="space-y-3 p-4 pb-4">
                 {news.length === 0 ? (
                   <div className="text-center py-12 text-gray-500">
