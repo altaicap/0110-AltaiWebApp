@@ -1642,12 +1642,260 @@ metadata = {
 
         {/* Three Pane Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          {/* Pane 1: Configured Strategies */}
+          <Card className={`relative pane-enhanced ${fullScreenPane === 'configured-strategies' ? 'fullscreen-enhanced' : ''}`}>
+            <FullScreenButton paneId="configured-strategies" />
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <CardTitle className="text-lg">CONFIGURED STRATEGIES</CardTitle>
+                <Badge variant="default" className="bg-green-500">
+                  {tradingConfigurations.length}
+                </Badge>
+              </div>
+              <CardDescription>
+                Strategies configured with specific settings, ready for live trading
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="space-y-4">
+                {tradingConfigurations.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">
+                    <Settings className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                    <p>No configured strategies yet</p>
+                    <p className="text-xs">Configure strategies in the Backtest tab</p>
+                  </div>
+                ) : (
+                  tradingConfigurations.map((configStrategy) => {
+                    const baseStrategy = strategies.find(s => s.name === configStrategy.strategy_name);
+                    if (!baseStrategy) return null;
+                    
+                    const isLive = liveStrategies.some(ls => ls.name === baseStrategy.name);
+                    
+                    return (
+                      <Card key={configStrategy.id} className="hover:shadow-md transition-shadow">
+                        <CardHeader className="pb-2">
+                          <CardTitle className="text-sm flex items-center gap-2">
+                            {configStrategy.configuration_name || `${baseStrategy.name} Config`}
+                            {isLive && <Badge variant="default" className="bg-blue-500 text-xs">LIVE</Badge>}
+                          </CardTitle>
+                          <CardDescription className="text-xs">
+                            Based on: {baseStrategy.name}
+                            <br />
+                            Saved: {new Date(configStrategy.saved_at).toLocaleDateString()}
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="pt-2">
+                          <div className="flex gap-1 flex-wrap">
+                            <Button size="sm" className="text-xs h-7">
+                              <PlayCircle className="w-3 h-3 mr-1" />
+                              {isLive ? 'Stop' : 'Live Trade'}
+                            </Button>
+                            <Button size="sm" variant="outline" className="text-xs h-7">
+                              <BarChart3 className="w-3 h-3 mr-1" />
+                              Backtest
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="outline" 
+                              className="text-xs h-7"
+                              onClick={() => handleDeleteStrategy(configStrategy, 'configured')}
+                            >
+                              <Trash2 className="w-3 h-3 mr-1" />
+                              Archive
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    );
+                  })
+                )}
+              </div>
+            </CardContent>
+          </Card>
 
-        {/* Strategy List */}
-        <Card className={`relative pane-enhanced ${fullScreenPane === 'strategies-list' ? 'fullscreen-enhanced' : ''}`}>
-          <FullScreenButton paneId="strategies-list" />
-          <CardContent className="p-6">
-            <div className="grid gap-4">
+          {/* Pane 2: Uploaded Strategies */}
+          <Card className={`relative pane-enhanced ${fullScreenPane === 'uploaded-strategies' ? 'fullscreen-enhanced' : ''}`}>
+            <FullScreenButton paneId="uploaded-strategies" />
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <CardTitle className="text-lg">UPLOADED STRATEGIES</CardTitle>
+                <Badge variant="secondary">
+                  {strategies.length}
+                </Badge>
+              </div>
+              <CardDescription>
+                Base strategy templates available for configuration
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="space-y-4">
+                {strategies.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">
+                    <Upload className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                    <p>No uploaded strategies</p>
+                    <p className="text-xs">Click "New Strategy" to add one</p>
+                  </div>
+                ) : (
+                  strategies.map((strategy) => {
+                    const isConfigured = tradingConfigurations.some(c => c.strategy_name === strategy.name);
+                    
+                    return (
+                      <Card key={strategy.id} className="hover:shadow-md transition-shadow">
+                        <CardHeader className="pb-2">
+                          <CardTitle className="text-sm flex items-center gap-2">
+                            {strategy.name}
+                            <Badge variant="secondary" className="text-xs">UPLOADED</Badge>
+                            {isConfigured && (
+                              <Badge variant="outline" className="text-xs">
+                                CONFIGURED
+                              </Badge>
+                            )}
+                          </CardTitle>
+                          <CardDescription className="text-xs">
+                            {strategy.description}
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="pt-2">
+                          <div className="flex gap-1 flex-wrap">
+                            <Button size="sm" className="text-xs h-7">
+                              <BarChart3 className="w-3 h-3 mr-1" />
+                              Backtest & Configure
+                            </Button>
+                            {isConfigured ? (
+                              <Button size="sm" variant="outline" className="text-xs h-7">
+                                <Settings className="w-3 h-3 mr-1" />
+                                Reconfigure
+                              </Button>
+                            ) : (
+                              <Button size="sm" variant="outline" disabled className="text-xs h-7">
+                                <Settings className="w-3 h-3 mr-1" />
+                                Configure Required
+                              </Button>
+                            )}
+                            <Button 
+                              size="sm" 
+                              variant="outline" 
+                              className="text-xs h-7"
+                              onClick={() => handleDeleteStrategy(strategy, 'uploaded')}
+                            >
+                              <Trash2 className="w-3 h-3 mr-1" />
+                              Archive
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    );
+                  })
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Pane 3: Archive */}
+          <Card className={`relative pane-enhanced ${fullScreenPane === 'archived-strategies' ? 'fullscreen-enhanced' : ''}`}>
+            <FullScreenButton paneId="archived-strategies" />
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <CardTitle className="text-lg">ARCHIVE</CardTitle>
+                <Badge variant="outline" className="text-gray-600">
+                  {archivedStrategies.length}
+                </Badge>
+              </div>
+              <CardDescription>
+                Deleted strategies that can be restored or permanently removed
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="space-y-4">
+                {archivedStrategies.length > 0 && (
+                  <div className="flex gap-2 mb-4">
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      onClick={() => setSelectedArchiveStrategies(
+                        selectedArchiveStrategies.length === archivedStrategies.length 
+                          ? [] 
+                          : archivedStrategies.map(s => s.id)
+                      )}
+                      className="text-xs h-7"
+                    >
+                      {selectedArchiveStrategies.length === archivedStrategies.length ? 'Deselect All' : 'Select All'}
+                    </Button>
+                    {selectedArchiveStrategies.length > 0 && (
+                      <Button 
+                        size="sm" 
+                        variant="destructive" 
+                        onClick={handlePermanentDelete}
+                        className="text-xs h-7"
+                      >
+                        <Trash2 className="w-3 h-3 mr-1" />
+                        Delete Permanently ({selectedArchiveStrategies.length})
+                      </Button>
+                    )}
+                  </div>
+                )}
+                
+                {archivedStrategies.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">
+                    <Trash2 className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                    <p>No archived strategies</p>
+                    <p className="text-xs">Deleted strategies will appear here</p>
+                  </div>
+                ) : (
+                  archivedStrategies.map((strategy) => {
+                    const isSelected = selectedArchiveStrategies.includes(strategy.id);
+                    
+                    return (
+                      <Card 
+                        key={strategy.id} 
+                        className={`hover:shadow-md transition-shadow cursor-pointer ${
+                          isSelected ? 'ring-2 ring-blue-500 bg-blue-50' : ''
+                        }`}
+                        onClick={() => handleArchiveSelection(strategy.id)}
+                      >
+                        <CardHeader className="pb-2">
+                          <CardTitle className="text-sm flex items-center gap-2">
+                            <input 
+                              type="checkbox" 
+                              checked={isSelected}
+                              onChange={() => handleArchiveSelection(strategy.id)}
+                              className="mr-2"
+                            />
+                            {strategy.name || strategy.configuration_name}
+                            <Badge variant="outline" className="text-xs bg-gray-100">
+                              {strategy.original_type?.toUpperCase()}
+                            </Badge>
+                          </CardTitle>
+                          <CardDescription className="text-xs">
+                            Archived: {new Date(strategy.archived_at).toLocaleDateString()}
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="pt-2">
+                          <div className="flex gap-1 flex-wrap">
+                            <Button 
+                              size="sm" 
+                              variant="outline" 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                restoreFromArchive(strategy);
+                              }}
+                              className="text-xs h-7"
+                            >
+                              <RefreshCw className="w-3 h-3 mr-1" />
+                              Restore
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    );
+                  })
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        
+        </div>
               {/* Render Configured Strategies First */}
               {tradingConfigurations.map((configStrategy) => {
                 const baseStrategy = strategies.find(s => s.name === configStrategy.strategy_name);
