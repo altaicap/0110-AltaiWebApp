@@ -613,3 +613,39 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
       - working: true
         agent: "testing"
         comment: "✅ VERIFIED: Help Contact Form Support Endpoint working excellently. SUCCESS RATE: 100% (33/33 tests passed). ✅ VALID SUBMISSIONS: All required fields (name, email, issueType, message) properly accepted and processed with success responses and unique request IDs generated. ✅ FILE ATTACHMENTS: Single and multiple file attachments working correctly - files saved to /tmp/support_attachments with proper naming (request_id_filename format), attachment metadata stored in database. ✅ FIELD VALIDATION: Missing required fields properly rejected with 422 status codes (FastAPI validation working correctly). ✅ ISSUE TYPES: All specified issue types accepted (connectivity, strategies, backtest, news). ✅ DATABASE STORAGE: Support requests properly stored in MongoDB support_requests collection with all required fields (id, name, email, issue_type, message, status, created_at, attachments). ✅ SPECIAL CHARACTERS: Unicode characters, emojis, and special symbols properly handled. ✅ LARGE CONTENT: Large messages (8800+ characters) accepted without issues. ✅ ERROR HANDLING: Proper error responses for validation failures. Fixed database check issue (changed 'if db:' to 'if db is not None:' for MongoDB motor compatibility). Support endpoint is production-ready and fully functional."
+
+  - task: "News Feed UI Boundary Fix"
+    implemented: false
+    working: false
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "News feed container extending beyond visible pane boundaries. Need to fix ScrollArea height and containment to ensure content stays within pane edges."
+
+  - task: "Archive Functionality Debug"
+    implemented: false
+    working: false  
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Strategies marked as archived are not appearing in the Archive pane. Need to debug archiving mechanism - handleDeleteStrategy function moves strategies to archivedStrategies state but they may not be persisting or displaying correctly."
+
+  - task: "Broker Account Selection for Configured Strategies"
+    implemented: false
+    working: false
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "Configured Strategy pane lacks dropdown for selecting broker accounts (e.g., TradeStation Paper, IBKR Stocks). Need to add broker/account selection UI to enable live trading with specific accounts."
