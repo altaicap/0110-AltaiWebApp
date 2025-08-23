@@ -114,9 +114,16 @@ function App() {
   const [activeTab, setActiveTab] = useState('settings');
   const [liveTabs, setLiveTabs] = useState([]);
   const [settings, setSettings] = useState({});
-  const [appSettings, setAppSettings] = useState({
-    theme: 'system',
-    fontSize: 'medium'
+  // Initialize theme properly on first load
+  const [initialThemeLoaded, setInitialThemeLoaded] = useState(false);
+  const [appSettings, setAppSettings] = useState(() => {
+    // Check system preference immediately during initialization
+    const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return {
+      theme: 'system',
+      fontSize: 'medium',
+      _systemPrefersDark: systemPrefersDark // Store initial system preference
+    };
   });
   const [strategies, setStrategies] = useState([]);
   const [backtestResults, setBacktestResults] = useState([]);
