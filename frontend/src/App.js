@@ -1762,7 +1762,7 @@ metadata = {
 
         {/* New Strategy Form */}
         {selectedStrategy === 'new' && (
-          <Card className={`relative ${fullScreenPane === 'strategies-form' ? 'fixed inset-4 top-20 z-50' : ''}`}>
+          <Card className={`relative ${fullScreenPane === 'strategies-form' ? 'fullscreen-enhanced' : ''}`}>
             <FullScreenButton paneId="strategies-form" />
             <CardHeader>
               <CardTitle>Create New Strategy</CardTitle>
