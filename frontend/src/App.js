@@ -158,6 +158,16 @@ function App() {
   const [userToDelete, setUserToDelete] = useState('');
   const [newUserName, setNewUserName] = useState('');
   
+  // Help Dialog State
+  const [showHelpDialog, setShowHelpDialog] = useState(false);
+  const [helpForm, setHelpForm] = useState({
+    name: '',
+    email: '',
+    issueType: '',
+    message: '',
+    attachments: []
+  });
+  
   // Backtest Form State (moved from BacktestTab to prevent resets)
   const [backtestForm, setBacktestForm] = useState({
     strategy_name: '',
