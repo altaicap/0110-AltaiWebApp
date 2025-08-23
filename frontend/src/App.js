@@ -3475,6 +3475,126 @@ metadata = {
             </div>
           )}
 
+          {/* Help Dialog */}
+          {showHelpDialog && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <Card className="w-[500px] max-h-[80vh] overflow-y-auto">
+                <CardHeader>
+                  <CardTitle className="pane-title">Contact Support</CardTitle>
+                  <CardDescription>Submit bugs, issues, and questions</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="helpName">Name</Label>
+                        <Input
+                          id="helpName"
+                          value={helpForm.name || currentUser}
+                          onChange={(e) => setHelpForm(prev => ({ ...prev, name: e.target.value }))}
+                          placeholder="Your name"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="helpEmail">Email</Label>
+                        <Input
+                          id="helpEmail"
+                          type="email"
+                          value={helpForm.email || `${currentUser.toLowerCase().replace(' ', '.')}@altaitrader.com`}
+                          onChange={(e) => setHelpForm(prev => ({ ...prev, email: e.target.value }))}
+                          placeholder="Your email"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <Label htmlFor="issueType">Issue Type</Label>
+                      <Select
+                        value={helpForm.issueType}
+                        onValueChange={(value) => setHelpForm(prev => ({ ...prev, issueType: value }))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select issue type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="connectivity">Connectivity</SelectItem>
+                          <SelectItem value="strategies">Strategies</SelectItem>
+                          <SelectItem value="backtest">Backtest</SelectItem>
+                          <SelectItem value="news">News</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="helpMessage">Message</Label>
+                      <Textarea
+                        id="helpMessage"
+                        value={helpForm.message}
+                        onChange={(e) => setHelpForm(prev => ({ ...prev, message: e.target.value }))}
+                        placeholder="Describe your issue or question in detail..."
+                        rows={4}
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="attachments">Attachments (optional)</Label>
+                      <div className="space-y-2">
+                        <Input
+                          id="attachments"
+                          type="file"
+                          multiple
+                          onChange={handleFileAttachment}
+                          className="cursor-pointer"
+                        />
+                        {helpForm.attachments.length > 0 && (
+                          <div className="space-y-1">
+                            {helpForm.attachments.map((file, index) => (
+                              <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                                <span className="text-sm truncate">{file.name}</span>
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  onClick={() => removeAttachment(index)}
+                                >
+                                  <XCircle className="w-4 h-4" />
+                                </Button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <Button 
+                        onClick={submitHelpForm}
+                        disabled={!helpForm.issueType || !helpForm.message.trim() || isLoading}
+                      >
+                        <Send className="w-4 h-4 mr-2" />
+                        {isLoading ? 'Submitting...' : 'Submit Request'}
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        onClick={() => {
+                          setShowHelpDialog(false);
+                          setHelpForm({
+                            name: '',
+                            email: '',
+                            issueType: '',
+                            message: '',
+                            attachments: []
+                          });
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
           {/* Delete User Dialog */}
           {showDeleteUserDialog && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
