@@ -517,9 +517,7 @@ Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in th
 
 ## test_plan:
   current_focus:
-    - "News Feed UI Boundary Fix"
-    - "Archive Functionality Debug" 
-    - "Broker Account Selection for Configured Strategies"
+    - "Overall System Health Verification"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
