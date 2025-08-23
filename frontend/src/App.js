@@ -1159,12 +1159,12 @@ metadata = {
           <div className="space-y-3 p-4 border rounded-lg bg-gradient-to-r from-purple-50 to-blue-50">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center border shadow-sm">
-                  <img 
-                    src="/src/assets/polygon-logo.png" 
-                    alt="Polygon.io" 
-                    className="w-10 h-10 object-contain"
-                  />
+                <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
+                  <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" />
+                    <path d="M2 17L12 22L22 17" />
+                    <path d="M2 12L12 17L22 12" />
+                  </svg>
                 </div>
                 <div>
                   <Label className="text-base font-semibold flex items-center gap-2">
