@@ -572,43 +572,127 @@ class IBKRAPIClient:
         return mapping.get(action.upper(), "BUY")
 
 class IBKRService:
-    """Main IBKR service combining OAuth and API functionality"""
+    """Main IBKR service supporting both Gateway and OAuth2 modes"""
     
     def __init__(self):
-        self.oauth_service = IBKROAuthService()
-        self.key_manager = IBKRKeyManager()
+        self.mode = os.environ.get('IBKR_MODE', 'gateway')
+        
+        if self.mode == 'oauth2':
+            # OAuth2 mode - use hosted Web API with private_key_jwt
+            self.oauth_service = IBKROAuthService()
+            self.key_manager = IBKRKeyManager()
+            self.base_url = "https://api.ibkr.com"
+        else:
+            # Gateway mode - use Client Portal Gateway
+            self.oauth_service = None
+            self.key_manager = None
+            self.base_url = "https://localhost:5000/v1/api"
     
     def is_configured(self) -> bool:
         """Check if IBKR is properly configured"""
-        return bool(self.oauth_service.client_id)
+        if self.mode == 'oauth2':
+            return bool(self.oauth_service and self.oauth_service.client_id)
+        else:
+            # Gateway mode doesn't require additional configuration
+            return True
+    
+    def get_mode_info(self) -> Dict[str, Any]:
+        """Get information about current IBKR mode"""
+        if self.mode == 'oauth2':
+            return {
+                "mode": "oauth2",
+                "base_url": self.base_url,
+                "configured": self.is_configured(),
+                "public_key": self.get_public_key() if self.is_configured() else None,
+                "instructions": "Register your public key with IBKR API team before connecting"
+            }
+        else:
+            return {
+                "mode": "gateway",
+                "base_url": self.base_url,
+                "configured": True,
+                "instructions": "Ensure IBKR Client Portal Gateway is running on the same machine"
+            }
     
     def generate_auth_url(self, state: Optional[str] = None) -> Dict[str, str]:
-        """Generate OAuth authorization URL"""
+        """Generate OAuth authorization URL (OAuth2 mode only)"""
+        if self.mode != 'oauth2':
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="OAuth not available in Gateway mode"
+            )
         return self.oauth_service.generate_authorization_url(state)
     
     async def handle_oauth_callback(self, code: str, state: str) -> Dict[str, Any]:
-        """Handle OAuth callback and return tokens"""
+        """Handle OAuth callback and return tokens (OAuth2 mode only)"""
+        if self.mode != 'oauth2':
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="OAuth not available in Gateway mode"
+            )
         return await self.oauth_service.exchange_code_for_tokens(code, state)
     
     async def refresh_token(self, refresh_token: str) -> Dict[str, Any]:
-        """Refresh access token"""
+        """Refresh access token (OAuth2 mode only)"""
+        if self.mode != 'oauth2':
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Token refresh not available in Gateway mode"
+            )
         return await self.oauth_service.refresh_access_token(refresh_token)
     
-    def create_client(self, access_token: str, refresh_token: Optional[str] = None) -> IBKRAPIClient:
+    def create_client(self, access_token: str = None, refresh_token: Optional[str] = None) -> IBKRAPIClient:
         """Create authenticated API client"""
-        return IBKRAPIClient(access_token, refresh_token)
+        if self.mode == 'oauth2':
+            if not access_token:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Access token required for OAuth2 mode"
+                )
+            return IBKRAPIClient(access_token, refresh_token, base_url=self.base_url)
+        else:
+            # Gateway mode - no token required
+            return IBKRAPIClient(base_url=self.base_url)
     
-    async def test_connection(self, access_token: str) -> Dict[str, Any]:
+    async def test_connection(self, access_token: str = None) -> Dict[str, Any]:
         """Test IBKR API connection"""
         try:
-            client = self.create_client(access_token)
-            accounts = await client.get_accounts()
+            if self.mode == 'oauth2' and not access_token:
+                return {
+                    "status": "error",
+                    "message": "Access token required for OAuth2 mode testing"
+                }
             
-            return {
-                "status": "success",
-                "message": f"Connected successfully. Found {len(accounts)} account(s).",
-                "account_count": len(accounts)
-            }
+            client = self.create_client(access_token)
+            
+            if self.mode == 'gateway':
+                # For gateway mode, test with session status endpoint
+                try:
+                    async with httpx.AsyncClient(verify=False) as http_client:
+                        response = await http_client.get(f"{self.base_url}/iserver/auth/status")
+                        if response.status_code == 200:
+                            return {
+                                "status": "success",
+                                "message": "IBKR Gateway connection successful"
+                            }
+                        else:
+                            return {
+                                "status": "error",
+                                "message": f"Gateway not responsive (HTTP {response.status_code})"
+                            }
+                except Exception as e:
+                    return {
+                        "status": "error",
+                        "message": f"Cannot reach IBKR Gateway: {str(e)}"
+                    }
+            else:
+                # OAuth2 mode - test with accounts endpoint
+                accounts = await client.get_accounts()
+                return {
+                    "status": "success",
+                    "message": f"Connected successfully. Found {len(accounts)} account(s).",
+                    "account_count": len(accounts)
+                }
         except Exception as e:
             return {
                 "status": "error",
@@ -616,7 +700,9 @@ class IBKRService:
             }
     
     def get_public_key(self) -> str:
-        """Get public key for IBKR registration"""
+        """Get public key for IBKR registration (OAuth2 mode only)"""
+        if self.mode != 'oauth2':
+            return None
         return self.key_manager.get_public_key_pem()
     
     def generate_keys(self) -> Dict[str, str]:
