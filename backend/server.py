@@ -70,6 +70,8 @@ background_tasks_running = False
 backtest_service = None
 news_service = None
 market_service = None
+tradestation_service = None
+ibkr_service = None
 
 
 # Pydantic Models
