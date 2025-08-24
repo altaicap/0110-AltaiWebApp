@@ -4560,15 +4560,23 @@ metadata = {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
+                {/* General Error Message */}
+                {authErrors.general && (
+                  <div className="bg-red-50 border border-red-200 text-red-600 px-3 py-2 rounded-md text-sm">
+                    {authErrors.general}
+                  </div>
+                )}
+                
                 <form onSubmit={async (e) => {
                   e.preventDefault();
+                  
+                  if (!validateAuthForm()) {
+                    return;
+                  }
+                  
                   if (authMode === 'login') {
                     await handleLogin(authForm.email, authForm.password);
                   } else {
-                    if (authForm.password !== authForm.confirmPassword) {
-                      setError('Passwords do not match');
-                      return;
-                    }
                     await handleRegister(authForm.email, authForm.password, authForm.fullName);
                   }
                 }}>
@@ -4580,10 +4588,14 @@ metadata = {
                         id="fullName"
                         type="text"
                         value={authForm.fullName}
-                        onChange={(e) => setAuthForm(prev => ({ ...prev, fullName: e.target.value }))}
+                        onChange={(e) => handleAuthFieldChange('fullName', e.target.value)}
                         placeholder="Enter your full name"
+                        className={authErrors.fullName ? 'border-red-500' : ''}
                         required
                       />
+                      {authErrors.fullName && (
+                        <p className="text-red-500 text-xs mt-1">{authErrors.fullName}</p>
+                      )}
                     </div>
                   )}
                   
@@ -4593,10 +4605,14 @@ metadata = {
                       id="email"
                       type="email"
                       value={authForm.email}
-                      onChange={(e) => setAuthForm(prev => ({ ...prev, email: e.target.value }))}
+                      onChange={(e) => handleAuthFieldChange('email', e.target.value)}
                       placeholder="Enter your email"
+                      className={authErrors.email ? 'border-red-500' : ''}
                       required
                     />
+                    {authErrors.email && (
+                      <p className="text-red-500 text-xs mt-1">{authErrors.email}</p>
+                    )}
                   </div>
                   
                   <div>
@@ -4605,10 +4621,14 @@ metadata = {
                       id="password"
                       type="password"
                       value={authForm.password}
-                      onChange={(e) => setAuthForm(prev => ({ ...prev, password: e.target.value }))}
-                      placeholder="Enter your password"
+                      onChange={(e) => handleAuthFieldChange('password', e.target.value)}
+                      placeholder={authMode === 'register' ? 'At least 8 characters with letters and numbers' : 'Enter your password'}
+                      className={authErrors.password ? 'border-red-500' : ''}
                       required
                     />
+                    {authErrors.password && (
+                      <p className="text-red-500 text-xs mt-1">{authErrors.password}</p>
+                    )}
                   </div>
                   
                   {authMode === 'register' && (
@@ -4618,10 +4638,14 @@ metadata = {
                         id="confirmPassword"
                         type="password"
                         value={authForm.confirmPassword}
-                        onChange={(e) => setAuthForm(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                        onChange={(e) => handleAuthFieldChange('confirmPassword', e.target.value)}
                         placeholder="Confirm your password"
+                        className={authErrors.confirmPassword ? 'border-red-500' : ''}
                         required
                       />
+                      {authErrors.confirmPassword && (
+                        <p className="text-red-500 text-xs mt-1">{authErrors.confirmPassword}</p>
+                      )}
                     </div>
                   )}
                   
@@ -4633,7 +4657,11 @@ metadata = {
                     <Button 
                       type="button" 
                       variant="outline" 
-                      onClick={() => setShowAuthModal(false)}
+                      onClick={() => {
+                        setShowAuthModal(false);
+                        setAuthForm({ email: '', password: '', fullName: '', confirmPassword: '' });
+                        setAuthErrors({ email: '', password: '', fullName: '', confirmPassword: '', general: '' });
+                      }}
                     >
                       Cancel
                     </Button>
@@ -4647,6 +4675,7 @@ metadata = {
                     onClick={() => {
                       setAuthMode(authMode === 'login' ? 'register' : 'login');
                       setAuthForm({ email: '', password: '', fullName: '', confirmPassword: '' });
+                      setAuthErrors({ email: '', password: '', fullName: '', confirmPassword: '', general: '' });
                     }}
                     className="text-sm"
                   >
