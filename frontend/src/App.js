@@ -4649,7 +4649,7 @@ metadata = {
                     </div>
                   )}
                   
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 mt-6">
                     <Button type="submit" disabled={isLoading} className="flex-1">
                       {isLoading ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : null}
                       {authMode === 'login' ? 'Sign In' : 'Create Account'}
