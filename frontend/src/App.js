@@ -3518,11 +3518,11 @@ metadata = {
                 
                 {/* Notification Dropdown */}
                 {showNotificationPanel && (
-                  <div className="absolute right-0 top-full mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                    <div className="p-4 border-b">
-                      <h3 className="font-semibold">Notifications</h3>
+                  <div className={`absolute right-0 top-full mt-2 w-80 border rounded-lg shadow-lg z-50 ${isDarkTheme ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-200'}`}>
+                    <div className={`p-4 border-b ${isDarkTheme ? 'border-gray-600' : ''}`}>
+                      <h3 className={`font-semibold ${isDarkTheme ? 'text-white' : ''}`}>Notifications</h3>
                       {unreadNotifications > 0 && (
-                        <p className="text-sm text-gray-600">{unreadNotifications} unread</p>
+                        <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>{unreadNotifications} unread</p>
                       )}
                     </div>
                     <ScrollArea className="max-h-96">
