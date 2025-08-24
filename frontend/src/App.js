@@ -4340,6 +4340,121 @@ metadata = {
             </TabsContent>
           ))}
         </Tabs>
+
+        {/* Authentication Modal */}
+        {showAuthModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <Card className="w-96">
+              <CardHeader>
+                <CardTitle>{authMode === 'login' ? 'Sign In' : 'Create Account'}</CardTitle>
+                <CardDescription>
+                  {authMode === 'login' 
+                    ? 'Sign in to your Altai Trader account'
+                    : 'Create a new account to get started'
+                  }
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <form onSubmit={async (e) => {
+                  e.preventDefault();
+                  if (authMode === 'login') {
+                    await handleLogin(authForm.email, authForm.password);
+                  } else {
+                    if (authForm.password !== authForm.confirmPassword) {
+                      setError('Passwords do not match');
+                      return;
+                    }
+                    await handleRegister(authForm.email, authForm.password, authForm.fullName);
+                  }
+                }}>
+                  
+                  {authMode === 'register' && (
+                    <div>
+                      <Label htmlFor="fullName">Full Name</Label>
+                      <Input
+                        id="fullName"
+                        type="text"
+                        value={authForm.fullName}
+                        onChange={(e) => setAuthForm(prev => ({ ...prev, fullName: e.target.value }))}
+                        placeholder="Enter your full name"
+                        required
+                      />
+                    </div>
+                  )}
+                  
+                  <div>
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={authForm.email}
+                      onChange={(e) => setAuthForm(prev => ({ ...prev, email: e.target.value }))}
+                      placeholder="Enter your email"
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="password">Password</Label>
+                    <Input
+                      id="password"
+                      type="password"
+                      value={authForm.password}
+                      onChange={(e) => setAuthForm(prev => ({ ...prev, password: e.target.value }))}
+                      placeholder="Enter your password"
+                      required
+                    />
+                  </div>
+                  
+                  {authMode === 'register' && (
+                    <div>
+                      <Label htmlFor="confirmPassword">Confirm Password</Label>
+                      <Input
+                        id="confirmPassword"
+                        type="password"
+                        value={authForm.confirmPassword}
+                        onChange={(e) => setAuthForm(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                        placeholder="Confirm your password"
+                        required
+                      />
+                    </div>
+                  )}
+                  
+                  <div className="flex gap-2">
+                    <Button type="submit" disabled={isLoading} className="flex-1">
+                      {isLoading ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : null}
+                      {authMode === 'login' ? 'Sign In' : 'Create Account'}
+                    </Button>
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      onClick={() => setShowAuthModal(false)}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </form>
+                
+                <div className="text-center">
+                  <Button
+                    type="button"
+                    variant="link"
+                    onClick={() => {
+                      setAuthMode(authMode === 'login' ? 'register' : 'login');
+                      setAuthForm({ email: '', password: '', fullName: '', confirmPassword: '' });
+                    }}
+                    className="text-sm"
+                  >
+                    {authMode === 'login' 
+                      ? "Don't have an account? Sign up" 
+                      : 'Already have an account? Sign in'
+                    }
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
     </div>
   );
