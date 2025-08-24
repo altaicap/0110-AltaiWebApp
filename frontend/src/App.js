@@ -652,15 +652,59 @@ metadata = {
     }
   };
 
-  // Auto-refresh news every 10 seconds
+  // Auto-refresh news with SSE support
   useEffect(() => {
-    // Load news immediately on mount
-    loadNews();
+    let newsInterval = null;
+    let eventSource = null;
     
-    // Set up auto-refresh interval
-    const newsInterval = setInterval(loadNews, 10000); // 10 seconds
+    const setupNewsUpdates = () => {
+      // Load news immediately on mount
+      loadNews();
+      
+      // Try to use SSE if available
+      if (typeof EventSource !== 'undefined' && isAuthenticated) {
+        try {
+          eventSource = new EventSource(`${BACKEND_URL}/api/news/stream`);
+          
+          eventSource.onmessage = (event) => {
+            try {
+              const data = JSON.parse(event.data);
+              if (data.type === 'news_update') {
+                // New article received, refresh the news
+                loadNews();
+              } else if (data.type === 'heartbeat') {
+                console.log('News stream heartbeat received');
+              }
+            } catch (e) {
+              console.warn('Failed to parse SSE message:', e);
+            }
+          };
+          
+          eventSource.onerror = (error) => {
+            console.warn('SSE connection error, falling back to polling:', error);
+            eventSource.close();
+            // Fall back to polling
+            newsInterval = setInterval(loadNews, 10000); // 10 seconds
+          };
+          
+          console.log('SSE news stream connected');
+        } catch (error) {
+          console.warn('SSE not supported, using polling:', error);
+          // Fall back to polling
+          newsInterval = setInterval(loadNews, 10000); // 10 seconds
+        }
+      } else {
+        // No SSE support or not authenticated, use polling
+        newsInterval = setInterval(loadNews, 10000); // 10 seconds
+      }
+    };
     
-    return () => clearInterval(newsInterval);
+    setupNewsUpdates();
+    
+    return () => {
+      if (newsInterval) clearInterval(newsInterval);
+      if (eventSource) eventSource.close();
+    };
   }, [isAuthenticated]); // Re-run when authentication status changes
 
   const checkIntegrationStatus = async () => {
