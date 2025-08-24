@@ -3041,7 +3041,7 @@ metadata = {
                     </div>
                   </div>
                 </div>
-              </ScrollArea>
+              </div>
             </CardContent>
           </Card>
         )}
