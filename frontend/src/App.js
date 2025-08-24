@@ -3763,7 +3763,30 @@ metadata = {
   // Define theme helper - only light or dark
   const isDarkTheme = appSettings.theme === 'dark';
 
-  // Helper function for status colors (green=working, yellow=connected but issues, red=not connected)
+  // Helper function to calculate article latency
+  const calculateLatency = (publishedAt) => {
+    const now = new Date();
+    const published = new Date(publishedAt);
+    const diffMs = now - published;
+    
+    if (diffMs < 60000) { // Less than 1 minute
+      return `${Math.floor(diffMs / 1000)}s`;
+    } else if (diffMs < 3600000) { // Less than 1 hour
+      return `${Math.floor(diffMs / 60000)}m`;
+    } else if (diffMs < 86400000) { // Less than 1 day
+      return `${Math.floor(diffMs / 3600000)}h`;
+    } else {
+      return `${Math.floor(diffMs / 86400000)}d`;
+    }
+  };
+
+  // Helper function to get latency color
+  const getLatencyColor = (publishedAt) => {
+    const diffMs = new Date() - new Date(publishedAt);
+    if (diffMs < 300000) return 'bg-green-100 text-green-700'; // < 5 min
+    if (diffMs < 1800000) return 'bg-yellow-100 text-yellow-700'; // < 30 min
+    return 'bg-red-100 text-red-700'; // > 30 min
+  };
   const getStatusColor = (status) => {
     switch (status) {
       case 'connected': return 'connection-status-connected'; // Green - working
