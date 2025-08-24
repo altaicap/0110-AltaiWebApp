@@ -1799,7 +1799,32 @@ metadata = {
                                 <PlayCircle className="w-3 h-3 mr-1" />
                                 {isLive ? 'Stop' : 'Live Trade'}
                               </Button>
-                              <Button size="sm" variant="outline" className="text-xs h-7">
+                              <Button 
+                                size="sm" 
+                                variant="outline" 
+                                className="text-xs h-7"
+                                onClick={() => {
+                                  // Navigate to Backtest tab
+                                  setActiveTab('backtest');
+                                  
+                                  // Find the base strategy 
+                                  const baseStrategy = strategies.find(s => s.name === configStrategy.strategy_name);
+                                  if (baseStrategy) {
+                                    // Pre-select the strategy
+                                    setSelectedStrategy(baseStrategy);
+                                    setBacktestForm(prev => ({
+                                      ...prev,
+                                      strategy_name: baseStrategy.name,
+                                      symbols: configStrategy.symbols || prev.symbols
+                                    }));
+                                    
+                                    // Load the saved parameters from the configuration
+                                    if (configStrategy.parameters) {
+                                      setStrategyParams(configStrategy.parameters);
+                                    }
+                                  }
+                                }}
+                              >
                                 <BarChart3 className="w-3 h-3 mr-1" />
                                 Backtest
                               </Button>
