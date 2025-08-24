@@ -2983,37 +2983,37 @@ metadata = {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-4 gap-4 mb-4">
-              <div className="text-center p-4 backtest-highlight-neutral">
+              <div className={`text-center p-4 border rounded-lg bg-gradient-to-r from-blue-50 to-cyan-50 ${isDarkTheme ? 'from-blue-900/20 to-cyan-900/20 border-gray-600' : ''}`}>
                 <div className="text-2xl font-bold">0</div>
                 <div className="text-sm font-medium">Total Trades</div>
               </div>
-              <div className="text-center p-4 backtest-highlight-positive">
+              <div className={`text-center p-4 border rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 ${isDarkTheme ? 'from-green-900/20 to-emerald-900/20 border-gray-600' : ''}`}>
                 <div className="text-2xl font-bold">0</div>
                 <div className="text-sm font-medium">Winning Trades</div>
               </div>
-              <div className="text-center p-4 backtest-highlight-negative">
+              <div className={`text-center p-4 border rounded-lg bg-gradient-to-r from-red-50 to-rose-50 ${isDarkTheme ? 'from-red-900/20 to-rose-900/20 border-gray-600' : ''}`}>
                 <div className="text-2xl font-bold">0</div>
                 <div className="text-sm font-medium">Losing Trades</div>
               </div>
-              <div className="text-center p-4 backtest-highlight-neutral">
+              <div className={`text-center p-4 border rounded-lg bg-gradient-to-r from-blue-50 to-cyan-50 ${isDarkTheme ? 'from-blue-900/20 to-cyan-900/20 border-gray-600' : ''}`}>
                 <div className="text-2xl font-bold">0%</div>
                 <div className="text-sm font-medium">Win Percentage</div>
               </div>
             </div>
             <div className="grid grid-cols-4 gap-4">
-              <div className="text-center p-4 backtest-highlight-neutral">
+              <div className={`text-center p-4 border rounded-lg bg-gradient-to-r from-blue-50 to-cyan-50 ${isDarkTheme ? 'from-blue-900/20 to-cyan-900/20 border-gray-600' : ''}`}>
                 <div className="text-2xl font-bold">$0</div>
                 <div className="text-sm font-medium">Average PnL</div>
               </div>
-              <div className="text-center p-4 backtest-highlight-positive">
+              <div className={`text-center p-4 border rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 ${isDarkTheme ? 'from-green-900/20 to-emerald-900/20 border-gray-600' : ''}`}>
                 <div className="text-2xl font-bold">$0</div>
                 <div className="text-sm font-medium">Avg Winning Trade</div>
               </div>
-              <div className="text-center p-4 backtest-highlight-negative">
+              <div className={`text-center p-4 border rounded-lg bg-gradient-to-r from-red-50 to-rose-50 ${isDarkTheme ? 'from-red-900/20 to-rose-900/20 border-gray-600' : ''}`}>
                 <div className="text-2xl font-bold">$0</div>
                 <div className="text-sm font-medium">Avg Losing Trade</div>
               </div>
-              <div className="text-center p-4 backtest-highlight-positive">
+              <div className={`text-center p-4 border rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 ${isDarkTheme ? 'from-green-900/20 to-emerald-900/20 border-gray-600' : ''}`}>
                 <div className="text-2xl font-bold">0%</div>
                 <div className="text-sm font-medium">ROI</div>
               </div>
