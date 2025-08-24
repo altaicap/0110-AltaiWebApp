@@ -1570,8 +1570,19 @@ metadata = {
             <div className="flex gap-2">
               <Button 
                 size="sm"
-                onClick={() => handleConnectBroker('tradestation')}
-                disabled={!apiKeys.tradestation}
+                onClick={() => {
+                  if (!isAuthenticated) {
+                    setError('Please sign in to connect your broker account');
+                    return;
+                  }
+                  if (integrationStatus.tradestation === 'connected') {
+                    // TODO: Implement disconnect
+                    setError('Disconnect functionality not yet implemented');
+                  } else {
+                    initiateOAuth('tradestation');
+                  }
+                }}
+                disabled={!isAuthenticated}
               >
                 {integrationStatus.tradestation === 'connected' ? <CheckCircle className="w-4 h-4 mr-2" /> : <XCircle className="w-4 h-4 mr-2" />}
                 {integrationStatus.tradestation === 'connected' ? 'Disconnect' : 'Connect TradeStation'}
@@ -1580,6 +1591,7 @@ metadata = {
                 size="sm" 
                 variant="outline"
                 onClick={() => testConnection('tradestation')}
+                disabled={!isAuthenticated}
               >
                 Test Connection
               </Button>
