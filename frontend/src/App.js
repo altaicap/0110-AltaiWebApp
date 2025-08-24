@@ -227,10 +227,122 @@ function App() {
     loadInitialData();
     loadPriorBarBreakAlgo();
     loadTradingData();
+    checkAuthStatus(); // Check if user is already logged in
     // Check integration status periodically
     const interval = setInterval(checkIntegrationStatus, 30000);
     return () => clearInterval(interval);
   }, []);
+
+  // Check authentication status on app load
+  const checkAuthStatus = () => {
+    const token = localStorage.getItem('access_token');
+    const userData = localStorage.getItem('user_data');
+    
+    if (token && userData) {
+      try {
+        const user = JSON.parse(userData);
+        setIsAuthenticated(true);
+        setCurrentAuthUser(user);
+        // Load user-specific data
+        loadUserApiKeys();
+      } catch (error) {
+        console.error('Invalid stored user data:', error);
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('user_data');
+      }
+    }
+  };
+
+  // Authentication functions
+  const handleLogin = async (email, password) => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        localStorage.setItem('access_token', data.access_token);
+        localStorage.setItem('user_data', JSON.stringify(data.user));
+        setIsAuthenticated(true);
+        setCurrentAuthUser(data.user);
+        setShowAuthModal(false);
+        setSuccess('Login successful');
+        
+        // Load user-specific data
+        await loadUserApiKeys();
+      } else {
+        setError(data.detail || 'Login failed');
+      }
+    } catch (error) {
+      setError('Connection error. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleRegister = async (email, password, fullName) => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${BACKEND_URL}/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, full_name: fullName })
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        localStorage.setItem('access_token', data.access_token);
+        localStorage.setItem('user_data', JSON.stringify(data.user));
+        setIsAuthenticated(true);
+        setCurrentAuthUser(data.user);
+        setShowAuthModal(false);
+        setSuccess('Account created successfully');
+        
+        // Load user-specific data
+        await loadUserApiKeys();
+      } else {
+        setError(data.detail || 'Registration failed');
+      }
+    } catch (error) {
+      setError('Connection error. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('user_data');
+    setIsAuthenticated(false);
+    setCurrentAuthUser(null);
+    setApiKeys({
+      polygon: '', newsware: '', tradexchange: '', tradestation: '', ibkr: ''
+    });
+    setSuccess('Logged out successfully');
+  };
+
+  // Load user-specific API keys
+  const loadUserApiKeys = async () => {
+    try {
+      const token = localStorage.getItem('access_token');
+      const response = await fetch(`${BACKEND_URL}/api/settings/api-keys`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setApiKeys(data);
+      }
+    } catch (error) {
+      console.error('Failed to load API keys:', error);
+    }
+  };
 
   // Apply theme and font size
   useEffect(() => {
