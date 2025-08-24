@@ -3718,6 +3718,11 @@ metadata = {
                                 {article.source === 'MockNews' ? 'NW' : 'TX'}
                               </Badge>
                             )}
+                            <Badge 
+                              className={`text-xs ${getLatencyColor(article.published_at)}`}
+                            >
+                              {calculateLatency(article.published_at)}
+                            </Badge>
                           </div>
                         </div>
                         
