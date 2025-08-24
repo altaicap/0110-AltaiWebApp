@@ -3374,8 +3374,8 @@ metadata = {
               </div>
             </div>
           </CardHeader>
-          <CardContent className="p-6">
-            <ScrollArea className="border rounded" style={{ height: '400px' }}>
+          <CardContent className="p-6 flex flex-col flex-1">
+            <ScrollArea className="flex-1 border rounded min-h-[400px]" style={{ maxHeight: 'calc(100vh - 350px)' }}>
               <div className="space-y-3 p-4 pb-4">
                 {news.length === 0 ? (
                   <div className="text-center py-12 text-gray-500">
