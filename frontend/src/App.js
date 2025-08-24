@@ -2791,8 +2791,7 @@ metadata = {
               <CardDescription>Configure parameters for {selectedStrategy.name}</CardDescription>
             </CardHeader>
             <CardContent>
-              <ScrollArea className="h-96">
-                <div className="space-y-6">
+              <div className="space-y-6 max-h-[600px] overflow-y-auto">
                   {/* General Settings */}
                   <div>
                     <h4 className="text-base font-medium mb-3 text-gray-900 border-b pb-1">General Settings</h4>
