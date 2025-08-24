@@ -1711,7 +1711,7 @@ metadata = {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {tradingConfigurations.length === 0 ? (
                   <div className="col-span-full text-center py-8 text-gray-500">
-                    <Settings className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                    <Upload className="w-12 h-12 mx-auto mb-2 opacity-50" />
                     <p>No configured strategies yet</p>
                     <p className="text-xs">Configure strategies in the Backtest tab</p>
                   </div>
