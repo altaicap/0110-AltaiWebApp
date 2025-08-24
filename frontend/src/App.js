@@ -1744,7 +1744,14 @@ metadata = {
                           <CardDescription className="text-xs">
                             Based on: {baseStrategy.name}
                             <br />
-                            Saved: {new Date(configStrategy.saved_at).toLocaleDateString()}
+                            Saved: {new Date(configStrategy.saved_at).toLocaleString('en-GB', { 
+                              hour12: false, 
+                              hour: '2-digit', 
+                              minute: '2-digit',
+                              day: '2-digit',
+                              month: '2-digit', 
+                              year: 'numeric'
+                            }).replace(',', '')}
                           </CardDescription>
                         </CardHeader>
                         <CardContent className="pt-2">
