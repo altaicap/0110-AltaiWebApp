@@ -793,6 +793,44 @@ async def get_live_news(
         logger.error(f"News API error: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to fetch news: {str(e)}")
 
+@app.get("/api/news/stream")
+async def news_stream():
+    """Server-Sent Events stream for real-time news updates"""
+    from fastapi.responses import StreamingResponse
+    import asyncio
+    import json
+    
+    async def event_generator():
+        """Generate news events for SSE"""
+        try:
+            while True:
+                # In a real implementation, this would listen to news service updates
+                # For now, we'll send a heartbeat every 30 seconds
+                yield f"data: {json.dumps({'type': 'heartbeat', 'timestamp': datetime.utcnow().isoformat()})}\n\n"
+                await asyncio.sleep(30)
+                
+                # TODO: Add real news event generation when news service has new articles
+                # This would typically involve listening to news service callbacks
+                # and yielding new articles as they arrive
+                
+        except asyncio.CancelledError:
+            # Client disconnected
+            return
+        except Exception as e:
+            logger.error(f"SSE stream error: {e}")
+            yield f"data: {json.dumps({'type': 'error', 'message': 'Stream error'})}\n\n"
+    
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/plain",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "Cache-Control"
+        }
+    )
+
 
 # Strategy Management API (unchanged)
 @app.get("/api/strategies", response_model=List[Strategy])
