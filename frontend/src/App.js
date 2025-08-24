@@ -2683,7 +2683,7 @@ metadata = {
               ) : (
                 <Button 
                   className="bg-blue-600 hover:bg-blue-700"
-                  onClick={() => {
+                  onClick={async () => {
                     // Save configuration as a separate instance
                     const configurationData = {
                       id: `config_${Date.now()}`, // Unique ID for each configuration
@@ -2699,6 +2699,15 @@ metadata = {
                     setTradingConfigurations(prev => [...prev, configurationData]);
                     
                     setSuccess(`New configuration saved for ${backtestForm.strategy_name}. Check Strategies tab for the configured strategy.`);
+                    
+                    // Navigate to Strategies tab and highlight the new configuration
+                    setActiveTab('strategies');
+                    setHighlightedConfigId(configurationData.id);
+                    
+                    // Remove highlight after 3 seconds
+                    setTimeout(() => {
+                      setHighlightedConfigId(null);
+                    }, 3000);
                   }}
                   disabled={!backtestForm.strategy_name}
                 >
