@@ -134,8 +134,17 @@ function App() {
   const [notifications, setNotifications] = useState([]);
   const [unreadNotifications, setUnreadNotifications] = useState(0);
   const [showNotificationPanel, setShowNotificationPanel] = useState(false);
+  // Authentication state
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentAuthUser, setCurrentAuthUser] = useState(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState('login'); // 'login' or 'register'
+  const [authForm, setAuthForm] = useState({
+    email: '',
+    password: '',
+    fullName: '',
+    confirmPassword: ''
+  });
   const [integrationStatus, setIntegrationStatus] = useState({
     polygon: 'connected',
     newsware: 'connected', 
