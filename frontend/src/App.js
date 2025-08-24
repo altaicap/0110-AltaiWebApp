@@ -1394,12 +1394,6 @@ metadata = {
               </Button>
             </div>
           </div>
-              </Button>
-              <Button disabled size="sm" variant="outline">
-                Save Credentials
-              </Button>
-            </div>
-          </div>
 
           <Separator />
 
