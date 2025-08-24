@@ -3623,6 +3623,17 @@ metadata = {
                     second: '2-digit' 
                   })}
                 </div>
+                {/* Last Updated Display */}
+                {newsLastUpdated && (
+                  <div className="text-sm text-blue-600 mt-1">
+                    Last updated: {newsLastUpdated.toLocaleTimeString([], { 
+                      hour12: false, 
+                      hour: '2-digit', 
+                      minute: '2-digit', 
+                      second: '2-digit' 
+                    })}
+                  </div>
+                )}
               </div>
               <div className="flex items-center gap-4">
                 <div className="text-sm space-y-2">
