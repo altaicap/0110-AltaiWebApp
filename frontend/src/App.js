@@ -615,41 +615,6 @@ metadata = {
     }
   };
 
-  const testConnection = async (service) => {
-    setIsLoading(true);
-    try {
-      const response = await fetch(`${BACKEND_URL}/api/settings/test-connection`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ service })
-      });
-      
-      const data = await response.json();
-      
-      if (response.ok) {
-        setSuccess(`${service} connection test passed`);
-        setIntegrationStatus(prev => ({
-          ...prev,
-          [service]: 'connected'
-        }));
-      } else {
-        setError(`${service} connection test failed: ${data.detail || 'Unknown error'}`);
-        setIntegrationStatus(prev => ({
-          ...prev,
-          [service]: 'disconnected'  
-        }));
-      }
-    } catch (error) {
-      setError(`Connection test failed: ${error.message}`);
-      setIntegrationStatus(prev => ({
-        ...prev,
-        [service]: 'disconnected'
-      }));
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   // User Management Functions
   const switchUser = (userName) => {
     setCurrentUser(userName);
