@@ -1415,7 +1415,7 @@ metadata = {
           <Separator />
 
           {/* Interactive Brokers (IBKR) */}
-          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-red-50 to-rose-50 opacity-60 ${isDarkTheme ? 'dark:from-red-900/20 dark:to-rose-900/20 dark:border-gray-600' : ''}`}>
+          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-red-50 to-rose-50 ${isDarkTheme ? 'dark:from-red-900/20 dark:to-rose-900/20 dark:border-gray-600' : ''}`}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center">
@@ -1432,7 +1432,8 @@ metadata = {
                 </div>
               </div>
               <Badge variant="secondary" className="px-3 py-1">
-                OAuth Required
+                {integrationStatus.ibkr === 'connected' ? 'Connected' : 
+                 integrationStatus.ibkr === 'warning' ? 'Connected (Issues)' : 'Disconnected'}
               </Badge>
             </div>
             <div className="space-y-2">
@@ -1440,8 +1441,9 @@ metadata = {
               <Input
                 id="ibkrClientId"
                 type="password"
+                value={apiKeys.ibkr || ''}
+                onChange={(e) => setApiKeys(prev => ({ ...prev, ibkr: e.target.value }))}
                 placeholder="Enter IBKR Client ID"
-                disabled
                 className="font-mono text-sm"
               />
               <p className="text-xs text-gray-500">
@@ -1449,12 +1451,20 @@ metadata = {
               </p>
             </div>
             <div className="flex gap-2">
-              <Button disabled size="sm">
-                <XCircle className="w-4 h-4 mr-2" />
-                Generate Keys & Connect
+              <Button 
+                size="sm"
+                onClick={() => handleConnectBroker('ibkr')}
+                disabled={!apiKeys.ibkr}
+              >
+                {integrationStatus.ibkr === 'connected' ? <CheckCircle className="w-4 h-4 mr-2" /> : <XCircle className="w-4 h-4 mr-2" />}
+                {integrationStatus.ibkr === 'connected' ? 'Disconnect' : 'Generate Keys & Connect'}
               </Button>
-              <Button disabled size="sm" variant="outline">
-                OAuth Setup Guide
+              <Button 
+                size="sm" 
+                variant="outline"
+                onClick={() => testConnection('ibkr')}
+              >
+                Test Connection
               </Button>
             </div>
           </div>
