@@ -3231,7 +3231,7 @@ metadata = {
                     ['2024-01-15 10:45:00', 'MSFT', 'LONG', '50', '$380.00', '$385.00', '$250.00']
                   ];
                   
-                  const csvContent = csvData.map(row => row.join(',')).join('\\n');
+                  const csvContent = csvData.map(row => row.join(',')).join('\n');
                   const blob = new Blob([csvContent], { type: 'text/csv' });
                   const url = window.URL.createObjectURL(blob);
                   const link = document.createElement('a');
