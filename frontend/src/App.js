@@ -1310,7 +1310,7 @@ metadata = {
           <Separator />
 
           {/* TradeXchange API */}
-          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-orange-50 to-red-50 ${isDarkTheme ? 'dark:from-orange-900/20 dark:to-red-900/20 dark:border-gray-600' : ''}`}>
+          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-orange-100 to-red-100 ${isDarkTheme ? 'dark:from-orange-900/40 dark:to-red-900/40 dark:border-gray-600' : ''}`}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
