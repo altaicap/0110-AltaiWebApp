@@ -1988,71 +1988,84 @@ metadata = {
         
         </div>
 
-        {/* New Strategy Form */}
-        {selectedStrategy === 'new' && (
-          <Card className={`relative ${fullScreenPane === 'strategies-form' ? 'fullscreen-enhanced' : ''}`}>
-            <FullScreenButton paneId="strategies-form" />
-            <CardHeader>
-              <CardTitle>Create New Strategy</CardTitle>
-              <CardDescription>Develop a new Python trading strategy</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="name">Strategy Name</Label>
-                  <Input 
-                    id="name"
-                    value={newStrategy.name}
-                    onChange={(e) => setNewStrategy(prev => ({ ...prev, name: e.target.value }))}
-                    placeholder="Enter strategy name"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="description">Description</Label>
-                  <Input 
-                    id="description"
-                    value={newStrategy.description}
-                    onChange={(e) => setNewStrategy(prev => ({ ...prev, description: e.target.value }))}
-                    placeholder="Brief description"
-                  />
-                </div>
-              </div>
-              
-              <div>
-                <Label htmlFor="code">Python Code</Label>
-                <Textarea 
-                  id="code"
-                  value={newStrategy.code}
-                  onChange={(e) => {
-                    setNewStrategy(prev => ({ ...prev, code: e.target.value }));
-                    setCodeErrors(validateStrategyCode(e.target.value));
-                  }}
-                  className={`font-mono text-sm min-h-96 ${codeErrors.length > 0 ? 'border-red-500' : ''}`}
-                  placeholder="Enter your Python strategy code"
-                />
-                {codeErrors.length > 0 && (
-                  <div className="mt-2 space-y-1">
-                    {codeErrors.map((error, index) => (
-                      <div key={index} className="text-sm text-red-600 flex items-center gap-2">
-                        <AlertCircle className="w-4 h-4" />
-                        Line {error.line}: {error.message}
-                      </div>
-                    ))}
+        {/* New Strategy Modal */}
+        {showNewStrategyModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+               onKeyDown={(e) => {
+                 if (e.key === 'Escape') {
+                   setShowNewStrategyModal(false);
+                 }
+               }}
+               tabIndex={-1}>
+            <Card className="w-full max-w-4xl max-h-[90vh] overflow-y-auto mx-4">
+              <CardHeader>
+                <CardTitle>Create New Strategy</CardTitle>
+                <CardDescription>Develop a new Python trading strategy</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="name">Strategy Name</Label>
+                    <Input 
+                      id="name"
+                      value={newStrategy.name}
+                      onChange={(e) => setNewStrategy(prev => ({ ...prev, name: e.target.value }))}
+                      placeholder="Enter strategy name"
+                    />
                   </div>
-                )}
-              </div>
+                  <div>
+                    <Label htmlFor="description">Description</Label>
+                    <Input 
+                      id="description"
+                      value={newStrategy.description}
+                      onChange={(e) => setNewStrategy(prev => ({ ...prev, description: e.target.value }))}
+                      placeholder="Brief description"
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <Label htmlFor="code">Python Code</Label>
+                  <Textarea 
+                    id="code"
+                    value={newStrategy.code}
+                    onChange={(e) => {
+                      setNewStrategy(prev => ({ ...prev, code: e.target.value }));
+                      setCodeErrors(validateStrategyCode(e.target.value));
+                    }}
+                    className={`font-mono text-sm min-h-96 ${codeErrors.length > 0 ? 'border-red-500' : ''}`}
+                    placeholder="Enter your Python strategy code"
+                  />
+                  {codeErrors.length > 0 && (
+                    <div className="mt-2 space-y-1">
+                      {codeErrors.map((error, index) => (
+                        <div key={index} className="text-sm text-red-600 flex items-center gap-2">
+                          <AlertCircle className="w-4 h-4" />
+                          Line {error.line}: {error.message}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
 
-              <div className="flex gap-2">
-                <Button onClick={saveStrategy} disabled={isLoading || codeErrors.length > 0}>
-                  {isLoading ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : null}
-                  Save Strategy
-                </Button>
-                <Button variant="outline" onClick={() => setSelectedStrategy(null)}>
-                  Cancel
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+                <div className="flex gap-2">
+                  <Button 
+                    onClick={() => {
+                      saveStrategy();
+                      setShowNewStrategyModal(false);
+                    }} 
+                    disabled={isLoading || codeErrors.length > 0}
+                  >
+                    {isLoading ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : null}
+                    Save Strategy
+                  </Button>
+                  <Button variant="outline" onClick={() => setShowNewStrategyModal(false)}>
+                    Cancel
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         )}
 
         {/* Edit Strategy Form */}
