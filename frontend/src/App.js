@@ -3424,13 +3424,8 @@ metadata = {
     );
   };
 
-  // Define theme helper with proper initial detection
-  const isDarkTheme = appSettings.theme === 'dark' || 
-    (appSettings.theme === 'system' && (
-      initialThemeLoaded 
-        ? window.matchMedia('(prefers-color-scheme: dark)').matches 
-        : appSettings._systemPrefersDark
-    ));
+  // Define theme helper - only light or dark
+  const isDarkTheme = appSettings.theme === 'dark';
 
   // Helper function for status colors (green=working, yellow=connected but issues, red=not connected)
   const getStatusColor = (status) => {
