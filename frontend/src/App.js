@@ -1150,7 +1150,6 @@ metadata = {
                   <SelectValue placeholder="Select theme" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="system">System</SelectItem>
                   <SelectItem value="light">Light</SelectItem>
                   <SelectItem value="dark">Dark</SelectItem>
                 </SelectContent>
@@ -1163,10 +1162,9 @@ metadata = {
                   <SelectValue placeholder="Select font size" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="small">Small</SelectItem>
-                  <SelectItem value="medium">Medium</SelectItem>
-                  <SelectItem value="large">Large</SelectItem>
-                  <SelectItem value="extra-large">Extra Large</SelectItem>
+                  <SelectItem value="medium">Small</SelectItem>
+                  <SelectItem value="large">Default</SelectItem>
+                  <SelectItem value="extra-large">Large</SelectItem>
                 </SelectContent>
               </Select>
             </div>
