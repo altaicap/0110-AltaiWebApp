@@ -1685,7 +1685,7 @@ metadata = {
           <div className="text-sm text-gray-500">
             Configure strategies in the Backtest tab by clicking "Save Configuration" to enable live trading.
           </div>
-          <Button onClick={() => setSelectedStrategy('new')} className="bg-blue-600 hover:bg-blue-700">
+          <Button onClick={() => setShowNewStrategyModal(true)} className="bg-blue-600 hover:bg-blue-700">
             <Plus className="w-4 h-4 mr-2" />
             New Strategy
           </Button>
