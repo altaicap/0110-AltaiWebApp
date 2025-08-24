@@ -3502,10 +3502,10 @@ metadata = {
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="relative"
+                  className={`relative ${isDarkTheme ? 'text-white border-gray-600 hover:bg-gray-700' : ''}`}
                   onClick={() => setShowNotificationPanel(!showNotificationPanel)}
                 >
-                  <Bell className="w-4 h-4" />
+                  <Bell className={`w-4 h-4 ${isDarkTheme ? 'text-white' : ''}`} />
                   {unreadNotifications > 0 && (
                     <Badge 
                       variant="destructive" 
