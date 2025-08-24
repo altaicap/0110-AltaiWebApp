@@ -1978,7 +1978,7 @@ metadata = {
             <CardHeader>
               <div className="flex items-center gap-3">
                 <CardTitle className="text-lg">ARCHIVE</CardTitle>
-                <Badge variant="outline" className="text-gray-600">
+                <Badge variant="outline" className={`${isDarkTheme ? 'text-gray-200 border-gray-600' : 'text-gray-600'}`}>
                   {archivedStrategies.length}
                 </Badge>
               </div>
