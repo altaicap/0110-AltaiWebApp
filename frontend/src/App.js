@@ -1344,7 +1344,7 @@ metadata = {
           <Separator />
 
           {/* TradeStation Integration */}
-          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-blue-50 to-sky-50 opacity-60 ${isDarkTheme ? 'dark:from-blue-900/20 dark:to-sky-900/20 dark:border-gray-600' : ''}`}>
+          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-blue-50 to-sky-50 ${isDarkTheme ? 'dark:from-blue-900/20 dark:to-sky-900/20 dark:border-gray-600' : ''}`}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-sky-400 rounded-lg flex items-center justify-center">
@@ -1361,7 +1361,8 @@ metadata = {
                 </div>
               </div>
               <Badge variant="secondary" className="px-3 py-1">
-                Not Implemented
+                {integrationStatus.tradestation === 'connected' ? 'Connected' : 
+                 integrationStatus.tradestation === 'warning' ? 'Connected (Issues)' : 'Disconnected'}
               </Badge>
             </div>
             <div className="space-y-2">
@@ -1369,15 +1370,30 @@ metadata = {
               <Input
                 id="tradestationKey"
                 type="password"
+                value={apiKeys.tradestation}
+                onChange={(e) => setApiKeys(prev => ({ ...prev, tradestation: e.target.value }))}
                 placeholder="Enter TradeStation Client ID"
-                disabled
                 className="font-mono text-sm"
               />
             </div>
             <div className="flex gap-2">
-              <Button disabled size="sm">
-                <XCircle className="w-4 h-4 mr-2" />
-                Connect TradeStation
+              <Button 
+                size="sm"
+                onClick={() => handleConnectBroker('tradestation')}
+                disabled={!apiKeys.tradestation}
+              >
+                {integrationStatus.tradestation === 'connected' ? <CheckCircle className="w-4 h-4 mr-2" /> : <XCircle className="w-4 h-4 mr-2" />}
+                {integrationStatus.tradestation === 'connected' ? 'Disconnect' : 'Connect TradeStation'}
+              </Button>
+              <Button 
+                size="sm" 
+                variant="outline"
+                onClick={() => testConnection('tradestation')}
+              >
+                Test Connection
+              </Button>
+            </div>
+          </div>
               </Button>
               <Button disabled size="sm" variant="outline">
                 Save Credentials
