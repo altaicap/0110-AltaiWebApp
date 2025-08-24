@@ -3571,42 +3571,42 @@ metadata = {
               <div className="ml-4">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm" className="flex items-center gap-2">
-                      <User className="w-4 h-4" />
+                    <Button variant="outline" size="sm" className={`flex items-center gap-2 ${isDarkTheme ? 'text-white border-gray-600 hover:bg-gray-700' : ''}`}>
+                      <User className={`w-4 h-4 ${isDarkTheme ? 'text-white' : ''}`} />
                       {currentUser}
-                      <ChevronDown className="w-4 h-4" />
+                      <ChevronDown className={`w-4 h-4 ${isDarkTheme ? 'text-white' : ''}`} />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48">
-                    <DropdownMenuItem onClick={() => setShowAccountSettings(true)}>
+                  <DropdownMenuContent align="end" className={`w-48 ${isDarkTheme ? 'bg-gray-800 border-gray-600' : ''}`}>
+                    <DropdownMenuItem onClick={() => setShowAccountSettings(true)} className={isDarkTheme ? 'text-white hover:bg-gray-700' : ''}>
                       <Settings2 className="w-4 h-4 mr-2" />
                       My Account
                     </DropdownMenuItem>
-                    <Separator className="my-1" />
+                    <Separator className={`my-1 ${isDarkTheme ? 'border-gray-600' : ''}`} />
                     {users.map((user) => (
                       <DropdownMenuItem 
                         key={user}
                         onClick={() => switchUser(user)}
-                        className={currentUser === user ? 'bg-gray-100' : ''}
+                        className={`${currentUser === user ? (isDarkTheme ? 'bg-gray-700' : 'bg-gray-100') : ''} ${isDarkTheme ? 'text-white hover:bg-gray-700' : ''}`}
                       >
                         <User className="w-4 h-4 mr-2" />
                         {user}
                       </DropdownMenuItem>
                     ))}
-                    <DropdownMenuItem onClick={() => setShowHelpDialog(true)}>
+                    <DropdownMenuItem onClick={() => setShowHelpDialog(true)} className={isDarkTheme ? 'text-white hover:bg-gray-700' : ''}>
                       <HelpCircle className="w-4 h-4 mr-2" />
                       Help
                     </DropdownMenuItem>
                     <DropdownMenuItem 
                       onClick={() => setShowDeleteUserDialog(true)}
-                      className="text-red-600"
+                      className={`text-red-600 ${isDarkTheme ? 'hover:bg-gray-700' : ''}`}
                       disabled={users.length <= 1}
                     >
                       <Trash2 className="w-4 h-4 mr-2" />
                       Delete User
                     </DropdownMenuItem>
-                    <Separator className="my-1" />
-                    <DropdownMenuItem onClick={() => console.log('Logout')} className="text-red-600">
+                    <Separator className={`my-1 ${isDarkTheme ? 'border-gray-600' : ''}`} />
+                    <DropdownMenuItem onClick={() => console.log('Logout')} className={`text-red-600 ${isDarkTheme ? 'hover:bg-gray-700' : ''}`}>
                       <LogOut className="w-4 h-4 mr-2" />
                       Logout
                     </DropdownMenuItem>
