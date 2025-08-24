@@ -303,23 +303,41 @@ class IBKROAuthService:
                 )
 
 class IBKRAPIClient:
-    """IBKR Client Portal Web API client"""
+    """IBKR API client supporting both Gateway and OAuth2 modes"""
     
-    def __init__(self, access_token: str, refresh_token: Optional[str] = None):
+    def __init__(self, access_token: str = None, refresh_token: Optional[str] = None, base_url: str = None):
         self.access_token = access_token
         self.refresh_token = refresh_token
-        self.api_base_url = "https://gdc-api.ibkr.com/v1/api"
-        self.headers = {
-            "Authorization": f"Bearer {access_token}",
-            "Content-Type": "application/json"
-        }
+        
+        # Determine base URL based on provided parameter or default to OAuth2 hosted API
+        if base_url:
+            self.api_base_url = base_url
+        else:
+            # Default to OAuth2 mode (not gdc-api.ibkr.com as mentioned in requirements)
+            self.api_base_url = "https://api.ibkr.com/v1/api"
+        
+        # Set up headers based on mode
+        if access_token:
+            # OAuth2 mode with Bearer token
+            self.headers = {
+                "Authorization": f"Bearer {access_token}",
+                "Content-Type": "application/json"
+            }
+        else:
+            # Gateway mode - no authorization header needed
+            self.headers = {
+                "Content-Type": "application/json"
+            }
+        
         self.timeout = httpx.Timeout(30.0)
+        # For gateway mode, disable SSL verification for localhost
+        self.verify_ssl = not self.api_base_url.startswith("https://localhost")
     
     async def _make_request(self, method: str, endpoint: str, **kwargs) -> httpx.Response:
-        """Make authenticated API request"""
+        """Make API request (authenticated for OAuth2, plain for Gateway)"""
         url = f"{self.api_base_url}{endpoint}"
         
-        async with httpx.AsyncClient(timeout=self.timeout) as client:
+        async with httpx.AsyncClient(timeout=self.timeout, verify=self.verify_ssl) as client:
             try:
                 response = await client.request(
                     method, url, headers=self.headers, **kwargs
