@@ -1725,7 +1725,14 @@ metadata = {
                     const isLive = liveStrategies.some(ls => ls.name === baseStrategy.name);
                     
                     return (
-                      <Card key={configStrategy.id} className="hover:shadow-md transition-shadow">
+                      <Card 
+                        key={configStrategy.id} 
+                        className={`hover:shadow-md transition-shadow ${
+                          highlightedConfigId === configStrategy.id 
+                            ? 'ring-2 ring-blue-500 ring-opacity-75 animate-pulse bg-blue-50' 
+                            : ''
+                        }`}
+                      >
                         <CardHeader className="pb-2">
                           <CardTitle className="text-sm flex items-center gap-2">
                             {configStrategy.configuration_name || `${baseStrategy.name} Config`}
