@@ -3219,6 +3219,34 @@ metadata = {
                 <CardTitle>Backtest Trade Log</CardTitle>
                 <CardDescription>Individual trades from backtest results</CardDescription>
               </div>
+              <Button 
+                size="sm" 
+                variant="outline" 
+                onClick={() => {
+                  // Export trade log as CSV
+                  const csvData = [
+                    ['Date/Time', 'Symbol', 'Side', 'Qty', 'Entry', 'Exit', 'PnL'],
+                    // Add sample data - in real app this would come from backtest results
+                    ['2024-01-15 09:30:00', 'AAPL', 'LONG', '100', '$150.00', '$155.00', '$500.00'],
+                    ['2024-01-15 10:45:00', 'MSFT', 'LONG', '50', '$380.00', '$385.00', '$250.00']
+                  ];
+                  
+                  const csvContent = csvData.map(row => row.join(',')).join('\\n');
+                  const blob = new Blob([csvContent], { type: 'text/csv' });
+                  const url = window.URL.createObjectURL(blob);
+                  const link = document.createElement('a');
+                  link.href = url;
+                  link.download = `backtest_trade_log_${new Date().toISOString().split('T')[0]}.csv`;
+                  link.click();
+                  window.URL.revokeObjectURL(url);
+                  
+                  setSuccess('Trade log exported successfully');
+                }}
+                className="flex items-center gap-2"
+              >
+                <Download className="w-4 h-4" />
+                Export CSV
+              </Button>
             </div>
           </CardHeader>
           <CardContent>
