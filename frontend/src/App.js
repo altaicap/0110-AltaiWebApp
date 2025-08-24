@@ -65,6 +65,41 @@ import './App.css';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
+// Helper function to get authenticated headers
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('access_token');
+  const headers = { 'Content-Type': 'application/json' };
+  
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  
+  return headers;
+};
+
+// Helper function for authenticated fetch
+const authFetch = async (url, options = {}) => {
+  const token = localStorage.getItem('access_token');
+  
+  if (token) {
+    options.headers = {
+      ...options.headers,
+      'Authorization': `Bearer ${token}`
+    };
+  }
+  
+  const response = await fetch(url, options);
+  
+  // Handle token expiry
+  if (response.status === 401) {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('user_data');
+    window.location.reload();
+  }
+  
+  return response;
+};
+
 // Prior Bar Break Algo parameters
 const PBB_ALGO_PARAMS = {
   // General Settings
