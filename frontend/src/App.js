@@ -179,6 +179,7 @@ function App() {
   const [deleteConfirmData, setDeleteConfirmData] = useState(null);
   const [selectedArchiveStrategies, setSelectedArchiveStrategies] = useState([]);
   const [showPermanentDeleteDialog, setShowPermanentDeleteDialog] = useState(false);
+  const [showNewStrategyModal, setShowNewStrategyModal] = useState(false);
   
   // Backtest Form State (moved from BacktestTab to prevent resets)
   const [backtestForm, setBacktestForm] = useState({
