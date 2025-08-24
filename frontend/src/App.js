@@ -147,7 +147,8 @@ function App() {
     polygon: 'pVHWgdhIGxKg68dAyh5tVKBVLZGjFMfD',
     newsware: '4aed023d-baac-4e76-a6f8-106a4a43c092',
     tradexchange: '',
-    tradestation: ''
+    tradestation: '',
+    ibkr: ''
   });
   const [showApiKeys, setShowApiKeys] = useState({
     polygon: false,
