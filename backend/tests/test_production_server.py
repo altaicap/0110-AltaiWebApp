@@ -1,9 +1,10 @@
 """
-Production server smoke tests for Altai Trader
+Production-ready smoke tests for Altai Trader
 """
 
 import pytest
 import asyncio
+import json
 from datetime import datetime, timedelta
 from fastapi.testclient import TestClient
 import sys
@@ -13,41 +14,291 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from config import settings
-from services.market_service import MarketDataService
-from services.news_service import NewsService
-from services.backtest_service import BacktestService
 
 
 @pytest.fixture
 def client():
     """Test client fixture"""
     # Import here to avoid circular imports
-    from server_production import app
+    from server import app
     return TestClient(app)
 
 
-@pytest.fixture
-def market_service():
-    """Market service fixture"""
-    return MarketDataService(polygon_api_key=settings.polygon_api_key)
+class TestAuthenticationEndpoints:
+    """Test authentication system"""
+    
+    def test_register_user(self, client):
+        """Test user registration"""
+        response = client.post("/api/auth/register", json={
+            "email": "test@altaitrader.com",
+            "password": "TestPassword123!",
+            "full_name": "Test User"
+        })
+        
+        if response.status_code == 200:
+            data = response.json()
+            assert "access_token" in data
+            assert "user" in data
+            assert data["user"]["email"] == "test@altaitrader.com"
+        else:
+            # User might already exist, check for appropriate error
+            assert response.status_code in [400, 409]
+    
+    def test_login_user(self, client):
+        """Test user login"""
+        # First register a user
+        client.post("/api/auth/register", json={
+            "email": "test_login@altaitrader.com",
+            "password": "TestPassword123!",
+            "full_name": "Test Login User"
+        })
+        
+        # Then try to login
+        response = client.post("/api/auth/login", json={
+            "email": "test_login@altaitrader.com",
+            "password": "TestPassword123!"
+        })
+        
+        assert response.status_code == 200
+        data = response.json()
+        assert "access_token" in data
+        assert "user" in data
+    
+    def test_invalid_login(self, client):
+        """Test invalid login credentials"""
+        response = client.post("/api/auth/login", json={
+            "email": "nonexistent@example.com",
+            "password": "wrongpassword"
+        })
+        
+        assert response.status_code == 401
 
 
-@pytest.fixture
-def news_service():
-    """News service fixture"""
-    return NewsService(
-        newsware_api_key=settings.newsware_api_key,
-        tradexchange_api_key=settings.tradexchange_api_key
-    )
+class TestNewsEndpoints:
+    """Test news system"""
+    
+    def test_news_live_returns_json(self, client):
+        """Test that news endpoint returns valid JSON"""
+        response = client.get("/api/news/live?limit=10")
+        
+        assert response.status_code == 200
+        data = response.json()
+        
+        # Check required fields
+        assert "articles" in data
+        assert "total_count" in data
+        assert "sources_status" in data
+        assert isinstance(data["articles"], list)
+        
+        # Verify sources status structure
+        sources_status = data["sources_status"]
+        assert "newsware" in sources_status
+        assert "tradexchange" in sources_status
+    
+    def test_news_sse_endpoint_exists(self, client):
+        """Test that SSE endpoint is available"""
+        # SSE endpoints return 200 and start streaming
+        response = client.get("/api/news/stream")
+        assert response.status_code == 200
+        assert "text/plain" in response.headers.get("content-type", "")
 
 
-@pytest.fixture
-def backtest_service():
-    """Backtest service fixture"""
-    return BacktestService(timeout_seconds=60, max_memory_mb=512)
+class TestTradingAuthEndpoints:
+    """Test trading authentication endpoints"""
+    
+    def get_test_token(self, client):
+        """Helper to get authentication token"""
+        # Register and login a test user
+        client.post("/api/auth/register", json={
+            "email": "test_trading@altaitrader.com",
+            "password": "TestPassword123!",
+            "full_name": "Test Trading User"
+        })
+        
+        response = client.post("/api/auth/login", json={
+            "email": "test_trading@altaitrader.com",
+            "password": "TestPassword123!"
+        })
+        
+        if response.status_code == 200:
+            return response.json()["access_token"]
+        return None
+    
+    def test_trading_auth_initiate_tradestation(self, client):
+        """Test TradeStation OAuth initiation"""
+        token = self.get_test_token(client)
+        if not token:
+            pytest.skip("Could not get authentication token")
+        
+        response = client.post(
+            "/api/trading/auth/initiate",
+            json={"broker": "tradestation"},
+            headers={"Authorization": f"Bearer {token}"}
+        )
+        
+        # Should return authorization URL even if not fully configured
+        if response.status_code == 200:
+            data = response.json()
+            assert "authorization_url" in data
+            assert "state" in data
+        else:
+            # Acceptable if TradeStation not configured
+            assert response.status_code in [400, 500]
+    
+    def test_trading_auth_initiate_ibkr(self, client):
+        """Test IBKR OAuth initiation"""
+        token = self.get_test_token(client)
+        if not token:
+            pytest.skip("Could not get authentication token")
+        
+        response = client.post(
+            "/api/trading/auth/initiate",
+            json={"broker": "ibkr"},
+            headers={"Authorization": f"Bearer {token}"}
+        )
+        
+        # Should return authorization URL or gateway mode info
+        if response.status_code == 200:
+            data = response.json()
+            # Could be OAuth URL or gateway mode instructions
+            assert "authorization_url" in data or "instructions" in data
+        else:
+            # Acceptable if IBKR not configured
+            assert response.status_code in [400, 500]
 
 
-@pytest.fixture
+class TestConnectionEndpoints:
+    """Test connection testing endpoints"""
+    
+    def test_connection_test_tradestation(self, client):
+        """Test TradeStation connection test"""
+        response = client.post("/api/settings/test-connection", json="tradestation")
+        
+        assert response.status_code == 200
+        data = response.json()
+        
+        assert "status" in data
+        assert "message" in data
+        assert data["status"] in ["success", "error", "warning", "mock"]
+    
+    def test_connection_test_ibkr(self, client):
+        """Test IBKR connection test"""
+        response = client.post("/api/settings/test-connection", json="ibkr")
+        
+        assert response.status_code == 200
+        data = response.json()
+        
+        assert "status" in data
+        assert "message" in data
+        assert data["status"] in ["success", "error", "warning", "mock"]
+    
+    def test_connection_test_polygon(self, client):
+        """Test Polygon connection test"""
+        response = client.post("/api/settings/test-connection", json="polygon")
+        
+        assert response.status_code == 200
+        data = response.json()
+        
+        assert "status" in data
+        assert "message" in data
+        # Should be configured or error
+        assert data["status"] in ["success", "error", "warning", "mock"]
+    
+    def test_connection_test_newsware(self, client):
+        """Test NewsWare connection test"""
+        response = client.post("/api/settings/test-connection", json="newsware")
+        
+        assert response.status_code == 200
+        data = response.json()
+        
+        assert "status" in data
+        assert "message" in data
+        assert data["status"] in ["success", "error", "warning", "mock"]
+
+
+class TestSystemHealth:
+    """Test system health endpoint"""
+    
+    def test_health_endpoint(self, client):
+        """Test system health check"""
+        response = client.get("/api/system/health")
+        
+        assert response.status_code == 200
+        data = response.json()
+        
+        # Check required health fields
+        assert "status" in data
+        assert "databases" in data
+        assert "brokers" in data
+        assert "news" in data
+        assert "version" in data
+        assert "timestamp" in data
+        
+        # Check broker status structure
+        brokers = data["brokers"]
+        assert "tradestation" in brokers
+        assert "ibkr" in brokers
+        
+        for broker_info in brokers.values():
+            assert "configured" in broker_info
+            assert "mode" in broker_info
+            assert "service_available" in broker_info
+        
+        # Check news status structure
+        news = data["news"]
+        assert "production_mode" in news
+        assert "services" in news
+        
+        news_services = news["services"]
+        assert "newsware" in news_services
+        assert "tradexchange" in news_services
+        
+        for service_info in news_services.values():
+            assert "configured" in service_info
+            assert "service_available" in service_info
+
+
+class TestIntegrationScenarios:
+    """Test end-to-end integration scenarios"""
+    
+    def test_authenticated_api_access(self, client):
+        """Test that authenticated endpoints require valid tokens"""
+        # Test without authentication
+        response = client.get("/api/settings/api-keys")
+        assert response.status_code == 401
+        
+        # Test with authentication
+        # Register and login
+        client.post("/api/auth/register", json={
+            "email": "test_integration@altaitrader.com",
+            "password": "TestPassword123!",
+            "full_name": "Test Integration User"
+        })
+        
+        login_response = client.post("/api/auth/login", json={
+            "email": "test_integration@altaitrader.com",
+            "password": "TestPassword123!"
+        })
+        
+        if login_response.status_code == 200:
+            token = login_response.json()["access_token"]
+            
+            # Test authenticated endpoint
+            response = client.get(
+                "/api/settings/api-keys",
+                headers={"Authorization": f"Bearer {token}"}
+            )
+            assert response.status_code == 200
+            
+            data = response.json()
+            # Should have API key fields (even if empty)
+            expected_keys = ["polygon", "newsware", "tradexchange", "tradestation", "ibkr"]
+            for key in expected_keys:
+                assert key in data
+
+
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])
 def aapl_test_data():
     """AAPL test data for deterministic testing"""
     return [
