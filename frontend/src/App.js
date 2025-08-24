@@ -1676,10 +1676,11 @@ metadata = {
                   {archivedStrategies.length}
                 </Badge>
               </div>
-              <div>
-                <span className="font-medium text-green-600">
-                  Live Trading: {liveStrategies.length}
-                </span>
+              <div className="flex items-center gap-2">
+                <span className="text-gray-600">Live:</span>
+                <Badge variant="secondary" className="bg-green-100 text-green-700 px-2 py-1 text-xs font-semibold">
+                  {liveStrategies.length}
+                </Badge>
               </div>
             </div>
           </div>
