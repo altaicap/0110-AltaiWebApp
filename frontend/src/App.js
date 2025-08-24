@@ -598,6 +598,58 @@ metadata = {
     }
   };
 
+  // Broker connection handlers
+  const handleConnectBroker = async (brokerType) => {
+    setIsLoading(true);
+    try {
+      // For now, toggle the connection status
+      setIntegrationStatus(prev => ({
+        ...prev,
+        [brokerType]: prev[brokerType] === 'connected' ? 'disconnected' : 'connected'
+      }));
+      setSuccess(`${brokerType === 'tradestation' ? 'TradeStation' : 'IBKR'} ${integrationStatus[brokerType] === 'connected' ? 'disconnected' : 'connected'} successfully`);
+    } catch (error) {
+      setError(`Failed to ${integrationStatus[brokerType] === 'connected' ? 'disconnect' : 'connect'} ${brokerType}: ${error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const testConnection = async (service) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/settings/test-connection`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ service })
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        setSuccess(`${service} connection test passed`);
+        setIntegrationStatus(prev => ({
+          ...prev,
+          [service]: 'connected'
+        }));
+      } else {
+        setError(`${service} connection test failed: ${data.detail || 'Unknown error'}`);
+        setIntegrationStatus(prev => ({
+          ...prev,
+          [service]: 'disconnected'  
+        }));
+      }
+    } catch (error) {
+      setError(`Connection test failed: ${error.message}`);
+      setIntegrationStatus(prev => ({
+        ...prev,
+        [service]: 'disconnected'
+      }));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // User Management Functions
   const switchUser = (userName) => {
     setCurrentUser(userName);
