@@ -1245,7 +1245,7 @@ metadata = {
           <Separator />
 
           {/* NewsWare API */}
-          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-blue-50 to-cyan-50 ${isDarkTheme ? 'dark:from-blue-900/20 dark:to-cyan-900/20 dark:border-gray-600' : ''}`}>
+          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-blue-100 to-cyan-100 ${isDarkTheme ? 'dark:from-blue-900/40 dark:to-cyan-900/40 dark:border-gray-600' : ''}`}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
