@@ -1639,8 +1639,19 @@ metadata = {
             <div className="flex gap-2">
               <Button 
                 size="sm"
-                onClick={() => handleConnectBroker('ibkr')}
-                disabled={!apiKeys.ibkr}
+                onClick={() => {
+                  if (!isAuthenticated) {
+                    setError('Please sign in to connect your broker account');
+                    return;
+                  }
+                  if (integrationStatus.ibkr === 'connected') {
+                    // TODO: Implement disconnect
+                    setError('Disconnect functionality not yet implemented');
+                  } else {
+                    initiateOAuth('ibkr');
+                  }
+                }}
+                disabled={!isAuthenticated}
               >
                 {integrationStatus.ibkr === 'connected' ? <CheckCircle className="w-4 h-4 mr-2" /> : <XCircle className="w-4 h-4 mr-2" />}
                 {integrationStatus.ibkr === 'connected' ? 'Disconnect' : 'Generate Keys & Connect'}
@@ -1649,6 +1660,7 @@ metadata = {
                 size="sm" 
                 variant="outline"
                 onClick={() => testConnection('ibkr')}
+                disabled={!isAuthenticated}
               >
                 Test Connection
               </Button>
