@@ -1178,7 +1178,7 @@ metadata = {
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Polygon API */}
-          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-purple-50 to-blue-50 ${isDarkTheme ? 'dark:from-purple-900/20 dark:to-blue-900/20 dark:border-gray-600' : ''}`}>
+          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-purple-100 to-blue-100 ${isDarkTheme ? 'dark:from-purple-900/40 dark:to-blue-900/40 dark:border-gray-600' : ''}`}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
