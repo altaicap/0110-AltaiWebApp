@@ -638,15 +638,30 @@ metadata = {
     }
   };
 
+  // News loading and auto-refresh
+  const [newsLastUpdated, setNewsLastUpdated] = useState(null);
+  
   const loadNews = async () => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/news/live?limit=100`);
+      const response = await authFetch(`${BACKEND_URL}/api/news/live?limit=100`);
       const data = await response.json();
       setNews(data.articles || []);
+      setNewsLastUpdated(new Date());
     } catch (error) {
       console.error('Failed to load news:', error);
     }
   };
+
+  // Auto-refresh news every 10 seconds
+  useEffect(() => {
+    // Load news immediately on mount
+    loadNews();
+    
+    // Set up auto-refresh interval
+    const newsInterval = setInterval(loadNews, 10000); // 10 seconds
+    
+    return () => clearInterval(newsInterval);
+  }, [isAuthenticated]); // Re-run when authentication status changes
 
   const checkIntegrationStatus = async () => {
     try {
