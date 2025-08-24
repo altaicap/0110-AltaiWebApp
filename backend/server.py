@@ -1389,10 +1389,48 @@ async def system_health():
     
     health_data = await check_database_health()
     
+    # Check broker modes and connectivity
+    broker_status = {
+        "tradestation": {
+            "configured": bool(getattr(settings, 'tradestation_client_id', None)),
+            "mode": "oauth2",
+            "service_available": tradestation_service is not None
+        },
+        "ibkr": {
+            "configured": bool(getattr(settings, 'ibkr_client_id', None)) or os.environ.get('IBKR_MODE') == 'gateway',
+            "mode": os.environ.get('IBKR_MODE', 'gateway'),
+            "service_available": ibkr_service is not None
+        }
+    }
+    
+    # Check news connectivity
+    news_status = {
+        "production_mode": PRODUCTION_MODE,
+        "services": {
+            "newsware": {
+                "configured": bool(settings.newsware_api_key),
+                "service_available": news_service is not None
+            },
+            "tradexchange": {
+                "configured": bool(settings.tradexchange_api_key),
+                "service_available": news_service is not None
+            }
+        }
+    }
+    
+    # Overall system status
+    overall_status = "healthy"
+    if not all(health_data[key] for key in ["mongodb", "sql"]):
+        overall_status = "degraded"
+    elif not any(broker_status[broker]["configured"] for broker in broker_status):
+        overall_status = "partial"  # System works but no brokers configured
+    
     return {
-        "status": "healthy" if all(health_data[key] for key in ["mongodb", "sql"]) else "degraded",
+        "status": overall_status,
         "databases": health_data,
-        "version": "2.0.0-auth",
+        "brokers": broker_status,
+        "news": news_status,
+        "version": "2.0.0-production-ready",
         "timestamp": datetime.utcnow().isoformat()
     }
 
