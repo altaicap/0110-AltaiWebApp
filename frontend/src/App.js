@@ -180,6 +180,7 @@ function App() {
   const [selectedArchiveStrategies, setSelectedArchiveStrategies] = useState([]);
   const [showPermanentDeleteDialog, setShowPermanentDeleteDialog] = useState(false);
   const [showNewStrategyModal, setShowNewStrategyModal] = useState(false);
+  const [highlightedConfigId, setHighlightedConfigId] = useState(null);
   
   // Backtest Form State (moved from BacktestTab to prevent resets)
   const [backtestForm, setBacktestForm] = useState({
