@@ -1010,6 +1010,17 @@ def get_current_user_with_db(
     """Get current authenticated user with database session"""
     return get_current_user(credentials, db)
 
+@app.get("/api/settings/api-keys")
+async def get_api_keys(current_user: User = Depends(get_current_user_with_db)):
+    """Get user's API keys (masked for security)"""
+    return {
+        "polygon": "****" + settings.polygon_api_key[-4:] if settings.polygon_api_key and len(settings.polygon_api_key) > 4 else "",
+        "newsware": "****" + settings.newsware_api_key[-4:] if settings.newsware_api_key and len(settings.newsware_api_key) > 4 else "",
+        "tradexchange": "****" + settings.tradexchange_api_key[-4:] if settings.tradexchange_api_key and len(settings.tradexchange_api_key) > 4 else "",
+        "tradestation": "Configured" if getattr(settings, 'tradestation_client_id', None) else "",
+        "ibkr": "Configured" if getattr(settings, 'ibkr_client_id', None) else ""
+    }
+
 # Update authentication endpoints to use proper dependency
 @app.post("/api/auth/register", response_model=dict)
 async def register_user(user_data: UserRegistration, db: Session = Depends(get_db_session)):
