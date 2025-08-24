@@ -393,10 +393,38 @@ async def test_api_connections(service: str):
             return {"status": "mock", "message": "Mock mode active - TradeXchange not configured"}
     
     elif service == "tradestation":
-        if getattr(settings, 'tradestation_client_id', None):
-            return {"status": "warning", "message": "TradeStation OAuth not fully implemented yet"}
+        if tradestation_service:
+            try:
+                # Check if user has valid tokens stored
+                # For now, just check if credentials are configured
+                if getattr(settings, 'tradestation_client_id', None):
+                    # TODO: Add actual token validation when user is connected
+                    return {"status": "success", "message": "TradeStation OAuth configured and ready for connection"}
+                else:
+                    return {"status": "error", "message": "TradeStation credentials not configured"}
+            except Exception as e:
+                return {"status": "error", "message": f"TradeStation test failed: {str(e)}"}
         else:
-            return {"status": "error", "message": "TradeStation credentials not configured"}
+            return {"status": "error", "message": "TradeStation service not available"}
+    
+    elif service == "ibkr":
+        if ibkr_service:
+            try:
+                # Check IBKR mode and connectivity
+                mode = os.environ.get('IBKR_MODE', 'gateway')
+                if mode == 'gateway':
+                    # For gateway mode, check if we can reach the gateway
+                    return {"status": "warning", "message": "IBKR Gateway mode - manual connection required"}
+                else:
+                    # For oauth2 mode, check if credentials are configured
+                    if getattr(settings, 'ibkr_client_id', None):
+                        return {"status": "success", "message": "IBKR OAuth2 configured and ready for connection"}
+                    else:
+                        return {"status": "error", "message": "IBKR OAuth2 credentials not configured"}
+            except Exception as e:
+                return {"status": "error", "message": f"IBKR test failed: {str(e)}"}
+        else:
+            return {"status": "error", "message": "IBKR service not available"}
     
     else:
         raise HTTPException(status_code=400, detail="Invalid service name")
