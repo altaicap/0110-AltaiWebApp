@@ -117,12 +117,9 @@ function App() {
   // Initialize theme properly on first load
   const [initialThemeLoaded, setInitialThemeLoaded] = useState(false);
   const [appSettings, setAppSettings] = useState(() => {
-    // Check system preference immediately during initialization
-    const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     return {
-      theme: 'system',
-      fontSize: 'medium',
-      _systemPrefersDark: systemPrefersDark // Store initial system preference
+      theme: 'light', // Default to light theme
+      fontSize: 'large', // Default to 'large' (which will be labeled as 'Default')
     };
   });
   const [strategies, setStrategies] = useState([]);
