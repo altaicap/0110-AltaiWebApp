@@ -2043,7 +2043,7 @@ metadata = {
                               className="mr-2"
                             />
                             {strategy.name || strategy.configuration_name}
-                            <Badge variant="outline" className="text-xs bg-gray-100">
+                            <Badge variant="outline" className={`text-xs ${isDarkTheme ? 'bg-gray-700 text-gray-200 border-gray-600' : 'bg-gray-100 text-gray-800'}`}>
                               {strategy.original_type?.toUpperCase()}
                             </Badge>
                           </CardTitle>
