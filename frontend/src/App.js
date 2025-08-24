@@ -180,6 +180,13 @@ function App() {
     fullName: '',
     confirmPassword: ''
   });
+  const [authErrors, setAuthErrors] = useState({
+    email: '',
+    password: '',
+    fullName: '',
+    confirmPassword: '',
+    general: ''
+  });
   const [integrationStatus, setIntegrationStatus] = useState({
     polygon: 'connected',
     newsware: 'connected', 
