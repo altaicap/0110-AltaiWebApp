@@ -295,10 +295,60 @@ function App() {
     }
   };
 
+  // Validation functions
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) return 'Email is required';
+    if (!emailRegex.test(email)) return 'Please enter a valid email address';
+    return '';
+  };
+
+  const validatePassword = (password) => {
+    if (!password) return 'Password is required';
+    if (password.length < 8) return 'Password must be at least 8 characters long';
+    if (!/(?=.*[a-zA-Z])(?=.*\d)/.test(password)) return 'Password must contain at least one letter and one number';
+    return '';
+  };
+
+  const validateFullName = (fullName) => {
+    if (!fullName) return 'Full name is required';
+    if (fullName.trim().length < 2) return 'Full name must be at least 2 characters long';
+    return '';
+  };
+
+  const validateConfirmPassword = (password, confirmPassword) => {
+    if (!confirmPassword) return 'Please confirm your password';
+    if (password !== confirmPassword) return 'Passwords do not match';
+    return '';
+  };
+
+  const validateAuthForm = () => {
+    const errors = {
+      email: validateEmail(authForm.email),
+      password: validatePassword(authForm.password),
+      fullName: authMode === 'register' ? validateFullName(authForm.fullName) : '',
+      confirmPassword: authMode === 'register' ? validateConfirmPassword(authForm.password, authForm.confirmPassword) : '',
+      general: ''
+    };
+    
+    setAuthErrors(errors);
+    return !Object.values(errors).some(error => error !== '');
+  };
+
+  // Clear field error when user starts typing
+  const handleAuthFieldChange = (field, value) => {
+    setAuthForm(prev => ({ ...prev, [field]: value }));
+    if (authErrors[field]) {
+      setAuthErrors(prev => ({ ...prev, [field]: '' }));
+    }
+  };
+
   // Authentication functions
   const handleLogin = async (email, password) => {
     try {
       setIsLoading(true);
+      setAuthErrors(prev => ({ ...prev, general: '' }));
+      
       const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -315,13 +365,24 @@ function App() {
         setShowAuthModal(false);
         setSuccess('Login successful');
         
+        // Reset form
+        setAuthForm({ email: '', password: '', fullName: '', confirmPassword: '' });
+        setAuthErrors({ email: '', password: '', fullName: '', confirmPassword: '', general: '' });
+        
         // Load user-specific data
         await loadUserApiKeys();
       } else {
-        setError(data.detail || 'Login failed');
+        // Handle specific field errors or general error
+        if (data.detail?.includes('email')) {
+          setAuthErrors(prev => ({ ...prev, email: data.detail }));
+        } else if (data.detail?.includes('password')) {
+          setAuthErrors(prev => ({ ...prev, password: data.detail }));
+        } else {
+          setAuthErrors(prev => ({ ...prev, general: data.detail || 'Login failed' }));
+        }
       }
     } catch (error) {
-      setError('Connection error. Please try again.');
+      setAuthErrors(prev => ({ ...prev, general: 'Connection error. Please try again.' }));
     } finally {
       setIsLoading(false);
     }
@@ -330,6 +391,8 @@ function App() {
   const handleRegister = async (email, password, fullName) => {
     try {
       setIsLoading(true);
+      setAuthErrors(prev => ({ ...prev, general: '' }));
+      
       const response = await fetch(`${BACKEND_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -346,13 +409,26 @@ function App() {
         setShowAuthModal(false);
         setSuccess('Account created successfully');
         
+        // Reset form
+        setAuthForm({ email: '', password: '', fullName: '', confirmPassword: '' });
+        setAuthErrors({ email: '', password: '', fullName: '', confirmPassword: '', general: '' });
+        
         // Load user-specific data
         await loadUserApiKeys();
       } else {
-        setError(data.detail || 'Registration failed');
+        // Handle specific field errors or general error
+        if (data.detail?.includes('email')) {
+          setAuthErrors(prev => ({ ...prev, email: data.detail }));
+        } else if (data.detail?.includes('password')) {
+          setAuthErrors(prev => ({ ...prev, password: data.detail }));
+        } else if (data.detail?.includes('name')) {
+          setAuthErrors(prev => ({ ...prev, fullName: data.detail }));
+        } else {
+          setAuthErrors(prev => ({ ...prev, general: data.detail || 'Registration failed' }));
+        }
       }
     } catch (error) {
-      setError('Connection error. Please try again.');
+      setAuthErrors(prev => ({ ...prev, general: 'Connection error. Please try again.' }));
     } finally {
       setIsLoading(false);
     }
