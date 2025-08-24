@@ -1857,7 +1857,53 @@ metadata = {
                         </CardHeader>
                         <CardContent className="pt-2">
                           <div className="flex gap-1 flex-wrap">
-                            <Button size="sm" className="text-xs h-7">
+                            <Button 
+                              size="sm" 
+                              className="text-xs h-7"
+                              onClick={() => {
+                                // Navigate to Backtest tab
+                                setActiveTab('backtest');
+                                
+                                // Pre-select the strategy
+                                setSelectedStrategy(strategy);
+                                setBacktestForm(prev => ({
+                                  ...prev,
+                                  strategy_name: strategy.name
+                                }));
+                                
+                                // Load default/last-used parameters for this strategy
+                                if (strategy.name === 'Prior Bar Break Algo') {
+                                  setStrategyParams({
+                                    take_long: true,
+                                    take_short: false,
+                                    use_eod: true,
+                                    max_entry_count: 2,
+                                    rote_input_one: 100.0,
+                                    rote_input_two: 100.0,
+                                    max_sl_perc: 0.05,
+                                    min_sl_perc: 0.001,
+                                    buffer_perc: 0.01,
+                                    min_candle_perc: 0.1,
+                                    vol_ma_period: 50,
+                                    rvol: 1.0,
+                                    min_abs_volume: 100000,
+                                    adrp_len: 20,
+                                    adr_multip: 0.1,
+                                    entry_candle_th_perc: 0,
+                                    tp_multiplier_1: 300.0,
+                                    tp_multiplier_2: 500.0,
+                                    tp_multiplier_3: 700.0,
+                                    tp_percent_1: 25,
+                                    tp_percent_2: 25,
+                                    tp_percent_3: 25,
+                                    timeframe: "1m",
+                                    use_ms: false,
+                                    ms_rval: 2.0,
+                                    move_rval: -0.5
+                                  });
+                                }
+                              }}
+                            >
                               <BarChart3 className="w-3 h-3 mr-1" />
                               Backtest & Configure
                             </Button>
