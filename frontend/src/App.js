@@ -2792,8 +2792,8 @@ metadata = {
             </CardHeader>
             <CardContent>
               <div className="space-y-6 max-h-[600px] overflow-y-auto">
-                  {/* General Settings */}
-                  <div>
+                {/* General Settings */}
+                <div>
                     <h4 className="text-base font-medium mb-3 text-gray-900 border-b pb-1">General Settings</h4>
                     <div className="grid grid-cols-2 gap-4">
                       {Object.entries(PBB_ALGO_PARAMS).filter(([key]) => 
