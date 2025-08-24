@@ -682,10 +682,12 @@ body {
 
 /* Feedback 7.0 Enhancements */
 
-/* Enhanced Tab Header Padding */
+/* Enhanced Tab Header Padding - Aligned with Pane Width */
 .tab-header-enhanced {
   padding: 1.5rem !important;
   margin-bottom: 1rem !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 
 [data-theme="dark"] .tab-header-enhanced {
