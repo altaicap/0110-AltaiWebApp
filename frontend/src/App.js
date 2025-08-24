@@ -1364,7 +1364,7 @@ metadata = {
           <Separator />
 
           {/* TradeStation Integration */}
-          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-blue-50 to-sky-50 ${isDarkTheme ? 'dark:from-blue-900/20 dark:to-sky-900/20 dark:border-gray-600' : ''}`}>
+          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-blue-100 to-sky-100 ${isDarkTheme ? 'dark:from-blue-900/40 dark:to-sky-900/40 dark:border-gray-600' : ''}`}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-sky-400 rounded-lg flex items-center justify-center">
