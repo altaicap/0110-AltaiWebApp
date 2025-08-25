@@ -3633,6 +3633,7 @@ metadata = {
               </div>
             </div>
           </CardContent>
+          )}
         </Card>
 
         {/* Quartile Trade Curves */}
