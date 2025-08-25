@@ -1163,6 +1163,18 @@ metadata = {
     setFullScreenPane(fullScreenPane === paneId ? null : paneId);
   };
 
+  const toggleMinimize = (paneId) => {
+    setMinimizedPanes(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(paneId)) {
+        newSet.delete(paneId);
+      } else {
+        newSet.add(paneId);
+      }
+      return newSet;
+    });
+  };
+
   const toggleLiveTrading = async (strategyName) => {
     // Check if strategy has trading configuration
     const config = tradingConfigurations.find(c => c.strategy_id === strategyName);
