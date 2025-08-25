@@ -3518,7 +3518,7 @@ metadata = {
           <CardHeader>
             <div className="flex items-center justify-between mb-4">
               <div>
-                <CardTitle>STRATEGY VISUALIZATION</CardTitle>
+                <CardTitle>Strategy Visualization</CardTitle>
                 <CardDescription>Chart with entry/exit signals and price levels</CardDescription>
               </div>
             </div>
