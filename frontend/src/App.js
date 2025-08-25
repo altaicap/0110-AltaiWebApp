@@ -3465,7 +3465,9 @@ metadata = {
                   </div>
                 </div>
             </CardContent>
+            )}
           </Card>
+        )}
 
         {/* Backtest Highlights */}
         <Card className={`relative pane-enhanced ${fullScreenPane === 'backtest-highlights' ? 'fullscreen-enhanced' : ''}`}>
