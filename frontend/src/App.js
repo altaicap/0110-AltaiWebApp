@@ -4163,6 +4163,7 @@ metadata = {
               </div>
             </ScrollArea>
           </CardContent>
+          )}
         </Card>
       </div>
     );
