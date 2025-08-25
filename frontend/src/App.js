@@ -3212,6 +3212,7 @@ metadata = {
               <CardTitle className="pane-title">Strategy Specific Settings</CardTitle>
               <CardDescription>Configure parameters for {selectedStrategy.name}</CardDescription>
             </CardHeader>
+            {!minimizedPanes.has('strategy-settings') && (
             <CardContent>
               <div className="space-y-6 max-h-[600px] overflow-y-auto">
                 {/* General Settings */}
