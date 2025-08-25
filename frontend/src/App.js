@@ -3845,6 +3845,7 @@ metadata = {
               </div>
             )}
           </CardHeader>
+          {!minimizedPanes.has('trade-log') && (
           <CardContent>
             <ScrollArea className="h-96">
               <Table>
