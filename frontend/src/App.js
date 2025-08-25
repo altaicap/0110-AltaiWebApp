@@ -165,7 +165,9 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  // Pane controls - fullscreen and minimize
   const [fullScreenPane, setFullScreenPane] = useState(null);
+  const [minimizedPanes, setMinimizedPanes] = useState(new Set());
   const [notifications, setNotifications] = useState([]);
   const [unreadNotifications, setUnreadNotifications] = useState(0);
   const [showNotificationPanel, setShowNotificationPanel] = useState(false);
