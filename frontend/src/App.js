@@ -264,7 +264,8 @@ function App() {
     strategy_name: '',
     symbols: ['AAPL'],
     start_date: null,
-    end_date: null
+    end_date: null,
+    portfolio_value: 100000 // Default $100,000
   });
   const [strategyParams, setStrategyParams] = useState({});
   const [runningBacktest, setRunningBacktest] = useState(false);
