@@ -2234,7 +2234,7 @@ metadata = {
             <FullScreenButton paneId="uploaded-strategies" />
             <CardHeader>
               <div className="flex items-center gap-3">
-                <CardTitle className="text-lg">UPLOADED STRATEGIES</CardTitle>
+                <CardTitle className="text-lg">Uploaded Strategies</CardTitle>
                 <Badge variant="secondary">
                   {strategies.length}
                 </Badge>
