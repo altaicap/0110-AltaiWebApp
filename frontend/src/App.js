@@ -25,6 +25,7 @@ import {
   Play, 
   Square, 
   Plus, 
+  Minus,
   Search,
   Calendar as CalendarIcon,
   CheckCircle,
