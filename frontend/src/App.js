@@ -3037,7 +3037,7 @@ metadata = {
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="strategy">Strategy</Label>
                 <Select 
@@ -3055,6 +3055,20 @@ metadata = {
                     ))}
                   </SelectContent>
                 </Select>
+              </div>
+              
+              <div>
+                <Label htmlFor="portfolioValue">Portfolio Value</Label>
+                <Input
+                  id="portfolioValue"
+                  type="number"
+                  value={backtestForm.portfolio_value}
+                  onChange={(e) => setBacktestForm(prev => ({ ...prev, portfolio_value: parseFloat(e.target.value) || 0 }))}
+                  placeholder="100000"
+                  min="1000"
+                  step="1000"
+                  className="text-right"
+                />
               </div>
             </div>
 
