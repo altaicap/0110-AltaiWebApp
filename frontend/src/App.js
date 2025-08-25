@@ -1826,6 +1826,7 @@ metadata = {
             </div>
           </div>
         </CardContent>
+        )}
       </Card>
 
       {/* Status Messages */}
