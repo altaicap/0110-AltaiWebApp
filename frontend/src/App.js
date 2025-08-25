@@ -2371,6 +2371,7 @@ metadata = {
                 Deleted strategies that can be restored or permanently removed
               </CardDescription>
             </CardHeader>
+            {!minimizedPanes.has('archived-strategies') && (
             <CardContent className="p-6">
               {archivedStrategies.length > 0 && (
                 <div className="flex gap-2 mb-4">
