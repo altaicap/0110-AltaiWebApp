@@ -2354,6 +2354,7 @@ metadata = {
                 )}
               </div>
             </CardContent>
+            )}
           </Card>
 
           {/* Row 3: Archive */}
