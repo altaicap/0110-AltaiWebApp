@@ -2084,7 +2084,7 @@ metadata = {
             <FullScreenButton paneId="configured-strategies" />
             <CardHeader>
               <div className="flex items-center gap-3">
-                <CardTitle className="text-lg">CONFIGURED STRATEGIES</CardTitle>
+                <CardTitle className="text-lg">Configured Strategies</CardTitle>
                 <Badge variant="default" className="bg-green-500">
                   {tradingConfigurations.length}
                 </Badge>
