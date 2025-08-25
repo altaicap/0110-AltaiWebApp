@@ -1404,20 +1404,35 @@ metadata = {
   };
 
   // Full Screen Pane Component
-  const FullScreenButton = ({ paneId }) => (
-    <Button
-      size="sm"
-      variant="ghost"
-      className="absolute top-2 right-2 w-8 h-8 p-0 rounded-full hover:bg-gray-100"
-      onClick={() => toggleFullScreen(paneId)}
-    >
-      {fullScreenPane === paneId ? (
-        <Minimize className="w-4 h-4" />
-      ) : (
-        <ArrowUpRight className="w-4 h-4" />
-      )}
-    </Button>
+  const PaneControls = ({ paneId }) => (
+    <div className="absolute top-2 right-2 flex gap-1">
+      <Button
+        size="sm"
+        variant="ghost"
+        className="w-8 h-8 p-0 rounded-full hover:bg-gray-100"
+        onClick={() => toggleMinimize(paneId)}
+        title="Minimize pane"
+      >
+        <Minus className="w-4 h-4" />
+      </Button>
+      <Button
+        size="sm"
+        variant="ghost"
+        className="w-8 h-8 p-0 rounded-full hover:bg-gray-100"
+        onClick={() => toggleFullScreen(paneId)}
+        title={fullScreenPane === paneId ? "Restore pane" : "Maximize pane"}
+      >
+        {fullScreenPane === paneId ? (
+          <Minimize className="w-4 h-4" />
+        ) : (
+          <ArrowUpRight className="w-4 h-4" />
+        )}
+      </Button>
+    </div>
   );
+
+  // For backward compatibility, keep FullScreenButton but use PaneControls
+  const FullScreenButton = ({ paneId }) => <PaneControls paneId={paneId} />;
 
   // Error Notification Component
   const ErrorNotification = ({ error }) => (
