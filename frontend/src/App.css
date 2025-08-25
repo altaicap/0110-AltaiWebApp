@@ -826,6 +826,29 @@ body {
   color: #f9fafb !important;
 }
 
+/* Dark theme notification and user management button colors */
+[data-theme="dark"] button[data-notification-button] {
+  background-color: #374151 !important;
+  border-color: #4b5563 !important;
+  color: #d1d5db !important;
+}
+
+[data-theme="dark"] button[data-notification-button]:hover {
+  background-color: #4b5563 !important;
+  color: #f9fafb !important;
+}
+
+[data-theme="dark"] button[data-user-menu-button] {
+  background-color: #374151 !important;
+  border-color: #4b5563 !important;
+  color: #d1d5db !important;
+}
+
+[data-theme="dark"] button[data-user-menu-button]:hover {
+  background-color: #4b5563 !important;
+  color: #f9fafb !important;
+}
+
 /* Status bar connection colors */
 .connection-status-connected {
   background-color: #22c55e !important; /* Green */
