@@ -3476,6 +3476,7 @@ metadata = {
             <CardTitle className="pane-title">Backtest Highlights</CardTitle>
             <CardDescription>Key performance metrics from latest backtest</CardDescription>
           </CardHeader>
+          {!minimizedPanes.has('backtest-highlights') && (
           <CardContent>
             <div className="grid grid-cols-4 gap-4 mb-4">
               <div className={`text-center p-4 border rounded-lg bg-gradient-to-r from-blue-100 to-cyan-100 ${isDarkTheme ? 'from-blue-900/40 to-cyan-900/40 border-gray-600' : ''}`}>
