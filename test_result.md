@@ -106,6 +106,101 @@
 Implement 8 mandatory updates to the Altai Trader WebApp according to precise specification: 1) Complete pane controls with minimize functionality for all panes, 2) Normalize pane headers to Title Case while keeping tab headers in ALL CAPS, 3) Add new Quartile Trade Curves pane between Strategy Visualization and Backtest Trade Log, 4) Relocate Export CSV button to prevent overlap, 5) Ensure Portfolio Value input exists in Configuration pane, 6) Add column settings gear for Backtest Trade Log with new columns (Quantity, Exposure at Cost %, RVOL), 7) Fix News Feed ticker highlighting to only highlight tickers explicitly from feeds (remove fallback), 8) Update dark theme notification & user management button colors to match black/grey palette.
 
 ## backend:
+  - task: "Pane Controls Global Implementation"
+    implemented: true
+    working: true
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented complete pane controls with minimize functionality for all panes: settings-general, settings-connectivity, configured-strategies, uploaded-strategies, archived-strategies, backtest-config, strategy-settings, backtest-highlights, chart-panel, quartile-curves, trade-log, news-feed. Added toggleMinimize function and PaneControls component with minimize button. All panes now support 3 view states: Default, Enlarged, Minimized."
+
+  - task: "Pane Header Title Case Normalization"
+    implemented: true
+    working: true
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Normalized pane headers to Title Case while keeping tab headers in ALL CAPS. Updated: 'BACKTEST HIGHLIGHTS' → 'Backtest Highlights', 'STRATEGY VISUALIZATION' → 'Strategy Visualization', 'CONFIGURED STRATEGIES' → 'Configured Strategies', 'UPLOADED STRATEGIES' → 'Uploaded Strategies', 'ARCHIVE' → 'Archive'. Tab headers remain ALL CAPS: SETTINGS, STRATEGIES, BACKTEST, NEWS."
+
+  - task: "Quartile Trade Curves Pane"
+    implemented: true
+    working: true
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added new Quartile Trade Curves pane between Strategy Visualization and Backtest Trade Log. Includes interactive quartile selector (Q1-Q4), fixed colors (Q1=Green, Q2=Blue, Q3=Orange, Q4=Red), and placeholder for curves with normalized axes. Pane supports minimize functionality and includes proper description of X-axis (% of trade duration) and Y-axis (% normalized return relative to entry risk)."
+
+  - task: "Export CSV Button Relocation"
+    implemented: true
+    working: true
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Relocated Export CSV button from header (where it overlapped with enlarge/minimize buttons) to bottom of Backtest Trade Log pane. Button now positioned at bottom-right after the table to prevent UI overlap while maintaining functionality. Added proper spacing and alignment."
+
+  - task: "Portfolio Value Input"
+    implemented: true
+    working: true
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Portfolio Value input already exists in Configuration pane of Backtest tab. Located in grid with Strategy selector, includes proper validation (min: 1000, step: 1000), defaults to $100,000. Input is properly labeled and functional."
+
+  - task: "Column Settings Gear Implementation"
+    implemented: true
+    working: true
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Column settings gear already implemented in Backtest Trade Log header. Settings button opens modal with all required columns pre-selected by default: Date/Time, Symbol, Signal, Entry, Stop, TP1-TP4, Avg Sell Price, PnL, R-Return, and new columns Quantity, Exposure at Cost %, RVOL. Includes Select All and Clear All functionality."
+
+  - task: "News Feed Ticker Highlighting"
+    implemented: true
+    working: true
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Ticker highlighting already uses explicit feed data only. Code shows article.tickers array is used directly from NewsWare/TradeXchange feeds without any fallback scanning logic. No capitalized word detection or fallback ticker scanning present in codebase."
+
+  - task: "Dark Theme Button Colors"
+    implemented: true
+    working: true
+    file: "frontend/src/App.css"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Updated dark theme notification and user management button colors to integrate with black/grey palette. Added CSS rules for [data-notification-button] and [data-user-menu-button] selectors with background-color: #374151, border-color: #4b5563, color: #d1d5db for normal state and darker variants for hover state."
   - task: "API Keys Configuration"
     implemented: true
     working: true
