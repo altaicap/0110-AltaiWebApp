@@ -239,6 +239,26 @@ function App() {
   // Quartile Trade Curves state
   const [selectedQuartiles, setSelectedQuartiles] = useState(new Set(['Q1', 'Q2', 'Q3', 'Q4']));
   
+  // Backtest Trade Log column settings
+  const [tradeLogColumns, setTradeLogColumns] = useState({
+    'Date/Time': true,
+    'Symbol': true,
+    'Signal': true,
+    'Entry': true,
+    'Stop': true,
+    'TP1': true,
+    'TP2': true,
+    'TP3': true,
+    'TP4': true,
+    'Avg Sell Price': true,
+    'PnL': true,
+    'R-Return': true,
+    'Quantity': true,
+    'Exposure at Cost %': true,
+    'RVOL': true
+  });
+  const [showColumnSettings, setShowColumnSettings] = useState(false);
+  
   // Backtest Form State (moved from BacktestTab to prevent resets)
   const [backtestForm, setBacktestForm] = useState({
     strategy_name: '',
