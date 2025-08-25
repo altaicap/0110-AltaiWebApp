@@ -3703,35 +3703,124 @@ metadata = {
                 <CardTitle>Backtest Trade Log</CardTitle>
                 <CardDescription>Individual trades from backtest results</CardDescription>
               </div>
-              <Button 
-                size="sm" 
-                variant="outline" 
-                onClick={() => {
-                  // Export trade log as CSV
-                  const csvData = [
-                    ['Date/Time', 'Symbol', 'Side', 'Qty', 'Entry', 'Exit', 'PnL'],
-                    // Add sample data - in real app this would come from backtest results
-                    ['2024-01-15 09:30:00', 'AAPL', 'LONG', '100', '$150.00', '$155.00', '$500.00'],
-                    ['2024-01-15 10:45:00', 'MSFT', 'LONG', '50', '$380.00', '$385.00', '$250.00']
-                  ];
-                  
-                  const csvContent = csvData.map(row => row.join(',')).join('\n');
-                  const blob = new Blob([csvContent], { type: 'text/csv' });
-                  const url = window.URL.createObjectURL(blob);
-                  const link = document.createElement('a');
-                  link.href = url;
-                  link.download = `backtest_trade_log_${new Date().toISOString().split('T')[0]}.csv`;
-                  link.click();
-                  window.URL.revokeObjectURL(url);
-                  
-                  setSuccess('Trade log exported successfully');
-                }}
-                className="flex items-center gap-2"
-              >
-                <Download className="w-4 h-4" />
-                Export CSV
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button 
+                  size="sm" 
+                  variant="outline"
+                  onClick={() => setShowColumnSettings(!showColumnSettings)}
+                  className="flex items-center gap-2"
+                >
+                  <Settings className="w-4 h-4" />
+                  Columns
+                </Button>
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  onClick={() => {
+                    // Export trade log as CSV with selected columns
+                    const visibleColumns = Object.entries(tradeLogColumns)
+                      .filter(([_, visible]) => visible)
+                      .map(([col, _]) => col);
+                    
+                    const csvData = [
+                      visibleColumns,
+                      // Add sample data - in real app this would come from backtest results
+                      visibleColumns.map(col => {
+                        switch(col) {
+                          case 'Date/Time': return '2024-01-15 09:30:00';
+                          case 'Symbol': return 'AAPL';
+                          case 'Signal': return 'LONG';
+                          case 'Entry': return '$150.00';
+                          case 'Stop': return '$145.00';
+                          case 'TP1': return '$155.00';
+                          case 'TP2': return '$160.00';
+                          case 'TP3': return '$165.00';
+                          case 'TP4': return '$170.00';
+                          case 'Avg Sell Price': return '$155.00';
+                          case 'PnL': return '$500.00';
+                          case 'R-Return': return '1.0';
+                          case 'Quantity': return '100';
+                          case 'Exposure at Cost %': return '15.0%';
+                          case 'RVOL': return '1.2';
+                          default: return '-';
+                        }
+                      })
+                    ];
+                    
+                    const csvContent = csvData.map(row => row.join(',')).join('\n');
+                    const blob = new Blob([csvContent], { type: 'text/csv' });
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `backtest_trade_log_${new Date().toISOString().split('T')[0]}.csv`;
+                    link.click();
+                    window.URL.revokeObjectURL(url);
+                    
+                    setSuccess('Trade log exported successfully');
+                  }}
+                  className="flex items-center gap-2"
+                >
+                  <Download className="w-4 h-4" />
+                  Export CSV
+                </Button>
+              </div>
             </div>
+            
+            {/* Column Settings Dropdown */}
+            {showColumnSettings && (
+              <div className="mt-4 p-4 border rounded bg-gray-50">
+                <div className="grid grid-cols-3 gap-2">
+                  {Object.entries(tradeLogColumns).map(([column, visible]) => (
+                    <div key={column} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        id={`col-${column}`}
+                        checked={visible}
+                        onChange={(e) => {
+                          setTradeLogColumns(prev => ({
+                            ...prev,
+                            [column]: e.target.checked
+                          }));
+                        }}
+                        className="w-3 h-3"
+                      />
+                      <Label 
+                        htmlFor={`col-${column}`} 
+                        className="text-xs cursor-pointer"
+                      >
+                        {column}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-3 flex gap-2">
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => {
+                      const allTrue = Object.fromEntries(
+                        Object.keys(tradeLogColumns).map(key => [key, true])
+                      );
+                      setTradeLogColumns(allTrue);
+                    }}
+                  >
+                    Select All
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => {
+                      const allFalse = Object.fromEntries(
+                        Object.keys(tradeLogColumns).map(key => [key, false])
+                      );
+                      setTradeLogColumns(allFalse);
+                    }}
+                  >
+                    Clear All
+                  </Button>
+                </div>
+              </div>
+            )}
           </CardHeader>
           <CardContent>
             <ScrollArea className="h-96">
