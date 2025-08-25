@@ -2228,6 +2228,7 @@ metadata = {
                 )}
               </div>
             </CardContent>
+            )}
           </Card>
 
           {/* Row 2: Uploaded Strategies */}
