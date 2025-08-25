@@ -3616,6 +3616,7 @@ metadata = {
               </Button>
             </div>
           </CardHeader>
+          {!minimizedPanes.has('chart-panel') && (
           <CardContent>
             <div className="h-96 bg-gray-50 rounded-lg flex items-center justify-center">
               <div className="text-center">
