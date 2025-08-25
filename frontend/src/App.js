@@ -1495,6 +1495,7 @@ metadata = {
             </div>
           </div>
         </CardContent>
+        )}
       </Card>
 
       {/* Connectivity Settings */}
