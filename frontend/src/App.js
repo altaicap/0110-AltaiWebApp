@@ -1505,7 +1505,8 @@ metadata = {
           <CardTitle className="pane-title">Connectivity</CardTitle>
           <CardDescription>API connections and data sources</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
+        {!minimizedPanes.has('settings-connectivity') && (
+          <CardContent className="space-y-6">
           {/* Polygon API */}
           <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-purple-100 to-blue-100 ${isDarkTheme ? 'dark:from-purple-900/40 dark:to-blue-900/40 dark:border-gray-600' : ''}`}>
             <div className="flex items-center justify-between">
