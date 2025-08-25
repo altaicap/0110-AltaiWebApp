@@ -2358,7 +2358,7 @@ metadata = {
             <FullScreenButton paneId="archived-strategies" />
             <CardHeader>
               <div className="flex items-center gap-3">
-                <CardTitle className="text-lg">ARCHIVE</CardTitle>
+                <CardTitle className="text-lg">Archive</CardTitle>
                 <Badge variant="outline" className={`${isDarkTheme ? 'text-gray-200 border-gray-600' : 'text-gray-600'}`}>
                   {archivedStrategies.length}
                 </Badge>
