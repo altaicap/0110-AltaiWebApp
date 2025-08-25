@@ -3201,6 +3201,7 @@ metadata = {
               )}
             </div>
           </CardContent>
+          )}
         </Card>
 
         {/* Strategy Specific Settings Panel */}
