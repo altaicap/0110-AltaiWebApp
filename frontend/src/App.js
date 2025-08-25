@@ -1465,9 +1465,10 @@ metadata = {
           <CardTitle className="pane-title">General</CardTitle>
           <CardDescription>Basic application settings</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
+        {!minimizedPanes.has('settings-general') && (
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
               <Label htmlFor="theme">Theme</Label>
               <Select value={appSettings.theme} onValueChange={(value) => handleAppSettingChange('theme', value)}>
                 <SelectTrigger>
