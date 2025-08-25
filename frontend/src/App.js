@@ -3915,6 +3915,7 @@ metadata = {
               </Table>
             </ScrollArea>
           </CardContent>
+          )}
         </Card>
       </div>
     );
