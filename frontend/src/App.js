@@ -3515,6 +3515,7 @@ metadata = {
               </div>
             </div>
           </CardContent>
+          )}
         </Card>
 
         {/* Chart Panel */}
