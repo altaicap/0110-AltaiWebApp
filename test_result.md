@@ -157,11 +157,14 @@ Implement 8 mandatory updates to the Altai Trader WebApp according to precise sp
     file: "frontend/src/App.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Relocated Export CSV button from header (where it overlapped with enlarge/minimize buttons) to bottom of Backtest Trade Log pane. Button now positioned at bottom-right after the table to prevent UI overlap while maintaining functionality. Added proper spacing and alignment."
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Export CSV button correctly relocated to bottom of table. Button found at position x=1406, y=2846 (well below header area at y>200), confirming it's positioned at bottom-right of Backtest Trade Log pane, not in header. No UI overlap with pane control buttons. Button dimensions 112x32px with proper spacing."
 
   - task: "Portfolio Value Input"
     implemented: true
