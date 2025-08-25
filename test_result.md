@@ -103,7 +103,7 @@
 #====================================================================================================
 
 ## user_problem_statement: 
-Implement Strategy Specific Settings UI for the Prior Bar Break (PBH) Algo in the Backtest tab, add API key management in Settings tab, and ensure the Altai Trader application is ready to work as intended with the provided Polygon and Newsware API keys.
+Implement 8 mandatory updates to the Altai Trader WebApp according to precise specification: 1) Complete pane controls with minimize functionality for all panes, 2) Normalize pane headers to Title Case while keeping tab headers in ALL CAPS, 3) Add new Quartile Trade Curves pane between Strategy Visualization and Backtest Trade Log, 4) Relocate Export CSV button to prevent overlap, 5) Ensure Portfolio Value input exists in Configuration pane, 6) Add column settings gear for Backtest Trade Log with new columns (Quantity, Exposure at Cost %, RVOL), 7) Fix News Feed ticker highlighting to only highlight tickers explicitly from feeds (remove fallback), 8) Update dark theme notification & user management button colors to match black/grey palette.
 
 ## backend:
   - task: "API Keys Configuration"
