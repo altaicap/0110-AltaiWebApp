@@ -184,11 +184,14 @@ Implement 8 mandatory updates to the Altai Trader WebApp according to precise sp
     file: "frontend/src/App.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Column settings gear already implemented in Backtest Trade Log header. Settings button opens modal with all required columns pre-selected by default: Date/Time, Symbol, Signal, Entry, Stop, TP1-TP4, Avg Sell Price, PnL, R-Return, and new columns Quantity, Exposure at Cost %, RVOL. Includes Select All and Clear All functionality."
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Column Settings functionality working excellently. Found 'Columns' button in Backtest Trade Log header, successfully opened modal with 19 column checkboxes. Confirmed presence of all new required columns: 'Quantity' (1 found), 'Exposure at Cost %' (1 found), and 'RVOL' (1 found). Modal opens/closes properly with full column management functionality."
 
   - task: "News Feed Ticker Highlighting"
     implemented: true
