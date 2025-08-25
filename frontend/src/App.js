@@ -3594,6 +3594,86 @@ metadata = {
           </CardContent>
         </Card>
 
+        {/* Quartile Trade Curves */}
+        <Card className={`relative ${fullScreenPane === 'quartile-curves' ? 'fullscreen-enhanced' : ''}`}>
+          <FullScreenButton paneId="quartile-curves" />
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>Quartile Trade Curves</CardTitle>
+                <CardDescription>Average normalized trade curves by performance quartile</CardDescription>
+              </div>
+              <div className="flex items-center gap-2">
+                <Label className="text-sm">Quartiles:</Label>
+                {['Q1', 'Q2', 'Q3', 'Q4'].map((quartile) => (
+                  <div key={quartile} className="flex items-center gap-1">
+                    <input
+                      type="checkbox"
+                      id={quartile}
+                      checked={selectedQuartiles.has(quartile)}
+                      onChange={(e) => {
+                        setSelectedQuartiles(prev => {
+                          const newSet = new Set(prev);
+                          if (e.target.checked) {
+                            newSet.add(quartile);
+                          } else {
+                            newSet.delete(quartile);
+                          }
+                          return newSet;
+                        });
+                      }}
+                      className="w-3 h-3"
+                    />
+                    <Label 
+                      htmlFor={quartile} 
+                      className={`text-xs font-medium cursor-pointer ${
+                        quartile === 'Q1' ? 'text-green-600' :
+                        quartile === 'Q2' ? 'text-blue-600' :
+                        quartile === 'Q3' ? 'text-orange-600' : 'text-red-600'
+                      }`}
+                    >
+                      {quartile}
+                    </Label>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </CardHeader>
+          {!minimizedPanes.has('quartile-curves') && (
+            <CardContent>
+              <div className="h-96 flex items-center justify-center border rounded bg-gray-50">
+                <div className="text-center space-y-4">
+                  {selectedQuartiles.size > 0 ? (
+                    <>
+                      <div className="space-y-2">
+                        {Array.from(selectedQuartiles).map(quartile => (
+                          <div key={quartile} className="flex items-center gap-2">
+                            <div className={`w-4 h-1 rounded ${
+                              quartile === 'Q1' ? 'bg-green-500' :
+                              quartile === 'Q2' ? 'bg-blue-500' :
+                              quartile === 'Q3' ? 'bg-orange-500' : 'bg-red-500'
+                            }`}></div>
+                            <span className="text-sm">{quartile} (Top Quartile: {quartile === 'Q1' ? 'Green' : quartile === 'Q2' ? 'Blue' : quartile === 'Q3' ? 'Orange' : 'Red - Bottom Quartile'})</span>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="text-gray-500">
+                        <p className="text-sm">Interactive trade curve visualization</p>
+                        <p className="text-xs">X-axis: % of trade duration (0 = entry, 100 = exit)</p>
+                        <p className="text-xs">Y-axis: % normalized return relative to entry risk</p>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="text-gray-500">
+                      <p className="text-sm">Select at least one quartile to display curves</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          )}
+        </Card>
+
         {/* Backtest Trade Log */}
         <Card className={`relative ${fullScreenPane === 'trade-log' ? 'fullscreen-enhanced' : ''}`}>
           <FullScreenButton paneId="trade-log" />
