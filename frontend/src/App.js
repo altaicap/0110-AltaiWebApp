@@ -236,6 +236,9 @@ function App() {
   const [showNewStrategyModal, setShowNewStrategyModal] = useState(false);
   const [highlightedConfigId, setHighlightedConfigId] = useState(null);
   
+  // Quartile Trade Curves state
+  const [selectedQuartiles, setSelectedQuartiles] = useState(new Set(['Q1', 'Q2', 'Q3', 'Q4']));
+  
   // Backtest Form State (moved from BacktestTab to prevent resets)
   const [backtestForm, setBacktestForm] = useState({
     strategy_name: '',
