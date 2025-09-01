@@ -4274,26 +4274,52 @@ metadata = {
                 </div>
                 <div>
                   <Label htmlFor="password">Password</Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    value={authForm.password}
-                    onChange={(e) => setAuthForm({...authForm, password: e.target.value})}
-                    placeholder="Enter your password"
-                    className="mt-1"
-                  />
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      value={authForm.password}
+                      onChange={(e) => setAuthForm({...authForm, password: e.target.value})}
+                      placeholder="Enter your password"
+                      className="mt-1 pr-10"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4 text-gray-400" />
+                      ) : (
+                        <Eye className="h-4 w-4 text-gray-400" />
+                      )}
+                    </button>
+                  </div>
                 </div>
                 {authMode === 'register' && (
                   <div>
                     <Label htmlFor="confirmPassword">Confirm Password</Label>
-                    <Input
-                      id="confirmPassword"
-                      type="password"
-                      value={authForm.confirmPassword}
-                      onChange={(e) => setAuthForm({...authForm, confirmPassword: e.target.value})}
-                      placeholder="Confirm your password"
-                      className="mt-1"
-                    />
+                    <div className="relative">
+                      <Input
+                        id="confirmPassword"
+                        type={showConfirmPassword ? "text" : "password"}
+                        value={authForm.confirmPassword}
+                        onChange={(e) => setAuthForm({...authForm, confirmPassword: e.target.value})}
+                        placeholder="Confirm your password"
+                        className="mt-1 pr-10"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                      >
+                        {showConfirmPassword ? (
+                          <EyeOff className="h-4 w-4 text-gray-400" />
+                        ) : (
+                          <Eye className="h-4 w-4 text-gray-400" />
+                        )}
+                      </button>
+                    </div>
                   </div>
                 )}
                 <div className="flex gap-2 pt-4">
