@@ -4219,14 +4219,93 @@ metadata = {
   // Landing page routing logic
   if (!isAuthenticated) {
     return (
-      <LandingPage 
-        onSignIn={() => setShowAuthModal(true)} 
-        onRegister={() => {
-          setAuthMode('register');
-          setShowAuthModal(true);
-        }}
-        isDarkTheme={isDarkTheme}
-      />
+      <>
+        <LandingPage 
+          onSignIn={() => setShowAuthModal(true)} 
+          onRegister={() => {
+            setAuthMode('register');
+            setShowAuthModal(true);
+          }}
+          isDarkTheme={isDarkTheme}
+        />
+        
+        {/* Authentication Modal - Available on landing page */}
+        {showAuthModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => setShowAuthModal(false)}>
+            <Card className="w-full max-w-md mx-4" onClick={(e) => e.stopPropagation()}>
+              <CardHeader>
+                <CardTitle>{authMode === 'login' ? 'Sign In to Altai Trader' : 'Create Your Account'}</CardTitle>
+                <CardDescription>
+                  {authMode === 'login' 
+                    ? 'Enter your credentials to access your trading dashboard' 
+                    : 'Join thousands of traders using Altai Trader'
+                  }
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={authForm.email}
+                    onChange={(e) => setAuthForm({...authForm, email: e.target.value})}
+                    placeholder="Enter your email"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={authForm.password}
+                    onChange={(e) => setAuthForm({...authForm, password: e.target.value})}
+                    placeholder="Enter your password"
+                    className="mt-1"
+                  />
+                </div>
+                {authMode === 'register' && (
+                  <div>
+                    <Label htmlFor="confirmPassword">Confirm Password</Label>
+                    <Input
+                      id="confirmPassword"
+                      type="password"
+                      value={authForm.confirmPassword}
+                      onChange={(e) => setAuthForm({...authForm, confirmPassword: e.target.value})}
+                      placeholder="Confirm your password"
+                      className="mt-1"
+                    />
+                  </div>
+                )}
+                <div className="flex gap-2 pt-4">
+                  <Button 
+                    onClick={handleAuth} 
+                    className="flex-1"
+                    disabled={authLoading}
+                  >
+                    {authLoading ? 'Please wait...' : authMode === 'login' ? 'Sign In' : 'Create Account'}
+                  </Button>
+                  <Button variant="outline" onClick={() => setShowAuthModal(false)}>
+                    Cancel
+                  </Button>
+                </div>
+                <div className="text-center pt-2">
+                  <button
+                    className="text-sm text-blue-600 hover:underline"
+                    onClick={() => setAuthMode(authMode === 'login' ? 'register' : 'login')}
+                  >
+                    {authMode === 'login' 
+                      ? "Don't have an account? Sign up" 
+                      : "Already have an account? Sign in"
+                    }
+                  </button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+      </>
     );
   }
 
