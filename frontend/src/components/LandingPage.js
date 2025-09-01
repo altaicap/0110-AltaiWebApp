@@ -105,19 +105,19 @@ const LandingPage = ({ onSignIn, onRegister, isDarkTheme }) => {
   const screenshots = [
     {
       title: "Strategy Management",
-      description: "Manage configured, uploaded, and archived trading strategies with live trading capabilities",
+      description: "Easily configure, upload, and manage your trading strategies in one place. Organize active setups, review archived strategies, and seamlessly connect them to live trading — so you can stay focused on execution, not admin.",
       type: "strategies",
       badge: "Strategy Hub"
     },
     {
       title: "Advanced Backtesting",
-      description: "Test strategies with quartile trade curves, portfolio value settings, and comprehensive trade logs",
+      description: "Test your Python strategy across one or multiple tickers at the same time with powerful backtesting tools. Review quartile average trade curves, portfolio value metrics, and detailed trade logs — giving you a clear picture of performance before going live.",
       type: "backtest",
       badge: "Backtest Engine"
     },
     {
       title: "Real-Time News Feed",
-      description: "Live market news with RVOL indicators, ticker highlighting, and intelligent filtering",
+      description: "Access live market headlines with intelligent filtering and RVOL indicators. Integrate news directly into your algorithmic strategies, so your trades can react instantly to breaking events and market-moving updates.",
       type: "news",
       badge: "News Intelligence"
     }
