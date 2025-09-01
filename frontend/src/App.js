@@ -192,6 +192,8 @@ function App() {
     confirmPassword: '',
     general: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [integrationStatus, setIntegrationStatus] = useState({
     polygon: 'connected',
     newsware: 'connected', 
