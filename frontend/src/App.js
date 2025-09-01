@@ -5058,15 +5058,28 @@ metadata = {
                   {authMode === 'register' && (
                     <div>
                       <Label htmlFor="confirmPassword">Confirm Password</Label>
-                      <Input
-                        id="confirmPassword"
-                        type="password"
-                        value={authForm.confirmPassword}
-                        onChange={(e) => handleAuthFieldChange('confirmPassword', e.target.value)}
-                        placeholder="Confirm your password"
-                        className={authErrors.confirmPassword ? 'border-red-500' : ''}
-                        required
-                      />
+                      <div className="relative">
+                        <Input
+                          id="confirmPassword"
+                          type={showConfirmPassword ? "text" : "password"}
+                          value={authForm.confirmPassword}
+                          onChange={(e) => handleAuthFieldChange('confirmPassword', e.target.value)}
+                          placeholder="Confirm your password"
+                          className={`pr-10 ${authErrors.confirmPassword ? 'border-red-500' : ''}`}
+                          required
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                        >
+                          {showConfirmPassword ? (
+                            <EyeOff className="h-4 w-4 text-gray-400" />
+                          ) : (
+                            <Eye className="h-4 w-4 text-gray-400" />
+                          )}
+                        </button>
+                      </div>
                       {authErrors.confirmPassword && (
                         <p className="text-red-500 text-xs mt-1">{authErrors.confirmPassword}</p>
                       )}
