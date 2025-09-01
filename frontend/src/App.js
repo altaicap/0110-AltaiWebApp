@@ -4243,6 +4243,19 @@ metadata = {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
+                {authMode === 'register' && (
+                  <div>
+                    <Label htmlFor="fullName">Full Name</Label>
+                    <Input
+                      id="fullName"
+                      type="text"
+                      value={authForm.fullName}
+                      onChange={(e) => setAuthForm({...authForm, fullName: e.target.value})}
+                      placeholder="Enter your full name"
+                      className="mt-1"
+                    />
+                  </div>
+                )}
                 <div>
                   <Label htmlFor="email">Email</Label>
                   <Input
