@@ -193,6 +193,7 @@ function App() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showLandingPage, setShowLandingPage] = useState(true); // Navigation state
   const [integrationStatus, setIntegrationStatus] = useState({
     polygon: 'connected',
     newsware: 'connected', 
