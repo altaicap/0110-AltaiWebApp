@@ -4216,6 +4216,20 @@ metadata = {
     }
   };
 
+  // Landing page routing logic
+  if (!isAuthenticated) {
+    return (
+      <LandingPage 
+        onSignIn={() => setShowAuthModal(true)} 
+        onRegister={() => {
+          setAuthMode('register');
+          setShowAuthModal(true);
+        }}
+        isDarkTheme={isDarkTheme}
+      />
+    );
+  }
+
   return (
     <div className={`min-h-screen bg-gray-50 ${appSettings.theme === 'dark' ? 'dark' : ''} font-size-${appSettings.fontSize}`}>
       {/* Header */}
