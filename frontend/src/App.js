@@ -4248,6 +4248,12 @@ metadata = {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
+                {authErrors.general && (
+                  <div className="bg-red-50 border border-red-200 rounded-md p-3">
+                    <p className="text-red-700 text-sm">{authErrors.general}</p>
+                  </div>
+                )}
+                
                 {authMode === 'register' && (
                   <div>
                     <Label htmlFor="fullName">Full Name</Label>
@@ -4257,8 +4263,11 @@ metadata = {
                       value={authForm.fullName}
                       onChange={(e) => setAuthForm({...authForm, fullName: e.target.value})}
                       placeholder="Enter your full name"
-                      className="mt-1"
+                      className={`mt-1 ${authErrors.fullName ? 'border-red-500' : ''}`}
                     />
+                    {authErrors.fullName && (
+                      <p className="text-red-500 text-xs mt-1">{authErrors.fullName}</p>
+                    )}
                   </div>
                 )}
                 <div>
@@ -4269,8 +4278,11 @@ metadata = {
                     value={authForm.email}
                     onChange={(e) => setAuthForm({...authForm, email: e.target.value})}
                     placeholder="Enter your email"
-                    className="mt-1"
+                    className={`mt-1 ${authErrors.email ? 'border-red-500' : ''}`}
                   />
+                  {authErrors.email && (
+                    <p className="text-red-500 text-xs mt-1">{authErrors.email}</p>
+                  )}
                 </div>
                 <div>
                   <Label htmlFor="password">Password</Label>
