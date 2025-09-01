@@ -16,10 +16,23 @@ import {
 } from 'lucide-react';
 import AltaiLogo from '../assets/altai-logo.svg';
 
-// Import webapp screenshots
-import StrategiesScreenshot from '../assets/screenshots/strategies_tab.png';
-import BacktestScreenshot from '../assets/screenshots/backtest_tab.png';
-import NewsScreenshot from '../assets/screenshots/news_tab.png';
+// Placeholder screenshot components
+const ScreenshotPlaceholder = ({ title, type }) => (
+  <div className="w-full h-96 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl border-2 border-gray-200 flex items-center justify-center">
+    <div className="text-center p-8">
+      <div className={`w-16 h-16 mx-auto mb-4 rounded-lg flex items-center justify-center ${
+        type === 'strategies' ? 'bg-blue-500' : 
+        type === 'backtest' ? 'bg-green-500' : 'bg-purple-500'
+      }`}>
+        {type === 'strategies' && <TrendingUp className="w-8 h-8 text-white" />}
+        {type === 'backtest' && <BarChart3 className="w-8 h-8 text-white" />}
+        {type === 'news' && <FileText className="w-8 h-8 text-white" />}
+      </div>
+      <h3 className="text-lg font-semibold text-gray-700 mb-2">{title} Preview</h3>
+      <p className="text-sm text-gray-500">Live webapp interface</p>
+    </div>
+  </div>
+);
 
 // Integration logos (we'll use placeholder SVGs for now)
 const IntegrationLogos = {
