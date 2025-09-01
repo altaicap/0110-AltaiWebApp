@@ -136,6 +136,13 @@ const LandingPage = ({ onSignIn, onRegister, isDarkTheme, onGoToDashboard }) => 
             <div className="flex items-center space-x-4">
               <Button 
                 variant="ghost"
+                onClick={() => onGoToDashboard()}
+                className="text-gray-600 hover:text-gray-900"
+              >
+                Dashboard
+              </Button>
+              <Button 
+                variant="ghost"
                 onClick={() => onSignIn()}
                 className="text-gray-600 hover:text-gray-900"
               >
