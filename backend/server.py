@@ -230,7 +230,7 @@ app = FastAPI(
 )
 
 # CORS middleware with production settings
-cors_origins = settings.cors_origins if hasattr(settings, 'environment') and settings.environment == "production" else ["*"]
+cors_origins = ["http://localhost:3000", "http://127.0.0.1:3000", "*"]
 
 app.add_middleware(
     CORSMiddleware,
