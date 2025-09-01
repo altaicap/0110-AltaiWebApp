@@ -99,19 +99,19 @@ const LandingPage = ({ onSignIn, onRegister, isDarkTheme }) => {
     {
       title: "Strategy Management",
       description: "Manage configured, uploaded, and archived trading strategies with live trading capabilities",
-      image: StrategiesScreenshot,
+      type: "strategies",
       badge: "Strategy Hub"
     },
     {
       title: "Advanced Backtesting",
       description: "Test strategies with quartile trade curves, portfolio value settings, and comprehensive trade logs",
-      image: BacktestScreenshot,
+      type: "backtest",
       badge: "Backtest Engine"
     },
     {
       title: "Real-Time News Feed",
       description: "Live market news with RVOL indicators, ticker highlighting, and intelligent filtering",
-      image: NewsScreenshot,
+      type: "news",
       badge: "News Intelligence"
     }
   ];
