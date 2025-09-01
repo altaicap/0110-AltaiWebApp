@@ -174,7 +174,7 @@ const LandingPage = ({ onSignIn, onRegister, isDarkTheme }) => {
               onClick={() => onRegister()}
               className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg"
             >
-              Get Started Free
+              Get Started for Free
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
             <Button 
