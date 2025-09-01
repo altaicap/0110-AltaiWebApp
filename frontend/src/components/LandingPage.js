@@ -243,11 +243,7 @@ const LandingPage = ({ onSignIn, onRegister, isDarkTheme }) => {
                 </div>
                 <div className={index % 2 === 1 ? 'lg:col-start-1' : ''}>
                   <div className="rounded-xl shadow-2xl overflow-hidden border">
-                    <img 
-                      src={screenshot.image} 
-                      alt={screenshot.title}
-                      className="w-full h-auto"
-                    />
+                    <ScreenshotPlaceholder title={screenshot.title} type={screenshot.type} />
                   </div>
                 </div>
               </div>
