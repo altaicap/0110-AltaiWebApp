@@ -5028,15 +5028,28 @@ metadata = {
                   
                   <div>
                     <Label htmlFor="password">Password</Label>
-                    <Input
-                      id="password"
-                      type="password"
-                      value={authForm.password}
-                      onChange={(e) => handleAuthFieldChange('password', e.target.value)}
-                      placeholder={authMode === 'register' ? 'At least 8 characters with letters and numbers' : 'Enter your password'}
-                      className={authErrors.password ? 'border-red-500' : ''}
-                      required
-                    />
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        value={authForm.password}
+                        onChange={(e) => handleAuthFieldChange('password', e.target.value)}
+                        placeholder={authMode === 'register' ? 'At least 8 characters with letters and numbers' : 'Enter your password'}
+                        className={`pr-10 ${authErrors.password ? 'border-red-500' : ''}`}
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4 text-gray-400" />
+                        ) : (
+                          <Eye className="h-4 w-4 text-gray-400" />
+                        )}
+                      </button>
+                    </div>
                     {authErrors.password && (
                       <p className="text-red-500 text-xs mt-1">{authErrors.password}</p>
                     )}
