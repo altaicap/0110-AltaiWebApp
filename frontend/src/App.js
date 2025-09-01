@@ -4292,9 +4292,9 @@ metadata = {
                       }
                     }} 
                     className="flex-1"
-                    disabled={authLoading}
+                    disabled={isLoading}
                   >
-                    {authLoading ? 'Please wait...' : authMode === 'login' ? 'Sign In' : 'Create Account'}
+                    {isLoading ? 'Please wait...' : authMode === 'login' ? 'Sign In' : 'Create Account'}
                   </Button>
                   <Button variant="outline" onClick={() => setShowAuthModal(false)}>
                     Cancel
