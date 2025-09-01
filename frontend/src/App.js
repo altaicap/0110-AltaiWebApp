@@ -4219,19 +4219,17 @@ metadata = {
     }
   };
 
-  // Landing page routing logic
-  if (!isAuthenticated) {
+  // Landing page routing logic  
+  if (showLandingPage) {
     return (
       <>
         <LandingPage 
-          onSignIn={() => { 
-          setAuthMode('login'); 
-          setShowAuthModal(true); 
-        }} 
+          onSignIn={() => setShowAuthModal(true)} 
           onRegister={() => {
             setAuthMode('register');
             setShowAuthModal(true);
           }}
+          onGoToDashboard={() => setShowLandingPage(false)}
           isDarkTheme={isDarkTheme}
         />
         
