@@ -4425,6 +4425,15 @@ metadata = {
                 </div>
               </div>
 
+              {/* Landing Page Button */}
+              <Button 
+                variant="ghost"
+                onClick={() => setShowLandingPage(true)}
+                className={`text-gray-600 hover:text-gray-900 ${isDarkTheme ? 'text-gray-300 hover:text-white' : ''}`}
+              >
+                Landing
+              </Button>
+
               {/* Notification Bell */}
               <div className="relative">
                 <Button 
