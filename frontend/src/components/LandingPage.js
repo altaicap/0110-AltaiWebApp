@@ -243,10 +243,6 @@ const LandingPage = ({ onSignIn, onRegister, isDarkTheme }) => {
                   <p className={`text-lg ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'} mb-6`}>
                     {screenshot.description}
                   </p>
-                  <Button onClick={() => onSignIn()}>
-                    Explore This Feature
-                    <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
                 </div>
                 <div className={index % 2 === 1 ? 'lg:col-start-1' : ''}>
                   <div className="rounded-xl shadow-2xl overflow-hidden border">
