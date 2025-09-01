@@ -44,28 +44,28 @@ const ScreenshotPlaceholder = ({ title, type }) => (
 // Integration logos components
 const IntegrationLogos = {
   polygon: () => (
-    <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center p-2 border">
-      <img src={PolygonLogo} alt="Polygon" className="w-12 h-12 object-contain" />
+    <div className="w-24 h-24 bg-white rounded-lg flex items-center justify-center p-3 border shadow-sm">
+      <img src={PolygonLogo} alt="Polygon" className="w-18 h-18 object-contain" />
     </div>
   ),
   newsware: () => (
-    <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center p-2 border">
-      <img src={NewswareLogo} alt="NewsWare" className="w-12 h-12 object-contain" />
+    <div className="w-24 h-24 bg-white rounded-lg flex items-center justify-center p-3 border shadow-sm">
+      <img src={NewswareLogo} alt="NewsWare" className="w-18 h-18 object-contain" />
     </div>
   ),
   tradexchange: () => (
-    <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center p-2 border">
-      <img src={TradexchangeLogo} alt="TradeXchange" className="w-12 h-12 object-contain" />
+    <div className="w-24 h-24 bg-white rounded-lg flex items-center justify-center p-3 border shadow-sm">
+      <img src={TradexchangeLogo} alt="TradeXchange" className="w-18 h-18 object-contain" />
     </div>
   ),
   tradestation: () => (
-    <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center p-2 border">
-      <img src={TradestationLogo} alt="TradeStation" className="w-12 h-12 object-contain" />
+    <div className="w-24 h-24 bg-white rounded-lg flex items-center justify-center p-3 border shadow-sm">
+      <img src={TradestationLogo} alt="TradeStation" className="w-18 h-18 object-contain" />
     </div>
   ),
   ibkr: () => (
-    <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center p-2 border">
-      <img src={IBKRLogo} alt="Interactive Brokers" className="w-12 h-12 object-contain" />
+    <div className="w-24 h-24 bg-white rounded-lg flex items-center justify-center p-3 border shadow-sm">
+      <img src={IBKRLogo} alt="Interactive Brokers" className="w-18 h-18 object-contain" />
     </div>
   )
 };
