@@ -4280,7 +4280,17 @@ metadata = {
                 )}
                 <div className="flex gap-2 pt-4">
                   <Button 
-                    onClick={handleAuth} 
+                    onClick={async () => {
+                      if (!validateAuthForm()) {
+                        return;
+                      }
+                      
+                      if (authMode === 'login') {
+                        await handleLogin(authForm.email, authForm.password);
+                      } else {
+                        await handleRegister(authForm.email, authForm.password, authForm.fullName);
+                      }
+                    }} 
                     className="flex-1"
                     disabled={authLoading}
                   >
