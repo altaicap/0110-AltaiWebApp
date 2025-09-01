@@ -70,7 +70,7 @@ const IntegrationLogos = {
   )
 };
 
-const LandingPage = ({ onSignIn, onRegister, isDarkTheme }) => {
+const LandingPage = ({ onSignIn, onRegister, isDarkTheme, onGoToDashboard }) => {
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   const features = [
