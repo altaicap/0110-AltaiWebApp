@@ -4293,7 +4293,7 @@ metadata = {
                       value={authForm.password}
                       onChange={(e) => setAuthForm({...authForm, password: e.target.value})}
                       placeholder="Enter your password"
-                      className="mt-1 pr-10"
+                      className={`mt-1 pr-10 ${authErrors.password ? 'border-red-500' : ''}`}
                     />
                     <button
                       type="button"
@@ -4307,6 +4307,9 @@ metadata = {
                       )}
                     </button>
                   </div>
+                  {authErrors.password && (
+                    <p className="text-red-500 text-xs mt-1">{authErrors.password}</p>
+                  )}
                 </div>
                 {authMode === 'register' && (
                   <div>
@@ -4318,7 +4321,7 @@ metadata = {
                         value={authForm.confirmPassword}
                         onChange={(e) => setAuthForm({...authForm, confirmPassword: e.target.value})}
                         placeholder="Confirm your password"
-                        className="mt-1 pr-10"
+                        className={`mt-1 pr-10 ${authErrors.confirmPassword ? 'border-red-500' : ''}`}
                       />
                       <button
                         type="button"
@@ -4332,6 +4335,9 @@ metadata = {
                         )}
                       </button>
                     </div>
+                    {authErrors.confirmPassword && (
+                      <p className="text-red-500 text-xs mt-1">{authErrors.confirmPassword}</p>
+                    )}
                   </div>
                 )}
                 <div className="flex gap-2 pt-4">
