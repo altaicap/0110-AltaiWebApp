@@ -16,6 +16,13 @@ import {
 } from 'lucide-react';
 import AltaiLogo from '../assets/altai-logo.svg';
 
+// Integration logos
+import PolygonLogo from '../assets/polygon-logo.png';
+import NewswareLogo from '../assets/newsware-logo.png';
+import TradexchangeLogo from '../assets/tradexchange-logo.png';
+import TradestationLogo from '../assets/tradestation-logo.png';
+import IBKRLogo from '../assets/ibkr-logo.png';
+
 // Placeholder screenshot components
 const ScreenshotPlaceholder = ({ title, type }) => (
   <div className="w-full h-96 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl border-2 border-gray-200 flex items-center justify-center">
@@ -34,31 +41,31 @@ const ScreenshotPlaceholder = ({ title, type }) => (
   </div>
 );
 
-// Integration logos (we'll use placeholder SVGs for now)
+// Integration logos components
 const IntegrationLogos = {
   polygon: () => (
-    <div className="w-16 h-16 bg-purple-600 rounded-lg flex items-center justify-center">
-      <span className="text-white font-bold text-xs">POLYGON</span>
+    <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center p-2 border">
+      <img src={PolygonLogo} alt="Polygon" className="w-12 h-12 object-contain" />
     </div>
   ),
   newsware: () => (
-    <div className="w-16 h-16 bg-blue-600 rounded-lg flex items-center justify-center">
-      <span className="text-white font-bold text-xs">NEWS</span>
+    <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center p-2 border">
+      <img src={NewswareLogo} alt="NewsWare" className="w-12 h-12 object-contain" />
     </div>
   ),
   tradexchange: () => (
-    <div className="w-16 h-16 bg-orange-500 rounded-lg flex items-center justify-center">
-      <span className="text-white font-bold text-xs">TX</span>
+    <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center p-2 border">
+      <img src={TradexchangeLogo} alt="TradeXchange" className="w-12 h-12 object-contain" />
     </div>
   ),
   tradestation: () => (
-    <div className="w-16 h-16 bg-green-600 rounded-lg flex items-center justify-center">
-      <span className="text-white font-bold text-xs">TS</span>
+    <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center p-2 border">
+      <img src={TradestationLogo} alt="TradeStation" className="w-12 h-12 object-contain" />
     </div>
   ),
   ibkr: () => (
-    <div className="w-16 h-16 bg-red-600 rounded-lg flex items-center justify-center">
-      <span className="text-white font-bold text-xs">IBKR</span>
+    <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center p-2 border">
+      <img src={IBKRLogo} alt="Interactive Brokers" className="w-12 h-12 object-contain" />
     </div>
   )
 };
