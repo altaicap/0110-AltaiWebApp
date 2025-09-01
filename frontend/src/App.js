@@ -4221,7 +4221,10 @@ metadata = {
     return (
       <>
         <LandingPage 
-          onSignIn={() => setShowAuthModal(true)} 
+          onSignIn={() => { 
+          setAuthMode('login'); 
+          setShowAuthModal(true); 
+        }} 
           onRegister={() => {
             setAuthMode('register');
             setShowAuthModal(true);
