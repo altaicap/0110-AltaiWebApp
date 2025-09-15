@@ -252,12 +252,14 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
             </p>
           </div>
 
-          {/* Feature Cards with Hover Effects */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          {/* Feature Cards with Integrated Previews and Hover Effects */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card 
               className={`group cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 ${
                 isDarkTheme ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'hover:shadow-2xl'
               }`}
+              onMouseEnter={() => setHoveredPreview('strategies')}
+              onMouseLeave={() => setHoveredPreview(null)}
             >
               <CardHeader>
                 <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-700 transition-colors">
@@ -267,53 +269,6 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                 <CardDescription className={isDarkTheme ? 'text-gray-300' : ''}>
                   Execute live trades and test strategies with historical data simultaneously
                 </CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card 
-              className={`group cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 ${
-                isDarkTheme ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'hover:shadow-2xl'
-              }`}
-            >
-              <CardHeader>
-                <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4 group-hover:bg-green-700 transition-colors">
-                  <FileText className="h-6 w-6 text-white" />
-                </div>
-                <CardTitle className="text-xl">Live News Integration into Strategy</CardTitle>
-                <CardDescription className={isDarkTheme ? 'text-gray-300' : ''}>
-                  Real-time news feeds integrated directly into your trading strategies
-                </CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card 
-              className={`group cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 ${
-                isDarkTheme ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'hover:shadow-2xl'
-              }`}
-            >
-              <CardHeader>
-                <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4 group-hover:bg-purple-700 transition-colors">
-                  <BarChart3 className="h-6 w-6 text-white" />
-                </div>
-                <CardTitle className="text-xl">Advanced News Feed</CardTitle>
-                <CardDescription className={isDarkTheme ? 'text-gray-300' : ''}>
-                  Curated news with sentiment analysis and market impact indicators
-                </CardDescription>
-              </CardHeader>
-            </Card>
-          </div>
-
-          {/* Preview Screenshots with Hover Transitions - Temporarily using placeholders */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card 
-              className={`group cursor-pointer transition-all duration-300 ${
-                isDarkTheme ? 'bg-gray-800 border-gray-700' : ''
-              }`}
-              onMouseEnter={() => setHoveredPreview('strategies')}
-              onMouseLeave={() => setHoveredPreview(null)}
-            >
-              <CardHeader>
-                <CardTitle>Strategy Management Preview</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="relative overflow-hidden rounded-lg">
@@ -331,24 +286,30 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
             </Card>
 
             <Card 
-              className={`group cursor-pointer transition-all duration-300 ${
-                isDarkTheme ? 'bg-gray-800 border-gray-700' : ''
+              className={`group cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 ${
+                isDarkTheme ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'hover:shadow-2xl'
               }`}
-              onMouseEnter={() => setHoveredPreview('backtest')}
+              onMouseEnter={() => setHoveredPreview('news')}
               onMouseLeave={() => setHoveredPreview(null)}
             >
               <CardHeader>
-                <CardTitle>Advanced Backtesting Preview</CardTitle>
+                <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4 group-hover:bg-green-700 transition-colors">
+                  <FileText className="h-6 w-6 text-white" />
+                </div>
+                <CardTitle className="text-xl">Live News Integration into Strategy</CardTitle>
+                <CardDescription className={isDarkTheme ? 'text-gray-300' : ''}>
+                  Real-time news feeds integrated directly into your trading strategies
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="relative overflow-hidden rounded-lg">
                   <div className={`w-full h-48 flex items-center justify-center transition-all duration-500 ${
-                    hoveredPreview === 'backtest' 
+                    hoveredPreview === 'news' 
                       ? (isDarkTheme ? 'bg-green-900' : 'bg-green-100') 
                       : (isDarkTheme ? 'bg-gray-700' : 'bg-gray-200')
                   }`}>
-                    <BarChart3 className={`w-12 h-12 ${
-                      hoveredPreview === 'backtest' ? 'text-green-500' : 'text-gray-400'
+                    <FileText className={`w-12 h-12 ${
+                      hoveredPreview === 'news' ? 'text-green-500' : 'text-gray-400'
                     }`} />
                   </div>
                 </div>
@@ -356,24 +317,30 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
             </Card>
 
             <Card 
-              className={`group cursor-pointer transition-all duration-300 ${
-                isDarkTheme ? 'bg-gray-800 border-gray-700' : ''
+              className={`group cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 ${
+                isDarkTheme ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'hover:shadow-2xl'
               }`}
-              onMouseEnter={() => setHoveredPreview('news')}
+              onMouseEnter={() => setHoveredPreview('backtest')}
               onMouseLeave={() => setHoveredPreview(null)}
             >
               <CardHeader>
-                <CardTitle>Real-Time News Feed Preview</CardTitle>
+                <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4 group-hover:bg-purple-700 transition-colors">
+                  <BarChart3 className="h-6 w-6 text-white" />
+                </div>
+                <CardTitle className="text-xl">Advanced Backtesting & Analysis</CardTitle>
+                <CardDescription className={isDarkTheme ? 'text-gray-300' : ''}>
+                  Comprehensive backtesting with detailed performance metrics and analysis
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="relative overflow-hidden rounded-lg">
                   <div className={`w-full h-48 flex items-center justify-center transition-all duration-500 ${
-                    hoveredPreview === 'news' 
+                    hoveredPreview === 'backtest' 
                       ? (isDarkTheme ? 'bg-purple-900' : 'bg-purple-100') 
                       : (isDarkTheme ? 'bg-gray-700' : 'bg-gray-200')
                   }`}>
-                    <FileText className={`w-12 h-12 ${
-                      hoveredPreview === 'news' ? 'text-purple-500' : 'text-gray-400'
+                    <BarChart3 className={`w-12 h-12 ${
+                      hoveredPreview === 'backtest' ? 'text-purple-500' : 'text-gray-400'
                     }`} />
                   </div>
                 </div>
