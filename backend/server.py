@@ -2203,14 +2203,12 @@ async def clear_chat_history(
         )
 
 @app.post("/api/chat/session")
-async def create_chat_session(
-    current_user: dict = Depends(get_current_user)
-):
+async def create_chat_session():
     """Create a new chat session"""
     try:
         from services.chat_service import chat_service
         
-        session_id = await chat_service.create_chat_session(current_user['id'])
+        session_id = await chat_service.create_chat_session('demo_user')
         
         return {
             'success': True,
