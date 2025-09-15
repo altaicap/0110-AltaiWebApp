@@ -32,6 +32,7 @@ try:
     from services.backtest_service import BacktestService
     from services.news_service import NewsService
     from services.market_service import MarketDataService
+    from services.chat_service import ChatService
     PRODUCTION_MODE = True
     logger = logging.getLogger(__name__)
     logger.info("Production services loaded successfully")
