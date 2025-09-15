@@ -5129,16 +5129,16 @@ metadata = {
         {/* Right Half - Main Application */}
         <div 
           style={{ width: `${100 - splitScreenRatio}%` }}
-          className="flex flex-col overflow-hidden"
+          className="flex flex-col"
         >
-          <div className={`flex-1 ${isDarkTheme ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
+          <div className={`flex-1 overflow-hidden ${isDarkTheme ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
             <Tabs 
               value={activeTab} 
               onValueChange={setActiveTab}
               className="h-full flex flex-col"
             >
               {/* Primary Tabs */}
-              <TabsList className="grid w-full grid-cols-5 px-6">
+              <TabsList className="grid w-full grid-cols-5 px-6 flex-shrink-0">
                 <TabsTrigger value="dashboard" className="flex items-center gap-2 px-6 uppercase">
                   <BarChart3 className="w-4 h-4" />
                   DASHBOARD
@@ -5161,26 +5161,28 @@ metadata = {
                 </TabsTrigger>
               </TabsList>
 
-              {/* Tab Contents */}
-              <TabsContent value="dashboard" className="tab-content-padding">
-                <DashboardTab />
-              </TabsContent>
+              {/* Tab Contents with proper scrolling */}
+              <div className="flex-1 overflow-y-auto">
+                <TabsContent value="dashboard" className="tab-content-padding h-full">
+                  <DashboardTab />
+                </TabsContent>
 
-              <TabsContent value="settings" className="tab-content-padding">
-                <SettingsTab />
-              </TabsContent>
+                <TabsContent value="settings" className="tab-content-padding h-full">
+                  <SettingsTab />
+                </TabsContent>
 
-              <TabsContent value="strategies" className="tab-content-padding">
-                <StrategiesTab />
-              </TabsContent>
+                <TabsContent value="strategies" className="tab-content-padding h-full">
+                  <StrategiesTab />
+                </TabsContent>
 
-              <TabsContent value="backtest" className="tab-content-padding">
-                <BacktestTab />
-              </TabsContent>
+                <TabsContent value="backtest" className="tab-content-padding h-full">
+                  <BacktestTab />
+                </TabsContent>
 
-              <TabsContent value="news" className="tab-content-padding">
-                <NewsTab />
-              </TabsContent>
+                <TabsContent value="news" className="tab-content-padding h-full">
+                  <NewsTab />
+                </TabsContent>
+              </div>
 
               {/* Live Strategy Tab Contents */}
               {liveTabs.map((tabName) => (
