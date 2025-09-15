@@ -5155,7 +5155,7 @@ metadata = {
               className="h-full flex flex-col"
             >
               {/* Primary Tabs */}
-              <TabsList className="grid w-full grid-cols-5 px-6 flex-shrink-0">
+              <TabsList className="grid w-full grid-cols-5 px-6 flex-shrink-0 mt-4">
                 <TabsTrigger value="dashboard" className="flex items-center gap-2 px-6 uppercase">
                   <BarChart3 className="w-4 h-4" />
                   DASHBOARD
