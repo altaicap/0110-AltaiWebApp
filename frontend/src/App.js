@@ -62,8 +62,7 @@ import {
   Settings2,
   LogOut,
   HelpCircle,
-  Upload,
-  Send
+  Upload
 } from 'lucide-react';
 import { format } from "date-fns";
 import AltaiLogo from './assets/altai-logo.svg';
