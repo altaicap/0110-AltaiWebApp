@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../co
 import { Badge } from "../components/ui/badge";
 import { TrendingUp, BarChart3, FileText, PlayCircle, Users, Shield, Zap, ArrowRight, Star, CheckCircle } from 'lucide-react';
 
-// Import logos and screenshots
+// Import logos (screenshots commented out for now)
 import AltaiLogo from '../assets/altai-logo.svg';
 import AltaiLogoDark from '../assets/altai-logo-dark.svg';
 import PolygonLogo from '../assets/polygon-logo.png';
@@ -12,9 +12,9 @@ import NewsWareLogo from '../assets/newsware-logo.png';
 import TradeXchangeLogo from '../assets/tradexchange-logo.png';
 import TradeStationLogo from '../assets/tradestation-logo.png';
 import IBKRLogo from '../assets/ibkr-logo.png';
-import StrategiesScreenshot from '../assets/strategies-screenshot.png';
-import BacktestScreenshot from '../assets/backtest-screenshot.png';
-import NewsScreenshot from '../assets/news-screenshot.png';
+// import StrategiesScreenshot from '../assets/strategies-screenshot.png';
+// import BacktestScreenshot from '../assets/backtest-screenshot.png';
+// import NewsScreenshot from '../assets/news-screenshot.png';
 
 const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme }) => {
   // Typing animation state
