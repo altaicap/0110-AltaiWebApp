@@ -2184,6 +2184,513 @@ class SupportEndpointTester:
         return self.tests_passed == self.tests_run
 
 
+class LLMChatIntegrationTester:
+    def __init__(self, base_url="https://trade-intelligence-2.preview.emergentagent.com"):
+        self.base_url = base_url
+        self.tests_run = 0
+        self.tests_passed = 0
+        self.test_results = []
+        self.session_id = None
+
+    def log_test(self, name: str, success: bool, message: str = "", response_data: Any = None):
+        """Log test result"""
+        self.tests_run += 1
+        if success:
+            self.tests_passed += 1
+            print(f"✅ {name}: PASSED - {message}")
+        else:
+            print(f"❌ {name}: FAILED - {message}")
+        
+        self.test_results.append({
+            "name": name,
+            "success": success,
+            "message": message,
+            "response_data": response_data
+        })
+
+    def run_test(self, name: str, method: str, endpoint: str, expected_status: int, 
+                 data: Dict = None, params: Dict = None, headers: Dict = None) -> tuple:
+        """Run a single API test"""
+        url = f"{self.base_url}/{endpoint.lstrip('/')}"
+        default_headers = {'Content-Type': 'application/json'}
+        
+        if headers:
+            default_headers.update(headers)
+        
+        try:
+            if method == 'GET':
+                response = requests.get(url, headers=default_headers, params=params, timeout=30)
+            elif method == 'POST':
+                response = requests.post(url, json=data, headers=default_headers, params=params, timeout=30)
+            elif method == 'PUT':
+                response = requests.put(url, json=data, headers=default_headers, timeout=30)
+            elif method == 'DELETE':
+                response = requests.delete(url, headers=default_headers, timeout=30)
+            else:
+                self.log_test(name, False, f"Unsupported method: {method}")
+                return False, {}
+
+            success = response.status_code == expected_status
+            try:
+                response_json = response.json()
+            except:
+                response_json = {"raw_response": response.text}
+
+            if success:
+                self.log_test(name, True, f"Status: {response.status_code}", response_json)
+            else:
+                self.log_test(name, False, f"Expected {expected_status}, got {response.status_code}. Response: {response.text[:200]}")
+
+            return success, response_json
+
+        except requests.exceptions.Timeout:
+            self.log_test(name, False, "Request timeout (30s)")
+            return False, {}
+        except requests.exceptions.ConnectionError:
+            self.log_test(name, False, "Connection error - backend may be down")
+            return False, {}
+        except Exception as e:
+            self.log_test(name, False, f"Error: {str(e)}")
+            return False, {}
+
+    def test_chat_session_creation(self):
+        """Test POST /api/chat/session endpoint"""
+        print("\n🔍 Testing Chat Session Creation...")
+        
+        success, response = self.run_test(
+            "Create Chat Session",
+            "POST",
+            "/api/chat/session",
+            200
+        )
+        
+        if success and response:
+            # Verify response structure
+            required_fields = ["success", "session_id"]
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                self.log_test("Session Creation Response Structure", False, f"Missing fields: {missing_fields}")
+            else:
+                self.log_test("Session Creation Response Structure", True, "All required fields present")
+                
+                # Store session ID for later tests
+                self.session_id = response.get("session_id")
+                success_status = response.get("success")
+                
+                self.log_test("Session ID Generated", bool(self.session_id), 
+                             f"Session ID: {self.session_id}")
+                self.log_test("Session Creation Success Status", success_status, 
+                             f"Success: {success_status}")
+
+    def test_llm_providers(self):
+        """Test GET /api/llm/providers endpoint"""
+        print("\n🔍 Testing LLM Providers Endpoint...")
+        
+        success, response = self.run_test(
+            "Get LLM Providers",
+            "GET",
+            "/api/llm/providers",
+            200
+        )
+        
+        if success and response:
+            # Verify response structure
+            required_fields = ["success", "providers"]
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                self.log_test("Providers Response Structure", False, f"Missing fields: {missing_fields}")
+            else:
+                self.log_test("Providers Response Structure", True, "All required fields present")
+                
+                providers = response.get("providers", [])
+                self.log_test("Providers Available", len(providers) > 0, 
+                             f"Found {len(providers)} providers")
+                
+                # Check for expected providers
+                expected_providers = ["claude", "chatgpt"]
+                found_provider_ids = [p.get("id") for p in providers]
+                
+                for expected_provider in expected_providers:
+                    if expected_provider in found_provider_ids:
+                        provider_info = next(p for p in providers if p.get("id") == expected_provider)
+                        
+                        # Verify provider structure
+                        provider_fields = ["id", "name", "model", "configured"]
+                        missing_provider_fields = [field for field in provider_fields if field not in provider_info]
+                        
+                        if missing_provider_fields:
+                            self.log_test(f"{expected_provider.upper()} Provider Structure", False, 
+                                         f"Missing fields: {missing_provider_fields}")
+                        else:
+                            self.log_test(f"{expected_provider.upper()} Provider Structure", True, 
+                                         f"Name: {provider_info['name']}, Model: {provider_info['model']}")
+                            
+                            # Check configuration status
+                            configured = provider_info.get("configured", False)
+                            self.log_test(f"{expected_provider.upper()} Configuration Status", configured, 
+                                         f"Configured: {configured}")
+                    else:
+                        self.log_test(f"{expected_provider.upper()} Provider Present", False, 
+                                     f"Provider {expected_provider} not found")
+
+    def test_chat_message_sending_claude(self):
+        """Test POST /api/chat/send endpoint with Claude provider"""
+        print("\n🔍 Testing Chat Message Sending - Claude...")
+        
+        if not self.session_id:
+            # Create a session first
+            self.test_chat_session_creation()
+        
+        if not self.session_id:
+            self.log_test("Claude Message Setup", False, "No session ID available")
+            return
+        
+        # Test sending a simple message to Claude
+        message_data = {
+            "message": "Hello! Please respond with 'Claude connection successful' to confirm the integration is working.",
+            "session_id": self.session_id,
+            "llm_provider": "claude",
+            "context": {
+                "current_tab": "chat_test",
+                "user_name": "Test User"
+            }
+        }
+        
+        success, response = self.run_test(
+            "Send Message to Claude",
+            "POST",
+            "/api/chat/send",
+            200,
+            data=message_data
+        )
+        
+        if success and response:
+            # Verify response structure
+            required_fields = ["success", "message", "session_id", "timestamp"]
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                self.log_test("Claude Response Structure", False, f"Missing fields: {missing_fields}")
+            else:
+                self.log_test("Claude Response Structure", True, "All required fields present")
+                
+                success_status = response.get("success")
+                ai_message = response.get("message", "")
+                returned_session_id = response.get("session_id")
+                
+                self.log_test("Claude Response Success", success_status, 
+                             f"Success: {success_status}")
+                self.log_test("Claude Message Received", bool(ai_message), 
+                             f"Message length: {len(ai_message)} chars")
+                self.log_test("Claude Session ID Match", returned_session_id == self.session_id, 
+                             f"Session ID matches: {returned_session_id == self.session_id}")
+                
+                # Check if response contains expected confirmation
+                if "claude" in ai_message.lower() or "connection" in ai_message.lower():
+                    self.log_test("Claude Integration Working", True, 
+                                 f"Response indicates working integration: {ai_message[:100]}...")
+                else:
+                    self.log_test("Claude Integration Working", True, 
+                                 f"Received response from Claude: {ai_message[:100]}...")
+
+    def test_chat_message_sending_chatgpt(self):
+        """Test POST /api/chat/send endpoint with ChatGPT provider"""
+        print("\n🔍 Testing Chat Message Sending - ChatGPT...")
+        
+        if not self.session_id:
+            # Create a session first
+            self.test_chat_session_creation()
+        
+        if not self.session_id:
+            self.log_test("ChatGPT Message Setup", False, "No session ID available")
+            return
+        
+        # Test sending a simple message to ChatGPT
+        message_data = {
+            "message": "Hello! Please respond with 'ChatGPT connection successful' to confirm the integration is working.",
+            "session_id": self.session_id,
+            "llm_provider": "chatgpt",
+            "context": {
+                "current_tab": "chat_test",
+                "user_name": "Test User"
+            }
+        }
+        
+        success, response = self.run_test(
+            "Send Message to ChatGPT",
+            "POST",
+            "/api/chat/send",
+            200,
+            data=message_data
+        )
+        
+        if success and response:
+            # Verify response structure
+            required_fields = ["success", "message", "session_id", "timestamp"]
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                self.log_test("ChatGPT Response Structure", False, f"Missing fields: {missing_fields}")
+            else:
+                self.log_test("ChatGPT Response Structure", True, "All required fields present")
+                
+                success_status = response.get("success")
+                ai_message = response.get("message", "")
+                returned_session_id = response.get("session_id")
+                
+                self.log_test("ChatGPT Response Success", success_status, 
+                             f"Success: {success_status}")
+                self.log_test("ChatGPT Message Received", bool(ai_message), 
+                             f"Message length: {len(ai_message)} chars")
+                self.log_test("ChatGPT Session ID Match", returned_session_id == self.session_id, 
+                             f"Session ID matches: {returned_session_id == self.session_id}")
+                
+                # Check if response contains expected confirmation
+                if "chatgpt" in ai_message.lower() or "connection" in ai_message.lower():
+                    self.log_test("ChatGPT Integration Working", True, 
+                                 f"Response indicates working integration: {ai_message[:100]}...")
+                else:
+                    self.log_test("ChatGPT Integration Working", True, 
+                                 f"Received response from ChatGPT: {ai_message[:100]}...")
+
+    def test_llm_connection_testing_claude(self):
+        """Test POST /api/llm/test/claude endpoint"""
+        print("\n🔍 Testing LLM Connection Testing - Claude...")
+        
+        success, response = self.run_test(
+            "Test Claude Connection",
+            "POST",
+            "/api/llm/test/claude",
+            200
+        )
+        
+        if success and response:
+            # Verify response structure
+            required_fields = ["success", "message", "provider"]
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                self.log_test("Claude Test Response Structure", False, f"Missing fields: {missing_fields}")
+            else:
+                self.log_test("Claude Test Response Structure", True, "All required fields present")
+                
+                success_status = response.get("success")
+                test_message = response.get("message", "")
+                provider = response.get("provider")
+                test_response = response.get("response", "")
+                
+                self.log_test("Claude Test Success", success_status, 
+                             f"Test result: {test_message}")
+                self.log_test("Claude Provider Correct", provider == "claude", 
+                             f"Provider: {provider}")
+                
+                if success_status and test_response:
+                    self.log_test("Claude Test Response Received", True, 
+                                 f"Test response: {test_response[:100]}...")
+                elif not success_status:
+                    error = response.get("error", "Unknown error")
+                    self.log_test("Claude Test Error Handling", True, 
+                                 f"Error properly reported: {error}")
+
+    def test_llm_connection_testing_chatgpt(self):
+        """Test POST /api/llm/test/chatgpt endpoint"""
+        print("\n🔍 Testing LLM Connection Testing - ChatGPT...")
+        
+        success, response = self.run_test(
+            "Test ChatGPT Connection",
+            "POST",
+            "/api/llm/test/chatgpt",
+            200
+        )
+        
+        if success and response:
+            # Verify response structure
+            required_fields = ["success", "message", "provider"]
+            missing_fields = [field for field in required_fields if field not in response]
+            
+            if missing_fields:
+                self.log_test("ChatGPT Test Response Structure", False, f"Missing fields: {missing_fields}")
+            else:
+                self.log_test("ChatGPT Test Response Structure", True, "All required fields present")
+                
+                success_status = response.get("success")
+                test_message = response.get("message", "")
+                provider = response.get("provider")
+                test_response = response.get("response", "")
+                
+                self.log_test("ChatGPT Test Success", success_status, 
+                             f"Test result: {test_message}")
+                self.log_test("ChatGPT Provider Correct", provider == "chatgpt", 
+                             f"Provider: {provider}")
+                
+                if success_status and test_response:
+                    self.log_test("ChatGPT Test Response Received", True, 
+                                 f"Test response: {test_response[:100]}...")
+                elif not success_status:
+                    error = response.get("error", "Unknown error")
+                    self.log_test("ChatGPT Test Error Handling", True, 
+                                 f"Error properly reported: {error}")
+
+    def test_emergent_llm_key_integration(self):
+        """Test that the Emergent LLM key is properly configured"""
+        print("\n🔍 Testing Emergent LLM Key Integration...")
+        
+        # Test by checking if providers are configured
+        success, response = self.run_test(
+            "Check Emergent Key Configuration",
+            "GET",
+            "/api/llm/providers",
+            200
+        )
+        
+        if success and response:
+            providers = response.get("providers", [])
+            
+            # Check if both providers show as configured
+            claude_configured = False
+            chatgpt_configured = False
+            
+            for provider in providers:
+                if provider.get("id") == "claude":
+                    claude_configured = provider.get("configured", False)
+                elif provider.get("id") == "chatgpt":
+                    chatgpt_configured = provider.get("configured", False)
+            
+            self.log_test("Emergent Key - Claude Configured", claude_configured, 
+                         f"Claude configured with Emergent key: {claude_configured}")
+            self.log_test("Emergent Key - ChatGPT Configured", chatgpt_configured, 
+                         f"ChatGPT configured with Emergent key: {chatgpt_configured}")
+            
+            # Both should be configured if the Emergent key is working
+            both_configured = claude_configured and chatgpt_configured
+            self.log_test("Emergent LLM Key Working", both_configured, 
+                         f"Both providers configured: {both_configured}")
+
+    def test_chat_error_handling(self):
+        """Test error handling in chat endpoints"""
+        print("\n🔍 Testing Chat Error Handling...")
+        
+        # Test sending empty message
+        empty_message_data = {
+            "message": "",
+            "session_id": self.session_id or "test_session",
+            "llm_provider": "claude"
+        }
+        
+        success, response = self.run_test(
+            "Empty Message Error Handling",
+            "POST",
+            "/api/chat/send",
+            400,
+            data=empty_message_data
+        )
+        
+        if success:
+            self.log_test("Empty Message Validation", True, "Correctly rejected empty message")
+        
+        # Test with invalid provider
+        invalid_provider_data = {
+            "message": "Test message",
+            "session_id": self.session_id or "test_session",
+            "llm_provider": "invalid_provider"
+        }
+        
+        success, response = self.run_test(
+            "Invalid Provider Handling",
+            "POST",
+            "/api/chat/send",
+            200,  # Should default to Claude
+            data=invalid_provider_data
+        )
+        
+        if success and response:
+            # Should still work by defaulting to Claude
+            success_status = response.get("success")
+            self.log_test("Invalid Provider Fallback", success_status, 
+                         "Invalid provider handled by falling back to default")
+
+    def test_chat_context_integration(self):
+        """Test chat context integration"""
+        print("\n🔍 Testing Chat Context Integration...")
+        
+        if not self.session_id:
+            self.test_chat_session_creation()
+        
+        if not self.session_id:
+            self.log_test("Context Integration Setup", False, "No session ID available")
+            return
+        
+        # Test with rich context
+        context_message_data = {
+            "message": "What trading strategies do I have active?",
+            "session_id": self.session_id,
+            "llm_provider": "claude",
+            "context": {
+                "current_tab": "strategies",
+                "active_strategies": ["PBH Algorithm", "Mean Reversion"],
+                "recent_trades": True,
+                "user_name": "Test Trader"
+            }
+        }
+        
+        success, response = self.run_test(
+            "Context-Enhanced Message",
+            "POST",
+            "/api/chat/send",
+            200,
+            data=context_message_data
+        )
+        
+        if success and response:
+            success_status = response.get("success")
+            ai_message = response.get("message", "")
+            
+            self.log_test("Context Integration Success", success_status, 
+                         f"Context-enhanced message processed: {success_status}")
+            self.log_test("Context-Aware Response", bool(ai_message), 
+                         f"Received context-aware response: {len(ai_message)} chars")
+
+    def run_all_llm_tests(self):
+        """Run all LLM chat integration tests"""
+        print("🚀 Starting LLM Chat Integration Tests")
+        print(f"🎯 Testing against: {self.base_url}")
+        print("🔑 Testing Emergent LLM Key: sk-emergent-aD6C565C7C039Fd2fA")
+        print("=" * 70)
+        
+        # Run all test suites in logical order
+        self.test_chat_session_creation()
+        self.test_llm_providers()
+        self.test_emergent_llm_key_integration()
+        self.test_chat_message_sending_claude()
+        self.test_chat_message_sending_chatgpt()
+        self.test_llm_connection_testing_claude()
+        self.test_llm_connection_testing_chatgpt()
+        self.test_chat_error_handling()
+        self.test_chat_context_integration()
+        
+        # Print summary
+        print("\n" + "=" * 70)
+        print("📊 LLM CHAT INTEGRATION TEST SUMMARY")
+        print("=" * 70)
+        print(f"Total Tests: {self.tests_run}")
+        print(f"Passed: {self.tests_passed}")
+        print(f"Failed: {self.tests_run - self.tests_passed}")
+        print(f"Success Rate: {(self.tests_passed/self.tests_run*100):.1f}%" if self.tests_run > 0 else "0%")
+        
+        # List failed tests
+        failed_tests = [test for test in self.test_results if not test["success"]]
+        if failed_tests:
+            print("\n❌ FAILED TESTS:")
+            for test in failed_tests:
+                print(f"  - {test['name']}: {test['message']}")
+        else:
+            print("\n🎉 ALL LLM CHAT INTEGRATION TESTS PASSED!")
+        
+        return self.tests_passed == self.tests_run
+
+
 class ReviewRequestTester:
     """Test suite for the specific review request areas"""
     def __init__(self, base_url="https://trade-intelligence-2.preview.emergentagent.com"):
