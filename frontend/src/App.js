@@ -607,30 +607,39 @@ function App() {
                 <Label className="text-sm font-medium">Claude (Anthropic)</Label>
                 <p className="text-xs text-gray-500">AI assistant for trading insights</p>
               </div>
-              <Badge variant={llmConnectivity.claude.configured ? "default" : "secondary"}>
-                {llmConnectivity.claude.configured ? "Configured" : "Not Configured"}
+              <Badge variant="default" className="bg-green-500">
+                Configured
               </Badge>
             </div>
             <div className="flex gap-2">
               <Button 
                 variant="outline" 
                 size="sm"
-                onClick={() => {
-                  // Configure Claude connection
-                  setLLMConnectivity(prev => ({
-                    ...prev,
-                    claude: { ...prev.claude, configured: true, status: 'connected' }
-                  }));
+                onClick={async () => {
+                  try {
+                    const response = await fetch(`${BACKEND_URL}/api/llm/test/claude`, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' }
+                    });
+                    const data = await response.json();
+                    if (data.success) {
+                      alert('Claude connection successful!');
+                    } else {
+                      alert('Claude connection failed: ' + data.error);
+                    }
+                  } catch (error) {
+                    alert('Connection test failed: ' + error.message);
+                  }
                 }}
               >
-                {llmConnectivity.claude.configured ? "Reconfigure" : "Configure"}
+                Test Connection
               </Button>
               <Button 
                 variant="outline" 
                 size="sm"
-                disabled={!llmConnectivity.claude.configured}
+                onClick={() => alert('Claude is configured using Emergent LLM Key')}
               >
-                Test Connection
+                View Configuration
               </Button>
             </div>
           </div>
@@ -644,30 +653,39 @@ function App() {
                 <Label className="text-sm font-medium">ChatGPT (OpenAI)</Label>
                 <p className="text-xs text-gray-500">AI assistant for trading analysis</p>
               </div>
-              <Badge variant={llmConnectivity.chatgpt.configured ? "default" : "secondary"}>
-                {llmConnectivity.chatgpt.configured ? "Configured" : "Not Configured"}
+              <Badge variant="default" className="bg-green-500">
+                Configured
               </Badge>
             </div>
             <div className="flex gap-2">
               <Button 
                 variant="outline" 
                 size="sm"
-                onClick={() => {
-                  // Configure ChatGPT connection
-                  setLLMConnectivity(prev => ({
-                    ...prev,
-                    chatgpt: { ...prev.chatgpt, configured: true, status: 'connected' }
-                  }));
+                onClick={async () => {
+                  try {
+                    const response = await fetch(`${BACKEND_URL}/api/llm/test/chatgpt`, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' }
+                    });
+                    const data = await response.json();
+                    if (data.success) {
+                      alert('ChatGPT connection successful!');
+                    } else {
+                      alert('ChatGPT connection failed: ' + data.error);
+                    }
+                  } catch (error) {
+                    alert('Connection test failed: ' + error.message);
+                  }
                 }}
               >
-                {llmConnectivity.chatgpt.configured ? "Reconfigure" : "Configure"}
+                Test Connection
               </Button>
               <Button 
                 variant="outline" 
                 size="sm"
-                disabled={!llmConnectivity.chatgpt.configured}
+                onClick={() => alert('ChatGPT is configured using Emergent LLM Key')}
               >
-                Test Connection
+                View Configuration
               </Button>
             </div>
           </div>
