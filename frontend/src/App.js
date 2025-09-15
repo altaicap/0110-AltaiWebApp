@@ -300,6 +300,15 @@ function App() {
   const [isChatLoading, setIsChatLoading] = useState(false);
   const [selectedLLM, setSelectedLLM] = useState('claude'); // Default to Claude
   
+  // Navigation and authentication state
+  const [showLandingPage, setShowLandingPage] = useState(true); // Navigation state
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentAuthUser, setCurrentAuthUser] = useState(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authMode, setAuthMode] = useState('login');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  
   // Chat functions
   const sendChatMessage = async () => {
     if (!chatInput.trim() || isChatLoading) return;
