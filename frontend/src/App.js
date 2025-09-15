@@ -49,7 +49,6 @@ import {
   StopCircle,
   Eye,
   EyeOff,
-  Calendar,
   ChevronLeft,
   ChevronRight,
   UserPlus,
