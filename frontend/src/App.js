@@ -169,18 +169,18 @@ const ChatInterface = ({
       <div className={`p-4 border-b ${isDarkTheme ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'}`}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <MessageSquare className="w-5 h-5" />
-            <h2 className="text-lg font-semibold">AI Assistant</h2>
+            <MessageSquare className={`w-5 h-5 ${isDarkTheme ? 'text-gray-200' : 'text-gray-700'}`} />
+            <h2 className={`text-lg font-semibold ${isDarkTheme ? 'text-gray-100' : 'text-gray-900'}`}>AI Assistant</h2>
           </div>
           <div className="flex items-center gap-2">
             {/* LLM Selection Dropdown */}
             <Select value={selectedLLM} onValueChange={setSelectedLLM}>
-              <SelectTrigger className="w-32">
+              <SelectTrigger className={`w-32 ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-gray-200' : 'bg-white border-gray-300'}`}>
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="claude">Claude</SelectItem>
-                <SelectItem value="chatgpt">ChatGPT</SelectItem>
+              <SelectContent className={isDarkTheme ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}>
+                <SelectItem value="claude" className={isDarkTheme ? 'text-gray-200 hover:bg-gray-600' : ''}>Claude</SelectItem>
+                <SelectItem value="chatgpt" className={isDarkTheme ? 'text-gray-200 hover:bg-gray-600' : ''}>ChatGPT</SelectItem>
               </SelectContent>
             </Select>
             <Button
@@ -188,6 +188,7 @@ const ChatInterface = ({
               size="sm"
               onClick={clearChatHistory}
               title="Clear chat history"
+              className={isDarkTheme ? 'border-gray-600 text-gray-200 hover:bg-gray-700' : ''}
             >
               <RotateCcw className="w-4 h-4" />
             </Button>
@@ -196,11 +197,11 @@ const ChatInterface = ({
       </div>
 
       {/* Chat Messages */}
-      <ScrollArea className="flex-1 p-4">
+      <ScrollArea className={`flex-1 p-4 ${isDarkTheme ? 'bg-gray-900' : 'bg-gray-50'}`}>
         {chatMessages.length === 0 ? (
           <div className={`text-center py-8 ${isDarkTheme ? 'text-gray-400' : 'text-gray-500'}`}>
             <MessageSquare className="w-12 h-12 mx-auto mb-4 opacity-50" />
-            <h3 className="text-lg font-medium mb-2">How can I help you today?</h3>
+            <h3 className={`text-lg font-medium mb-2 ${isDarkTheme ? 'text-gray-200' : 'text-gray-700'}`}>How can I help you today?</h3>
             <div className="text-sm space-y-1 max-w-sm mx-auto">
               <p>• Ask about your recent trades and performance</p>
               <p>• Learn about strategy settings and parameters</p>
@@ -220,7 +221,7 @@ const ChatInterface = ({
                     message.role === 'user'
                       ? 'bg-blue-600 text-white'
                       : isDarkTheme
-                      ? 'bg-gray-700 text-gray-100'
+                      ? 'bg-gray-800 text-gray-100 border border-gray-700'
                       : 'bg-gray-100 text-gray-900'
                   }`}
                 >
@@ -237,10 +238,10 @@ const ChatInterface = ({
             ))}
             {isChatLoading && (
               <div className="flex justify-start">
-                <div className={`p-3 rounded-lg ${isDarkTheme ? 'bg-gray-700' : 'bg-gray-100'}`}>
+                <div className={`p-3 rounded-lg ${isDarkTheme ? 'bg-gray-800 border border-gray-700' : 'bg-gray-100'}`}>
                   <div className="flex items-center gap-2">
                     <RefreshCw className="w-4 h-4 animate-spin" />
-                    <span>Thinking...</span>
+                    <span className={isDarkTheme ? 'text-gray-200' : 'text-gray-700'}>Thinking...</span>
                   </div>
                 </div>
               </div>
@@ -256,7 +257,7 @@ const ChatInterface = ({
             value={chatInput}
             onChange={(e) => setChatInput(e.target.value)}
             placeholder="Ask me anything about your trading strategies..."
-            className="flex-1"
+            className={`flex-1 ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-gray-200 placeholder-gray-400' : ''}`}
             onKeyPress={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -268,7 +269,7 @@ const ChatInterface = ({
           <Button
             onClick={sendChatMessage}
             disabled={!chatInput.trim() || isChatLoading}
-            className="px-3"
+            className={`px-3 ${isDarkTheme ? 'bg-blue-600 hover:bg-blue-700' : ''}`}
           >
             <Send className="w-4 h-4" />
           </Button>
