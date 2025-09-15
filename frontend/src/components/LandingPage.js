@@ -509,23 +509,23 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme }) => 
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-8 items-center justify-items-center">
             <div className="flex flex-col items-center">
-              <img src={PolygonLogo} alt="Polygon" className="h-12 w-auto mb-2 opacity-70 hover:opacity-100 transition-opacity" />
+              <img src={PolygonLogo} alt="Polygon" className="h-12 w-auto mb-2 opacity-70 hover:opacity-100 transition-opacity object-contain" />
               <span className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>Polygon</span>
             </div>
             <div className="flex flex-col items-center">
-              <img src={NewsWareLogo} alt="NewsWare" className="h-12 w-auto mb-2 opacity-70 hover:opacity-100 transition-opacity" />
+              <img src={NewsWareLogo} alt="NewsWare" className="h-12 w-auto mb-2 opacity-70 hover:opacity-100 transition-opacity object-contain" />
               <span className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>NewsWare</span>
             </div>
             <div className="flex flex-col items-center">
-              <img src={TradeXchangeLogo} alt="TradeXchange" className="h-12 w-auto mb-2 opacity-70 hover:opacity-100 transition-opacity" />
+              <img src={TradeXchangeLogo} alt="TradeXchange" className="h-12 w-auto mb-2 opacity-70 hover:opacity-100 transition-opacity object-contain" />
               <span className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>TradeXchange</span>
             </div>
             <div className="flex flex-col items-center">
-              <img src={TradeStationLogo} alt="TradeStation" className="h-12 w-auto mb-2 opacity-70 hover:opacity-100 transition-opacity" />
+              <img src={TradeStationLogo} alt="TradeStation" className="h-12 w-auto mb-2 opacity-70 hover:opacity-100 transition-opacity object-contain" />
               <span className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>TradeStation</span>
             </div>
             <div className="flex flex-col items-center">
-              <img src={IBKRLogo} alt="Interactive Brokers" className="h-12 w-auto mb-2 opacity-70 hover:opacity-100 transition-opacity" />
+              <img src={IBKRLogo} alt="Interactive Brokers" className="h-12 w-auto mb-2 opacity-70 hover:opacity-100 transition-opacity object-contain" />
               <span className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>IBKR</span>
             </div>
           </div>
