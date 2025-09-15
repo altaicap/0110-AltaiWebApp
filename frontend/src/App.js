@@ -3253,118 +3253,13 @@ metadata = {
     );
   };
 
-  // LLM Chat Interface Component
-  const ChatInterface = () => {
-    return (
-      <div className="h-full flex flex-col">
-        {/* Chat Header */}
-        <div className={`p-4 border-b ${isDarkTheme ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'}`}>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <MessageSquare className="w-5 h-5" />
-              <h2 className="text-lg font-semibold">AI Assistant</h2>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={clearChatHistory}
-              className="text-gray-500 hover:text-gray-700"
-            >
-              <RotateCcw className="w-4 h-4" />
-            </Button>
-          </div>
-          <p className="text-sm text-gray-500 mt-1">
-            Get help with trading strategies, analysis, and platform usage
-          </p>
-        </div>
-        
-        {/* Chat Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
-          {chatMessages.length === 0 && (
-            <div className="text-center text-gray-500 py-8">
-              <MessageSquare className="w-12 h-12 mx-auto mb-4 opacity-30" />
-              <p className="text-lg font-medium mb-2">Welcome to Altai Trader AI</p>
-              <p className="text-sm">
-                I can help you analyze your trading strategies, interpret market data, 
-                and provide insights on your portfolio performance.
-              </p>
-              <div className="mt-4 text-xs">
-                <p className="mb-2"><strong>Try asking:</strong></p>
-                <div className="space-y-1">
-                  <p>"How is my Prior Bar Break strategy performing?"</p>
-                  <p>"What should I know about the latest market news?"</p>
-                  <p>"Help me optimize my risk management settings"</p>
-                </div>
-              </div>
-            </div>
-          )}
-          
-          {chatMessages.map((message) => (
-            <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div
-                className={`max-w-[80%] p-3 rounded-lg ${
-                  message.type === 'user'
-                    ? 'bg-blue-600 text-white ml-4'
-                    : `${isDarkTheme ? 'bg-gray-700 text-gray-100' : 'bg-gray-100 text-gray-900'} mr-4 ${
-                        message.isError ? 'border border-red-300' : ''
-                      }`
-                }`}
-              >
-                <div className="text-sm whitespace-pre-wrap">
-                  {message.content}
-                </div>
-                <div className={`text-xs mt-1 opacity-70 ${
-                  message.type === 'user' ? 'text-blue-100' : 'text-gray-500'
-                }`}>
-                  {message.timestamp.toLocaleTimeString()}
-                </div>
-              </div>
-            </div>
-          ))}
-          
-          {isChatLoading && (
-            <div className="flex justify-start">
-              <div className={`p-3 rounded-lg ${isDarkTheme ? 'bg-gray-700' : 'bg-gray-100'} mr-4`}>
-                <div className="flex items-center space-x-2">
-                  <div className="animate-pulse flex space-x-1">
-                    <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                    <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
-                  </div>
-                  <span className="text-sm text-gray-500">Thinking...</span>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-        
-        {/* Chat Input */}
-        <div className={`p-4 border-t ${isDarkTheme ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'}`}>
-          <div className="flex gap-2">
-            <Input
-              value={chatInput}
-              onChange={(e) => setChatInput(e.target.value)}
-              placeholder="Ask me anything about your trading strategies..."
-              className="flex-1"
-              onKeyPress={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  sendChatMessage();
-                }
-              }}
-              disabled={isChatLoading}
-            />
-            <Button
-              onClick={sendChatMessage}
-              disabled={!chatInput.trim() || isChatLoading}
-              className="px-3"
-            >
-              <Send className="w-4 h-4" />
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
+  // Format currency helper (moved from inside component)
+  const formatCurrency = (amount) => {
+    if (typeof amount === 'string') return amount;
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(amount);
   };
 
   // Dashboard Tab Component
