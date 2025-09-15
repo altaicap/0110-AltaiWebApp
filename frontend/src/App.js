@@ -4809,7 +4809,14 @@ metadata = {
     );
   };
 
-  // Define theme helper - only light or dark
+  // Theme toggle function
+  const toggleTheme = () => {
+    const newTheme = appSettings.theme === 'light' ? 'dark' : 'light';
+    setAppSettings(prev => ({ ...prev, theme: newTheme }));
+    localStorage.setItem('appSettings', JSON.stringify({ ...appSettings, theme: newTheme }));
+  };
+
+  // Theme helper
   const isDarkTheme = appSettings.theme === 'dark';
 
   // Helper function to calculate article latency
