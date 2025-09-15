@@ -171,6 +171,7 @@ function App() {
   const [chatInput, setChatInput] = useState('');
   const [chatSessionId, setChatSessionId] = useState(null);
   const [isChatLoading, setIsChatLoading] = useState(false);
+  const [selectedLLM, setSelectedLLM] = useState('claude'); // Default to Claude
   
   // Chat functions
   const sendChatMessage = async () => {
