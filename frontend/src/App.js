@@ -440,6 +440,7 @@ function App() {
         setCurrentAuthUser(data.user);
         setShowAuthModal(false);
         setSuccess('Account created successfully');
+        setShowLandingPage(false); // Redirect to dashboard after successful registration
         
         // Reset form
         setAuthForm({ email: '', password: '', fullName: '', confirmPassword: '' });
