@@ -4852,6 +4852,7 @@ metadata = {
           }}
           onGoToDashboard={() => setShowLandingPage(false)}
           isDarkTheme={isDarkTheme}
+          onToggleTheme={toggleTheme}
         />
         
         {/* Authentication Modal - Available on landing page */}
