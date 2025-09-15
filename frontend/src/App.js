@@ -5034,6 +5034,16 @@ metadata = {
                   <div className={`w-3 h-3 rounded ${getStatusColor(integrationStatus.tradexchange)}`} />
                   <span className="text-xs text-gray-600">TradeXchange API</span>
                 </div>
+                
+                <div className="flex items-center gap-1">
+                  <div className="w-3 h-3 rounded bg-green-500" />
+                  <span className="text-xs text-gray-600">Claude</span>
+                </div>
+                
+                <div className="flex items-center gap-1">
+                  <div className="w-3 h-3 rounded bg-green-500" />
+                  <span className="text-xs text-gray-600">ChatGPT</span>
+                </div>
               </div>
 
               {/* Landing Page Button */}
