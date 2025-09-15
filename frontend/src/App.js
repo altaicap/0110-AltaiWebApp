@@ -3018,6 +3018,179 @@ metadata = {
     );
   };
 
+  // Dashboard Tab Component
+  const DashboardTab = () => {
+    const currentDate = new Date();
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    const formatCurrency = (value) => {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+      }).format(value);
+    };
+
+    const navigateMonth = (direction) => {
+      const newDate = new Date(dashboardMonth);
+      newDate.setMonth(newDate.getMonth() + direction);
+      setDashboardMonth(newDate);
+    };
+
+    return (
+      <div className="space-y-6">
+        {/* Account Selection */}
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold">Dashboard</h2>
+          <div className="flex items-center gap-4">
+            <Label htmlFor="dashboard-account">Account:</Label>
+            <Select value={selectedDashboardAccount} onValueChange={setSelectedDashboardAccount}>
+              <SelectTrigger className="w-48" id="dashboard-account">
+                <SelectValue placeholder="Select account" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Accounts Combined</SelectItem>
+                <SelectItem value="tradestation">TradeStation Account</SelectItem>
+                <SelectItem value="ibkr">Interactive Brokers</SelectItem>
+                <SelectItem value="paper">Paper Trading Account</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        {/* Dashboard Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          {/* Daily Net Cumulative P&L */}
+          <Card className="relative pane-enhanced">
+            <PaneControls paneId="daily-cumulative-pl" />
+            <CardHeader>
+              <CardTitle>Daily Net Cumulative P&L</CardTitle>
+              <CardDescription>Total cumulative profit/loss from account inception</CardDescription>
+            </CardHeader>
+            {!minimizedPanes.has('daily-cumulative-pl') && (
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="text-3xl font-bold text-green-600">
+                    {formatCurrency(dashboardData.dailyNetPL)}
+                  </div>
+                  <div className="h-48 bg-gray-50 rounded-lg flex items-center justify-center">
+                    <div className="text-center text-gray-500">
+                      <BarChart3 className="w-8 h-8 mx-auto mb-2" />
+                      <p>Cumulative P&L Line Chart</p>
+                      <p className="text-sm">Daily cumulative progression</p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            )}
+          </Card>
+
+          {/* Net Daily P&L */}
+          <Card className="relative pane-enhanced">
+            <PaneControls paneId="daily-pl" />
+            <CardHeader>
+              <CardTitle>Net Daily P&L</CardTitle>
+              <CardDescription>Individual day profit/loss performance</CardDescription>
+            </CardHeader>
+            {!minimizedPanes.has('daily-pl') && (
+              <CardContent>
+                <div className="h-48 bg-gray-50 rounded-lg flex items-center justify-center">
+                  <div className="text-center text-gray-500">
+                    <BarChart3 className="w-8 h-8 mx-auto mb-2" />
+                    <p>Daily P&L Bar Chart</p>
+                    <p className="text-sm">Each bar represents one day's P&L</p>
+                  </div>
+                </div>
+              </CardContent>
+            )}
+          </Card>
+
+          {/* Calendar */}
+          <Card className="relative pane-enhanced">
+            <PaneControls paneId="dashboard-calendar" />
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle>{monthNames[dashboardMonth.getMonth()]} {dashboardMonth.getFullYear()}</CardTitle>
+                  <CardDescription>Trading calendar and activity</CardDescription>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => navigateMonth(-1)}
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => navigateMonth(1)}
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            </CardHeader>
+            {!minimizedPanes.has('dashboard-calendar') && (
+              <CardContent>
+                <div className="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
+                  <div className="text-center text-gray-500">
+                    <CalendarIcon className="w-8 h-8 mx-auto mb-2" />
+                    <p>Trading Calendar</p>
+                    <p className="text-sm">Monthly view with P&L indicators</p>
+                  </div>
+                </div>
+              </CardContent>
+            )}
+          </Card>
+
+          {/* Recent Trades */}
+          <Card className="relative pane-enhanced">
+            <PaneControls paneId="recent-trades" />
+            <CardHeader>
+              <CardTitle>Recent Trades</CardTitle>
+              <CardDescription>Latest trading activity and performance</CardDescription>
+            </CardHeader>
+            {!minimizedPanes.has('recent-trades') && (
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Close Date</TableHead>
+                        <TableHead>Ticker</TableHead>
+                        <TableHead>Net P&L</TableHead>
+                        <TableHead>R-Units Return</TableHead>
+                        <TableHead>Strategy</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {dashboardData.recentTrades.map((trade) => (
+                        <TableRow key={trade.id}>
+                          <TableCell>{trade.closeDate}</TableCell>
+                          <TableCell className="font-semibold">{trade.ticker}</TableCell>
+                          <TableCell className={trade.netPL.startsWith('+') ? 'text-green-600' : 'text-red-600'}>
+                            {trade.netPL}
+                          </TableCell>
+                          <TableCell className={trade.rUnits.startsWith('+') ? 'text-green-600' : 'text-red-600'}>
+                            {trade.rUnits}
+                          </TableCell>
+                          <TableCell className="text-sm text-gray-600">{trade.strategy}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </CardContent>
+            )}
+          </Card>
+        </div>
+      </div>
+    );
+  };
+
   // Backtest Tab Component  
   const BacktestTab = () => {
     const addSymbol = () => {
