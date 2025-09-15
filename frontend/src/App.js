@@ -3430,22 +3430,27 @@ metadata = {
 
     return (
       <div className="space-y-6">
-        {/* Account Selection */}
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold">Dashboard</h2>
-          <div className="flex items-center gap-4">
-            <Label htmlFor="dashboard-account">Account:</Label>
-            <Select value={selectedDashboardAccount} onValueChange={setSelectedDashboardAccount}>
-              <SelectTrigger className="w-48" id="dashboard-account">
-                <SelectValue placeholder="Select account" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Accounts Combined</SelectItem>
-                <SelectItem value="tradestation">TradeStation Account</SelectItem>
-                <SelectItem value="ibkr">Interactive Brokers</SelectItem>
-                <SelectItem value="paper">Paper Trading Account</SelectItem>
-              </SelectContent>
-            </Select>
+        {/* Dashboard Header */}
+        <div className="tab-header-enhanced">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold mb-4">DASHBOARD</h2>
+              <p className="text-gray-600 mb-6">Trading performance overview and recent activity</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <Label htmlFor="dashboard-account">Account:</Label>
+              <Select value={selectedDashboardAccount} onValueChange={setSelectedDashboardAccount}>
+                <SelectTrigger className="w-48" id="dashboard-account">
+                  <SelectValue placeholder="Select account" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Accounts Combined</SelectItem>
+                  <SelectItem value="tradestation">TradeStation Account</SelectItem>
+                  <SelectItem value="ibkr">Interactive Brokers</SelectItem>
+                  <SelectItem value="paper">Paper Trading Account</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
 
