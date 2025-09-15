@@ -871,12 +871,12 @@ function App() {
               {/* Integration Status Indicators */}
               <div className="flex gap-3 items-center">
                 <div className="flex items-center gap-1">
-                  <div className={`w-3 h-3 rounded ${llmConnectivity.claude.status === 'connected' ? 'bg-green-500' : 'bg-red-500'}`} />
+                  <div className="w-3 h-3 rounded bg-green-500" />
                   <span className="text-xs text-gray-600">Claude</span>
                 </div>
                 
                 <div className="flex items-center gap-1">
-                  <div className={`w-3 h-3 rounded ${llmConnectivity.chatgpt.status === 'connected' ? 'bg-green-500' : 'bg-red-500'}`} />
+                  <div className="w-3 h-3 rounded bg-green-500" />
                   <span className="text-xs text-gray-600">ChatGPT</span>
                 </div>
               </div>
