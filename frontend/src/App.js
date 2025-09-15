@@ -5880,12 +5880,4 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
   );
 };
 
-            </Tabs>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default App;
