@@ -5080,7 +5080,6 @@ metadata = {
                   Sign In
                 </Button>
               )}
-            </div>
 
               {/* Tab Contents */}
               <TabsContent value="dashboard" className="flex-1 p-6 overflow-auto">
