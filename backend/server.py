@@ -2166,8 +2166,8 @@ async def send_chat_message(
 
 @app.get("/api/chat/history/{session_id}")
 async def get_chat_history(
-    session_id: str,
-    current_user: dict = Depends(get_current_user)
+    session_id: str
+    # current_user: dict = Depends(get_current_user)  # Temporarily disabled
 ):
     """Get conversation history"""
     try:
@@ -2185,8 +2185,8 @@ async def get_chat_history(
 
 @app.post("/api/chat/clear/{session_id}")
 async def clear_chat_history(
-    session_id: str,
-    current_user: dict = Depends(get_current_user)
+    session_id: str
+    # current_user: dict = Depends(get_current_user)  # Temporarily disabled
 ):
     """Clear conversation history"""
     try:
