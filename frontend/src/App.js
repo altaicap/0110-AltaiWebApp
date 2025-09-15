@@ -5086,6 +5086,56 @@ metadata = {
             </div>
           </div>
         </div>
+      </header>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          {/* Primary Tabs */}
+          <TabsList className="grid w-full grid-cols-5 px-6">
+            <TabsTrigger value="dashboard" className="flex items-center gap-2 px-6 uppercase">
+              <BarChart3 className="w-4 h-4" />
+              DASHBOARD
+            </TabsTrigger>
+            <TabsTrigger value="strategies" className="flex items-center gap-2 px-6 uppercase">
+              <TrendingUp className="w-4 h-4" />
+              STRATEGIES
+            </TabsTrigger>
+            <TabsTrigger value="backtest" className="flex items-center gap-2 px-6 uppercase">
+              <PlayCircle className="w-4 h-4" />
+              BACKTEST
+            </TabsTrigger>
+            <TabsTrigger value="news" className="flex items-center gap-2 px-6 uppercase">
+              <FileText className="w-4 h-4" />
+              NEWS
+            </TabsTrigger>
+            <TabsTrigger value="settings" className="flex items-center gap-2 px-6 uppercase">
+              <Settings className="w-4 h-4" />
+              SETTINGS
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Live Strategy Tabs (Second Row) */}
+          {liveTabs.length > 0 && (
+            <div className="flex gap-2 mt-2">
+              {liveTabs.map((tabName) => {
+                const liveStrategy = liveStrategies.find(s => s.name === tabName);
+                return (
+                  <Button
+                    key={tabName}
+                    variant={activeTab === `live-${tabName}` ? "default" : "outline"}
+                    size="sm"
+                    className="bg-green-100 border-green-300 text-green-800 hover:bg-green-200"
+                    onClick={() => setActiveTab(`live-${tabName}`)}
+                  >
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse" />
+                    {tabName} - {formatRuntime(liveStrategy?.startTime)}
+                  </Button>
+                );
+              })}
+            </div>
+          )}
+
           <TabsContent value="dashboard" className="tab-content-padding">
             <DashboardTab />
           </TabsContent>
