@@ -194,6 +194,16 @@ function App() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showLandingPage, setShowLandingPage] = useState(true); // Navigation state
+  
+  // Dashboard state
+  const [selectedDashboardAccount, setSelectedDashboardAccount] = useState('all');
+  const [dashboardMonth, setDashboardMonth] = useState(new Date());
+  const [dashboardData, setDashboardData] = useState({
+    dailyNetPL: 2450.75,
+    cumulativePLHistory: [],
+    dailyPLHistory: [],
+    recentTrades: []
+  });
   const [integrationStatus, setIntegrationStatus] = useState({
     polygon: 'connected',
     newsware: 'connected', 
