@@ -16,7 +16,7 @@ import IBKRLogo from '../assets/ibkr-logo.png';
 // import BacktestScreenshot from '../assets/backtest-screenshot.png';
 // import NewsScreenshot from '../assets/news-screenshot.png';
 
-const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme }) => {
+const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onToggleTheme }) => {
   // Typing animation state
   const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
   const [currentText, setCurrentText] = useState('');
