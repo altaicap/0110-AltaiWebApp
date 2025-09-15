@@ -395,6 +395,7 @@ function App() {
         setCurrentAuthUser(data.user);
         setShowAuthModal(false);
         setSuccess('Login successful');
+        setShowLandingPage(false); // Redirect to dashboard after successful login
         
         // Reset form
         setAuthForm({ email: '', password: '', fullName: '', confirmPassword: '' });
