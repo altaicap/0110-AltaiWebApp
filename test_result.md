@@ -640,7 +640,7 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
 
 ## test_plan:
   current_focus:
-    - "Overall System Health Verification"
+    - "LLM Chat Integration Testing"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
