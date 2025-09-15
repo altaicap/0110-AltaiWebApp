@@ -2153,7 +2153,7 @@ async def send_chat_message(
         })
         
         # Send message
-        response = await chat_service.send_message(session_id, message, user_context)
+        response = await chat_service.send_message(session_id, message, llm_provider, user_context)
         
         return response
         
