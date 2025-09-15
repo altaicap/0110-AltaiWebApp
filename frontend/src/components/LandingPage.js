@@ -170,31 +170,27 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme }) => 
         </div>
       </header>
 
-      {/* Main Banner - Extended to full height */}
-      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800">
-        <div className="absolute inset-0 bg-black/20"></div>
+      {/* Main Banner - Extended to full height with white background */}
+      <section className="relative min-h-screen flex items-center justify-center bg-white">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-              Trade What Matters
-            </h1>
-            
-            {/* Typing Animation */}
-            <div className="h-20 flex items-center justify-center mb-8">
-              <p className="text-xl md:text-2xl text-blue-100 font-medium">
+            {/* Typing Animation as Main Title */}
+            <div className="mb-6">
+              <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent leading-tight min-h-[1.2em] flex items-center justify-center">
                 {currentText}
-                <span className={`${showCursor ? 'opacity-100' : 'opacity-0'} transition-opacity`}>|</span>
-              </p>
+                <span className={`${showCursor ? 'opacity-100' : 'opacity-0'} transition-opacity text-blue-600`}>|</span>
+              </h1>
             </div>
             
-            <p className="text-xl text-blue-100 mb-12 max-w-2xl mx-auto">
-              Backtest ideas, connect news, execute with confidence using our comprehensive trading platform
+            {/* Static Subtitle */}
+            <p className="text-xl md:text-2xl text-gray-500 mb-12 max-w-2xl mx-auto font-medium">
+              Maximize Your Profits with AI-Powered Algorithmic Trading
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
               <Button 
                 size="lg" 
-                className="bg-white text-blue-600 hover:bg-gray-100 text-lg px-8 py-4"
+                className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-4"
                 onClick={onRegister}
               >
                 Get Started for Free
@@ -203,7 +199,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme }) => 
               <Button 
                 variant="outline" 
                 size="lg"
-                className="border-white text-white hover:bg-white hover:text-blue-600 text-lg px-8 py-4"
+                className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white text-lg px-8 py-4"
                 onClick={onGoToDashboard}
               >
                 View Demo
@@ -212,23 +208,23 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme }) => 
           </div>
           
           {/* Highlighted Figures */}
-          <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 w-full max-w-4xl">
+          <div className="w-full max-w-4xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              <div className="text-white">
-                <div className="text-3xl md:text-4xl font-bold mb-2">5+</div>
-                <div className="text-blue-200 text-sm uppercase tracking-wide">Exchanges</div>
+              <div className="text-gray-700">
+                <div className="text-3xl md:text-4xl font-bold mb-2 text-blue-600">5+</div>
+                <div className="text-gray-500 text-sm uppercase tracking-wide">Exchanges</div>
               </div>
-              <div className="text-white">
-                <div className="text-3xl md:text-4xl font-bold mb-2">$2M+</div>
-                <div className="text-blue-200 text-sm uppercase tracking-wide">Monthly Trading Volume</div>
+              <div className="text-gray-700">
+                <div className="text-3xl md:text-4xl font-bold mb-2 text-blue-600">$2M+</div>
+                <div className="text-gray-500 text-sm uppercase tracking-wide">Monthly Trading Volume</div>
               </div>
-              <div className="text-white">
-                <div className="text-3xl md:text-4xl font-bold mb-2">99.9%</div>
-                <div className="text-blue-200 text-sm uppercase tracking-wide">Uptime</div>
+              <div className="text-gray-700">
+                <div className="text-3xl md:text-4xl font-bold mb-2 text-blue-600">99.9%</div>
+                <div className="text-gray-500 text-sm uppercase tracking-wide">Uptime</div>
               </div>
-              <div className="text-white">
-                <div className="text-3xl md:text-4xl font-bold mb-2">2k+</div>
-                <div className="text-blue-200 text-sm uppercase tracking-wide">Optimised Rs</div>
+              <div className="text-gray-700">
+                <div className="text-3xl md:text-4xl font-bold mb-2 text-blue-600">2k+</div>
+                <div className="text-gray-500 text-sm uppercase tracking-wide">Optimised Rs</div>
               </div>
             </div>
           </div>
