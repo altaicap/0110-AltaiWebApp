@@ -2118,6 +2118,111 @@ async def submit_support_request(
             detail=f"Error submitting support request: {str(e)}"
         )
 
+# =====================================
+# CHAT ENDPOINTS
+# =====================================
+
+@app.post("/api/chat/send")
+async def send_chat_message(
+    request: dict,
+    current_user: dict = Depends(get_current_user)
+):
+    """Send a message to the AI assistant"""
+    try:
+        from services.chat_service import chat_service
+        
+        message = request.get('message', '')
+        session_id = request.get('session_id')
+        user_context = request.get('context', {})
+        
+        if not message.strip():
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Message cannot be empty"
+            )
+        
+        # Create session if not provided
+        if not session_id:
+            session_id = await chat_service.create_chat_session(current_user['id'])
+        
+        # Add user context
+        user_context.update({
+            'user_id': current_user['id'],
+            'user_name': current_user.get('full_name', 'User')
+        })
+        
+        # Send message
+        response = await chat_service.send_message(session_id, message, user_context)
+        
+        return response
+        
+    except Exception as e:
+        logger.error(f"Error sending chat message: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error sending message: {str(e)}"
+        )
+
+@app.get("/api/chat/history/{session_id}")
+async def get_chat_history(
+    session_id: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """Get conversation history"""
+    try:
+        from services.chat_service import chat_service
+        
+        response = await chat_service.get_conversation_history(session_id)
+        return response
+        
+    except Exception as e:
+        logger.error(f"Error getting chat history: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error getting history: {str(e)}"
+        )
+
+@app.post("/api/chat/clear/{session_id}")
+async def clear_chat_history(
+    session_id: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """Clear conversation history"""
+    try:
+        from services.chat_service import chat_service
+        
+        response = await chat_service.clear_conversation(session_id)
+        return response
+        
+    except Exception as e:
+        logger.error(f"Error clearing chat history: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error clearing history: {str(e)}"
+        )
+
+@app.post("/api/chat/session")
+async def create_chat_session(
+    current_user: dict = Depends(get_current_user)
+):
+    """Create a new chat session"""
+    try:
+        from services.chat_service import chat_service
+        
+        session_id = await chat_service.create_chat_session(current_user['id'])
+        
+        return {
+            'success': True,
+            'session_id': session_id
+        }
+        
+    except Exception as e:
+        logger.error(f"Error creating chat session: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error creating session: {str(e)}"
+        )
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001, reload=True)
