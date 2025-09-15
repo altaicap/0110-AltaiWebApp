@@ -1,5 +1,8 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 """
-Production-ready Altai Trader Backend Server
+Production-ready Altai Trader Backend Server with LLM Chat Integration
 Full implementation replacing mock logic with real APIs, backtesting, and safety controls
 """
 
