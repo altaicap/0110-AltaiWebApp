@@ -55,15 +55,22 @@ You have access to the user's trading data, strategies, and market information. 
         
         return session_id
 
-    async def send_message(self, session_id: str, message: str, user_context: Optional[Dict] = None) -> Dict[str, Any]:
+    async def send_message(self, session_id: str, message: str, llm_provider: str = None, user_context: Optional[Dict] = None) -> Dict[str, Any]:
         """Send a message to the LLM and get response"""
         try:
+            # Select LLM configuration
+            llm_key = llm_provider or self.default_llm
+            if llm_key not in self.model_configs:
+                llm_key = self.default_llm
+            
+            config = self.model_configs[llm_key]
+            
             # Create LLM chat instance
             chat = LlmChat(
                 api_key=self.api_key,
                 session_id=session_id,
                 system_message=self.system_message
-            ).with_model(self.default_provider, self.default_model)
+            ).with_model(config['provider'], config['model'])
             
             # Add user context to the message if provided
             enhanced_message = message
