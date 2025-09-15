@@ -5081,6 +5081,27 @@ metadata = {
                 </Button>
               )}
             </div>
+
+              {/* Tab Contents */}
+              <TabsContent value="dashboard" className="flex-1 p-6 overflow-auto">
+                <DashboardTab />
+              </TabsContent>
+
+              <TabsContent value="settings" className="flex-1 p-6 overflow-auto">
+                <SettingsTab />
+              </TabsContent>
+
+              <TabsContent value="strategies" className="flex-1 p-6 overflow-auto">
+                <StrategiesTab />
+              </TabsContent>
+
+              <TabsContent value="backtest" className="flex-1 p-6 overflow-auto">
+                <BacktestTab />
+              </TabsContent>
+
+              <TabsContent value="news" className="flex-1 p-6 overflow-auto">
+                <NewsTab />
+              </TabsContent>
             </Tabs>
           </div>
         </div>
