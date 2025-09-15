@@ -4952,22 +4952,29 @@ metadata = {
               onValueChange={setActiveTab}
               className="h-full flex flex-col"
             >
-                <div className="flex items-center gap-1">
-                  <div className={`w-3 h-3 rounded ${getStatusColor(integrationStatus.tradestation)}`} />
-                  <span className="text-xs text-gray-600">TradeStation</span>
-                </div>
-                
-                <div className="flex items-center gap-1">
-                  <div className={`w-3 h-3 rounded ${getStatusColor(integrationStatus.ibkr)}`} />
-                  <span className="text-xs text-gray-600">IBKR</span>
-                </div>
-              </div>
-
-              {/* Landing Page Button */}
-              <Button 
-                variant="ghost"
-                onClick={() => setShowLandingPage(true)}
-                className={`text-gray-600 hover:text-gray-900 ${isDarkTheme ? 'text-gray-300 hover:text-white' : ''}`}
+              {/* Primary Tabs */}
+              <TabsList className="grid w-full grid-cols-5 px-6">
+                <TabsTrigger value="dashboard" className="flex items-center gap-2 px-6 uppercase">
+                  <BarChart3 className="w-4 h-4" />
+                  DASHBOARD
+                </TabsTrigger>
+                <TabsTrigger value="strategies" className="flex items-center gap-2 px-6 uppercase">
+                  <TrendingUp className="w-4 h-4" />
+                  STRATEGIES
+                </TabsTrigger>
+                <TabsTrigger value="backtest" className="flex items-center gap-2 px-6 uppercase">
+                  <PlayCircle className="w-4 h-4" />
+                  BACKTEST
+                </TabsTrigger>
+                <TabsTrigger value="news" className="flex items-center gap-2 px-6 uppercase">
+                  <FileText className="w-4 h-4" />
+                  NEWS
+                </TabsTrigger>
+                <TabsTrigger value="settings" className="flex items-center gap-2 px-6 uppercase">
+                  <Settings className="w-4 h-4" />
+                  SETTINGS
+                </TabsTrigger>
+              </TabsList>
               >
                 Landing
               </Button>
