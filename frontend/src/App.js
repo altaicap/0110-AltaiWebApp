@@ -4978,6 +4978,101 @@ metadata = {
                 </TabsTrigger>
               </TabsList>
 
+              {/* Tab Contents */}
+              <TabsContent value="dashboard" className="tab-content-padding">
+                <DashboardTab />
+              </TabsContent>
+
+              <TabsContent value="settings" className="tab-content-padding">
+                <SettingsTab />
+              </TabsContent>
+
+              <TabsContent value="strategies" className="tab-content-padding">
+                <StrategiesTab />
+              </TabsContent>
+
+              <TabsContent value="backtest" className="tab-content-padding">
+                <BacktestTab />
+              </TabsContent>
+
+              <TabsContent value="news" className="tab-content-padding">
+                <NewsTab />
+              </TabsContent>
+
+              {/* Live Strategy Tab Contents */}
+              {liveTabs.map((tabName) => (
+                <TabsContent key={`live-${tabName}`} value={`live-${tabName}`}>
+                  <div className="space-y-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h2 className="text-2xl font-bold text-green-800">Live Trading - {tabName}</h2>
+                        <p className="text-gray-600">Real-time strategy execution and monitoring</p>
+                      </div>
+                      <Button 
+                        variant="destructive"
+                        onClick={() => toggleLiveTrading(tabName)}
+                      >
+                        <StopCircle className="w-4 h-4 mr-2" />
+                        Stop Strategy
+                      </Button>
+                    </div>
+                    
+                    <Card>
+                      <CardContent className="p-6">
+                        <div className="text-center py-8">
+                          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <PlayCircle className="w-8 h-8 text-green-600" />
+                          </div>
+                          <h3 className="text-lg font-semibold text-green-800 mb-2">Strategy Running Live</h3>
+                          <p className="text-gray-600 mb-4">
+                            {tabName} has been running for {formatRuntime(liveStrategies.find(s => s.name === tabName)?.startTime)}
+                          </p>
+                          <div className="grid grid-cols-3 gap-4 mt-6">
+                            <div className="text-center p-4 bg-green-50 rounded-lg">
+                              <div className="text-2xl font-bold text-green-600">0</div>
+                              <div className="text-sm text-gray-600">Orders Placed</div>
+                            </div>
+                            <div className="text-center p-4 bg-blue-50 rounded-lg">
+                              <div className="text-2xl font-bold text-blue-600">0</div>
+                              <div className="text-sm text-gray-600">Fills</div>
+                            </div>
+                            <div className="text-center p-4 bg-yellow-50 rounded-lg">
+                              <div className="text-2xl font-bold text-yellow-600">$0</div>
+                              <div className="text-sm text-gray-600">Unrealized PnL</div>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </TabsContent>
+              ))}
+            </Tabs>
+          </div>
+
+          {/* Header Actions */}
+          <div className="flex items-center gap-4">
+            {/* Live Strategy Tabs (Second Row) */}
+            {liveTabs.length > 0 && (
+              <div className="flex gap-2">
+                {liveTabs.map((tabName) => {
+                  const liveStrategy = liveStrategies.find(s => s.name === tabName);
+                  return (
+                    <Button
+                      key={tabName}
+                      variant={activeTab === `live-${tabName}` ? "default" : "outline"}
+                      size="sm"
+                      className="bg-green-100 border-green-300 text-green-800 hover:bg-green-200"
+                      onClick={() => setActiveTab(`live-${tabName}`)}
+                    >
+                      <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse" />
+                      {tabName} - {formatRuntime(liveStrategy?.startTime)}
+                    </Button>
+                  );
+                })}
+              </div>
+            )}
+
               {/* Notification Bell */}
               <div className="relative">
                 <Button 
@@ -5081,8 +5176,7 @@ metadata = {
                 </Button>
               )}
             </div>
-            </Tabs>
-          </div>
+            </div>
         </div>
 
         {/* Authentication Modal */}
