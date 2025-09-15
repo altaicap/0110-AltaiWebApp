@@ -172,6 +172,107 @@ function App() {
   const [chatSessionId, setChatSessionId] = useState(null);
   const [isChatLoading, setIsChatLoading] = useState(false);
   
+  // Chat functions
+  const sendChatMessage = async () => {
+    if (!chatInput.trim()) return;
+    
+    const userMessage = {
+      id: Date.now(),
+      type: 'user',
+      content: chatInput.trim(),
+      timestamp: new Date()
+    };
+    
+    setChatMessages(prev => [...prev, userMessage]);
+    setIsChatLoading(true);
+    const currentInput = chatInput;
+    setChatInput('');
+    
+    try {
+      const context = {
+        current_tab: activeTab,
+        active_strategies: strategies.filter(s => s.isLive).map(s => s.name)
+      };
+      
+      const response = await fetch(`${BACKEND_URL}/api/chat/send`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        },
+        body: JSON.stringify({
+          message: currentInput,
+          session_id: chatSessionId,
+          context
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        setChatSessionId(data.session_id);
+        const assistantMessage = {
+          id: Date.now() + 1,
+          type: 'assistant',
+          content: data.message,
+          timestamp: new Date()
+        };
+        setChatMessages(prev => [...prev, assistantMessage]);
+      } else {
+        throw new Error(data.error || 'Failed to send message');
+      }
+    } catch (error) {
+      console.error('Chat error:', error);
+      const errorMessage = {
+        id: Date.now() + 1,
+        type: 'assistant', 
+        content: 'Sorry, I encountered an error. Please try again.',
+        timestamp: new Date(),
+        isError: true
+      };
+      setChatMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsChatLoading(false);
+    }
+  };
+  
+  const clearChatHistory = async () => {
+    setChatMessages([]);
+    setChatSessionId(null);
+  };
+  
+  // Split screen functions
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    e.preventDefault();
+  };
+  
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    
+    const newRatio = (e.clientX / window.innerWidth) * 100;
+    if (newRatio >= 20 && newRatio <= 80) {
+      setSplitScreenRatio(newRatio);
+    }
+  };
+  
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+  
+  // Add mouse event listeners
+  React.useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    }
+    
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging]);
+
   const [strategies, setStrategies] = useState([]);
   const [backtestResults, setBacktestResults] = useState([]);
   const [tradeLog, setTradeLog] = useState([]);
