@@ -4977,9 +4977,6 @@ metadata = {
                   SETTINGS
                 </TabsTrigger>
               </TabsList>
-              >
-                Landing
-              </Button>
 
               {/* Notification Bell */}
               <div className="relative">
