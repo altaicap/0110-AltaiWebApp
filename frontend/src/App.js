@@ -246,6 +246,25 @@ function App() {
     }
   };
   
+  // Split screen functions
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    e.preventDefault();
+  };
+  
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    
+    const newRatio = (e.clientX / window.innerWidth) * 100;
+    if (newRatio >= 20 && newRatio <= 80) {
+      setSplitScreenRatio(newRatio);
+    }
+  };
+  
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
   // Add mouse event listeners for split screen
   useEffect(() => {
     if (isDragging) {
@@ -256,7 +275,7 @@ function App() {
         document.removeEventListener('mouseup', handleMouseUp);
       };
     }
-  }, [isDragging]);
+  }, [isDragging, handleMouseMove, handleMouseUp]);
 
   // Initialize chat session on mount
   useEffect(() => {
