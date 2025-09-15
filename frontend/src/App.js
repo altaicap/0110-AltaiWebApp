@@ -5073,110 +5073,110 @@ metadata = {
               </div>
             )}
 
-              {/* Notification Bell */}
-              <div className="relative">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className={`relative ${isDarkTheme ? 'text-white border-gray-600 hover:bg-gray-700' : ''}`}
-                  onClick={() => setShowNotificationPanel(!showNotificationPanel)}
-                >
-                  <Bell className={`w-4 h-4 ${isDarkTheme ? 'text-white' : ''}`} />
-                  {unreadNotifications > 0 && (
-                    <Badge 
-                      variant="destructive" 
-                      className="absolute -top-2 -right-2 w-5 h-5 p-0 flex items-center justify-center text-xs"
-                    >
-                      {unreadNotifications}
-                    </Badge>
-                  )}
-                </Button>
-                
-                {/* Notification Dropdown */}
-                {showNotificationPanel && (
-                  <div className={`absolute right-0 top-full mt-2 w-80 border rounded-lg shadow-lg z-50 ${isDarkTheme ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-200'}`}>
-                    <div className={`p-4 border-b ${isDarkTheme ? 'border-gray-600' : ''}`}>
-                      <h3 className={`font-semibold ${isDarkTheme ? 'text-white' : ''}`}>Notifications</h3>
-                      {unreadNotifications > 0 && (
-                        <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>{unreadNotifications} unread</p>
-                      )}
-                    </div>
-                    <ScrollArea className="max-h-96">
-                      {notifications.length > 0 ? (
-                        <div className="p-2">
-                          {notifications.slice(0, 10).map((notification) => (
-                            <div 
-                              key={notification.id}
-                              className={`p-3 rounded mb-2 cursor-pointer hover:bg-gray-50 ${!notification.is_read ? 'bg-blue-50 border-l-4 border-blue-500' : ''}`}
-                              onClick={() => markNotificationAsRead(notification.id)}
-                            >
-                              <div className="flex items-start justify-between">
-                                <div className="flex-1">
-                                  <h4 className="text-sm font-medium">{notification.title}</h4>
-                                  <p className="text-xs text-gray-600 mt-1">{notification.message}</p>
-                                  <p className="text-xs text-gray-400 mt-2">
-                                    {format(new Date(notification.created_at), "MMM dd, HH:mm")}
-                                  </p>
-                                </div>
-                                <Badge 
-                                  variant="outline" 
-                                  className={`ml-2 text-xs ${
-                                    notification.notification_type === 'billing' ? 'border-green-500 text-green-600' :
-                                    notification.notification_type === 'trade' ? 'border-blue-500 text-blue-600' :
-                                    'border-gray-500 text-gray-600'
-                                  }`}
-                                >
-                                  {notification.notification_type}
-                                </Badge>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="p-8 text-center text-gray-500">
-                          <Bell className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-                          <p>No notifications</p>
-                        </div>
-                      )}
-                    </ScrollArea>
-                  </div>
+            {/* Notification Bell */}
+            <div className="relative">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className={`relative ${isDarkTheme ? 'text-white border-gray-600 hover:bg-gray-700' : ''}`}
+                onClick={() => setShowNotificationPanel(!showNotificationPanel)}
+              >
+                <Bell className={`w-4 h-4 ${isDarkTheme ? 'text-white' : ''}`} />
+                {unreadNotifications > 0 && (
+                  <Badge 
+                    variant="destructive" 
+                    className="absolute -top-2 -right-2 w-5 h-5 p-0 flex items-center justify-center text-xs"
+                  >
+                    {unreadNotifications}
+                  </Badge>
                 )}
-              </div>
-
-              {/* Authentication Section */}
-              {isAuthenticated ? (
-                <div className="ml-4">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline" size="sm" className={`flex items-center gap-2 ${isDarkTheme ? 'text-white border-gray-600 hover:bg-gray-700' : ''}`}>
-                        <User className={`w-4 h-4 ${isDarkTheme ? 'text-white' : ''}`} />
-                        {currentAuthUser?.full_name || currentAuthUser?.email}
-                        <ChevronDown className={`w-4 h-4 ${isDarkTheme ? 'text-white' : ''}`} />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className={`w-48 ${isDarkTheme ? 'bg-gray-800 border-gray-600' : ''}`}>
-                      <DropdownMenuItem onClick={() => setShowAccountSettings(true)} className={isDarkTheme ? 'text-white hover:bg-gray-700' : ''}>
-                        <Settings2 className="w-4 h-4 mr-2" />
-                        My Account
-                      </DropdownMenuItem>
-                      <Separator className={`my-1 ${isDarkTheme ? 'border-gray-600' : ''}`} />
-                      <DropdownMenuItem onClick={handleLogout} className={`text-red-600 ${isDarkTheme ? 'hover:bg-gray-700' : ''}`}>
-                        <LogOut className="w-4 h-4 mr-2" />
-                        Sign Out
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+              </Button>
+              
+              {/* Notification Dropdown */}
+              {showNotificationPanel && (
+                <div className={`absolute right-0 top-full mt-2 w-80 border rounded-lg shadow-lg z-50 ${isDarkTheme ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-200'}`}>
+                  <div className={`p-4 border-b ${isDarkTheme ? 'border-gray-600' : ''}`}>
+                    <h3 className={`font-semibold ${isDarkTheme ? 'text-white' : ''}`}>Notifications</h3>
+                    {unreadNotifications > 0 && (
+                      <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>{unreadNotifications} unread</p>
+                    )}
+                  </div>
+                  <ScrollArea className="max-h-96">
+                    {notifications.length > 0 ? (
+                      <div className="p-2">
+                        {notifications.slice(0, 10).map((notification) => (
+                          <div 
+                            key={notification.id}
+                            className={`p-3 rounded mb-2 cursor-pointer hover:bg-gray-50 ${!notification.is_read ? 'bg-blue-50 border-l-4 border-blue-500' : ''}`}
+                            onClick={() => markNotificationAsRead(notification.id)}
+                          >
+                            <div className="flex items-start justify-between">
+                              <div className="flex-1">
+                                <h4 className="text-sm font-medium">{notification.title}</h4>
+                                <p className="text-xs text-gray-600 mt-1">{notification.message}</p>
+                                <p className="text-xs text-gray-400 mt-2">
+                                  {format(new Date(notification.created_at), "MMM dd, HH:mm")}
+                                </p>
+                              </div>
+                              <Badge 
+                                variant="outline" 
+                                className={`ml-2 text-xs ${
+                                  notification.notification_type === 'billing' ? 'border-green-500 text-green-600' :
+                                  notification.notification_type === 'trade' ? 'border-blue-500 text-blue-600' :
+                                  'border-gray-500 text-gray-600'
+                                }`}
+                              >
+                                {notification.notification_type}
+                              </Badge>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="p-8 text-center text-gray-500">
+                        <Bell className="w-8 h-8 mx-auto mb-2 text-gray-300" />
+                        <p>No notifications</p>
+                      </div>
+                    )}
+                  </ScrollArea>
                 </div>
-              ) : (
-                <Button 
-                  onClick={() => setShowAuthModal(true)} 
-                  className="ml-4"
-                >
-                  Sign In
-                </Button>
               )}
             </div>
-            </div>
+
+            {/* Authentication Section */}
+            {isAuthenticated ? (
+              <div className="ml-4">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className={`flex items-center gap-2 ${isDarkTheme ? 'text-white border-gray-600 hover:bg-gray-700' : ''}`}>
+                      <User className={`w-4 h-4 ${isDarkTheme ? 'text-white' : ''}`} />
+                      {currentAuthUser?.full_name || currentAuthUser?.email}
+                      <ChevronDown className={`w-4 h-4 ${isDarkTheme ? 'text-white' : ''}`} />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className={`w-48 ${isDarkTheme ? 'bg-gray-800 border-gray-600' : ''}`}>
+                    <DropdownMenuItem onClick={() => setShowAccountSettings(true)} className={isDarkTheme ? 'text-white hover:bg-gray-700' : ''}>
+                      <Settings2 className="w-4 h-4 mr-2" />
+                      My Account
+                    </DropdownMenuItem>
+                    <Separator className={`my-1 ${isDarkTheme ? 'border-gray-600' : ''}`} />
+                    <DropdownMenuItem onClick={handleLogout} className={`text-red-600 ${isDarkTheme ? 'hover:bg-gray-700' : ''}`}>
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            ) : (
+              <Button 
+                onClick={() => setShowAuthModal(true)} 
+                className="ml-4"
+              >
+                Sign In
+              </Button>
+            )}
+          </div>
+        </div>
         </div>
 
         {/* Authentication Modal */}
