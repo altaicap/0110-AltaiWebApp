@@ -246,24 +246,40 @@ function App() {
     }
   };
   
-  // Split screen functions
-  const handleMouseDown = (e) => {
-    setIsDragging(true);
-    e.preventDefault();
-  };
-  
-  const handleMouseMove = (e) => {
-    if (!isDragging) return;
-    
-    const newRatio = (e.clientX / window.innerWidth) * 100;
-    if (newRatio >= 20 && newRatio <= 80) {
-      setSplitScreenRatio(newRatio);
+  // Add mouse event listeners for split screen
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
     }
-  };
-  
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
+  }, [isDragging]);
+
+  // Initialize chat session on mount
+  useEffect(() => {
+    const initChatSession = async () => {
+      try {
+        const response = await fetch(`${BACKEND_URL}/api/chat/session`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          setChatSessionId(data.session_id);
+        }
+      } catch (error) {
+        console.error('Failed to initialize chat session:', error);
+      }
+    };
+    
+    if (!showLandingPage) {
+      initChatSession();
+    }
+  }, [showLandingPage]);
   
   // Add mouse event listeners
   React.useEffect(() => {
