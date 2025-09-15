@@ -8,7 +8,7 @@ import { Input } from "./components/ui/input";
 import { Label } from "./components/ui/label";
 import { Textarea } from "./components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./components/ui/select";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./components/ui/dropdown-menu";
 import { Alert, AlertDescription } from "./components/ui/alert";
 import { Separator } from "./components/ui/separator";
 import { Calendar } from "./components/ui/calendar";
@@ -151,133 +151,6 @@ const PBB_ALGO_PARAMS = {
   move_rval: { type: "number", default: -0.5, label: "Move Distance (R)", description: "Distance to move stop (0 = breakeven)", min: -2, max: 2, step: 0.1 },
 };
 
-// LLM Chat Interface Component (moved outside App to prevent re-render issues)
-const ChatInterface = ({ 
-  chatMessages, 
-  chatInput, 
-  setChatInput, 
-  isChatLoading, 
-  selectedLLM, 
-  setSelectedLLM, 
-  sendChatMessage, 
-  clearChatHistory, 
-  isDarkTheme 
-}) => {
-  return (
-    <div className="h-full flex flex-col">
-      {/* Chat Header */}
-      <div className={`p-4 border-b ${isDarkTheme ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'}`}>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <MessageSquare className="w-5 h-5" />
-            <h2 className="text-lg font-semibold">AI Assistant</h2>
-          </div>
-          <div className="flex items-center gap-2">
-            {/* LLM Selection Dropdown */}
-            <Select value={selectedLLM} onValueChange={setSelectedLLM}>
-              <SelectTrigger className="w-32">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="claude">Claude</SelectItem>
-                <SelectItem value="chatgpt">ChatGPT</SelectItem>
-              </SelectContent>
-            </Select>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={clearChatHistory}
-              title="Clear chat history"
-            >
-              <RotateCcw className="w-4 h-4" />
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Chat Messages */}
-      <ScrollArea className="flex-1 p-4">
-        {chatMessages.length === 0 ? (
-          <div className={`text-center py-8 ${isDarkTheme ? 'text-gray-400' : 'text-gray-500'}`}>
-            <MessageSquare className="w-12 h-12 mx-auto mb-4 opacity-50" />
-            <h3 className="text-lg font-medium mb-2">How can I help you today?</h3>
-            <div className="text-sm space-y-1 max-w-sm mx-auto">
-              <p>• Ask about your recent trades and performance</p>
-              <p>• Learn about strategy settings and parameters</p>
-              <p>• Get help with backtesting and analysis</p>
-              <p>• Understand market data and news</p>
-            </div>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {chatMessages.map((message, index) => (
-              <div
-                key={index}
-                className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                <div
-                  className={`max-w-[80%] p-3 rounded-lg ${
-                    message.role === 'user'
-                      ? 'bg-blue-600 text-white'
-                      : isDarkTheme
-                      ? 'bg-gray-700 text-gray-100'
-                      : 'bg-gray-100 text-gray-900'
-                  }`}
-                >
-                  <div className="whitespace-pre-wrap">{message.content}</div>
-                  <div
-                    className={`text-xs mt-1 opacity-70 ${
-                      message.role === 'user' ? 'text-blue-100' : isDarkTheme ? 'text-gray-400' : 'text-gray-500'
-                    }`}
-                  >
-                    {format(message.timestamp, 'HH:mm')}
-                  </div>
-                </div>
-              </div>
-            ))}
-            {isChatLoading && (
-              <div className="flex justify-start">
-                <div className={`p-3 rounded-lg ${isDarkTheme ? 'bg-gray-700' : 'bg-gray-100'}`}>
-                  <div className="flex items-center gap-2">
-                    <RefreshCw className="w-4 h-4 animate-spin" />
-                    <span>Thinking...</span>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-      </ScrollArea>
-
-      {/* Chat Input */}
-      <div className={`p-4 border-t ${isDarkTheme ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'}`}>
-        <div className="flex gap-2">
-          <Input
-            value={chatInput}
-            onChange={(e) => setChatInput(e.target.value)}
-            placeholder="Ask me anything about your trading strategies..."
-            className="flex-1"
-            onKeyPress={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendChatMessage();
-              }
-            }}
-            disabled={isChatLoading}
-          />
-          <Button
-            onClick={sendChatMessage}
-            disabled={!chatInput.trim() || isChatLoading}
-            className="px-3"
-          >
-            <Send className="w-4 h-4" />
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [liveTabs, setLiveTabs] = useState([]);
@@ -298,62 +171,66 @@ function App() {
   const [chatInput, setChatInput] = useState('');
   const [chatSessionId, setChatSessionId] = useState(null);
   const [isChatLoading, setIsChatLoading] = useState(false);
-  const [selectedLLM, setSelectedLLM] = useState('claude'); // Default to Claude
   
   // Chat functions
   const sendChatMessage = async () => {
-    if (!chatInput.trim() || isChatLoading) return;
+    if (!chatInput.trim()) return;
     
-    const userMessage = chatInput.trim();
+    const userMessage = {
+      id: Date.now(),
+      type: 'user',
+      content: chatInput.trim(),
+      timestamp: new Date()
+    };
+    
+    setChatMessages(prev => [...prev, userMessage]);
     setIsChatLoading(true);
-    
-    // Add user message
-    setChatMessages(prev => [...prev, { role: 'user', content: userMessage, timestamp: new Date() }]);
+    const currentInput = chatInput;
     setChatInput('');
     
     try {
+      const context = {
+        current_tab: activeTab,
+        active_strategies: strategies.filter(s => s.isLive).map(s => s.name)
+      };
+      
       const response = await fetch(`${BACKEND_URL}/api/chat/send`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          message: userMessage, 
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        },
+        body: JSON.stringify({
+          message: currentInput,
           session_id: chatSessionId,
-          llm_provider: selectedLLM
+          context
         })
       });
       
-      if (response.ok) {
-        const data = await response.json();
-        console.log('LLM Response:', data); // Debug log
-        
-        // Backend returns 'message' field, not 'response'
-        const aiMessage = data.message || data.response || 'No response received';
-        
-        setChatMessages(prev => [...prev, { 
-          role: 'assistant', 
-          content: aiMessage, 
-          timestamp: new Date() 
-        }]);
-        
-        if (data.session_id) {
-          setChatSessionId(data.session_id);
-        }
+      const data = await response.json();
+      
+      if (data.success) {
+        setChatSessionId(data.session_id);
+        const assistantMessage = {
+          id: Date.now() + 1,
+          type: 'assistant',
+          content: data.message,
+          timestamp: new Date()
+        };
+        setChatMessages(prev => [...prev, assistantMessage]);
       } else {
-        const errorData = await response.json().catch(() => ({}));
-        console.error('Chat API Error:', errorData);
-        setChatMessages(prev => [...prev, { 
-          role: 'assistant', 
-          content: 'Sorry, I encountered an error. Please try again.', 
-          timestamp: new Date() 
-        }]);
+        throw new Error(data.error || 'Failed to send message');
       }
     } catch (error) {
-      console.error('Chat Connection Error:', error);
-      setChatMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: 'Sorry, I encountered a connection error. Please try again.', 
-        timestamp: new Date() 
-      }]);
+      console.error('Chat error:', error);
+      const errorMessage = {
+        id: Date.now() + 1,
+        type: 'assistant', 
+        content: 'Sorry, I encountered an error. Please try again.',
+        timestamp: new Date(),
+        isError: true
+      };
+      setChatMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsChatLoading(false);
     }
@@ -3253,13 +3130,118 @@ metadata = {
     );
   };
 
-  // Format currency helper (moved from inside component)
-  const formatCurrency = (amount) => {
-    if (typeof amount === 'string') return amount;
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(amount);
+  // LLM Chat Interface Component
+  const ChatInterface = () => {
+    return (
+      <div className="h-full flex flex-col">
+        {/* Chat Header */}
+        <div className={`p-4 border-b ${isDarkTheme ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'}`}>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <MessageSquare className="w-5 h-5" />
+              <h2 className="text-lg font-semibold">AI Assistant</h2>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={clearChatHistory}
+              className="text-gray-500 hover:text-gray-700"
+            >
+              <RotateCcw className="w-4 h-4" />
+            </Button>
+          </div>
+          <p className="text-sm text-gray-500 mt-1">
+            Get help with trading strategies, analysis, and platform usage
+          </p>
+        </div>
+        
+        {/* Chat Messages */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          {chatMessages.length === 0 && (
+            <div className="text-center text-gray-500 py-8">
+              <MessageSquare className="w-12 h-12 mx-auto mb-4 opacity-30" />
+              <p className="text-lg font-medium mb-2">Welcome to Altai Trader AI</p>
+              <p className="text-sm">
+                I can help you analyze your trading strategies, interpret market data, 
+                and provide insights on your portfolio performance.
+              </p>
+              <div className="mt-4 text-xs">
+                <p className="mb-2"><strong>Try asking:</strong></p>
+                <div className="space-y-1">
+                  <p>"How is my Prior Bar Break strategy performing?"</p>
+                  <p>"What should I know about the latest market news?"</p>
+                  <p>"Help me optimize my risk management settings"</p>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {chatMessages.map((message) => (
+            <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div
+                className={`max-w-[80%] p-3 rounded-lg ${
+                  message.type === 'user'
+                    ? 'bg-blue-600 text-white ml-4'
+                    : `${isDarkTheme ? 'bg-gray-700 text-gray-100' : 'bg-gray-100 text-gray-900'} mr-4 ${
+                        message.isError ? 'border border-red-300' : ''
+                      }`
+                }`}
+              >
+                <div className="text-sm whitespace-pre-wrap">
+                  {message.content}
+                </div>
+                <div className={`text-xs mt-1 opacity-70 ${
+                  message.type === 'user' ? 'text-blue-100' : 'text-gray-500'
+                }`}>
+                  {message.timestamp.toLocaleTimeString()}
+                </div>
+              </div>
+            </div>
+          ))}
+          
+          {isChatLoading && (
+            <div className="flex justify-start">
+              <div className={`p-3 rounded-lg ${isDarkTheme ? 'bg-gray-700' : 'bg-gray-100'} mr-4`}>
+                <div className="flex items-center space-x-2">
+                  <div className="animate-pulse flex space-x-1">
+                    <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                    <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                  </div>
+                  <span className="text-sm text-gray-500">Thinking...</span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+        
+        {/* Chat Input */}
+        <div className={`p-4 border-t ${isDarkTheme ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'}`}>
+          <div className="flex gap-2">
+            <Input
+              value={chatInput}
+              onChange={(e) => setChatInput(e.target.value)}
+              placeholder="Ask me anything about your trading strategies..."
+              className="flex-1"
+              onKeyPress={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  sendChatMessage();
+                }
+              }}
+              disabled={isChatLoading}
+            />
+            <Button
+              onClick={sendChatMessage}
+              disabled={!chatInput.trim() || isChatLoading}
+              className="px-3"
+            >
+              <Send className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   // Dashboard Tab Component
@@ -4951,17 +4933,7 @@ metadata = {
           style={{ width: `${splitScreenRatio}%` }}
           className={`border-r ${isDarkTheme ? 'border-gray-700 bg-gray-900' : 'border-gray-200 bg-gray-50'} flex flex-col`}
         >
-          <ChatInterface 
-            chatMessages={chatMessages}
-            chatInput={chatInput}
-            setChatInput={setChatInput}
-            isChatLoading={isChatLoading}
-            selectedLLM={selectedLLM}
-            setSelectedLLM={setSelectedLLM}
-            sendChatMessage={sendChatMessage}
-            clearChatHistory={clearChatHistory}
-            isDarkTheme={isDarkTheme}
-          />
+          <ChatInterface />
         </div>
         
         {/* Resizable Divider */}
@@ -5107,30 +5079,459 @@ metadata = {
                   Sign In
                 </Button>
               )}
-
-              {/* Tab Contents */}
-              <TabsContent value="dashboard" className="flex-1 p-6 overflow-auto">
-                <DashboardTab />
-              </TabsContent>
-
-              <TabsContent value="settings" className="flex-1 p-6 overflow-auto">
-                <SettingsTab />
-              </TabsContent>
-
-              <TabsContent value="strategies" className="flex-1 p-6 overflow-auto">
-                <StrategiesTab />
-              </TabsContent>
-
-              <TabsContent value="backtest" className="flex-1 p-6 overflow-auto">
-                <BacktestTab />
-              </TabsContent>
-
-              <TabsContent value="news" className="flex-1 p-6 overflow-auto">
-                <NewsTab />
-              </TabsContent>
-            </Tabs>
+            </div>
           </div>
         </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          {/* Primary Tabs */}
+          <TabsList className="grid w-full grid-cols-5 px-6">
+            <TabsTrigger value="dashboard" className="flex items-center gap-2 px-6 uppercase">
+              <BarChart3 className="w-4 h-4" />
+              DASHBOARD
+            </TabsTrigger>
+            <TabsTrigger value="strategies" className="flex items-center gap-2 px-6 uppercase">
+              <TrendingUp className="w-4 h-4" />
+              STRATEGIES
+            </TabsTrigger>
+            <TabsTrigger value="backtest" className="flex items-center gap-2 px-6 uppercase">
+              <PlayCircle className="w-4 h-4" />
+              BACKTEST
+            </TabsTrigger>
+            <TabsTrigger value="news" className="flex items-center gap-2 px-6 uppercase">
+              <FileText className="w-4 h-4" />
+              NEWS
+            </TabsTrigger>
+            <TabsTrigger value="settings" className="flex items-center gap-2 px-6 uppercase">
+              <Settings className="w-4 h-4" />
+              SETTINGS
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Live Strategy Tabs (Second Row) */}
+          {liveTabs.length > 0 && (
+            <div className="flex gap-2 mt-2">
+              {liveTabs.map((tabName) => {
+                const liveStrategy = liveStrategies.find(s => s.name === tabName);
+                return (
+                  <Button
+                    key={tabName}
+                    variant={activeTab === `live-${tabName}` ? "default" : "outline"}
+                    size="sm"
+                    className="bg-green-100 border-green-300 text-green-800 hover:bg-green-200"
+                    onClick={() => setActiveTab(`live-${tabName}`)}
+                  >
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse" />
+                    {tabName} - {formatRuntime(liveStrategy?.startTime)}
+                  </Button>
+                );
+              })}
+            </div>
+          )}
+
+          <TabsContent value="dashboard" className="tab-content-padding">
+            <DashboardTab />
+          </TabsContent>
+
+          <TabsContent value="settings" className="tab-content-padding">
+            <SettingsTab />
+          </TabsContent>
+
+          <TabsContent value="strategies" className="tab-content-padding">
+            <StrategiesTab />
+          </TabsContent>
+
+          <TabsContent value="backtest" className="tab-content-padding">
+            <BacktestTab />
+          </TabsContent>
+
+          <TabsContent value="news" className="tab-content-padding">
+            <NewsTab />
+          </TabsContent>
+
+          {/* New User Dialog */}
+          {showNewUserDialog && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <Card className="w-96">
+                <CardHeader>
+                  <CardTitle className="pane-title">Create New User</CardTitle>
+                  <CardDescription>Enter a name for the new user profile</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="newUserName">User Name</Label>
+                      <Input
+                        id="newUserName"
+                        value={newUserName}
+                        onChange={(e) => setNewUserName(e.target.value)}
+                        placeholder="Enter user name"
+                        onKeyDown={(e) => e.key === 'Enter' && createNewUser()}
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <Button 
+                        onClick={createNewUser}
+                        disabled={!newUserName.trim() || users.includes(newUserName.trim())}
+                      >
+                        <UserPlus className="w-4 h-4 mr-2" />
+                        Create User
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        onClick={() => {
+                          setShowNewUserDialog(false);
+                          setNewUserName('');
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Help Dialog */}
+          {showHelpDialog && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <Card className="w-[500px] max-h-[80vh] overflow-y-auto">
+                <CardHeader>
+                  <CardTitle className="pane-title">Contact Support</CardTitle>
+                  <CardDescription>Submit bugs, issues, and questions</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="helpName">Name</Label>
+                        <Input
+                          id="helpName"
+                          value={helpForm.name || currentUser}
+                          onChange={(e) => setHelpForm(prev => ({ ...prev, name: e.target.value }))}
+                          placeholder="Your name"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="helpEmail">Email</Label>
+                        <Input
+                          id="helpEmail"
+                          type="email"
+                          value={helpForm.email || `${currentUser.toLowerCase().replace(' ', '.')}@altaitrader.com`}
+                          onChange={(e) => setHelpForm(prev => ({ ...prev, email: e.target.value }))}
+                          placeholder="Your email"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <Label htmlFor="issueType">Issue Type</Label>
+                      <Select
+                        value={helpForm.issueType}
+                        onValueChange={(value) => setHelpForm(prev => ({ ...prev, issueType: value }))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select issue type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="connectivity">Connectivity</SelectItem>
+                          <SelectItem value="strategies">Strategies</SelectItem>
+                          <SelectItem value="backtest">Backtest</SelectItem>
+                          <SelectItem value="news">News</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="helpMessage">Message</Label>
+                      <Textarea
+                        id="helpMessage"
+                        value={helpForm.message}
+                        onChange={(e) => setHelpForm(prev => ({ ...prev, message: e.target.value }))}
+                        placeholder="Describe your issue or question in detail..."
+                        rows={4}
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="attachments">Attachments (optional)</Label>
+                      <div className="space-y-2">
+                        <Input
+                          id="attachments"
+                          type="file"
+                          multiple
+                          onChange={handleFileAttachment}
+                          className="cursor-pointer"
+                        />
+                        {helpForm.attachments.length > 0 && (
+                          <div className="space-y-1">
+                            {helpForm.attachments.map((file, index) => (
+                              <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                                <span className="text-sm truncate">{file.name}</span>
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  onClick={() => removeAttachment(index)}
+                                >
+                                  <XCircle className="w-4 h-4" />
+                                </Button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <Button 
+                        onClick={submitHelpForm}
+                        disabled={!helpForm.issueType || !helpForm.message.trim() || isLoading}
+                      >
+                        <Send className="w-4 h-4 mr-2" />
+                        {isLoading ? 'Submitting...' : 'Submit Request'}
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        onClick={() => {
+                          setShowHelpDialog(false);
+                          setHelpForm({
+                            name: '',
+                            email: '',
+                            issueType: '',
+                            message: '',
+                            attachments: []
+                          });
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Delete User Dialog */}
+          {showDeleteUserDialog && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <Card className="w-96">
+                <CardHeader>
+                  <CardTitle className="pane-title">Delete User</CardTitle>
+                  <CardDescription>Select a user to delete. This action cannot be undone.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="userToDelete">Select User to Delete</Label>
+                      <Select value={userToDelete} onValueChange={setUserToDelete}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Choose user to delete" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {users.filter(user => users.length > 1).map((user) => (
+                            <SelectItem key={user} value={user}>
+                              {user}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button 
+                        variant="destructive"
+                        onClick={deleteUser}
+                        disabled={!userToDelete}
+                      >
+                        <Trash2 className="w-4 h-4 mr-2" />
+                        Delete User
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        onClick={() => {
+                          setShowDeleteUserDialog(false);
+                          setUserToDelete('');
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Delete Strategy Confirmation Dialog */}
+          {showDeleteConfirmDialog && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <Card className="w-96">
+                <CardHeader>
+                  <CardTitle className="text-red-600 flex items-center gap-2">
+                    <AlertTriangle className="w-5 h-5" />
+                    Archive Strategy?
+                  </CardTitle>
+                  <CardDescription>
+                    This will move "{deleteConfirmData?.strategy?.name || deleteConfirmData?.strategy?.configuration_name}" to the Archive. You can restore it later if needed.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="destructive"
+                      onClick={confirmDeleteStrategy}
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      Move to Archive
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => {
+                        setShowDeleteConfirmDialog(false);
+                        setDeleteConfirmData(null);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Permanent Delete Confirmation Dialog */}
+          {showPermanentDeleteDialog && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <Card className="w-96">
+                <CardHeader>
+                  <CardTitle className="text-red-600 flex items-center gap-2">
+                    <AlertTriangle className="w-5 h-5" />
+                    Permanent Deletion Warning
+                  </CardTitle>
+                  <CardDescription>
+                    Are you sure you want to permanently delete {selectedArchiveStrategies.length} strategy(ies)? This action cannot be undone.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="destructive"
+                      onClick={confirmPermanentDelete}
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      Delete Permanently
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => setShowPermanentDeleteDialog(false)}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Account Settings Dialog */}
+          {showAccountSettings && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <Card className="w-[600px] max-h-[80vh] overflow-y-auto">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Settings2 className="w-5 h-5" />
+                    MY ACCOUNT SETTINGS
+                  </CardTitle>
+                  <CardDescription>
+                    Manage your account details and billing settings
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <AccountSettingsForm 
+                    currentUser={currentUser}
+                    onSave={async (settings) => {
+                      try {
+                        const token = localStorage.getItem('access_token');
+                        const response = await fetch(`${BACKEND_URL}/api/users/profile`, {
+                          method: 'PUT',
+                          headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify(settings)
+                        });
+
+                        if (response.ok) {
+                          setSuccess('Account settings updated successfully');
+                          setShowAccountSettings(false);
+                          // Reload user data if needed
+                        } else {
+                          const error = await response.json();
+                          setError(error.detail || 'Failed to update account settings');
+                        }
+                      } catch (error) {
+                        setError(`Settings update failed: ${error.message}`);
+                      }
+                    }}
+                    onCancel={() => setShowAccountSettings(false)}
+                  />
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Live Strategy Tab Contents */}
+          {liveTabs.map((tabName) => (
+            <TabsContent key={`live-${tabName}`} value={`live-${tabName}`}>
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-2xl font-bold text-green-800">Live Trading - {tabName}</h2>
+                    <p className="text-gray-600">Real-time strategy execution and monitoring</p>
+                  </div>
+                  <Button 
+                    variant="destructive"
+                    onClick={() => toggleLiveTrading(tabName)}
+                  >
+                    <StopCircle className="w-4 h-4 mr-2" />
+                    Stop Strategy
+                  </Button>
+                </div>
+                
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="text-center py-8">
+                      <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <PlayCircle className="w-8 h-8 text-green-600" />
+                      </div>
+                      <h3 className="text-lg font-semibold text-green-800 mb-2">Strategy Running Live</h3>
+                      <p className="text-gray-600 mb-4">
+                        {tabName} has been running for {formatRuntime(liveStrategies.find(s => s.name === tabName)?.startTime)}
+                      </p>
+                      <div className="grid grid-cols-3 gap-4 mt-6">
+                        <div className="text-center p-4 bg-green-50 rounded-lg">
+                          <div className="text-2xl font-bold text-green-600">0</div>
+                          <div className="text-sm text-gray-600">Orders Placed</div>
+                        </div>
+                        <div className="text-center p-4 bg-blue-50 rounded-lg">
+                          <div className="text-2xl font-bold text-blue-600">0</div>
+                          <div className="text-sm text-gray-600">Fills</div>
+                        </div>
+                        <div className="text-center p-4 bg-yellow-50 rounded-lg">
+                          <div className="text-2xl font-bold text-yellow-600">$0</div>
+                          <div className="text-sm text-gray-600">Unrealized PnL</div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+          ))}
+        </Tabs>
 
         {/* Authentication Modal */}
         {showAuthModal && (
