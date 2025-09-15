@@ -3257,18 +3257,20 @@ def main():
             tester = ReviewRequestTester()
             success = tester.run_review_request_tests()
             return 0 if success else 1
+        elif sys.argv[1] == "llm":
+            tester = LLMChatIntegrationTester()
+            success = tester.run_all_llm_tests()
+            return 0 if success else 1
         else:
-            print("Usage: python backend_test.py [trading|auth|feedback80|support|review]")
+            print("Usage: python backend_test.py [trading|auth|feedback80|support|review|llm]")
             return 1
     else:
-        print("Usage: python backend_test.py [trading|auth|feedback80|support|review]")
-        print("Available test suites:")
-        print("  trading   - Test trading integration endpoints")
-        print("  auth      - Test authentication and billing endpoints")
-        print("  feedback80 - Test Feedback 8.0 specific endpoints")
-        print("  support   - Test support contact form endpoint")
-        print("  review    - Test review request specific areas")
-        return 1
+        # Default to LLM chat integration tests as per review request
+        print("🚀 Running LLM Chat Integration Tests (Review Request Default)")
+        print("=" * 70)
+        tester = LLMChatIntegrationTester()
+        success = tester.run_all_llm_tests()
+        return 0 if success else 1
 
 if __name__ == "__main__":
     sys.exit(main())
