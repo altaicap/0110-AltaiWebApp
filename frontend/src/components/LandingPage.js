@@ -461,7 +461,10 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme }) => 
             </Card>
 
             {/* Max Plan */}
-            <Card className={`${isDarkTheme ? 'bg-gray-800 border-gray-700' : ''} transition-all duration-300 hover:shadow-xl`}>
+            <Card className={`${isDarkTheme ? 'bg-gray-800 border-gray-700' : ''} relative transition-all duration-300 hover:shadow-xl border-blue-600`}>
+              <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-600">
+                Most Popular
+              </Badge>
               <CardHeader>
                 <CardTitle className="text-2xl">Max</CardTitle>
                 <div className="flex items-baseline">
@@ -488,7 +491,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme }) => 
                     <span>AI Assistant</span>
                   </li>
                 </ul>
-                <Button className="w-full mt-6" variant="outline">
+                <Button className="w-full mt-6 bg-blue-600 hover:bg-blue-700">
                   Get Started
                 </Button>
               </CardContent>
