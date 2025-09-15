@@ -150,7 +150,7 @@ const PBB_ALGO_PARAMS = {
 };
 
 function App() {
-  const [activeTab, setActiveTab] = useState('settings');
+  const [activeTab, setActiveTab] = useState('dashboard');
   const [liveTabs, setLiveTabs] = useState([]);
   const [settings, setSettings] = useState({});
   // Initialize theme properly on first load
