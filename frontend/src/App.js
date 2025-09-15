@@ -4867,6 +4867,7 @@ metadata = {
                   <div className={`w-3 h-3 rounded ${getStatusColor(integrationStatus.tradexchange)}`} />
                   <span className="text-xs text-gray-600">TradeXchange API</span>
                 </div>
+              </div>
 
               {/* Landing Page Button */}
               <Button 
@@ -4920,6 +4921,7 @@ metadata = {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
+            </div>
             </div>
           </div>
         </div>
