@@ -5181,7 +5181,6 @@ metadata = {
             )}
           </div>
         </div>
-        </div>
 
         {/* Authentication Modal */}
         {showAuthModal && (
