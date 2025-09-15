@@ -4867,7 +4867,91 @@ metadata = {
                   <div className={`w-3 h-3 rounded ${getStatusColor(integrationStatus.tradexchange)}`} />
                   <span className="text-xs text-gray-600">TradeXchange API</span>
                 </div>
-                
+
+              {/* Landing Page Button */}
+              <Button 
+                variant="ghost"
+                onClick={() => setShowLandingPage(true)}
+                className={`text-gray-600 hover:text-gray-900 ${isDarkTheme ? 'text-gray-300 hover:text-white' : ''}`}
+              >
+                Landing
+              </Button>
+
+              {/* Notification Bell */}
+              <div className="relative">
+                <Button variant="ghost" size="sm" className="relative" data-notification-button>
+                  <Bell className="h-4 w-4" />
+                  {notifications.length > 0 && (
+                    <Badge className="absolute -top-1 -right-1 px-1 min-w-5 h-5 text-xs bg-red-500 text-white rounded-full">
+                      {notifications.length}
+                    </Badge>
+                  )}
+                </Button>
+              </div>
+
+              {/* User Menu */}
+              <div className="ml-4">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" data-user-menu-button>
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
+                          <span className="text-xs font-medium text-white">
+                            {currentAuthUser?.full_name?.charAt(0) || 'U'}
+                          </span>
+                        </div>
+                        <span className="text-sm font-medium">
+                          {currentAuthUser?.full_name || 'User'}
+                        </span>
+                        <ChevronDown className="h-3 w-3" />
+                      </div>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => setShowAuthModal(true)}>
+                      <UserPlus className="mr-2 h-4 w-4" />
+                      <span>Account Settings</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Sign Out</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Split Screen Layout */}
+      <div className="flex h-[calc(100vh-4rem)] w-full">
+        {/* Left Half - LLM Interface */}
+        <div 
+          style={{ width: `${splitScreenRatio}%` }}
+          className={`border-r ${isDarkTheme ? 'border-gray-700 bg-gray-900' : 'border-gray-200 bg-gray-50'} flex flex-col`}
+        >
+          <ChatInterface />
+        </div>
+        
+        {/* Resizable Divider */}
+        <div
+          className={`w-1 cursor-col-resize ${isDragging ? 'bg-blue-500' : isDarkTheme ? 'bg-gray-600 hover:bg-gray-500' : 'bg-gray-300 hover:bg-gray-400'} transition-colors`}
+          onMouseDown={handleMouseDown}
+        />
+        
+        {/* Right Half - Main Application */}
+        <div 
+          style={{ width: `${100 - splitScreenRatio}%` }}
+          className="flex flex-col overflow-hidden"
+        >
+          <div className={`flex-1 ${isDarkTheme ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
+            <Tabs 
+              value={activeTab} 
+              onValueChange={setActiveTab}
+              className="h-full flex flex-col"
+            >
                 <div className="flex items-center gap-1">
                   <div className={`w-3 h-3 rounded ${getStatusColor(integrationStatus.tradestation)}`} />
                   <span className="text-xs text-gray-600">TradeStation</span>
