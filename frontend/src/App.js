@@ -164,6 +164,15 @@ function App() {
       fontSize: 'large', // Default to 'large' (which will be labeled as 'Default')
     };
   });
+  
+  // Split-screen and chat state
+  const [splitScreenRatio, setSplitScreenRatio] = useState(40); // 40% for LLM, 60% for tabs
+  const [isDragging, setIsDragging] = useState(false);
+  const [chatMessages, setChatMessages] = useState([]);
+  const [chatInput, setChatInput] = useState('');
+  const [chatSessionId, setChatSessionId] = useState(null);
+  const [isChatLoading, setIsChatLoading] = useState(false);
+  
   const [strategies, setStrategies] = useState([]);
   const [backtestResults, setBacktestResults] = useState([]);
   const [tradeLog, setTradeLog] = useState([]);
