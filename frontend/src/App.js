@@ -4644,6 +4644,10 @@ metadata = {
             </div>
           )}
 
+          <TabsContent value="dashboard" className="tab-content-padding">
+            <DashboardTab />
+          </TabsContent>
+
           <TabsContent value="settings" className="tab-content-padding">
             <SettingsTab />
           </TabsContent>
