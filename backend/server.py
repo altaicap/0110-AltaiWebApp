@@ -2259,8 +2259,8 @@ async def get_llm_providers():
 
 @app.post("/api/llm/test/{provider}")
 async def test_llm_connection(
-    provider: str,
-    current_user: dict = Depends(get_current_user)
+    provider: str
+    # current_user: dict = Depends(get_current_user)  # Temporarily disabled
 ):
     """Test connection to specific LLM provider"""
     try:
