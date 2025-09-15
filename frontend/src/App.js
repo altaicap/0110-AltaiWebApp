@@ -209,14 +209,13 @@ function App() {
     
     const userMessage = chatInput.trim();
     setIsChatLoading(true);
-    setIsChatLoading(false);
     
     // Add user message
     setChatMessages(prev => [...prev, { role: 'user', content: userMessage, timestamp: new Date() }]);
     setChatInput('');
     
     try {
-      const response = await authFetch(`${BACKEND_URL}/api/chat/send`, {
+      const response = await fetch(`${BACKEND_URL}/api/chat/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -228,13 +227,23 @@ function App() {
       
       if (response.ok) {
         const data = await response.json();
+        console.log('LLM Response:', data); // Debug log
+        
+        // Backend returns 'message' field, not 'response'
+        const aiMessage = data.message || data.response || 'No response received';
+        
         setChatMessages(prev => [...prev, { 
           role: 'assistant', 
-          content: data.response, 
+          content: aiMessage, 
           timestamp: new Date() 
         }]);
-        setChatSessionId(data.session_id);
+        
+        if (data.session_id) {
+          setChatSessionId(data.session_id);
+        }
       } else {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Chat API Error:', errorData);
         setChatMessages(prev => [...prev, { 
           role: 'assistant', 
           content: 'Sorry, I encountered an error. Please try again.', 
@@ -242,6 +251,7 @@ function App() {
         }]);
       }
     } catch (error) {
+      console.error('Chat Connection Error:', error);
       setChatMessages(prev => [...prev, { 
         role: 'assistant', 
         content: 'Sorry, I encountered a connection error. Please try again.', 
