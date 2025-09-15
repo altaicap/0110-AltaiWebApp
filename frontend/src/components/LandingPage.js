@@ -1,157 +1,168 @@
-import React, { useState } from 'react';
-import { Button } from "./ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { Badge } from "./ui/badge";
-import { 
-  TrendingUp, 
-  BarChart3, 
-  FileText,
-  Play,
-  CheckCircle,
-  ArrowRight,
-  Zap,
-  Shield,
-  Target,
-  Globe
-} from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Button } from "../components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import { Badge } from "../components/ui/badge";
+import { TrendingUp, BarChart3, FileText, PlayCircle, Users, Shield, Zap, ArrowRight, Star, CheckCircle } from 'lucide-react';
+
+// Import logos and screenshots
 import AltaiLogo from '../assets/altai-logo.svg';
-
-// Integration logos
+import AltaiLogoDark from '../assets/altai-logo-dark.svg';
 import PolygonLogo from '../assets/polygon-logo.png';
-import NewswareLogo from '../assets/newsware-logo.png';
-import TradexchangeLogo from '../assets/tradexchange-logo.png';
-import TradestationLogo from '../assets/tradestation-logo.png';
+import NewsWareLogo from '../assets/newsware-logo.png';
+import TradeXchangeLogo from '../assets/tradexchange-logo.png';
+import TradeStationLogo from '../assets/tradestation-logo.png';
 import IBKRLogo from '../assets/ibkr-logo.png';
+import StrategiesScreenshot from '../assets/strategies-screenshot.png';
+import BacktestScreenshot from '../assets/backtest-screenshot.png';
+import NewsScreenshot from '../assets/news-screenshot.png';
 
-// Placeholder screenshot components
-const ScreenshotPlaceholder = ({ title, type }) => (
-  <div className="w-full h-96 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl border-2 border-gray-200 flex items-center justify-center">
-    <div className="text-center p-8">
-      <div className={`w-16 h-16 mx-auto mb-4 rounded-lg flex items-center justify-center ${
-        type === 'strategies' ? 'bg-blue-500' : 
-        type === 'backtest' ? 'bg-green-500' : 'bg-purple-500'
-      }`}>
-        {type === 'strategies' && <TrendingUp className="w-8 h-8 text-white" />}
-        {type === 'backtest' && <BarChart3 className="w-8 h-8 text-white" />}
-        {type === 'news' && <FileText className="w-8 h-8 text-white" />}
-      </div>
-      <h3 className="text-lg font-semibold text-gray-700 mb-2">{title} Preview</h3>
-      <p className="text-sm text-gray-500">Live webapp interface</p>
-    </div>
-  </div>
-);
+const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme }) => {
+  // Typing animation state
+  const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
+  const [currentText, setCurrentText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [showCursor, setShowCursor] = useState(true);
+  
+  // Navigation state for smooth scrolling
+  const [activeSection, setActiveSection] = useState('home');
+  
+  // Hover states for preview images
+  const [hoveredPreview, setHoveredPreview] = useState(null);
+  
+  // Ref for sections
+  const featuresRef = useRef(null);
+  const pricingRef = useRef(null);
+  const connectionsRef = useRef(null);
+  
+  // Typing animation phrases
+  const phrases = [
+    "Generate Python and backtest instantly with AI",
+    "Manage, trade, and review all in one place.",
+    "Log manual trades and let AI boost performance"
+  ];
 
-// Integration logos components
-const IntegrationLogos = {
-  polygon: () => (
-    <div className="w-24 h-24 bg-white rounded-lg flex items-center justify-center p-3 border shadow-sm">
-      <img src={PolygonLogo} alt="Polygon" className="w-18 h-18 object-contain" />
-    </div>
-  ),
-  newsware: () => (
-    <div className="w-24 h-24 bg-white rounded-lg flex items-center justify-center p-3 border shadow-sm">
-      <img src={NewswareLogo} alt="NewsWare" className="w-18 h-18 object-contain" />
-    </div>
-  ),
-  tradexchange: () => (
-    <div className="w-24 h-24 bg-white rounded-lg flex items-center justify-center p-3 border shadow-sm">
-      <img src={TradexchangeLogo} alt="TradeXchange" className="w-18 h-18 object-contain" />
-    </div>
-  ),
-  tradestation: () => (
-    <div className="w-24 h-24 bg-white rounded-lg flex items-center justify-center p-3 border shadow-sm">
-      <img src={TradestationLogo} alt="TradeStation" className="w-18 h-18 object-contain" />
-    </div>
-  ),
-  ibkr: () => (
-    <div className="w-24 h-24 bg-white rounded-lg flex items-center justify-center p-3 border shadow-sm">
-      <img src={IBKRLogo} alt="Interactive Brokers" className="w-18 h-18 object-contain" />
-    </div>
-  )
-};
+  // Typing animation effect
+  useEffect(() => {
+    const typeSpeed = 100;
+    const deleteSpeed = 50;
+    const pauseTime = 3000;
 
-const LandingPage = ({ onSignIn, onRegister, isDarkTheme, onGoToDashboard }) => {
-  const [showAuthModal, setShowAuthModal] = useState(false);
+    const currentPhrase = phrases[currentPhraseIndex];
+    
+    const timer = setTimeout(() => {
+      if (!isDeleting && currentText === currentPhrase) {
+        // Pause then start deleting
+        setTimeout(() => setIsDeleting(true), pauseTime);
+      } else if (isDeleting && currentText === '') {
+        // Move to next phrase
+        setIsDeleting(false);
+        setCurrentPhraseIndex((prev) => (prev + 1) % phrases.length);
+      } else if (isDeleting) {
+        // Delete character
+        setCurrentText(currentPhrase.substring(0, currentText.length - 1));
+      } else {
+        // Add character
+        setCurrentText(currentPhrase.substring(0, currentText.length + 1));
+      }
+    }, isDeleting ? deleteSpeed : typeSpeed);
 
-  const features = [
-    {
-      icon: <TrendingUp className="w-8 h-8" />,
-      title: "Real-Time Trading & Backtesting",
-      description: "Test your strategies against historical data with our advanced backtesting engine. Execute live trades with confidence using real market data.",
-      color: "from-blue-500 to-blue-600"
-    },
-    {
-      icon: <FileText className="w-8 h-8" />,
-      title: "Live News Integration into Strategy",
-      description: "Filter and integrate real-time financial news directly into your trading strategies. Make informed decisions with market-moving information.",
-      color: "from-green-500 to-green-600"
-    },
-    {
-      icon: <BarChart3 className="w-8 h-8" />,
-      title: "Advanced News Feed",
-      description: "Real-time news from NewsWare and TradeXchange with RVOL indicators, ticker highlighting, and intelligent filtering.",
-      color: "from-purple-500 to-purple-600"
+    return () => clearTimeout(timer);
+  }, [currentText, isDeleting, currentPhraseIndex, phrases]);
+
+  // Cursor blinking effect
+  useEffect(() => {
+    const cursor = setInterval(() => {
+      setShowCursor(prev => !prev);
+    }, 530);
+    return () => clearInterval(cursor);
+  }, []);
+
+  // Smooth scroll to section
+  const scrollToSection = (section) => {
+    setActiveSection(section);
+    
+    if (section === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (section === 'features' && featuresRef.current) {
+      featuresRef.current.scrollIntoView({ behavior: 'smooth' });
+    } else if (section === 'pricing' && pricingRef.current) {
+      pricingRef.current.scrollIntoView({ behavior: 'smooth' });
+    } else if (section === 'connections' && connectionsRef.current) {
+      connectionsRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  ];
+  };
 
-  const integrations = [
-    { name: 'Polygon', description: 'Real-time & historical market data', logo: IntegrationLogos.polygon },
-    { name: 'NewsWare', description: 'Professional financial news feeds', logo: IntegrationLogos.newsware },
-    { name: 'TradeXchange', description: 'Trade execution & exchange data', logo: IntegrationLogos.tradexchange },
-    { name: 'TradeStation', description: 'Professional trading platform', logo: IntegrationLogos.tradestation },
-    { name: 'Interactive Brokers', description: 'Global trading & investments', logo: IntegrationLogos.ibkr }
-  ];
-
-  const screenshots = [
-    {
-      title: "Strategy Management",
-      description: "Easily configure, upload, and manage your trading strategies in one place. Organize active setups, review archived strategies, and seamlessly connect them to live trading — so you can stay focused on execution, not admin.",
-      type: "strategies",
-      badge: "Strategy Hub"
-    },
-    {
-      title: "Advanced Backtesting",
-      description: "Test your Python strategy across one or multiple tickers at the same time with powerful backtesting tools. Review quartile average trade curves, portfolio value metrics, and detailed trade logs — giving you a clear picture of performance before going live.",
-      type: "backtest",
-      badge: "Backtest Engine"
-    },
-    {
-      title: "Real-Time News Feed",
-      description: "Access live market headlines with intelligent filtering and RVOL indicators. Integrate news directly into your algorithmic strategies, so your trades can react instantly to breaking events and market-moving updates.",
-      type: "news",
-      badge: "News Intelligence"
-    }
-  ];
+  // Preview image alternates
+  const previewImages = {
+    strategies: [StrategiesScreenshot, BacktestScreenshot], // Second image on hover
+    backtest: [BacktestScreenshot, StrategiesScreenshot],
+    news: [NewsScreenshot, StrategiesScreenshot]
+  };
 
   return (
     <div className={`min-h-screen ${isDarkTheme ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
       {/* Header */}
-      <header className={`border-b ${isDarkTheme ? 'border-gray-700' : 'border-gray-200'}`}>
+      <header className={`border-b ${isDarkTheme ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'} sticky top-0 z-50`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <img src={AltaiLogo} alt="Altai Capital" className="w-12 h-12 mr-3" />
-              <h1 className="text-xl font-bold">Altai Trader</h1>
+              <img 
+                src={isDarkTheme ? AltaiLogoDark : AltaiLogo} 
+                alt="Altai Trader" 
+                className="h-8 w-auto"
+              />
+              <h1 className="ml-2 text-xl font-bold">Altai Trader</h1>
             </div>
+            
+            {/* Navigation Menu */}
+            <nav className="hidden md:flex space-x-8">
+              <button
+                onClick={() => scrollToSection('home')}
+                className={`text-sm font-medium transition-colors ${
+                  activeSection === 'home' 
+                    ? 'text-blue-600' 
+                    : isDarkTheme ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Home
+              </button>
+              <button
+                onClick={() => scrollToSection('features')}
+                className={`text-sm font-medium transition-colors ${
+                  activeSection === 'features' 
+                    ? 'text-blue-600' 
+                    : isDarkTheme ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Features
+              </button>
+              <button
+                onClick={() => scrollToSection('pricing')}
+                className={`text-sm font-medium transition-colors ${
+                  activeSection === 'pricing' 
+                    ? 'text-blue-600' 
+                    : isDarkTheme ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Pricing
+              </button>
+              <button
+                onClick={() => scrollToSection('connections')}
+                className={`text-sm font-medium transition-colors ${
+                  activeSection === 'connections' 
+                    ? 'text-blue-600' 
+                    : isDarkTheme ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Connections
+              </button>
+            </nav>
+
             <div className="flex items-center space-x-4">
-              <Button 
-                variant="ghost"
-                onClick={() => onGoToDashboard()}
-                className="text-gray-600 hover:text-gray-900"
-              >
-                Dashboard
-              </Button>
-              <Button 
-                variant="ghost"
-                onClick={() => onSignIn()}
-                className="text-gray-600 hover:text-gray-900"
-              >
+              <Button variant="ghost" onClick={onSignIn}>
                 Sign In
               </Button>
-              <Button 
-                onClick={() => onRegister()}
-                className="bg-blue-600 hover:bg-blue-700 text-white"
-              >
+              <Button onClick={onRegister}>
                 Register
               </Button>
             </div>
@@ -159,179 +170,375 @@ const LandingPage = ({ onSignIn, onRegister, isDarkTheme, onGoToDashboard }) => 
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="pt-20 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-            Trade What Matters: 
-            <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Backtest Ideas, Connect News, Execute with Confidence
-            </span>
-          </h1>
+      {/* Main Banner - Extended to full height */}
+      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800">
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+              Trade What Matters
+            </h1>
+            
+            {/* Typing Animation */}
+            <div className="h-20 flex items-center justify-center mb-8">
+              <p className="text-xl md:text-2xl text-blue-100 font-medium">
+                {currentText}
+                <span className={`${showCursor ? 'opacity-100' : 'opacity-0'} transition-opacity`}>|</span>
+              </p>
+            </div>
+            
+            <p className="text-xl text-blue-100 mb-12 max-w-2xl mx-auto">
+              Backtest ideas, connect news, execute with confidence using our comprehensive trading platform
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button 
+                size="lg" 
+                className="bg-white text-blue-600 hover:bg-gray-100 text-lg px-8 py-4"
+                onClick={onRegister}
+              >
+                Get Started for Free
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+              <Button 
+                variant="outline" 
+                size="lg"
+                className="border-white text-white hover:bg-white hover:text-blue-600 text-lg px-8 py-4"
+                onClick={onGoToDashboard}
+              >
+                View Demo
+              </Button>
+            </div>
+          </div>
           
-          <p className={`text-xl md:text-2xl mb-12 max-w-4xl mx-auto leading-relaxed ${
-            isDarkTheme ? 'text-gray-300' : 'text-gray-600'
-          }`}>
-            Skip the patchwork of tools — develop your custom strategy, backtest, filter with real news and execute in a single powerful interface
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button 
-              size="lg"
-              onClick={() => onRegister()}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg"
-            >
-              Get Started for Free
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              onClick={() => onSignIn()}
-              className="px-8 py-4 text-lg"
-            >
-              <Play className="mr-2 w-5 h-5" />
-              View Demo
-            </Button>
+          {/* Highlighted Figures */}
+          <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 w-full max-w-4xl">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+              <div className="text-white">
+                <div className="text-3xl md:text-4xl font-bold mb-2">5+</div>
+                <div className="text-blue-200 text-sm uppercase tracking-wide">Exchanges</div>
+              </div>
+              <div className="text-white">
+                <div className="text-3xl md:text-4xl font-bold mb-2">$2M+</div>
+                <div className="text-blue-200 text-sm uppercase tracking-wide">Monthly Trading Volume</div>
+              </div>
+              <div className="text-white">
+                <div className="text-3xl md:text-4xl font-bold mb-2">99.9%</div>
+                <div className="text-blue-200 text-sm uppercase tracking-wide">Uptime</div>
+              </div>
+              <div className="text-white">
+                <div className="text-3xl md:text-4xl font-bold mb-2">2k+</div>
+                <div className="text-blue-200 text-sm uppercase tracking-wide">Optimised Rs</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className={`py-20 ${isDarkTheme ? 'bg-gray-800' : 'bg-gray-50'}`}>
+      <section ref={featuresRef} className={`py-20 ${isDarkTheme ? 'bg-gray-900' : 'bg-gray-50'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Everything You Need to Trade Smart</h2>
-            <p className={`text-xl ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>
-              Professional-grade tools for modern traders
+            <p className={`text-xl ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'} max-w-2xl mx-auto`}>
+              Comprehensive trading tools designed for modern traders who demand performance and reliability
             </p>
           </div>
-          
+
+          {/* Feature Cards with Hover Effects */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <Card 
+              className={`group cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 ${
+                isDarkTheme ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'hover:shadow-2xl'
+              }`}
+            >
+              <CardHeader>
+                <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-700 transition-colors">
+                  <TrendingUp className="h-6 w-6 text-white" />
+                </div>
+                <CardTitle className="text-xl">Real-Time Trading & Backtesting</CardTitle>
+                <CardDescription className={isDarkTheme ? 'text-gray-300' : ''}>
+                  Execute live trades and test strategies with historical data simultaneously
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card 
+              className={`group cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 ${
+                isDarkTheme ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'hover:shadow-2xl'
+              }`}
+            >
+              <CardHeader>
+                <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4 group-hover:bg-green-700 transition-colors">
+                  <FileText className="h-6 w-6 text-white" />
+                </div>
+                <CardTitle className="text-xl">Live News Integration into Strategy</CardTitle>
+                <CardDescription className={isDarkTheme ? 'text-gray-300' : ''}>
+                  Real-time news feeds integrated directly into your trading strategies
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card 
+              className={`group cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 ${
+                isDarkTheme ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'hover:shadow-2xl'
+              }`}
+            >
+              <CardHeader>
+                <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4 group-hover:bg-purple-700 transition-colors">
+                  <BarChart3 className="h-6 w-6 text-white" />
+                </div>
+                <CardTitle className="text-xl">Advanced News Feed</CardTitle>
+                <CardDescription className={isDarkTheme ? 'text-gray-300' : ''}>
+                  Curated news with sentiment analysis and market impact indicators
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
+
+          {/* Preview Screenshots with Hover Transitions */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <Card key={index} className={`border-0 shadow-lg ${
-                isDarkTheme ? 'bg-gray-700' : 'bg-white'
-              } hover:shadow-xl transition-shadow duration-300`}>
-                <CardContent className="p-8">
-                  <div className={`w-16 h-16 rounded-lg bg-gradient-to-r ${feature.color} flex items-center justify-center text-white mb-6`}>
-                    {feature.icon}
-                  </div>
-                  <h3 className="text-xl font-bold mb-4">{feature.title}</h3>
-                  <p className={isDarkTheme ? 'text-gray-300' : 'text-gray-600'}>
-                    {feature.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
+            <Card 
+              className={`group cursor-pointer transition-all duration-300 ${
+                isDarkTheme ? 'bg-gray-800 border-gray-700' : ''
+              }`}
+              onMouseEnter={() => setHoveredPreview('strategies')}
+              onMouseLeave={() => setHoveredPreview(null)}
+            >
+              <CardHeader>
+                <CardTitle>Strategy Management Preview</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="relative overflow-hidden rounded-lg">
+                  <img 
+                    src={hoveredPreview === 'strategies' ? previewImages.strategies[1] : previewImages.strategies[0]}
+                    alt="Strategy Management"
+                    className="w-full h-48 object-cover transition-all duration-500"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card 
+              className={`group cursor-pointer transition-all duration-300 ${
+                isDarkTheme ? 'bg-gray-800 border-gray-700' : ''
+              }`}
+              onMouseEnter={() => setHoveredPreview('backtest')}
+              onMouseLeave={() => setHoveredPreview(null)}
+            >
+              <CardHeader>
+                <CardTitle>Advanced Backtesting Preview</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="relative overflow-hidden rounded-lg">
+                  <img 
+                    src={hoveredPreview === 'backtest' ? previewImages.backtest[1] : previewImages.backtest[0]}
+                    alt="Backtesting Interface"
+                    className="w-full h-48 object-cover transition-all duration-500"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card 
+              className={`group cursor-pointer transition-all duration-300 ${
+                isDarkTheme ? 'bg-gray-800 border-gray-700' : ''
+              }`}
+              onMouseEnter={() => setHoveredPreview('news')}
+              onMouseLeave={() => setHoveredPreview(null)}
+            >
+              <CardHeader>
+                <CardTitle>Real-Time News Feed Preview</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="relative overflow-hidden rounded-lg">
+                  <img 
+                    src={hoveredPreview === 'news' ? previewImages.news[1] : previewImages.news[0]}
+                    alt="News Feed"
+                    className="w-full h-48 object-cover transition-all duration-500"
+                  />
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
 
-      {/* Screenshots Section */}
-      <section className="py-20">
+      {/* See Altai Trader in Action */}
+      <section className={`py-20 ${isDarkTheme ? 'bg-gray-800' : 'bg-white'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl font-bold mb-4">See Altai Trader in Action</h2>
+          <p className={`text-xl ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'} mb-8 max-w-2xl mx-auto`}>
+            Experience the power of professional trading tools designed for serious traders
+          </p>
+          <Button 
+            size="lg" 
+            onClick={onGoToDashboard}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4"
+          >
+            Try Demo Now
+            <PlayCircle className="ml-2 h-5 w-5" />
+          </Button>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section ref={pricingRef} className={`py-20 ${isDarkTheme ? 'bg-gray-900' : 'bg-gray-50'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">See Altai Trader in Action</h2>
-            <p className={`text-xl ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>
-              Explore our comprehensive trading platform
+            <h2 className="text-4xl font-bold mb-4">Pricing</h2>
+            <p className={`text-xl ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'} max-w-2xl mx-auto`}>
+              Choose the perfect plan for your trading needs
             </p>
           </div>
-          
-          <div className="space-y-16">
-            {screenshots.map((screenshot, index) => (
-              <div key={index} className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
-                index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''
-              }`}>
-                <div className={index % 2 === 1 ? 'lg:col-start-2' : ''}>
-                  <Badge variant="secondary" className="mb-4">
-                    {screenshot.badge}
-                  </Badge>
-                  <h3 className="text-3xl font-bold mb-4">{screenshot.title}</h3>
-                  <p className={`text-lg ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'} mb-6`}>
-                    {screenshot.description}
-                  </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Basic Plan */}
+            <Card className={`${isDarkTheme ? 'bg-gray-800 border-gray-700' : ''} transition-all duration-300 hover:shadow-xl`}>
+              <CardHeader>
+                <CardTitle className="text-2xl">Basic</CardTitle>
+                <div className="flex items-baseline">
+                  <span className="text-4xl font-bold">$34.99</span>
+                  <span className={`ml-2 ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>/month</span>
                 </div>
-                <div className={index % 2 === 1 ? 'lg:col-start-1' : ''}>
-                  <div className="rounded-xl shadow-2xl overflow-hidden border">
-                    <ScreenshotPlaceholder title={screenshot.title} type={screenshot.type} />
-                  </div>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3">
+                  <li className="flex items-center">
+                    <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
+                    <span>Backtesting</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
+                    <span>Trading Log</span>
+                  </li>
+                </ul>
+                <Button className="w-full mt-6" variant="outline">
+                  Get Started
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Pro Plan */}
+            <Card className={`${isDarkTheme ? 'bg-gray-800 border-gray-700' : ''} relative transition-all duration-300 hover:shadow-xl border-blue-600`}>
+              <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-600">
+                Most Popular
+              </Badge>
+              <CardHeader>
+                <CardTitle className="text-2xl">Pro</CardTitle>
+                <div className="flex items-baseline">
+                  <span className="text-4xl font-bold">$69.99</span>
+                  <span className={`ml-2 ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>/month</span>
                 </div>
-              </div>
-            ))}
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3">
+                  <li className="flex items-center">
+                    <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
+                    <span>Backtesting</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
+                    <span>Trading Log</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
+                    <span>5 Live Strategies</span>
+                  </li>
+                </ul>
+                <Button className="w-full mt-6 bg-blue-600 hover:bg-blue-700">
+                  Get Started
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Max Plan */}
+            <Card className={`${isDarkTheme ? 'bg-gray-800 border-gray-700' : ''} transition-all duration-300 hover:shadow-xl`}>
+              <CardHeader>
+                <CardTitle className="text-2xl">Max</CardTitle>
+                <div className="flex items-baseline">
+                  <span className="text-4xl font-bold">$119.99</span>
+                  <span className={`ml-2 ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>/month</span>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3">
+                  <li className="flex items-center">
+                    <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
+                    <span>Backtesting</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
+                    <span>Trading Log</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
+                    <span>Unlimited Live Strategies</span>
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
+                    <span>AI Assistant</span>
+                  </li>
+                </ul>
+                <Button className="w-full mt-6" variant="outline">
+                  Get Started
+                </Button>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
 
-      {/* Integrations Section */}
-      <section className={`py-20 ${isDarkTheme ? 'bg-gray-800' : 'bg-gray-50'}`}>
+      {/* Available Connections */}
+      <section ref={connectionsRef} className={`py-20 ${isDarkTheme ? 'bg-gray-800' : 'bg-white'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Available Connections</h2>
-            <p className={`text-xl ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className={`text-xl ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'} max-w-2xl mx-auto`}>
               Connect with leading financial data providers and brokers
             </p>
           </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
-            {integrations.map((integration, index) => (
-              <Card key={index} className={`border-0 shadow-md ${
-                isDarkTheme ? 'bg-gray-700' : 'bg-white'
-              } hover:shadow-lg transition-shadow duration-300`}>
-                <CardContent className="p-6 text-center">
-                  <div className="flex justify-center mb-4">
-                    <integration.logo />
-                  </div>
-                  <h4 className="font-semibold mb-2">{integration.name}</h4>
-                  <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>
-                    {integration.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* CTA Section */}
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold mb-6">Ready to Transform Your Trading?</h2>
-          <p className={`text-xl mb-12 ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>
-            Join traders who are already using Altai Trader to make smarter, data-driven decisions
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg"
-              onClick={() => onRegister()}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg"
-            >
-              Start Trading Today
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline"
-              onClick={() => onSignIn()}
-              className="px-8 py-4 text-lg"
-            >
-              Sign In
-            </Button>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 items-center justify-items-center">
+            <div className="flex flex-col items-center">
+              <img src={PolygonLogo} alt="Polygon" className="h-12 w-auto mb-2 opacity-70 hover:opacity-100 transition-opacity" />
+              <span className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>Polygon</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <img src={NewsWareLogo} alt="NewsWare" className="h-12 w-auto mb-2 opacity-70 hover:opacity-100 transition-opacity" />
+              <span className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>NewsWare</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <img src={TradeXchangeLogo} alt="TradeXchange" className="h-12 w-auto mb-2 opacity-70 hover:opacity-100 transition-opacity" />
+              <span className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>TradeXchange</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <img src={TradeStationLogo} alt="TradeStation" className="h-12 w-auto mb-2 opacity-70 hover:opacity-100 transition-opacity" />
+              <span className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>TradeStation</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <img src={IBKRLogo} alt="Interactive Brokers" className="h-12 w-auto mb-2 opacity-70 hover:opacity-100 transition-opacity" />
+              <span className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>IBKR</span>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className={`border-t py-12 ${isDarkTheme ? 'border-gray-700' : 'border-gray-200'}`}>
+      <footer className={`py-12 ${isDarkTheme ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'} border-t`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <img src={AltaiLogo} alt="Altai Capital" className="w-8 h-8 mr-3" />
-              <span className="font-semibold">Altai Trader</span>
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="flex items-center mb-4 md:mb-0">
+              <img 
+                src={isDarkTheme ? AltaiLogoDark : AltaiLogo} 
+                alt="Altai Trader" 
+                className="h-6 w-auto"
+              />
+              <span className="ml-2 text-lg font-bold">Altai Trader</span>
             </div>
-            <p className={`text-sm ${isDarkTheme ? 'text-gray-400' : 'text-gray-500'}`}>
-              © 2025 Altai Capital. Professional Trading Platform.
-            </p>
+            <div className={`text-sm ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>
+              © 2025 Altai Trader. All rights reserved.
+            </div>
           </div>
         </div>
       </footer>
