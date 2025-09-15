@@ -175,63 +175,58 @@ function App() {
   
   // Chat functions
   const sendChatMessage = async () => {
-    if (!chatInput.trim()) return;
+    if (!chatInput.trim() || isChatLoading) return;
     
-    const userMessage = {
-      id: Date.now(),
-      type: 'user',
-      content: chatInput.trim(),
-      timestamp: new Date()
-    };
-    
-    setChatMessages(prev => [...prev, userMessage]);
+    const userMessage = chatInput.trim();
     setIsChatLoading(true);
-    const currentInput = chatInput;
+    
+    // Add user message
+    setChatMessages(prev => [...prev, { role: 'user', content: userMessage, timestamp: new Date() }]);
     setChatInput('');
     
     try {
-      const context = {
-        current_tab: activeTab,
-        active_strategies: strategies.filter(s => s.isLive).map(s => s.name)
-      };
-      
       const response = await fetch(`${BACKEND_URL}/api/chat/send`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-        },
-        body: JSON.stringify({
-          message: currentInput,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          message: userMessage, 
           session_id: chatSessionId,
-          context
+          llm_provider: selectedLLM
         })
       });
       
-      const data = await response.json();
-      
-      if (data.success) {
-        setChatSessionId(data.session_id);
-        const assistantMessage = {
-          id: Date.now() + 1,
-          type: 'assistant',
-          content: data.message,
-          timestamp: new Date()
-        };
-        setChatMessages(prev => [...prev, assistantMessage]);
+      if (response.ok) {
+        const data = await response.json();
+        console.log('LLM Response:', data); // Debug log
+        
+        // Backend returns 'message' field, not 'response'
+        const aiMessage = data.message || data.response || 'No response received';
+        
+        setChatMessages(prev => [...prev, { 
+          role: 'assistant', 
+          content: aiMessage, 
+          timestamp: new Date() 
+        }]);
+        
+        if (data.session_id) {
+          setChatSessionId(data.session_id);
+        }
       } else {
-        throw new Error(data.error || 'Failed to send message');
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Chat API Error:', errorData);
+        setChatMessages(prev => [...prev, { 
+          role: 'assistant', 
+          content: 'Sorry, I encountered an error. Please try again.', 
+          timestamp: new Date() 
+        }]);
       }
     } catch (error) {
-      console.error('Chat error:', error);
-      const errorMessage = {
-        id: Date.now() + 1,
-        type: 'assistant', 
-        content: 'Sorry, I encountered an error. Please try again.',
-        timestamp: new Date(),
-        isError: true
-      };
-      setChatMessages(prev => [...prev, errorMessage]);
+      console.error('Chat Connection Error:', error);
+      setChatMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: 'Sorry, I encountered a connection error. Please try again.', 
+        timestamp: new Date() 
+      }]);
     } finally {
       setIsChatLoading(false);
     }
