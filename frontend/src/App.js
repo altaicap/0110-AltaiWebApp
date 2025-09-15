@@ -4570,22 +4570,26 @@ metadata = {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           {/* Primary Tabs */}
-          <TabsList className="grid w-full grid-cols-4 px-6">
-            <TabsTrigger value="settings" className="flex items-center gap-2 px-6 uppercase">
-              <Settings className="w-4 h-4" />
-              SETTINGS
+          <TabsList className="grid w-full grid-cols-5 px-6">
+            <TabsTrigger value="dashboard" className="flex items-center gap-2 px-6 uppercase">
+              <BarChart3 className="w-4 h-4" />
+              DASHBOARD
             </TabsTrigger>
             <TabsTrigger value="strategies" className="flex items-center gap-2 px-6 uppercase">
-              <FileText className="w-4 h-4" />
+              <TrendingUp className="w-4 h-4" />
               STRATEGIES
             </TabsTrigger>
             <TabsTrigger value="backtest" className="flex items-center gap-2 px-6 uppercase">
-              <BarChart3 className="w-4 h-4" />
+              <PlayCircle className="w-4 h-4" />
               BACKTEST
             </TabsTrigger>
             <TabsTrigger value="news" className="flex items-center gap-2 px-6 uppercase">
-              <Activity className="w-4 h-4" />
+              <FileText className="w-4 h-4" />
               NEWS
+            </TabsTrigger>
+            <TabsTrigger value="settings" className="flex items-center gap-2 px-6 uppercase">
+              <Settings className="w-4 h-4" />
+              SETTINGS
             </TabsTrigger>
           </TabsList>
 
