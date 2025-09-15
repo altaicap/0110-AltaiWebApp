@@ -19,9 +19,23 @@ class ChatService:
         if not self.api_key:
             raise ValueError("EMERGENT_LLM_KEY not found in environment variables")
         
+        # Model configurations
+        self.model_configs = {
+            'claude': {
+                'provider': 'anthropic',
+                'model': 'claude-3-7-sonnet-20250219',
+                'name': 'Claude (Anthropic)'
+            },
+            'chatgpt': {
+                'provider': 'openai', 
+                'model': 'gpt-4o',
+                'name': 'ChatGPT (OpenAI)'
+            }
+        }
+        
         # Default configuration
-        self.default_model = "gpt-4o-mini"
-        self.default_provider = "openai"
+        self.default_llm = "claude"
+        
         self.system_message = """You are an AI assistant integrated into Altai Trader, a professional trading platform. 
 
 You help users with:
