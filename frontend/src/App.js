@@ -472,8 +472,6 @@ function App() {
     general: ''
   });
   const [authErrors, setAuthErrors] = useState({});
-  const [success, setSuccess] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   
   // Dashboard state
   const [selectedDashboardAccount, setSelectedDashboardAccount] = useState('all');
