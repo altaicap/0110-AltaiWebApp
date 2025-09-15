@@ -202,9 +202,27 @@ function App() {
   const [dashboardMonth, setDashboardMonth] = useState(new Date());
   const [dashboardData, setDashboardData] = useState({
     dailyNetPL: 2450.75,
-    cumulativePLHistory: [],
-    dailyPLHistory: [],
-    recentTrades: []
+    cumulativePLHistory: [
+      { date: '2024-09-01', value: 1250.00 },
+      { date: '2024-09-02', value: 1680.50 },
+      { date: '2024-09-03', value: 1455.25 },
+      { date: '2024-09-04', value: 1890.75 },
+      { date: '2024-09-05', value: 2450.75 }
+    ],
+    dailyPLHistory: [
+      { date: '2024-09-01', value: 1250.00 },
+      { date: '2024-09-02', value: 430.50 },
+      { date: '2024-09-03', value: -225.25 },
+      { date: '2024-09-04', value: 435.50 },
+      { date: '2024-09-05', value: 560.00 }
+    ],
+    recentTrades: [
+      { id: 1, closeDate: '2024-09-05', ticker: 'AAPL', netPL: '+$560.00', rUnits: '+1.2R', strategy: 'Prior Bar Break Algo' },
+      { id: 2, closeDate: '2024-09-04', ticker: 'MSFT', netPL: '+$435.50', rUnits: '+0.9R', strategy: 'Prior Bar Break Algo' },
+      { id: 3, closeDate: '2024-09-03', ticker: 'GOOGL', netPL: '-$225.25', rUnits: '-0.5R', strategy: 'Prior Bar Break Algo' },
+      { id: 4, closeDate: '2024-09-02', ticker: 'TSLA', netPL: '+$430.50', rUnits: '+1.1R', strategy: 'Prior Bar Break Algo' },
+      { id: 5, closeDate: '2024-09-01', ticker: 'NVDA', netPL: '+$1250.00', rUnits: '+2.5R', strategy: 'Prior Bar Break Algo' }
+    ]
   });
   const [integrationStatus, setIntegrationStatus] = useState({
     polygon: 'connected',
