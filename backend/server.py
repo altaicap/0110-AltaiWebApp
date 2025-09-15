@@ -2133,6 +2133,7 @@ async def send_chat_message(
         
         message = request.get('message', '')
         session_id = request.get('session_id')
+        llm_provider = request.get('llm_provider', 'claude')  # Default to Claude
         user_context = request.get('context', {})
         
         if not message.strip():
