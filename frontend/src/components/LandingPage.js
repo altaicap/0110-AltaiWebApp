@@ -296,7 +296,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme }) => 
             </Card>
           </div>
 
-          {/* Preview Screenshots with Hover Transitions */}
+          {/* Preview Screenshots with Hover Transitions - Temporarily using placeholders */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card 
               className={`group cursor-pointer transition-all duration-300 ${
@@ -310,11 +310,15 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme }) => 
               </CardHeader>
               <CardContent>
                 <div className="relative overflow-hidden rounded-lg">
-                  <img 
-                    src={hoveredPreview === 'strategies' ? previewImages.strategies[1] : previewImages.strategies[0]}
-                    alt="Strategy Management"
-                    className="w-full h-48 object-cover transition-all duration-500"
-                  />
+                  <div className={`w-full h-48 flex items-center justify-center transition-all duration-500 ${
+                    hoveredPreview === 'strategies' 
+                      ? (isDarkTheme ? 'bg-blue-900' : 'bg-blue-100') 
+                      : (isDarkTheme ? 'bg-gray-700' : 'bg-gray-200')
+                  }`}>
+                    <TrendingUp className={`w-12 h-12 ${
+                      hoveredPreview === 'strategies' ? 'text-blue-500' : 'text-gray-400'
+                    }`} />
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -331,11 +335,15 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme }) => 
               </CardHeader>
               <CardContent>
                 <div className="relative overflow-hidden rounded-lg">
-                  <img 
-                    src={hoveredPreview === 'backtest' ? previewImages.backtest[1] : previewImages.backtest[0]}
-                    alt="Backtesting Interface"
-                    className="w-full h-48 object-cover transition-all duration-500"
-                  />
+                  <div className={`w-full h-48 flex items-center justify-center transition-all duration-500 ${
+                    hoveredPreview === 'backtest' 
+                      ? (isDarkTheme ? 'bg-green-900' : 'bg-green-100') 
+                      : (isDarkTheme ? 'bg-gray-700' : 'bg-gray-200')
+                  }`}>
+                    <BarChart3 className={`w-12 h-12 ${
+                      hoveredPreview === 'backtest' ? 'text-green-500' : 'text-gray-400'
+                    }`} />
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -352,11 +360,15 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme }) => 
               </CardHeader>
               <CardContent>
                 <div className="relative overflow-hidden rounded-lg">
-                  <img 
-                    src={hoveredPreview === 'news' ? previewImages.news[1] : previewImages.news[0]}
-                    alt="News Feed"
-                    className="w-full h-48 object-cover transition-all duration-500"
-                  />
+                  <div className={`w-full h-48 flex items-center justify-center transition-all duration-500 ${
+                    hoveredPreview === 'news' 
+                      ? (isDarkTheme ? 'bg-purple-900' : 'bg-purple-100') 
+                      : (isDarkTheme ? 'bg-gray-700' : 'bg-gray-200')
+                  }`}>
+                    <FileText className={`w-12 h-12 ${
+                      hoveredPreview === 'news' ? 'text-purple-500' : 'text-gray-400'
+                    }`} />
+                  </div>
                 </div>
               </CardContent>
             </Card>
