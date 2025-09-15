@@ -463,27 +463,17 @@ function App() {
   const [notifications, setNotifications] = useState([]);
   const [unreadNotifications, setUnreadNotifications] = useState(0);
   const [showNotificationPanel, setShowNotificationPanel] = useState(false);
-  // Authentication state
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [currentAuthUser, setCurrentAuthUser] = useState(null);
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authMode, setAuthMode] = useState('login'); // 'login' or 'register'
+  // Form state
   const [authForm, setAuthForm] = useState({
-    email: '',
-    password: '',
-    fullName: '',
-    confirmPassword: ''
-  });
-  const [authErrors, setAuthErrors] = useState({
     email: '',
     password: '',
     fullName: '',
     confirmPassword: '',
     general: ''
   });
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [showLandingPage, setShowLandingPage] = useState(true); // Navigation state
+  const [authErrors, setAuthErrors] = useState({});
+  const [success, setSuccess] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   
   // Dashboard state
   const [selectedDashboardAccount, setSelectedDashboardAccount] = useState('all');
