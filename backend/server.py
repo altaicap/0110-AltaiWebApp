@@ -2224,6 +2224,84 @@ async def create_chat_session(
             detail=f"Error creating session: {str(e)}"
         )
 
+# =====================================
+# LLM CONNECTIVITY ENDPOINTS
+# =====================================
+
+@app.get("/api/llm/providers")
+async def get_llm_providers():
+    """Get available LLM providers"""
+    try:
+        from services.chat_service import chat_service
+        
+        return {
+            'success': True,
+            'providers': [
+                {
+                    'id': 'claude',
+                    'name': 'Claude (Anthropic)',
+                    'model': 'claude-3-7-sonnet-20250219',
+                    'configured': bool(chat_service.api_key)
+                },
+                {
+                    'id': 'chatgpt', 
+                    'name': 'ChatGPT (OpenAI)',
+                    'model': 'gpt-4o',
+                    'configured': bool(chat_service.api_key)
+                }
+            ]
+        }
+        
+    except Exception as e:
+        logger.error(f"Error getting LLM providers: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error getting providers: {str(e)}"
+        )
+
+@app.post("/api/llm/test/{provider}")
+async def test_llm_connection(
+    provider: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """Test connection to specific LLM provider"""
+    try:
+        from services.chat_service import chat_service
+        
+        # Create a test session
+        test_session_id = f"test_{uuid.uuid4().hex[:8]}"
+        
+        # Send a simple test message
+        response = await chat_service.send_message(
+            session_id=test_session_id,
+            message="Hello! Please respond with just 'Connection successful'",
+            llm_provider=provider
+        )
+        
+        if response.get('success'):
+            return {
+                'success': True,
+                'message': f'{provider.title()} connection successful',
+                'provider': provider,
+                'response': response.get('message', '')[:100] + '...' if len(response.get('message', '')) > 100 else response.get('message', '')
+            }
+        else:
+            return {
+                'success': False,
+                'message': f'{provider.title()} connection failed',
+                'provider': provider,
+                'error': response.get('error', 'Unknown error')
+            }
+        
+    except Exception as e:
+        logger.error(f"Error testing {provider} connection: {str(e)}")
+        return {
+            'success': False,
+            'message': f'{provider.title()} connection failed',
+            'provider': provider,
+            'error': str(e)
+        }
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001, reload=True)
