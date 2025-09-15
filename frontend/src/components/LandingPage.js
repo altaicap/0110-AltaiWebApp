@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
-import { TrendingUp, BarChart3, FileText, PlayCircle, Users, Shield, Zap, ArrowRight, Star, CheckCircle } from 'lucide-react';
+import { TrendingUp, BarChart3, FileText, PlayCircle, Users, Shield, Zap, ArrowRight, Star, CheckCircle, Sun, Moon } from 'lucide-react';
 
 // Import logos (screenshots commented out for now)
 import AltaiLogo from '../assets/altai-logo.svg';
