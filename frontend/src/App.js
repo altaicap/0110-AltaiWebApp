@@ -151,6 +151,133 @@ const PBB_ALGO_PARAMS = {
   move_rval: { type: "number", default: -0.5, label: "Move Distance (R)", description: "Distance to move stop (0 = breakeven)", min: -2, max: 2, step: 0.1 },
 };
 
+// LLM Chat Interface Component (moved outside App to prevent re-render issues)
+const ChatInterface = ({ 
+  chatMessages, 
+  chatInput, 
+  setChatInput, 
+  isChatLoading, 
+  selectedLLM, 
+  setSelectedLLM, 
+  sendChatMessage, 
+  clearChatHistory, 
+  isDarkTheme 
+}) => {
+  return (
+    <div className="h-full flex flex-col">
+      {/* Chat Header */}
+      <div className={`p-4 border-b ${isDarkTheme ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'}`}>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <MessageSquare className="w-5 h-5" />
+            <h2 className="text-lg font-semibold">AI Assistant</h2>
+          </div>
+          <div className="flex items-center gap-2">
+            {/* LLM Selection Dropdown */}
+            <Select value={selectedLLM} onValueChange={setSelectedLLM}>
+              <SelectTrigger className="w-32">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="claude">Claude</SelectItem>
+                <SelectItem value="chatgpt">ChatGPT</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={clearChatHistory}
+              title="Clear chat history"
+            >
+              <RotateCcw className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Chat Messages */}
+      <ScrollArea className="flex-1 p-4">
+        {chatMessages.length === 0 ? (
+          <div className={`text-center py-8 ${isDarkTheme ? 'text-gray-400' : 'text-gray-500'}`}>
+            <MessageSquare className="w-12 h-12 mx-auto mb-4 opacity-50" />
+            <h3 className="text-lg font-medium mb-2">How can I help you today?</h3>
+            <div className="text-sm space-y-1 max-w-sm mx-auto">
+              <p>• Ask about your recent trades and performance</p>
+              <p>• Learn about strategy settings and parameters</p>
+              <p>• Get help with backtesting and analysis</p>
+              <p>• Understand market data and news</p>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {chatMessages.map((message, index) => (
+              <div
+                key={index}
+                className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
+                <div
+                  className={`max-w-[80%] p-3 rounded-lg ${
+                    message.role === 'user'
+                      ? 'bg-blue-600 text-white'
+                      : isDarkTheme
+                      ? 'bg-gray-700 text-gray-100'
+                      : 'bg-gray-100 text-gray-900'
+                  }`}
+                >
+                  <div className="whitespace-pre-wrap">{message.content}</div>
+                  <div
+                    className={`text-xs mt-1 opacity-70 ${
+                      message.role === 'user' ? 'text-blue-100' : isDarkTheme ? 'text-gray-400' : 'text-gray-500'
+                    }`}
+                  >
+                    {format(message.timestamp, 'HH:mm')}
+                  </div>
+                </div>
+              </div>
+            ))}
+            {isChatLoading && (
+              <div className="flex justify-start">
+                <div className={`p-3 rounded-lg ${isDarkTheme ? 'bg-gray-700' : 'bg-gray-100'}`}>
+                  <div className="flex items-center gap-2">
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    <span>Thinking...</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </ScrollArea>
+
+      {/* Chat Input */}
+      <div className={`p-4 border-t ${isDarkTheme ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'}`}>
+        <div className="flex gap-2">
+          <Input
+            value={chatInput}
+            onChange={(e) => setChatInput(e.target.value)}
+            placeholder="Ask me anything about your trading strategies..."
+            className="flex-1"
+            onKeyPress={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendChatMessage();
+              }
+            }}
+            disabled={isChatLoading}
+          />
+          <Button
+            onClick={sendChatMessage}
+            disabled={!chatInput.trim() || isChatLoading}
+            className="px-3"
+          >
+            <Send className="w-4 h-4" />
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [liveTabs, setLiveTabs] = useState([]);
