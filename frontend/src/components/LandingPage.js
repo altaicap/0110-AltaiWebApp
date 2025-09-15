@@ -92,12 +92,12 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme }) => 
     }
   };
 
-  // Preview image alternates
-  const previewImages = {
-    strategies: [StrategiesScreenshot, BacktestScreenshot], // Second image on hover
-    backtest: [BacktestScreenshot, StrategiesScreenshot],
-    news: [NewsScreenshot, StrategiesScreenshot]
-  };
+  // Preview image alternates (temporarily disabled - no screenshots available)
+  // const previewImages = {
+  //   strategies: [StrategiesScreenshot, BacktestScreenshot],
+  //   backtest: [BacktestScreenshot, StrategiesScreenshot], 
+  //   news: [NewsScreenshot, StrategiesScreenshot]
+  // };
 
   return (
     <div className={`min-h-screen ${isDarkTheme ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
