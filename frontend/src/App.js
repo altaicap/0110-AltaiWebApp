@@ -5055,7 +5055,12 @@ metadata = {
 
               {/* Notification Bell */}
               <div className="relative">
-                <Button variant="ghost" size="sm" className="relative" data-notification-button>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className={`relative ${isDarkTheme ? 'text-gray-300 hover:text-white hover:bg-gray-700' : ''}`} 
+                  data-notification-button
+                >
                   <Bell className="h-4 w-4" />
                   {notifications.length > 0 && (
                     <Badge className="absolute -top-1 -right-1 px-1 min-w-5 h-5 text-xs bg-red-500 text-white rounded-full">
@@ -5069,7 +5074,12 @@ metadata = {
               <div className="ml-4">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" data-user-menu-button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className={isDarkTheme ? 'text-gray-300 hover:text-white hover:bg-gray-700' : ''}
+                      data-user-menu-button
+                    >
                       <div className="flex items-center gap-2">
                         <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
                           <span className="text-xs font-medium text-white">
@@ -5083,13 +5093,19 @@ metadata = {
                       </div>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => setShowAuthModal(true)}>
+                  <DropdownMenuContent align="end" className={isDarkTheme ? 'bg-gray-800 border-gray-700' : ''}>
+                    <DropdownMenuItem 
+                      onClick={() => setShowAuthModal(true)}
+                      className={isDarkTheme ? 'text-gray-200 hover:bg-gray-700' : ''}
+                    >
                       <UserPlus className="mr-2 h-4 w-4" />
                       <span>Account Settings</span>
                     </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleLogout}>
+                    <DropdownMenuSeparator className={isDarkTheme ? 'border-gray-600' : ''} />
+                    <DropdownMenuItem 
+                      onClick={handleLogout}
+                      className={isDarkTheme ? 'text-gray-200 hover:bg-gray-700' : ''}
+                    >
                       <LogOut className="mr-2 h-4 w-4" />
                       <span>Sign Out</span>
                     </DropdownMenuItem>
