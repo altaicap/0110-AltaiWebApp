@@ -1441,6 +1441,7 @@
   
   .logo-grid-row {
     gap: 1.5rem;
+    flex-direction: column; /* One logo per row on mobile */
   }
 }
 
