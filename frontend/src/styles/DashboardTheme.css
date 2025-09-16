@@ -510,6 +510,19 @@
   padding: 0.75rem 1rem; /* Increased padding for better touch targets */
 }
 
+/* Theme Toggle Icon - ORANGE/YELLOW SUN IN DARK THEME (Dashboard) */
+[data-theme="dark"] .theme-toggle,
+[data-theme="dark"] button[aria-label*="theme"],
+[data-theme="dark"] button[title*="theme"] {
+  color: #fbbf24 !important; /* Warm orange/yellow sun color */
+}
+
+[data-theme="dark"] .theme-toggle:hover,
+[data-theme="dark"] button[aria-label*="theme"]:hover,
+[data-theme="dark"] button[title*="theme"]:hover {
+  color: #f59e0b !important; /* Slightly more saturated yellow-orange on hover */
+}
+
 /* Connection Status and User dropdown improvements */
 [data-theme="dark"] button[class*="outline"] .h-3,
 [data-theme="dark"] button[class*="outline"] .w-3 {
