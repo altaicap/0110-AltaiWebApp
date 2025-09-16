@@ -5168,8 +5168,8 @@ metadata = {
               onValueChange={setActiveTab}
               className="h-full flex flex-col"
             >
-              {/* Primary Tabs */}
-              <TabsList className="grid w-full grid-cols-5 px-6 flex-shrink-0 mt-4">
+              {/* Primary Tabs - INCREASED PADDING */}
+              <TabsList className="grid w-full grid-cols-5 px-12 flex-shrink-0 mt-4 mx-6">
                 <TabsTrigger value="dashboard" className="flex items-center gap-2 px-6 uppercase">
                   <BarChart3 className="w-4 h-4" />
                   DASHBOARD
