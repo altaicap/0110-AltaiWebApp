@@ -484,7 +484,7 @@
   font-size: 1rem;
 }
 
-/* Icon Containers - VIBRANT SATURATED COLORS THAT POP */
+/* Icon Containers - VIBRANT SATURATED COLORS IN BOTH THEMES */
 .icon-container {
   width: 3rem;
   height: 3rem;
@@ -496,34 +496,66 @@
   transition: all 0.2s ease;
 }
 
+/* Use the same vibrant colors in both light and dark themes */
 .icon-container-blue {
-  background-color: rgba(37, 99, 235, 0.15); /* More saturated blue background */
-  color: #2563eb; /* Vibrant blue */
+  background-color: rgba(37, 99, 235, 0.15);
+  color: #2563eb; /* Vibrant blue in both themes */
 }
 
 .icon-container-green {
-  background-color: rgba(16, 185, 129, 0.15); /* More saturated green background */
-  color: #10b981; /* Vibrant emerald green */
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #10b981; /* Vibrant emerald green in both themes */
 }
 
 .icon-container-purple {
-  background-color: rgba(139, 69, 219, 0.15); /* More saturated purple background */
-  color: #8b45db; /* Vibrant purple */
+  background-color: rgba(139, 69, 219, 0.15);
+  color: #8b45db; /* Vibrant purple in both themes */
 }
 
 .icon-container-orange {
-  background-color: rgba(249, 115, 22, 0.15); /* More saturated orange background */
-  color: #f97316; /* Vibrant orange */
+  background-color: rgba(249, 115, 22, 0.15);
+  color: #f97316; /* Vibrant orange in both themes */
 }
 
 .icon-container-teal {
-  background-color: rgba(6, 182, 212, 0.15); /* More saturated teal background */
-  color: #06b6d4; /* Vibrant cyan */
+  background-color: rgba(6, 182, 212, 0.15);
+  color: #06b6d4; /* Vibrant cyan in both themes */
 }
 
 .icon-container-red {
-  background-color: rgba(239, 68, 68, 0.15); /* More saturated red background */
-  color: #ef4444; /* Vibrant red */
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #ef4444; /* Vibrant red in both themes */
+}
+
+/* Ensure dark theme doesn't override the vibrant colors */
+.landing-page-container.dark .icon-container-blue {
+  background-color: rgba(37, 99, 235, 0.2); /* Slightly more visible in dark */
+  color: #3b82f6; /* Slightly lighter blue for dark theme visibility */
+}
+
+.landing-page-container.dark .icon-container-green {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #22c55e; /* Slightly lighter green for dark theme visibility */
+}
+
+.landing-page-container.dark .icon-container-purple {
+  background-color: rgba(139, 69, 219, 0.2);
+  color: #a855f7; /* Slightly lighter purple for dark theme visibility */
+}
+
+.landing-page-container.dark .icon-container-orange {
+  background-color: rgba(249, 115, 22, 0.2);
+  color: #fb923c; /* Slightly lighter orange for dark theme visibility */
+}
+
+.landing-page-container.dark .icon-container-teal {
+  background-color: rgba(6, 182, 212, 0.2);
+  color: #22d3ee; /* Slightly lighter cyan for dark theme visibility */
+}
+
+.landing-page-container.dark .icon-container-red {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #f87171; /* Slightly lighter red for dark theme visibility */
 }
 
 /* Feature Grid - 6 CARDS IN 2 ROWS OF 3 */
