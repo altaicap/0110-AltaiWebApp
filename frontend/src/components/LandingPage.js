@@ -551,7 +551,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                   </div>
                   <h3 className="landing-card-title">Integrate Strategies with Live News</h3>
                   <p className="landing-card-description">
-                    Integrate your strategies entries to be dependent on live news pertaining to a specific ticker by simply connecting your API key from Newsware or TradeXchange.
+                    Integrate your strategy's entries to be dependent on live news pertaining to a specific ticker by simply connecting your API key from Newsware or TradeXchange.
                   </p>
                   {/* Product Image Placeholder */}
                   <div className="product-image-placeholder">
