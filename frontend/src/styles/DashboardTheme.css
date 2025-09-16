@@ -250,14 +250,18 @@
 [data-theme="dark"] .theme-toggle,
 [data-theme="dark"] button[aria-label*="theme"],
 [data-theme="dark"] button[title*="theme"],
-[data-theme="dark"] [data-testid="theme-toggle"] {
+[data-theme="dark"] [data-testid="theme-toggle"],
+[data-theme="dark"] .lucide-sun,
+[data-theme="dark"] button svg {
   color: #fbbf24 !important; /* Warm orange/yellow sun color */
 }
 
 [data-theme="dark"] .theme-toggle:hover,
 [data-theme="dark"] button[aria-label*="theme"]:hover,
 [data-theme="dark"] button[title*="theme"]:hover,
-[data-theme="dark"] [data-testid="theme-toggle"]:hover {
+[data-theme="dark"] [data-testid="theme-toggle"]:hover,
+[data-theme="dark"] .lucide-sun:hover,
+[data-theme="dark"] button:hover svg {
   color: #f59e0b !important; /* Slightly more saturated on hover */
 }
 
