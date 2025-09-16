@@ -363,15 +363,15 @@
   border-radius: 0.5rem;
 }
 
-/* GENERIC UI ICONS - USE ACCENT COLORS */
+/* GENERIC UI ICONS - USE ACCENT COLORS BUT EXCLUDE THEME TOGGLE */
 /* All generic UI icons use theme accent, NOT yellow */
-[data-theme="dark"] .icon,
-[data-theme="dark"] .btn-icon > svg,
-[data-theme="dark"] .toolbar .icon,
-[data-theme="dark"] .card .icon,
-[data-theme="dark"] .chip .icon,
-[data-theme="dark"] button:not(.theme-toggle) svg,
-[data-theme="dark"] [role="button"]:not(.theme-toggle) svg,
+[data-theme="dark"] .icon:not(.theme-toggle svg):not(.lucide-sun),
+[data-theme="dark"] .btn-icon:not(.theme-toggle) > svg,
+[data-theme="dark"] .toolbar .icon:not(.theme-toggle svg),
+[data-theme="dark"] .card .icon:not(.theme-toggle svg),
+[data-theme="dark"] .chip .icon:not(.theme-toggle svg),
+[data-theme="dark"] button:not(.theme-toggle):not([aria-label*="theme"]) svg,
+[data-theme="dark"] [role="button"]:not(.theme-toggle):not([aria-label*="theme"]) svg,
 [data-theme="dark"] .send-button svg,
 [data-theme="dark"] .expand-icon,
 [data-theme="dark"] .collapse-icon,
