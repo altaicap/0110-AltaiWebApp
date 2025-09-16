@@ -5409,8 +5409,8 @@ metadata = {
               onValueChange={setActiveTab}
               className="h-full flex flex-col"
             >
-              {/* Primary Tabs - SEGMENTED CONTROL WITH PROPER CONTAINMENT */}
-              <TabsList className="grid w-full grid-cols-5 px-6 md:px-12 flex-shrink-0 mt-4 mx-4 md:mx-6 max-w-none">
+              {/* Primary Tabs - CENTERED WITH EQUAL SPACING */}
+              <TabsList className="grid w-full grid-cols-5 tabs-container-centered flex-shrink-0 mt-4">
                 <TabsTrigger value="dashboard" className="flex items-center gap-2 px-3 md:px-6 uppercase">
                   <BarChart3 className="w-4 h-4 flex-shrink-0" />
                   <span className="hidden sm:inline">DASHBOARD</span>
