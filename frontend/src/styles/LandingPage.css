@@ -405,9 +405,9 @@
   background: none;
   -webkit-background-clip: initial;
   background-clip: initial;
-  font-family: var(--font-tomorrow); /* CHANGED to Tomorrow font */
+  font-family: var(--font-tomorrow); /* Tomorrow font */
   font-size: clamp(4rem, 10vw, 3.75rem); /* DOUBLED mobile font size */
-  font-weight: 700;
+  font-weight: 400; /* CHANGED: Regular weight instead of 700 */
   line-height: 1.1;
   letter-spacing: -0.025em;
   text-align: center;
@@ -420,9 +420,9 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: var(--accent); /* Fallback */
-  font-family: var(--font-tomorrow); /* CHANGED to Tomorrow font */
+  font-family: var(--font-tomorrow); /* Tomorrow font */
   font-size: clamp(4rem, 10vw, 3.75rem); /* DOUBLED mobile font size */
-  font-weight: 700;
+  font-weight: 400; /* CHANGED: Regular weight instead of 700 */
   line-height: 1.1;
   letter-spacing: -0.025em;
   text-align: center;
