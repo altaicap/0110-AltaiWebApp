@@ -200,7 +200,7 @@
   --accent-sun: #0E6D73;          /* Sun icon uses UI accent in light theme */
 }
 
-/* THEME TOGGLE SUN ICON - FORCE YELLOW/ORANGE IN DARK MODE */
+/* THEME TOGGLE SUN ICON - SATURATED ORANGE IN DARK MODE */
 .dark .theme-toggle svg,
 .dark button[aria-label*="theme"] svg,
 .dark button[title*="theme"] svg,
@@ -213,8 +213,8 @@
 .landing-page-container.dark [data-testid="theme-toggle"] svg,
 .landing-page-container.dark .lucide-sun,
 .landing-page-container.dark .sun-icon {
-  color: #F59E0B !important; /* Force orange sun color */
-  fill: #F59E0B !important;
+  color: #FF8C00 !important; /* Saturated orange - more visible */
+  fill: #FF8C00 !important;
 }
 
 .dark .theme-toggle:hover svg,
@@ -229,8 +229,8 @@
 .landing-page-container.dark [data-testid="theme-toggle"]:hover svg,
 .landing-page-container.dark .lucide-sun:hover,
 .landing-page-container.dark .sun-icon:hover {
-  color: #d97706 !important; /* Darker orange on hover */
-  fill: #d97706 !important;
+  color: #FF7F00 !important; /* Even more saturated on hover */
+  fill: #FF7F00 !important;
 }
 
 /* Light theme toggle uses accent-ui */
