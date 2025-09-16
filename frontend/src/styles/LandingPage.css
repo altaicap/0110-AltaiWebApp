@@ -715,18 +715,28 @@
 .footer-content {
   display: flex;
   flex-direction: column;
-  md:flex-direction: row;
   justify-content: space-between;
   align-items: center;
   gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .footer-content {
+    flex-direction: row;
+  }
 }
 
 .footer-left {
   display: flex;
   flex-direction: column;
   align-items: center;
-  md:items-start;
   gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .footer-left {
+    align-items: flex-start;
+  }
 }
 
 .footer-logo-section {
