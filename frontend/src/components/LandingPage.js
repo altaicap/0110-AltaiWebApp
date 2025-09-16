@@ -586,9 +586,8 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                 </div>
               </div>
 
-              {/* Max Plan - UPDATED PRICING AND BENEFITS */}
+              {/* Max Plan - REMOVED BADGE, NORMALIZED SPACING */}
               <div className="landing-card pricing-card">
-                <div className="pricing-badge">Most Popular</div>
                 <div className="landing-card-content">
                   <h3 className="landing-card-title text-center">Max</h3>
                   <div className="price-display justify-center">
