@@ -500,10 +500,49 @@
   border-color: var(--dashboard-accent) !important;
 }
 
-/* Ensure consistent palette usage across all components */
-[data-theme="dark"] * {
-  /* Override any hardcoded blue/purple colors */
-  --tw-color-primary: var(--dashboard-accent);
-  --primary-color: var(--dashboard-accent);
-  --accent-color: var(--dashboard-accent);
+/* Header dropdown legibility (Dashboard) - INCREASED FONT AND ICON SIZES */
+[data-theme="dark"] .dropdown-menu-content {
+  font-size: 0.875rem; /* Increased from default */
+}
+
+[data-theme="dark"] .dropdown-menu-item {
+  font-size: 0.875rem; /* Increased from default */
+  padding: 0.75rem 1rem; /* Increased padding for better touch targets */
+}
+
+/* Connection Status and User dropdown improvements */
+[data-theme="dark"] button[class*="outline"] .h-3,
+[data-theme="dark"] button[class*="outline"] .w-3 {
+  height: 1rem !important; /* Increased from 0.75rem */
+  width: 1rem !important; /* Increased from 0.75rem */
+}
+
+[data-theme="dark"] button[class*="outline"] .h-4,
+[data-theme="dark"] button[class*="outline"] .w-4 {
+  height: 1.125rem !important; /* Increased from 1rem */
+  width: 1.125rem !important; /* Increased from 1rem */
+}
+
+/* Dropdown menu trigger buttons - better readability */
+[data-theme="dark"] button[class*="outline"] {
+  font-size: 0.875rem !important; /* Increased font size */
+  padding: 0.625rem 1rem !important; /* Better padding for touch targets */
+}
+
+/* Ensure all buttons inherit improved sizing */
+button[class*="outline"] .h-3,
+button[class*="outline"] .w-3 {
+  height: 1rem !important;
+  width: 1rem !important;
+}
+
+button[class*="outline"] .h-4,
+button[class*="outline"] .w-4 {
+  height: 1.125rem !important;
+  width: 1.125rem !important;
+}
+
+button[class*="outline"] {
+  font-size: 0.875rem !important;
+  padding: 0.625rem 1rem !important;
 }
