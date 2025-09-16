@@ -204,7 +204,11 @@
   color: #f59e0b !important; /* Slightly more saturated on hover */
 }
 
-/* Header Styling - CENTERED NAVIGATION LIKE ARBIBYTE.COM */
+/* Content Layer - Above Shimmer */
+.landing-content {
+  position: relative;
+  z-index: 1;
+}
 .landing-header {
   position: sticky;
   top: 0;
