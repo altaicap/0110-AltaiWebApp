@@ -5065,10 +5065,11 @@ metadata = {
       className={`min-h-screen bg-gray-50 ${appSettings.theme === 'dark' ? 'dark' : ''} font-size-${appSettings.fontSize}`}
       data-theme={appSettings.theme}
     >
-      {/* Header */}
+      {/* Header - UPDATED ALIGNMENT & ORDER */}
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-16 w-full">
+            {/* Left: Logo aligned with AI Assistant icon */}
             <div className="flex items-center">
               <img 
                 src={isDarkTheme ? AltaiLogoDark : AltaiLogo} 
@@ -5077,10 +5078,47 @@ metadata = {
               />
               <h1 className="text-xl font-bold text-gray-900 logo-text">Altai Trader</h1>
             </div>
+            
+            {/* Right: Header items in specified order */}
             <div className="flex items-center space-x-4">
-              <Badge variant="outline">Web Version</Badge>
+              {/* Home (renamed from Landing) */}
+              <Button 
+                variant="ghost"
+                onClick={() => setShowLandingPage(true)}
+                className={`text-gray-600 hover:text-gray-900 ${isDarkTheme ? 'text-gray-300 hover:text-white' : ''}`}
+              >
+                Home
+              </Button>
               
-              {/* Connection Status Dropdown - CONSOLIDATED */}
+              {/* Theme Selector */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleTheme}
+                className={`${isDarkTheme ? 'text-gray-300 hover:text-white hover:bg-gray-700' : ''}`}
+                title={isDarkTheme ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {isDarkTheme ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </Button>
+
+              {/* Notification Bell */}
+              <div className="relative">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className={`relative ${isDarkTheme ? 'text-gray-300 hover:text-white hover:bg-gray-700' : ''}`} 
+                  data-notification-button
+                >
+                  <Bell className="h-4 w-4" />
+                  {notifications.length > 0 && (
+                    <Badge className="absolute -top-1 -right-1 px-1 min-w-5 h-5 text-xs bg-red-500 text-white rounded-full">
+                      {notifications.length}
+                    </Badge>
+                  )}
+                </Button>
+              </div>
+              
+              {/* Connection Status Dropdown */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="sm" className="text-xs">
@@ -5156,45 +5194,51 @@ metadata = {
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              {/* Theme Toggle Button */}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={toggleTheme}
-                className={`${isDarkTheme ? 'text-gray-300 hover:text-white hover:bg-gray-700' : 'text-gray-600 hover:text-gray-900'}`}
-                title={isDarkTheme ? 'Switch to light mode' : 'Switch to dark mode'}
-              >
-                {isDarkTheme ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              </Button>
-
-              {/* Landing Page Button */}
-              <Button 
-                variant="ghost"
-                onClick={() => setShowLandingPage(true)}
-                className={`text-gray-600 hover:text-gray-900 ${isDarkTheme ? 'text-gray-300 hover:text-white' : ''}`}
-              >
-                Landing
-              </Button>
-
-              {/* Notification Bell */}
-              <div className="relative">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className={`relative ${isDarkTheme ? 'text-gray-300 hover:text-white hover:bg-gray-700' : ''}`} 
-                  data-notification-button
-                >
-                  <Bell className="h-4 w-4" />
-                  {notifications.length > 0 && (
-                    <Badge className="absolute -top-1 -right-1 px-1 min-w-5 h-5 text-xs bg-red-500 text-white rounded-full">
-                      {notifications.length}
-                    </Badge>
-                  )}
-                </Button>
-              </div>
-
-              {/* User Menu */}
-              <div className="ml-4">
+              {/* User Profile (Alex Thompson) */}
+              {isAuthenticated ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className={`flex items-center gap-2 ${isDarkTheme ? 'text-white border-gray-600 hover:bg-gray-700' : ''}`}>
+                      <User className={`w-4 h-4 ${isDarkTheme ? 'text-white' : ''}`} />
+                      {currentAuthUser?.full_name || currentAuthUser?.email || 'Alex Thompson'}
+                      <ChevronDown className={`w-4 h-4 ${isDarkTheme ? 'text-white' : ''}`} />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className={`w-48 ${isDarkTheme ? 'bg-gray-800 border-gray-600' : ''}`}>
+                    <DropdownMenuItem onClick={() => setShowAccountSettings(true)} className={isDarkTheme ? 'text-white hover:bg-gray-700' : ''}>
+                      <Settings2 className="w-4 h-4 mr-2" />
+                      My Account
+                    </DropdownMenuItem>
+                    <Separator className={`my-1 ${isDarkTheme ? 'border-gray-600' : ''}`} />
+                    <DropdownMenuItem onClick={handleLogout} className={`text-red-600 ${isDarkTheme ? 'hover:bg-gray-700' : ''}`}>
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <div className="flex items-center space-x-2">
+                  <Button 
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowAuthModal(true)}
+                    className={isDarkTheme ? 'text-gray-300 hover:text-white hover:bg-gray-700' : ''}
+                  >
+                    Sign In
+                  </Button>
+                  <Button 
+                    size="sm"
+                    onClick={() => { setAuthMode('register'); setShowAuthModal(true); }}
+                    className={isDarkTheme ? 'bg-blue-600 hover:bg-blue-700' : ''}
+                  >
+                    Register
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </header>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button 
