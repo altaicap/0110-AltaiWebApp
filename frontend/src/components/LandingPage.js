@@ -525,7 +525,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                   </div>
                   <h3 className="landing-card-title">Sync & review discretionary trades</h3>
                   <p className="landing-card-description">
-                    Auto-sync fills from your brokerage account for manual trades, tag setups, and get objective post-trade analytics with our in built AI companion.
+                    Real-time dashboards, alerts, and a structured trade journal to track P&L, drawdown, win rate, and expectancy.
                   </p>
                   {/* Product Image Placeholder */}
                   <div className="product-image-placeholder">
