@@ -417,8 +417,8 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                 <div className="stat-label">Uptime</div>
               </div>
               <div className="stat-item">
-                <div className="stat-number">2k+</div>
-                <div className="stat-label">Optimised Rs</div>
+                <div className="stat-number">0.02s</div>
+                <div className="stat-label">Order Lag</div>
               </div>
             </div>
 
