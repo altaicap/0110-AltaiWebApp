@@ -340,7 +340,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
             
             {/* Static Subtitle - FIXED POSITION */}
             <p className="landing-subtitle max-w-2xl mx-auto mb-8">
-              Maximize Your Profits with AI-Powered Algorithmic Trading
+              Write strategies with AI, backtest in seconds, and log every trade—algo or manual—no webhooks, no lag.
             </p>
             
             {/* CTA Buttons - FIXED POSITION */}
