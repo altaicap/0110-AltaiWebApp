@@ -1280,13 +1280,18 @@
   border-radius: 0 0.5rem 0.5rem 0; /* Match container border radius */
 }
 
+/* Light theme: Enhanced gradient for subscribe button */
+.landing-page-container:not(.dark) .email-subscribe-button {
+  background: linear-gradient(135deg, #0E6D73 0%, #0a8a92 50%, #0E6D73 100%); /* Enhanced gradient with signature color */
+}
+
 .email-subscribe-button:hover {
   background-color: #00d18a; /* 8% brighter green for dark theme */
 }
 
-/* Light theme hover for subscribe button */
+/* Light theme hover for subscribe button - ENHANCED GRADIENT */
 .landing-page-container:not(.dark) .email-subscribe-button:hover {
-  background-color: #0b5c61; /* 8% darker for light theme */
+  background: linear-gradient(135deg, #0b5c61 0%, #0a8a92 50%, #0b5c61 100%); /* Darker gradient on hover */
 }
 
 .footer-right {
