@@ -826,27 +826,27 @@ body {
   color: #f9fafb !important;
 }
 
-/* Dark theme notification and user management button colors */
+/* Dark theme notification and user management button colors - GREEN ACCENT */
 [data-theme="dark"] button[data-notification-button] {
-  background-color: #374151 !important;
-  border-color: #4b5563 !important;
-  color: #d1d5db !important;
+  background-color: #171717 !important; /* Nightwatch dark green */
+  border-color: rgba(107, 117, 125, 0.4) !important; /* Nightwatch grey border */
+  color: #a8b1ba !important; /* Nightwatch muted */
 }
 
 [data-theme="dark"] button[data-notification-button]:hover {
-  background-color: #4b5563 !important;
-  color: #f9fafb !important;
+  background-color: rgba(23, 23, 23, 0.80) !important; /* Nightwatch hover */
+  color: #FBFCFC !important; /* Nightwatch white */
 }
 
 [data-theme="dark"] button[data-user-menu-button] {
-  background-color: #374151 !important;
-  border-color: #4b5563 !important;
-  color: #d1d5db !important;
+  background-color: #171717 !important; /* Nightwatch dark green */
+  border-color: rgba(107, 117, 125, 0.4) !important; /* Nightwatch grey border */
+  color: #a8b1ba !important; /* Nightwatch muted */
 }
 
 [data-theme="dark"] button[data-user-menu-button]:hover {
-  background-color: #4b5563 !important;
-  color: #f9fafb !important;
+  background-color: rgba(23, 23, 23, 0.80) !important; /* Nightwatch hover */
+  color: #FBFCFC !important; /* Nightwatch white */
 }
 
 /* Status bar connection colors */
