@@ -250,23 +250,34 @@
   opacity: 1;
 }
 
-/* Theme Toggle Icon - ORANGE/YELLOW SUN IN DARK THEME */
+/* Theme Toggle Icon - CORRECT ACCENT COLORS */
 [data-theme="dark"] .theme-toggle,
 [data-theme="dark"] button[aria-label*="theme"],
 [data-theme="dark"] button[title*="theme"],
-[data-theme="dark"] [data-testid="theme-toggle"],
-[data-theme="dark"] .lucide-sun,
-[data-theme="dark"] button svg {
-  color: #fbbf24 !important; /* Warm orange/yellow sun color */
+[data-theme="dark"] [data-testid="theme-toggle"] {
+  color: var(--accent-sun) !important; /* Orange sun in dark theme */
 }
 
 [data-theme="dark"] .theme-toggle:hover,
 [data-theme="dark"] button[aria-label*="theme"]:hover,
 [data-theme="dark"] button[title*="theme"]:hover,
-[data-theme="dark"] [data-testid="theme-toggle"]:hover,
-[data-theme="dark"] .lucide-sun:hover,
-[data-theme="dark"] button:hover svg {
-  color: #f59e0b !important; /* Slightly more saturated on hover */
+[data-theme="dark"] [data-testid="theme-toggle"]:hover {
+  color: #d97706 !important; /* Slightly darker on hover */
+}
+
+/* Light theme toggle uses accent-ui */
+[data-theme="light"] .theme-toggle,
+[data-theme="light"] button[aria-label*="theme"],
+[data-theme="light"] button[title*="theme"],
+[data-theme="light"] [data-testid="theme-toggle"] {
+  color: var(--accent-ui) !important; /* Green in light theme */
+}
+
+[data-theme="light"] .theme-toggle:hover,
+[data-theme="light"] button[aria-label*="theme"]:hover,
+[data-theme="light"] button[title*="theme"]:hover,
+[data-theme="light"] [data-testid="theme-toggle"]:hover {
+  color: #0a5d63 !important; /* Slightly darker green on hover */
 }
 
 /* Left AI Assistant Pane - DARKER THAN GREY, LIGHTER THAN HEADER */
