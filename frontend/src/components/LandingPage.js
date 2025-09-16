@@ -416,6 +416,12 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                   <p className="landing-card-description">
                     Describe your idea and get production-ready Python code, complete with indicators, entry/exit rules, and risk controls.
                   </p>
+                  {/* Product Image Placeholder */}
+                  <div className="product-image-placeholder">
+                    <div className="placeholder-content">
+                      <span className="placeholder-text">Product Screenshot</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
