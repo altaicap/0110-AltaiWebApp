@@ -69,9 +69,9 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
   
   // Typing animation phrases
   const phrases = [
-    "Generate Python and backtest instantly with AI",
-    "Manage, trade, and review all in one place.",
-    "Log manual trades and let AI boost performance"
+    "Generate Python Strategies with AI",
+    "Backtest, Live Trade and Sync Trades to Review with AI", 
+    "Manage all your Brokerages in One Trading Log"
   ];
 
   // Check if user prefers reduced motion
