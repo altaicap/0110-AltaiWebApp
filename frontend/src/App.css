@@ -45,7 +45,7 @@ body {
 }
 
 [data-theme="dark"] .border-gray-200 {
-  border-color: #2a2a2a !important;
+  border-color: rgba(107, 117, 125, 0.4) !important; /* Nightwatch grey border */
   border-width: 1px !important;
 }
 
