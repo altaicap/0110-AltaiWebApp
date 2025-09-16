@@ -242,7 +242,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                 <h1 className="ml-2 text-xl font-bold">Altai Trader</h1>
               </div>
               
-              {/* Navigation Menu */}
+              {/* Navigation Menu - Hidden on Mobile */}
               <nav className="hidden md:flex space-x-8">
                 <button
                   onClick={() => scrollToSection('home')}
@@ -280,12 +280,48 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                   {isDarkTheme ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
                 </button>
 
-                <button onClick={onSignIn} className="landing-btn landing-btn-ghost">
+                {/* Desktop Auth Buttons - Hidden on Mobile */}
+                <button onClick={onSignIn} className="landing-btn landing-btn-ghost hidden md:inline-flex">
                   Sign In
                 </button>
-                <button onClick={onRegister} className="landing-btn landing-btn-primary">
+                <button onClick={onRegister} className="landing-btn landing-btn-primary hidden md:inline-flex">
                   Register
                 </button>
+
+                {/* Mobile Hamburger Menu */}
+                <div className="relative">
+                  <button
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    className="mobile-hamburger"
+                    aria-label="Toggle mobile menu"
+                  >
+                    {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                  </button>
+
+                  {/* Mobile Dropdown Menu */}
+                  {isMobileMenuOpen && (
+                    <div className="mobile-menu">
+                      <button
+                        onClick={() => {
+                          onSignIn();
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="mobile-menu-item"
+                      >
+                        Sign In
+                      </button>
+                      <button
+                        onClick={() => {
+                          onRegister();
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="mobile-menu-item primary"
+                      >
+                        Register
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
