@@ -704,15 +704,15 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                   <span className="logo-label">IBKR</span>
                 </div>
                 <div className="logo-item">
-                  <div className="logo-placeholder">RH</div>
+                  <img src={RobinhoodLogo} alt="Robinhood" className="logo-image" />
                   <span className="logo-label">Robinhood</span>
                 </div>
                 <div className="logo-item">
-                  <div className="logo-placeholder">CB</div>
+                  <img src={CoinbaseLogo} alt="Coinbase" className="logo-image" />
                   <span className="logo-label">Coinbase</span>
                 </div>
                 <div className="logo-item">
-                  <div className="logo-placeholder">KR</div>
+                  <img src={KrakenLogo} alt="Kraken" className="logo-image" />
                   <span className="logo-label">Kraken</span>
                 </div>
               </div>
