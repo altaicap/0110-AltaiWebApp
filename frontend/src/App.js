@@ -5019,33 +5019,81 @@ metadata = {
             <div className="flex items-center space-x-4">
               <Badge variant="outline">Web Version</Badge>
               
-              {/* Integration Status Indicators */}
-              <div className="flex gap-3 items-center">
-                <div className="flex items-center gap-1">
-                  <div className={`w-3 h-3 rounded ${getStatusColor(integrationStatus.polygon)}`} />
-                  <span className="text-xs text-gray-600">Polygon API</span>
-                </div>
-                
-                <div className="flex items-center gap-1">
-                  <div className={`w-3 h-3 rounded ${getStatusColor(integrationStatus.newsware)}`} />
-                  <span className="text-xs text-gray-600">NewsWare API</span>
-                </div>
-                
-                <div className="flex items-center gap-1">
-                  <div className={`w-3 h-3 rounded ${getStatusColor(integrationStatus.tradexchange)}`} />
-                  <span className="text-xs text-gray-600">TradeXchange API</span>
-                </div>
-                
-                <div className="flex items-center gap-1">
-                  <div className="w-3 h-3 rounded bg-green-500" />
-                  <span className="text-xs text-gray-600">Claude</span>
-                </div>
-                
-                <div className="flex items-center gap-1">
-                  <div className="w-3 h-3 rounded bg-green-500" />
-                  <span className="text-xs text-gray-600">ChatGPT</span>
-                </div>
-              </div>
+              {/* Connection Status Dropdown - CONSOLIDATED */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className="text-xs">
+                    Connection Statuses {Object.values(integrationStatus).filter(status => status === 'connected').length}/7
+                    <ChevronDown className="h-3 w-3 ml-1" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem className="cursor-default">
+                    <div className="flex items-center gap-2 w-full">
+                      <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.polygon)}`} />
+                      <span className="flex-1">Polygon API</span>
+                      <span className="text-xs text-muted-foreground">
+                        {integrationStatus.polygon === 'connected' ? 'Connected' : 
+                         integrationStatus.polygon === 'warning' ? 'Warning' : 'Disconnected'}
+                      </span>
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-default">
+                    <div className="flex items-center gap-2 w-full">
+                      <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.newsware)}`} />
+                      <span className="flex-1">NewsWare API</span>
+                      <span className="text-xs text-muted-foreground">
+                        {integrationStatus.newsware === 'connected' ? 'Connected' : 
+                         integrationStatus.newsware === 'warning' ? 'Warning' : 'Disconnected'}
+                      </span>
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-default">
+                    <div className="flex items-center gap-2 w-full">
+                      <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.tradexchange)}`} />
+                      <span className="flex-1">TradeXchange API</span>
+                      <span className="text-xs text-muted-foreground">
+                        {integrationStatus.tradexchange === 'connected' ? 'Connected' : 
+                         integrationStatus.tradexchange === 'warning' ? 'Warning' : 'Disconnected'}
+                      </span>
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-default">
+                    <div className="flex items-center gap-2 w-full">
+                      <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.tradestation)}`} />
+                      <span className="flex-1">TradeStation</span>
+                      <span className="text-xs text-muted-foreground">
+                        {integrationStatus.tradestation === 'connected' ? 'Connected' : 
+                         integrationStatus.tradestation === 'warning' ? 'Warning' : 'Disconnected'}
+                      </span>
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-default">
+                    <div className="flex items-center gap-2 w-full">
+                      <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.ibkr)}`} />
+                      <span className="flex-1">IBKR</span>
+                      <span className="text-xs text-muted-foreground">
+                        {integrationStatus.ibkr === 'connected' ? 'Connected' : 
+                         integrationStatus.ibkr === 'warning' ? 'Warning' : 'Disconnected'}
+                      </span>
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-default">
+                    <div className="flex items-center gap-2 w-full">
+                      <div className="w-3 h-3 rounded-full bg-green-500" />
+                      <span className="flex-1">Claude</span>
+                      <span className="text-xs text-muted-foreground">Connected</span>
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-default">
+                    <div className="flex items-center gap-2 w-full">
+                      <div className="w-3 h-3 rounded-full bg-green-500" />
+                      <span className="flex-1">ChatGPT</span>
+                      <span className="text-xs text-muted-foreground">Connected</span>
+                    </div>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
 
               {/* Theme Toggle Button */}
               <Button
