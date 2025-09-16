@@ -18,7 +18,7 @@ body {
   background-color: #f9fafb;
 }
 
-/* Light Theme Segmented Control */
+/* Light Theme Segmented Control - FIXED SIZE */
 [data-theme="light"] [role="tablist"] {
   background-color: #f3f4f6; /* Light grey background */
   border: 1px solid #e5e7eb;
@@ -27,8 +27,8 @@ body {
   overflow: hidden;
   position: relative;
   box-sizing: border-box;
-  height: auto;
-  min-height: 2.5rem; /* 40px */
+  height: 2.75rem; /* Fixed height: 44px */
+  min-height: 2.75rem; /* 44px */
 }
 
 [data-theme="light"] [role="tab"] {
@@ -36,7 +36,7 @@ body {
   background: transparent;
   border: none !important;
   border-radius: 0.5rem; /* 8px */
-  padding: 0.5rem 1rem;
+  padding: 0.375rem 1rem; /* 6px 16px - reduced vertical padding */
   font-size: 0.875rem;
   font-weight: 500;
   transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
@@ -44,7 +44,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 2rem; /* 32px */
+  height: 2.25rem; /* Fixed height: 36px */
   box-sizing: border-box;
   margin: 0 !important;
   outline: none;
@@ -62,7 +62,7 @@ body {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important; /* Subtle shadow */
   transform: none !important;
   margin: 0 !important;
-  max-height: calc(100% - 0.5rem);
+  height: 2.25rem; /* Same as inactive tabs */
   z-index: 1;
 }
 
