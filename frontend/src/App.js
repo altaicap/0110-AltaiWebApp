@@ -520,7 +520,10 @@ function App() {
     newsware: '',
     tradexchange: '',
     tradestation: '',
-    ibkr: ''
+    ibkr: '',
+    robinhood: '',
+    coinbase: '',
+    kraken: ''
   });
   const [showApiKeys, setShowApiKeys] = useState({
     polygon: false,
