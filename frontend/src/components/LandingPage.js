@@ -586,11 +586,11 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                   <ul className="feature-list">
                     <li className="feature-item">
                       <CheckCircle className="feature-icon" />
-                      <span>AI Assistant (50 free monthly credits)</span>
+                      <span>Altai Newsletter Basic</span>
                     </li>
                     <li className="feature-item">
                       <CheckCircle className="feature-icon" />
-                      <span>Altai Newsletter Basic</span>
+                      <span>AI Assistant (50 free monthly credits)</span>
                     </li>
                     <li className="feature-item">
                       <CheckCircle className="feature-icon" />
