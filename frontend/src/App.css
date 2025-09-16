@@ -61,8 +61,8 @@ body {
 
 /* Card styling for dark theme */
 [data-theme="dark"] [class*="Card"] {
-  background-color: #1a1a1a !important;
-  border-color: #2a2a2a !important;
+  background-color: #171717 !important; /* Nightwatch dark green */
+  border-color: rgba(107, 117, 125, 0.4) !important; /* Nightwatch grey border */
   border-width: 1px !important;
 }
 
