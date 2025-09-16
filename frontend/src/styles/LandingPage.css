@@ -197,7 +197,11 @@
 .dark .theme-toggle,
 .dark button[aria-label*="theme"],
 .dark button[title*="theme"],
-.dark [data-testid="theme-toggle"] {
+.dark [data-testid="theme-toggle"],
+.landing-page-container.dark .theme-toggle,
+.landing-page-container.dark button[aria-label*="theme"],
+.landing-page-container.dark button[title*="theme"],
+.landing-page-container.dark [data-testid="theme-toggle"] {
   color: #fbbf24 !important; /* Warm orange/yellow sun color */
 }
 
@@ -208,7 +212,11 @@
 .dark .theme-toggle:hover,
 .dark button[aria-label*="theme"]:hover,
 .dark button[title*="theme"]:hover,
-.dark [data-testid="theme-toggle"]:hover {
+.dark [data-testid="theme-toggle"]:hover,
+.landing-page-container.dark .theme-toggle:hover,
+.landing-page-container.dark button[aria-label*="theme"]:hover,
+.landing-page-container.dark button[title*="theme"]:hover,
+.landing-page-container.dark [data-testid="theme-toggle"]:hover {
   color: #f59e0b !important; /* Slightly more saturated on hover */
 }
 
