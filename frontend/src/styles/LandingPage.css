@@ -847,11 +847,11 @@
 
 .stat-number {
   font-size: 2.5rem;
-  font-weight: 700;
+  font-weight: 400; /* CHANGED: Regular weight instead of 700 */
   color: var(--accent);
   line-height: 1;
   margin-bottom: 0.5rem;
-  font-family: var(--font-tomorrow); /* CHANGED to Tomorrow font */
+  font-family: var(--font-tomorrow); /* Tomorrow font */
 }
 
 /* Dark theme: Stats must be white */
