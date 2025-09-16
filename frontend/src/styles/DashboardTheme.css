@@ -250,19 +250,25 @@
   opacity: 1;
 }
 
-/* Theme Toggle Icon - CORRECT ACCENT COLORS */
-[data-theme="dark"] .theme-toggle,
-[data-theme="dark"] button[aria-label*="theme"],
-[data-theme="dark"] button[title*="theme"],
-[data-theme="dark"] [data-testid="theme-toggle"] {
-  color: var(--accent-sun) !important; /* Orange sun in dark theme */
+/* THEME TOGGLE SUN ICON - FORCE YELLOW/ORANGE IN DARK MODE */
+[data-theme="dark"] .theme-toggle svg,
+[data-theme="dark"] button[aria-label*="theme"] svg,
+[data-theme="dark"] button[title*="theme"] svg,
+[data-theme="dark"] [data-testid="theme-toggle"] svg,
+[data-theme="dark"] .lucide-sun,
+[data-theme="dark"] .sun-icon {
+  color: #F59E0B !important; /* Force orange sun color */
+  fill: #F59E0B !important;
 }
 
-[data-theme="dark"] .theme-toggle:hover,
-[data-theme="dark"] button[aria-label*="theme"]:hover,
-[data-theme="dark"] button[title*="theme"]:hover,
-[data-theme="dark"] [data-testid="theme-toggle"]:hover {
-  color: #d97706 !important; /* Slightly darker on hover */
+[data-theme="dark"] .theme-toggle:hover svg,
+[data-theme="dark"] button[aria-label*="theme"]:hover svg,
+[data-theme="dark"] button[title*="theme"]:hover svg,
+[data-theme="dark"] [data-testid="theme-toggle"]:hover svg,
+[data-theme="dark"] .lucide-sun:hover,
+[data-theme="dark"] .sun-icon:hover {
+  color: #d97706 !important; /* Darker orange on hover */
+  fill: #d97706 !important;
 }
 
 /* Light theme toggle uses accent-ui */
