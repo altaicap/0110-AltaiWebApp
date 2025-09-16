@@ -700,6 +700,18 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                   <img src={IBKRLogo} alt="Interactive Brokers" className="logo-image" />
                   <span className="logo-label">IBKR</span>
                 </div>
+                <div className="logo-item">
+                  <div className="logo-placeholder">RH</div>
+                  <span className="logo-label">Robinhood</span>
+                </div>
+                <div className="logo-item">
+                  <div className="logo-placeholder">CB</div>
+                  <span className="logo-label">Coinbase</span>
+                </div>
+                <div className="logo-item">
+                  <div className="logo-placeholder">KR</div>
+                  <span className="logo-label">Kraken</span>
+                </div>
               </div>
             </div>
 
