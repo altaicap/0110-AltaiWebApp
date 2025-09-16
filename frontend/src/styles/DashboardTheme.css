@@ -778,9 +778,11 @@
   outline-offset: -2px;
 }
 
-[data-theme="light"] .llm-send-btn:disabled {
-  opacity: 0.45;
-  background: #9ca3af !important;
+[data-theme="light"] .llm-send-btn svg {
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  fill: #ffffff !important; /* Force white on teal background */
+  stroke: none !important;
   color: #ffffff !important;
 }
 
