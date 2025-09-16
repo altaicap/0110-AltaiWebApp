@@ -237,126 +237,133 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
           className="landing-header"
         >
           <div className="landing-container">
-            <div className="flex justify-between items-center h-16 w-full">
-              <div className="flex items-center" id="header-logo">
-                <img 
-                  src={isDarkTheme ? AltaiLogoDark : AltaiLogo} 
-                  alt="Altai Trader" 
-                  className="h-8 w-auto"
-                />
-                <h1 className="ml-2 text-xl font-bold">Altai Trader</h1>
+            {/* Left Section - Logo */}
+            <div className="header-left" id="header-logo">
+              <img 
+                src={isDarkTheme ? AltaiLogoDark : AltaiLogo} 
+                alt="Altai Trader" 
+                className="h-8 w-auto"
+              />
+              <h1 className="ml-2 text-xl font-bold">Altai Trader</h1>
+            </div>
+            
+            {/* Center Section - Navigation */}
+            <div className="header-center">
+              <nav className="hidden md:flex space-x-8">
+                <button
+                  onClick={() => scrollToSection('home')}
+                  className={`nav-link ${activeSection === 'home' ? 'active' : ''}`}
+                >
+                  Home
+                </button>
+                <button
+                  onClick={() => scrollToSection('features')}
+                  className={`nav-link ${activeSection === 'features' ? 'active' : ''}`}
+                >
+                  Features
+                </button>
+                <button
+                  onClick={() => scrollToSection('pricing')}
+                  className={`nav-link ${activeSection === 'pricing' ? 'active' : ''}`}
+                >
+                  Pricing
+                </button>
+                <button
+                  onClick={() => scrollToSection('connections')}
+                  className={`nav-link ${activeSection === 'connections' ? 'active' : ''}`}
+                >
+                  Connections
+                </button>
+              </nav>
+            </div>
+
+            {/* Right Section - Theme Toggle + Profile Icon */}
+            <div className="header-right">
+              {/* Theme Toggle Button - LEFT OF PROFILE */}
+              <button
+                onClick={onToggleTheme}
+                className="theme-toggle hidden md:inline-flex"
+                title={isDarkTheme ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {isDarkTheme ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </button>
+
+              {/* Desktop Profile Dropdown - RIGHT OF THEME TOGGLE */}
+              <div className="relative hidden md:block">
+                <button
+                  onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                  className="profile-dropdown-trigger"
+                  aria-label="User profile menu"
+                >
+                  <User className="h-5 w-5" />
+                </button>
+
+                {/* Profile Dropdown Menu */}
+                {isProfileDropdownOpen && (
+                  <div className="profile-dropdown-menu">
+                    <button
+                      onClick={() => {
+                        onSignIn();
+                        setIsProfileDropdownOpen(false);
+                      }}
+                      className="profile-dropdown-item"
+                    >
+                      Sign In
+                    </button>
+                    <button
+                      onClick={() => {
+                        onRegister();
+                        setIsProfileDropdownOpen(false);
+                      }}
+                      className="profile-dropdown-item"
+                    >
+                      Register
+                    </button>
+                  </div>
+                )}
               </div>
-              
-              {/* Navigation and Auth Group - ALL IN ONE ROW */}
-              <div className="header-nav-auth-group">
-                {/* Navigation Menu - Hidden on Mobile */}
-                <nav className="hidden md:flex space-x-8">
-                  <button
-                    onClick={() => scrollToSection('home')}
-                    className={`nav-link ${activeSection === 'home' ? 'active' : ''}`}
-                  >
-                    Home
-                  </button>
-                  <button
-                    onClick={() => scrollToSection('features')}
-                    className={`nav-link ${activeSection === 'features' ? 'active' : ''}`}
-                  >
-                    Features
-                  </button>
-                  <button
-                    onClick={() => scrollToSection('pricing')}
-                    className={`nav-link ${activeSection === 'pricing' ? 'active' : ''}`}
-                  >
-                    Pricing
-                  </button>
-                  <button
-                    onClick={() => scrollToSection('connections')}
-                    className={`nav-link ${activeSection === 'connections' ? 'active' : ''}`}
-                  >
-                    Connections
-                  </button>
-                </nav>
 
-                <div className="header-auth-group">
-                  {/* Desktop Profile Dropdown - Replaces individual Sign In/Register buttons */}
-                  <div className="relative hidden md:block">
+              {/* Mobile - Theme Toggle + Hamburger Menu */}
+              <div className="flex items-center gap-2 md:hidden">
+                <button
+                  onClick={onToggleTheme}
+                  className="theme-toggle"
+                  title={isDarkTheme ? 'Switch to light mode' : 'Switch to dark mode'}
+                >
+                  {isDarkTheme ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                </button>
+
+                <button
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  className="mobile-hamburger"
+                  aria-label="Toggle mobile menu"
+                >
+                  {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                </button>
+
+                {/* Mobile Dropdown Menu */}
+                {isMobileMenuOpen && (
+                  <div className="mobile-menu">
                     <button
-                      onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                      className="profile-dropdown-trigger"
-                      aria-label="User profile menu"
+                      onClick={() => {
+                        onSignIn();
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="mobile-menu-item"
                     >
-                      <User className="h-5 w-5" />
+                      Sign In
                     </button>
-
-                    {/* Profile Dropdown Menu */}
-                    {isProfileDropdownOpen && (
-                      <div className="profile-dropdown-menu">
-                        <button
-                          onClick={() => {
-                            onSignIn();
-                            setIsProfileDropdownOpen(false);
-                          }}
-                          className="profile-dropdown-item"
-                        >
-                          Sign In
-                        </button>
-                        <button
-                          onClick={() => {
-                            onRegister();
-                            setIsProfileDropdownOpen(false);
-                          }}
-                          className="profile-dropdown-item"
-                        >
-                          Register
-                        </button>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Theme Toggle Button */}
-                  <button
-                    onClick={onToggleTheme}
-                    className="theme-toggle"
-                    title={isDarkTheme ? 'Switch to light mode' : 'Switch to dark mode'}
-                  >
-                    {isDarkTheme ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-                  </button>
-
-                  {/* Mobile Hamburger Menu */}
-                  <div className="relative md:hidden">
                     <button
-                      onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                      className="mobile-hamburger"
-                      aria-label="Toggle mobile menu"
+                      onClick={() => {
+                        onRegister();
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="mobile-menu-item primary"
                     >
-                      {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                      Register
                     </button>
-
-                    {/* Mobile Dropdown Menu */}
-                    {isMobileMenuOpen && (
-                      <div className="mobile-menu">
-                        <button
-                          onClick={() => {
-                            onSignIn();
-                            setIsMobileMenuOpen(false);
-                          }}
-                          className="mobile-menu-item"
-                        >
-                          Sign In
-                        </button>
-                        <button
-                          onClick={() => {
-                            onRegister();
-                            setIsMobileMenuOpen(false);
-                          }}
-                          className="mobile-menu-item primary"
-                        >
-                          Register
-                        </button>
-                      </div>
-                    )}
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
