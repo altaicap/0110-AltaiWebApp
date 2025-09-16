@@ -195,7 +195,7 @@
   z-index: 1;
 }
 
-/* Header Styling - FIXED LAYOUT WITH CENTERED NAVIGATION */
+/* Header Styling - CORRECTED LAYOUT STRUCTURE */
 .landing-header {
   position: sticky;
   top: 0;
@@ -209,7 +209,7 @@
   -webkit-backdrop-filter: none;
 }
 
-/* Header container layout - RESTORED PROPER STRUCTURE */
+/* Header container layout - RESTORED SIMPLE STRUCTURE */
 .landing-header .landing-container {
   display: flex;
   justify-content: space-between;
@@ -217,13 +217,22 @@
   height: 4rem;
 }
 
-/* Navigation centering - IMPROVED APPROACH */
-.landing-header nav {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+/* Navigation and Auth Group - ALL IN ONE ROW */
+.header-nav-auth-group {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.header-nav-auth-group nav {
   display: flex;
   gap: 2rem;
+}
+
+.header-auth-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 /* Desktop Header Brand Sizing - INCREASED BY 15% */
