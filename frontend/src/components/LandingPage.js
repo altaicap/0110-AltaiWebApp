@@ -40,8 +40,6 @@ import IBKRLogo from '../assets/ibkr-logo-square.png';
 import PolygonLogo from '../assets/polygon-logo.png';
 import NewsWareLogo from '../assets/newsware-logo.png';
 import TradeXchangeLogoNew from '../assets/tradexchange-logo-new.png'; // NEW LOGO
-import TradeStationLogo from '../assets/tradestation-logo.png';
-import IBKRLogo from '../assets/ibkr-logo.png';
 
 // Import the updated styles
 import '../styles/LandingPage.css';
