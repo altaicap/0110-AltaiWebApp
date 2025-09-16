@@ -620,6 +620,220 @@
   opacity: 1.0;
 }
 
+/* LIGHT THEME LLM INTERFACE STYLING */
+[data-theme="light"] .ai-assistant-pane {
+  background: #ffffff !important;
+  border-right: 1px solid #e5e7eb;
+  padding: 2rem 1.5rem;
+}
+
+[data-theme="light"] .llm-header-block h2 {
+  color: #111827;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+[data-theme="light"] .llm-description {
+  color: #6b7280;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+[data-theme="light"] .llm-clear-button {
+  color: #6b7280;
+  opacity: 0.82;
+  transition: all 0.15s ease;
+}
+
+[data-theme="light"] .llm-clear-button:hover {
+  color: #374151;
+  opacity: 1.0;
+}
+
+[data-theme="light"] .llm-suggestions {
+  color: #6b7280;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+[data-theme="light"] .llm-suggestions strong {
+  color: #111827;
+}
+
+[data-theme="light"] .llm-chat-panel {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.875rem;
+  overflow: hidden;
+  min-height: 24rem;
+}
+
+[data-theme="light"] .llm-messages-area {
+  padding: 1.5rem;
+  position: relative;
+}
+
+[data-theme="light"] .llm-welcome-message {
+  text-align: center;
+  padding: 2rem 0;
+  color: #6b7280;
+}
+
+[data-theme="light"] .llm-welcome-message .text-lg {
+  color: #111827;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+[data-theme="light"] .user-message .message-bubble {
+  background: var(--accent-ui); /* #0E6D73 in light theme */
+  color: #ffffff; /* High contrast on accent */
+  margin-left: 1rem;
+}
+
+[data-theme="light"] .ai-message .message-bubble {
+  background: #f9fafb;
+  color: #111827;
+  border: 1px solid #e5e7eb;
+  margin-right: 1rem;
+}
+
+[data-theme="light"] .user-message .message-timestamp {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme="light"] .ai-message .message-timestamp {
+  color: #6b7280;
+}
+
+[data-theme="light"] .loading-bubble {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+[data-theme="light"] .loading-dots .dot {
+  background: #6b7280;
+}
+
+[data-theme="light"] .loading-text {
+  color: #6b7280;
+}
+
+[data-theme="light"] .llm-composer-divider {
+  background: #e5e7eb;
+}
+
+[data-theme="light"] .llm-composer {
+  padding: 1.5rem;
+  background: #f9fafb;
+}
+
+[data-theme="light"] .llm-input {
+  background: #ffffff !important;
+  border: 1px solid #d1d5db !important;
+  color: #111827 !important;
+  border-radius: 0.5rem;
+}
+
+[data-theme="light"] .llm-input::placeholder {
+  color: #9ca3af;
+}
+
+[data-theme="light"] .llm-input:focus {
+  outline: 2px solid rgba(14, 109, 115, 0.55) !important;
+  outline-offset: -2px;
+  border-color: var(--accent-ui) !important;
+}
+
+/* Light Theme Send Button */
+[data-theme="light"] .llm-send-btn {
+  background: var(--accent-ui) !important; /* #0E6D73 */
+  color: #ffffff !important;
+  border: none !important;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  min-width: 2.5rem;
+  transition: all 0.15s ease;
+}
+
+[data-theme="light"] .llm-send-btn:hover:not(:disabled) {
+  background: #0c5d63 !important; /* +8% darker */
+}
+
+[data-theme="light"] .llm-send-btn:active:not(:disabled) {
+  background: #0a5459 !important; /* -8% darker */
+}
+
+[data-theme="light"] .llm-send-btn:focus-visible {
+  outline: 2px solid rgba(14, 109, 115, 0.55) !important;
+  outline-offset: -2px;
+}
+
+[data-theme="light"] .llm-send-btn:disabled {
+  opacity: 0.45;
+  background: #9ca3af !important;
+  color: #ffffff !important;
+}
+
+[data-theme="light"] .llm-attachment-btn {
+  color: var(--accent-ui);
+  border: 1px solid #d1d5db;
+  background: transparent;
+  opacity: 0.82;
+  transition: all 0.15s ease;
+}
+
+[data-theme="light"] .llm-attachment-btn:hover {
+  opacity: 1.0;
+  background: #f3f4f6;
+}
+
+[data-theme="light"] .composer-controls {
+  color: #6b7280;
+}
+
+[data-theme="light"] .attached-files p {
+  color: #6b7280;
+}
+
+[data-theme="light"] .file-item {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  color: #111827;
+}
+
+[data-theme="light"] .file-remove-btn {
+  color: #ef4444;
+  opacity: 0.7;
+}
+
+[data-theme="light"] .file-remove-btn:hover {
+  opacity: 1.0;
+}
+
+/* Accessibility & Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  [data-theme="dark"] .loading-dots .dot,
+  [data-theme="light"] .loading-dots .dot {
+    animation: none !important;
+  }
+  
+  [data-theme="dark"] .llm-send-btn,
+  [data-theme="light"] .llm-send-btn,
+  [data-theme="dark"] .llm-attachment-btn,
+  [data-theme="light"] .llm-attachment-btn {
+    transition: none !important;
+  }
+}
+
 /* Dashboard Tab Panes - LANDING PAGE CARD GRADIENT */
 [data-theme="dark"] .tab-content-padding,
 [data-theme="dark"] [data-radix-tabs-content] {
