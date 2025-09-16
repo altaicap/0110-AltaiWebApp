@@ -71,7 +71,53 @@
 }
 
 [data-theme="dark"] .min-h-screen {
-  background: var(--dashboard-bg-gradient) !important;
+  background: var(--dashboard-main-bg) !important;
+  position: relative;
+}
+
+/* Dashboard Background Shimmer Animation - FROM LANDING PAGE */
+[data-theme="dark"] .min-h-screen::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+  background: linear-gradient(
+    110deg,
+    transparent 25%,
+    var(--dashboard-shimmer-dark) 50%,
+    var(--dashboard-shimmer-accent) 55%,
+    transparent 75%
+  );
+  background-size: 200% 100%;
+  animation: dashboard-shimmer 11.4s ease-in-out infinite;
+}
+
+/* Shimmer Animation Keyframes */
+@keyframes dashboard-shimmer {
+  0%, 100% {
+    background-position: 200% 0;
+  }
+  50% {
+    background-position: -200% 0;
+  }
+}
+
+/* Disable animations for reduced motion users */
+@media (prefers-reduced-motion: reduce) {
+  [data-theme="dark"] .min-h-screen::before {
+    animation: none !important;
+  }
+}
+
+/* Ensure content is above shimmer */
+[data-theme="dark"] .min-h-screen > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* Remove all blue/purple tokens */
