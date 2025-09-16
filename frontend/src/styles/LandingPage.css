@@ -871,10 +871,10 @@
   }
 }
 
-/* Pricing Grid with proper spacing for badge */
+/* Pricing Grid with proper spacing for badge - HORIZONTAL ROW OF 3 */
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmin(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr); /* Fixed 3 columns in a row */
   gap: 2rem;
   margin: 3rem 0;
   max-width: 60rem;
@@ -888,6 +888,13 @@
   margin-top: 1rem; /* Additional margin for badge space */
   display: flex;
   flex-direction: column;
+}
+
+/* Responsive pricing layout */
+@media (max-width: 1024px) {
+  .pricing-grid {
+    grid-template-columns: 1fr; /* Stack vertically on smaller screens */
+  }
 }
 
 /* Dark theme: Remove white borders from pricing cards */
