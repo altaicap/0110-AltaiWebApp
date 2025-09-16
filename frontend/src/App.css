@@ -33,7 +33,7 @@ body {
 }
 
 [data-theme="dark"] .text-gray-900 {
-  color: #f9fafb !important;
+  color: #FBFCFC !important; /* Nightwatch white */
 }
 
 [data-theme="dark"] .text-gray-600 {
