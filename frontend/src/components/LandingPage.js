@@ -546,82 +546,256 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
               </p>
             </div>
 
-            <div className="feature-grid-six">
+            <div className="feature-grid-expandable">
               {/* Card 1 */}
-              <div className="landing-card group">
+              <div 
+                className={`feature-card landing-card group ${expandedCard === 0 ? 'expanded' : ''}`}
+                onClick={() => handleCardExpand(0)}
+                role="button"
+                tabIndex={0}
+                aria-expanded={expandedCard === 0}
+                aria-controls="feature-content-0"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleCardExpand(0);
+                  }
+                }}
+              >
                 <div className="landing-card-content">
-                  <div className="icon-container icon-container-blue">
-                    <Code className="h-6 w-6" />
+                  <div className="feature-meta">
+                    <div className="icon-container icon-container-blue">
+                      <Code className="h-6 w-6" />
+                    </div>
+                    <h3 className="landing-card-title">Generate AI Python strategies</h3>
+                    <p className="landing-card-description">
+                      Describe your idea and get production-ready Python code, complete with indicators, entry/exit rules, and risk controls.
+                    </p>
                   </div>
-                  <h3 className="landing-card-title">Generate AI Python strategies</h3>
-                  <p className="landing-card-description">
-                    Describe your idea and get production-ready Python code, complete with indicators, entry/exit rules, and risk controls.
-                  </p>
+                  {expandedCard === 0 && (
+                    <div id="feature-content-0" className="feature-expanded-content">
+                      <div className="screenshot-placeholder">
+                        <div className="screenshot-inner">
+                          <Play className="h-12 w-12 opacity-60" />
+                          <p className="text-sm opacity-70 mt-2">Product Screenshot</p>
+                        </div>
+                        <div className="screenshot-gradient"></div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="expand-affordance" aria-hidden="true">
+                  {expandedCard === 0 ? <X className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />}
                 </div>
               </div>
 
               {/* Card 2 */}
-              <div className="landing-card group">
+              <div 
+                className={`feature-card landing-card group ${expandedCard === 1 ? 'expanded' : ''}`}
+                onClick={() => handleCardExpand(1)}
+                role="button"
+                tabIndex={0}
+                aria-expanded={expandedCard === 1}
+                aria-controls="feature-content-1"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleCardExpand(1);
+                  }
+                }}
+              >
                 <div className="landing-card-content">
-                  <div className="icon-container icon-container-purple">
-                    <BarChart3 className="h-6 w-6" />
+                  <div className="feature-meta">
+                    <div className="icon-container icon-container-purple">
+                      <BarChart3 className="h-6 w-6" />
+                    </div>
+                    <h3 className="landing-card-title">Backtest with confidence</h3>
+                    <p className="landing-card-description">
+                      Run accurate historical tests, visualise historical trades on a chart, view quartile trade curves and assess how the best and worst trades panned from entry to exit.
+                    </p>
                   </div>
-                  <h3 className="landing-card-title">Backtest with confidence</h3>
-                  <p className="landing-card-description">
-                    Run accurate historical tests, visualise historical trades on a chart, view quartile trade curves and assess how the best and worst trades panned from entry to exit.
-                  </p>
+                  {expandedCard === 1 && (
+                    <div id="feature-content-1" className="feature-expanded-content">
+                      <div className="screenshot-placeholder">
+                        <div className="screenshot-inner">
+                          <BarChart3 className="h-12 w-12 opacity-60" />
+                          <p className="text-sm opacity-70 mt-2">Product Screenshot</p>
+                        </div>
+                        <div className="screenshot-gradient"></div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="expand-affordance" aria-hidden="true">
+                  {expandedCard === 1 ? <X className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />}
                 </div>
               </div>
 
               {/* Card 3 */}
-              <div className="landing-card group">
+              <div 
+                className={`feature-card landing-card group ${expandedCard === 2 ? 'expanded' : ''}`}
+                onClick={() => handleCardExpand(2)}
+                role="button"
+                tabIndex={0}
+                aria-expanded={expandedCard === 2}
+                aria-controls="feature-content-2"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleCardExpand(2);
+                  }
+                }}
+              >
                 <div className="landing-card-content">
-                  <div className="icon-container icon-container-green">
-                    <Target className="h-6 w-6" />
+                  <div className="feature-meta">
+                    <div className="icon-container icon-container-green">
+                      <Target className="h-6 w-6" />
+                    </div>
+                    <h3 className="landing-card-title">Go live in one click</h3>
+                    <p className="landing-card-description">
+                      Deploy to paper or live trading with broker routing - no middleman and no webhook - orders submitted straight from your script to your broker.
+                    </p>
                   </div>
-                  <h3 className="landing-card-title">Go live in one click</h3>
-                  <p className="landing-card-description">
-                    Deploy to paper or live trading with broker routing - no middleman and no webhook - orders submitted straight from your script to your broker.
-                  </p>
+                  {expandedCard === 2 && (
+                    <div id="feature-content-2" className="feature-expanded-content">
+                      <div className="screenshot-placeholder">
+                        <div className="screenshot-inner">
+                          <Target className="h-12 w-12 opacity-60" />
+                          <p className="text-sm opacity-70 mt-2">Product Screenshot</p>
+                        </div>
+                        <div className="screenshot-gradient"></div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="expand-affordance" aria-hidden="true">
+                  {expandedCard === 2 ? <X className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />}
                 </div>
               </div>
 
               {/* Card 4 */}
-              <div className="landing-card group">
+              <div 
+                className={`feature-card landing-card group ${expandedCard === 3 ? 'expanded' : ''}`}
+                onClick={() => handleCardExpand(3)}
+                role="button"
+                tabIndex={0}
+                aria-expanded={expandedCard === 3}
+                aria-controls="feature-content-3"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleCardExpand(3);
+                  }
+                }}
+              >
                 <div className="landing-card-content">
-                  <div className="icon-container icon-container-orange">
-                    <Users className="h-6 w-6" />
+                  <div className="feature-meta">
+                    <div className="icon-container icon-container-orange">
+                      <Users className="h-6 w-6" />
+                    </div>
+                    <h3 className="landing-card-title">Multiple brokers and multiple accounts at once</h3>
+                    <p className="landing-card-description">
+                      Choose what strategy is filled on which account in which broker, separate or aggregate a portfolio of strategies.
+                    </p>
                   </div>
-                  <h3 className="landing-card-title">Multiple brokers and multiple accounts at once</h3>
-                  <p className="landing-card-description">
-                    Choose what strategy is filled on which account in which broker, separate or aggregate a portfolio of strategies.
-                  </p>
+                  {expandedCard === 3 && (
+                    <div id="feature-content-3" className="feature-expanded-content">
+                      <div className="screenshot-placeholder">
+                        <div className="screenshot-inner">
+                          <Users className="h-12 w-12 opacity-60" />
+                          <p className="text-sm opacity-70 mt-2">Product Screenshot</p>
+                        </div>
+                        <div className="screenshot-gradient"></div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="expand-affordance" aria-hidden="true">
+                  {expandedCard === 3 ? <X className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />}
                 </div>
               </div>
 
               {/* Card 5 */}
-              <div className="landing-card group">
+              <div 
+                className={`feature-card landing-card group ${expandedCard === 4 ? 'expanded' : ''}`}
+                onClick={() => handleCardExpand(4)}
+                role="button"
+                tabIndex={0}
+                aria-expanded={expandedCard === 4}
+                aria-controls="feature-content-4"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleCardExpand(4);
+                  }
+                }}
+              >
                 <div className="landing-card-content">
-                  <div className="icon-container icon-container-teal">
-                    <Database className="h-6 w-6" />
+                  <div className="feature-meta">
+                    <div className="icon-container icon-container-teal">
+                      <Database className="h-6 w-6" />
+                    </div>
+                    <h3 className="landing-card-title">Sync & review discretionary trades</h3>
+                    <p className="landing-card-description">
+                      Real-time dashboards, alerts, and a structured trade journal to track P&L, drawdown, win rate, and expectancy.
+                    </p>
                   </div>
-                  <h3 className="landing-card-title">Sync & review discretionary trades</h3>
-                  <p className="landing-card-description">
-                    Real-time dashboards, alerts, and a structured trade journal to track P&L, drawdown, win rate, and expectancy.
-                  </p>
+                  {expandedCard === 4 && (
+                    <div id="feature-content-4" className="feature-expanded-content">
+                      <div className="screenshot-placeholder">
+                        <div className="screenshot-inner">
+                          <Database className="h-12 w-12 opacity-60" />
+                          <p className="text-sm opacity-70 mt-2">Product Screenshot</p>
+                        </div>
+                        <div className="screenshot-gradient"></div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="expand-affordance" aria-hidden="true">
+                  {expandedCard === 4 ? <X className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />}
                 </div>
               </div>
 
               {/* Card 6 */}
-              <div className="landing-card group">
+              <div 
+                className={`feature-card landing-card group ${expandedCard === 5 ? 'expanded' : ''}`}
+                onClick={() => handleCardExpand(5)}
+                role="button"
+                tabIndex={0}
+                aria-expanded={expandedCard === 5}
+                aria-controls="feature-content-5"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleCardExpand(5);
+                  }
+                }}
+              >
                 <div className="landing-card-content">
-                  <div className="icon-container icon-container-red">
-                    <Gauge className="h-6 w-6" />
+                  <div className="feature-meta">
+                    <div className="icon-container icon-container-red">
+                      <Gauge className="h-6 w-6" />
+                    </div>
+                    <h3 className="landing-card-title">Integrate Strategies with Live News</h3>
+                    <p className="landing-card-description">
+                      Integrate your strategy's entries to be dependent on live news pertaining to a specific ticker by simply connecting your API key from Newsware or TradeXchange.
+                    </p>
                   </div>
-                  <h3 className="landing-card-title">Integrate Strategies with Live News</h3>
-                  <p className="landing-card-description">
-                    Integrate your strategy's entries to be dependent on live news pertaining to a specific ticker by simply connecting your API key from Newsware or TradeXchange.
-                  </p>
+                  {expandedCard === 5 && (
+                    <div id="feature-content-5" className="feature-expanded-content">
+                      <div className="screenshot-placeholder">
+                        <div className="screenshot-inner">
+                          <Gauge className="h-12 w-12 opacity-60" />
+                          <p className="text-sm opacity-70 mt-2">Product Screenshot</p>
+                        </div>
+                        <div className="screenshot-gradient"></div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="expand-affordance" aria-hidden="true">
+                  {expandedCard === 5 ? <X className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />}
                 </div>
               </div>
             </div>
