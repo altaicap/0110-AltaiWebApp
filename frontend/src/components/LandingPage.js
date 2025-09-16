@@ -90,6 +90,101 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
     prefersReducedMotion.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }, []);
 
+  // FLIP animation handler for feature cards
+  const handleCardExpand = (cardIndex) => {
+    if (isAnimating) return; // Prevent multiple animations
+    
+    const isMobile = window.innerWidth <= 1024;
+    if (isMobile) {
+      // Mobile accordion behavior
+      setExpandedCard(expandedCard === cardIndex ? null : cardIndex);
+      return;
+    }
+
+    // Desktop FLIP animation
+    if (expandedCard === cardIndex) {
+      // Collapse current card
+      setExpandedCard(null);
+    } else {
+      // Expand new card with FLIP animation
+      if (!prefersReducedMotion.current) {
+        performFLIPAnimation(cardIndex);
+      } else {
+        setExpandedCard(cardIndex);
+      }
+    }
+  };
+
+  const performFLIPAnimation = (targetIndex) => {
+    const cards = document.querySelectorAll('.feature-card');
+    const grid = document.querySelector('.feature-grid-expandable');
+    if (!cards.length || !grid) return;
+
+    setIsAnimating(true);
+
+    // First: Record original positions
+    const firstPositions = Array.from(cards).map(card => card.getBoundingClientRect());
+
+    // Last: Set new state (expanded)
+    setExpandedCard(targetIndex);
+
+    // Force layout update
+    grid.offsetHeight;
+
+    // Wait for next frame to get new positions
+    requestAnimationFrame(() => {
+      const lastPositions = Array.from(cards).map(card => card.getBoundingClientRect());
+
+      // Invert: Calculate deltas and apply transforms
+      cards.forEach((card, index) => {
+        const first = firstPositions[index];
+        const last = lastPositions[index];
+        
+        const deltaX = first.left - last.left;
+        const deltaY = first.top - last.top;
+        const deltaW = first.width / last.width;
+        const deltaH = first.height / last.height;
+
+        // Apply initial transform
+        card.style.transformOrigin = 'top left';
+        card.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${deltaW}, ${deltaH})`;
+        card.style.willChange = 'transform';
+      });
+
+      // Play: Animate to final positions
+      requestAnimationFrame(() => {
+        cards.forEach((card, index) => {
+          card.style.transition = index === targetIndex 
+            ? 'transform 320ms cubic-bezier(0.2, 0.6, 0.2, 1)'
+            : 'transform 250ms cubic-bezier(0.2, 0.6, 0.2, 1)';
+          card.style.transform = '';
+        });
+
+        // Clean up after animation
+        setTimeout(() => {
+          cards.forEach(card => {
+            card.style.transition = '';
+            card.style.willChange = '';
+            card.style.transformOrigin = '';
+          });
+          setIsAnimating(false);
+        }, 320);
+      });
+    });
+  };
+
+  // Handle Escape key to collapse expanded card
+  useEffect(() => {
+    const handleEscKey = (event) => {
+      if (event.key === 'Escape' && expandedCard !== null) {
+        setExpandedCard(null);
+      }
+    };
+
+    document.addEventListener('keydown', handleEscKey);
+    return () => document.removeEventListener('keydown', handleEscKey);
+  }, [expandedCard]);
+
   // IntersectionObserver for nav highlighting
   useEffect(() => {
     const observerOptions = {
