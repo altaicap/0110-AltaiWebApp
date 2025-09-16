@@ -2415,10 +2415,11 @@ metadata = {
     return (
       <div className="space-y-6">
         <div className="tab-header-enhanced">
-          <div>
-            <h2 className="text-2xl font-bold">STRATEGIES</h2>
-            <p className="text-gray-600 mb-4">Manage your configured, uploaded, and archived trading strategies</p>
-          </div>
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold">STRATEGIES</h2>
+              <p className="text-gray-600 mb-4">Manage your configured, uploaded, and archived trading strategies</p>
+            </div>
             
             <div className="flex gap-4 text-sm">
               <div className="flex items-center gap-2">
