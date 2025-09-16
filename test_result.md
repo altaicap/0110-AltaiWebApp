@@ -655,7 +655,7 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
 
 ## test_plan:
   current_focus:
-    - "Laravel-Inspired Landing Page Implementation"
+    - "Comprehensive Landing Page Testing - Review Request"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
