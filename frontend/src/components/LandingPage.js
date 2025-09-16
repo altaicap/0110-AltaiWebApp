@@ -42,7 +42,6 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
   // Typing animation state - NO DELETE PHASE
   const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
   const [currentText, setCurrentText] = useState('');
-  const [isTyping, setIsTyping] = useState(true);
   const [isFading, setIsFading] = useState(false);
   const [showCursor, setShowCursor] = useState(true);
   
