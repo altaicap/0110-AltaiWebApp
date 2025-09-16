@@ -473,6 +473,12 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                   <p className="landing-card-description">
                     Choose what strategy is filled on which account in which broker, separate or aggregate a portfolio of strategies.
                   </p>
+                  {/* Product Image Placeholder */}
+                  <div className="product-image-placeholder">
+                    <div className="placeholder-content">
+                      <span className="placeholder-text">Product Screenshot</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
