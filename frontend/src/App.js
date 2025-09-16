@@ -291,7 +291,7 @@ function App() {
   const [initialThemeLoaded, setInitialThemeLoaded] = useState(false);
   const [appSettings, setAppSettings] = useState(() => {
     return {
-      theme: 'light', // Default to light theme
+      theme: 'dark', // CHANGED: Default to dark theme
       fontSize: 'large', // Default to 'large' (which will be labeled as 'Default')
     };
   });
