@@ -927,10 +927,10 @@
   display: none !important; /* Remove entirely as requested */
 }
 
-/* Orange Recommended Badge - FIXED POSITIONING */
+/* Orange Recommended Badge - FIXED POSITIONING TO PREVENT CROPPING */
 .recommended-badge-orange {
   position: absolute;
-  top: -1rem; /* Adjusted from -1.5rem to prevent cropping */
+  top: -0.5rem; /* Reduced from -1rem to prevent cropping */
   left: 50%;
   transform: translateX(-50%);
   background-color: #f97316; /* Same orange color as icon-container-orange */
