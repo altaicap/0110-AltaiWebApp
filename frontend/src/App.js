@@ -5397,39 +5397,6 @@ metadata = {
                 })}
               </div>
             )}
-
-            {/* Authentication Section */}
-            {isAuthenticated ? (
-              <div className="ml-4">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm" className={`flex items-center gap-2 ${isDarkTheme ? 'text-white border-gray-600 hover:bg-gray-700' : ''}`}>
-                      <User className={`w-4 h-4 ${isDarkTheme ? 'text-white' : ''}`} />
-                      {currentAuthUser?.full_name || currentAuthUser?.email}
-                      <ChevronDown className={`w-4 h-4 ${isDarkTheme ? 'text-white' : ''}`} />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className={`w-48 ${isDarkTheme ? 'bg-gray-800 border-gray-600' : ''}`}>
-                    <DropdownMenuItem onClick={() => setShowAccountSettings(true)} className={isDarkTheme ? 'text-white hover:bg-gray-700' : ''}>
-                      <Settings2 className="w-4 h-4 mr-2" />
-                      My Account
-                    </DropdownMenuItem>
-                    <Separator className={`my-1 ${isDarkTheme ? 'border-gray-600' : ''}`} />
-                    <DropdownMenuItem onClick={handleLogout} className={`text-red-600 ${isDarkTheme ? 'hover:bg-gray-700' : ''}`}>
-                      <LogOut className="w-4 h-4 mr-2" />
-                      Sign Out
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            ) : (
-              <Button 
-                onClick={() => setShowAuthModal(true)} 
-                className="ml-4"
-              >
-                Sign In
-              </Button>
-            )}
           </div>
         </div>
 
