@@ -68,8 +68,8 @@ body {
 
 /* Header in dark theme */
 [data-theme="dark"] header {
-  background-color: #141414 !important;
-  border-color: #2a2a2a !important;
+  background-color: rgba(9, 13, 13, 0.72) !important; /* Nightwatch glass header */
+  border-color: rgba(107, 117, 125, 0.4) !important; /* Nightwatch grey border */
 }
 
 /* Tab styling for dark theme */
