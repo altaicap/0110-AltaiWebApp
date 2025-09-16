@@ -1866,324 +1866,372 @@ metadata = {
         </CardHeader>
         {!minimizedPanes.has('settings-connectivity') && (
           <CardContent className="space-y-6">
-          {/* Polygon API */}
-          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-purple-100 to-blue-100 ${isDarkTheme ? 'dark:from-purple-900/40 dark:to-blue-900/40 dark:border-gray-600' : ''}`}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
-                  <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2L2 7L12 12L22 7L12 2Z" />
-                    <path d="M2 17L12 22L22 17" />
-                    <path d="M2 12L12 17L22 12" />
-                  </svg>
-                </div>
-                <div>
-                  <Label className={`text-base font-semibold flex items-center gap-2 ${isDarkTheme ? 'text-white' : ''}`}>
-                    Polygon API
-                    <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.polygon)} animate-pulse`} />
-                  </Label>
-                  <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>Real-time and historical market data</p>
-                </div>
-              </div>
-              <Badge variant={settings.polygon_api_configured ? "default" : "secondary"} className="px-3 py-1">
-                {settings.polygon_api_configured ? "Configured" : "Not Configured"}
-              </Badge>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="polygonApiKey">API Key</Label>
-              <div className="flex gap-2">
-                <Input
-                  id="polygonApiKey"
-                  type={showApiKeys.polygon ? "text" : "password"}
-                  placeholder="Enter Polygon API Key"
-                  value={apiKeys.polygon}
-                  onChange={(e) => setApiKeys(prev => ({ ...prev, polygon: e.target.value }))}
-                  className="font-mono text-sm flex-1"
-                />
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setShowApiKeys(prev => ({ ...prev, polygon: !prev.polygon }))}
-                  className="px-3"
-                >
-                  {showApiKeys.polygon ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </Button>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <Button 
-                onClick={() => testConnection('polygon')} 
-                disabled={isLoading || !settings.polygon_api_configured}
+            
+            {/* Data Connectivity Section */}
+            <div className="space-y-4">
+              <Button
+                variant="ghost"
                 size="sm"
+                onClick={() => setConnectivityCollapsed(prev => ({ ...prev, dataConnectivity: !prev.dataConnectivity }))}
+                className="flex items-center gap-2 p-0 h-auto font-semibold text-left w-full justify-start"
               >
-                {isLoading ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : <CheckCircle className="w-4 h-4 mr-2" />}
-                Test Connection
+                <ChevronDown className={`h-4 w-4 transition-transform ${connectivityCollapsed.dataConnectivity ? '-rotate-90' : ''}`} />
+                Data Connectivity
               </Button>
-              <Button 
-                onClick={() => updateApiKey('polygon')}
-                disabled={isLoading || !apiKeys.polygon}
-                size="sm" 
-                variant="outline"
-              >
-                Save Key
-              </Button>
-            </div>
-          </div>
-
-          <Separator />
-
-          {/* NewsWare API */}
-          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-blue-100 to-cyan-100 ${isDarkTheme ? 'dark:from-blue-900/40 dark:to-cyan-900/40 dark:border-gray-600' : ''}`}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM14 17H7V15H14V17ZM17 13H7V11H17V13ZM17 9H7V7H17V9Z" />
-                  </svg>
+              
+              {!connectivityCollapsed.dataConnectivity && (
+                <div className="space-y-4 ml-6">
+                  {/* Polygon API */}
+                  <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-purple-100 to-blue-100 ${isDarkTheme ? 'dark:from-purple-900/40 dark:to-blue-900/40 dark:border-gray-600' : ''}`}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
+                          <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7L12 12L22 7L12 2Z" />
+                            <path d="M2 17L12 22L22 17" />
+                            <path d="M2 12L12 17L22 12" />
+                          </svg>
+                        </div>
+                        <div>
+                          <Label className={`text-base font-semibold flex items-center gap-2 ${isDarkTheme ? 'text-white' : ''}`}>
+                            Polygon API
+                            <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.polygon)} animate-pulse`} />
+                          </Label>
+                          <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>Real-time and historical market data</p>
+                        </div>
+                      </div>
+                      <Badge variant={settings.polygon_api_configured ? "default" : "secondary"} className="px-3 py-1">
+                        {settings.polygon_api_configured ? "Configured" : "Not Configured"}
+                      </Badge>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="polygonApiKey">API Key</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          id="polygonApiKey"
+                          type={showApiKeys.polygon ? "text" : "password"}
+                          placeholder="Enter Polygon API Key"
+                          value={apiKeys.polygon}
+                          onChange={(e) => setApiKeys(prev => ({ ...prev, polygon: e.target.value }))}
+                          className="font-mono text-sm flex-1"
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setShowApiKeys(prev => ({ ...prev, polygon: !prev.polygon }))}
+                          className="px-3"
+                        >
+                          {showApiKeys.polygon ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button 
+                        onClick={() => testConnection('polygon')} 
+                        disabled={isLoading || !settings.polygon_api_configured}
+                        size="sm"
+                      >
+                        {isLoading ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : <CheckCircle className="w-4 h-4 mr-2" />}
+                        Test Connection
+                      </Button>
+                      <Button 
+                        onClick={() => updateApiKey('polygon')}
+                        disabled={isLoading || !apiKeys.polygon}
+                        size="sm" 
+                        variant="outline"
+                      >
+                        Save Key
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <Label className={`text-base font-semibold flex items-center gap-2 ${isDarkTheme ? 'text-white' : ''}`}>
-                    NewsWare API
-                    <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.newsware)} animate-pulse`} />
-                  </Label>
-                  <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>Real-time financial news feeds</p>
-                </div>
-              </div>
-              <Badge variant={settings.newsware_api_configured ? "default" : "secondary"} className="px-3 py-1">
-                {settings.newsware_api_configured ? "Configured" : "Not Configured"}
-              </Badge>
+              )}
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="newswareApiKey">API Key</Label>
-              <div className="flex gap-2">
-                <Input
-                  id="newswareApiKey"
-                  type={showApiKeys.newsware ? "text" : "password"}
-                  placeholder="Enter NewsWare API Key"
-                  value={apiKeys.newsware}
-                  onChange={(e) => setApiKeys(prev => ({ ...prev, newsware: e.target.value }))}
-                  className="font-mono text-sm flex-1"
-                />
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setShowApiKeys(prev => ({ ...prev, newsware: !prev.newsware }))}
-                  className="px-3"
-                >
-                  {showApiKeys.newsware ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </Button>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <Button 
-                onClick={() => testConnection('newsware')} 
-                disabled={isLoading || !settings.newsware_api_configured}
+
+            <Separator />
+
+            {/* News Integrations Section */}
+            <div className="space-y-4">
+              <Button
+                variant="ghost"
                 size="sm"
+                onClick={() => setConnectivityCollapsed(prev => ({ ...prev, newsIntegrations: !prev.newsIntegrations }))}
+                className="flex items-center gap-2 p-0 h-auto font-semibold text-left w-full justify-start"
               >
-                {isLoading ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : <CheckCircle className="w-4 h-4 mr-2" />}
-                Test Connection
+                <ChevronDown className={`h-4 w-4 transition-transform ${connectivityCollapsed.newsIntegrations ? '-rotate-90' : ''}`} />
+                News Integrations
               </Button>
-              <Button 
-                onClick={() => updateApiKey('newsware')}
-                disabled={isLoading || !apiKeys.newsware}
-                size="sm" 
-                variant="outline"
-              >
-                Save Key
-              </Button>
-            </div>
-          </div>
+              
+              {!connectivityCollapsed.newsIntegrations && (
+                <div className="space-y-4 ml-6">
+                  {/* NewsWare API */}
+                  <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-blue-100 to-cyan-100 ${isDarkTheme ? 'dark:from-blue-900/40 dark:to-cyan-900/40 dark:border-gray-600' : ''}`}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
+                          <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM14 17H7V15H14V17ZM17 13H7V11H17V13ZM17 9H7V7H17V9Z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <Label className={`text-base font-semibold flex items-center gap-2 ${isDarkTheme ? 'text-white' : ''}`}>
+                            NewsWare API
+                            <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.newsware)} animate-pulse`} />
+                          </Label>
+                          <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>Real-time financial news feeds</p>
+                        </div>
+                      </div>
+                      <Badge variant={settings.newsware_api_configured ? "default" : "secondary"} className="px-3 py-1">
+                        {settings.newsware_api_configured ? "Configured" : "Not Configured"}
+                      </Badge>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="newswareApiKey">API Key</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          id="newswareApiKey"
+                          type={showApiKeys.newsware ? "text" : "password"}
+                          placeholder="Enter NewsWare API Key"
+                          value={apiKeys.newsware}
+                          onChange={(e) => setApiKeys(prev => ({ ...prev, newsware: e.target.value }))}
+                          className="font-mono text-sm flex-1"
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setShowApiKeys(prev => ({ ...prev, newsware: !prev.newsware }))}
+                          className="px-3"
+                        >
+                          {showApiKeys.newsware ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button 
+                        onClick={() => testConnection('newsware')} 
+                        disabled={isLoading || !settings.newsware_api_configured}
+                        size="sm"
+                      >
+                        {isLoading ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : <CheckCircle className="w-4 h-4 mr-2" />}
+                        Test Connection
+                      </Button>
+                      <Button 
+                        onClick={() => updateApiKey('newsware')}
+                        disabled={isLoading || !apiKeys.newsware}
+                        size="sm" 
+                        variant="outline"
+                      >
+                        Save Key
+                      </Button>
+                    </div>
+                  </div>
 
-          <Separator />
+                  {/* TradeXchange API */}
+                  <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-orange-100 to-red-100 ${isDarkTheme ? 'dark:from-orange-900/40 dark:to-red-900/40 dark:border-gray-600' : ''}`}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
+                          <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM14 17H7V15H14V17ZM17 13H7V11H17V13ZM17 9H7V7H17V9Z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <Label className={`text-base font-semibold flex items-center gap-2 ${isDarkTheme ? 'text-white' : ''}`}>
+                            TradeXchange API
+                            <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.tradexchange)} animate-pulse`} />
+                          </Label>
+                          <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>Trade execution and exchange data</p>
+                        </div>
+                      </div>
+                      <Badge variant={settings.tradexchange_api_configured ? "default" : "secondary"} className="px-3 py-1">
+                        {settings.tradexchange_api_configured ? "Configured" : "Not Configured"}
+                      </Badge>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="tradexchangeApiKey">API Key</Label>
+                      <Input
+                        id="tradexchangeApiKey"
+                        type="password"
+                        placeholder="Enter TradeXchange API Key"
+                        value={apiKeys.tradexchange || ''}
+                        onChange={(e) => setApiKeys(prev => ({ ...prev, tradexchange: e.target.value }))}
+                        className="font-mono text-sm flex-1"
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <Button 
+                        onClick={() => testConnection('tradexchange')} 
+                        disabled={isLoading || !settings.tradexchange_api_configured}
+                        size="sm"
+                      >
+                        {isLoading ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : <CheckCircle className="w-4 h-4 mr-2" />}
+                        Test Connection
+                      </Button>
+                      <Button 
+                        onClick={() => updateApiKey('tradexchange')}
+                        disabled={isLoading || !apiKeys.tradexchange}
+                        size="sm" 
+                        variant="outline"
+                      >
+                        Save Key
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
 
-          {/* TradeXchange API */}
-          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-orange-100 to-red-100 ${isDarkTheme ? 'dark:from-orange-900/40 dark:to-red-900/40 dark:border-gray-600' : ''}`}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
-                  <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM14 17H7V15H14V17ZM17 13H7V11H17V13ZM17 9H7V7H17V9Z" />
-                  </svg>
-                </div>
-                <div>
-                  <Label className={`text-base font-semibold flex items-center gap-2 ${isDarkTheme ? 'text-white' : ''}`}>
-                    TradeXchange API
-                    <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.tradexchange)} animate-pulse`} />
-                  </Label>
-                  <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>Trade execution and exchange data</p>
-                </div>
-              </div>
-              <Badge variant={settings.tradexchange_api_configured ? "default" : "secondary"} className="px-3 py-1">
-                {settings.tradexchange_api_configured ? "Configured" : "Not Configured"}
-              </Badge>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="tradexchangeApiKey">API Key</Label>
-              <Input
-                id="tradexchangeApiKey"
-                type="password"
-                placeholder="Enter TradeXchange API Key"
-                value={apiKeys.tradexchange || ''}
-                onChange={(e) => setApiKeys(prev => ({ ...prev, tradexchange: e.target.value }))}
-                className="font-mono text-sm flex-1"
-              />
-            </div>
-            <div className="flex gap-2">
-              <Button 
-                onClick={() => testConnection('tradexchange')} 
-                disabled={isLoading || !settings.tradexchange_api_configured}
+            <Separator />
+
+            {/* Brokers Section */}
+            <div className="space-y-4">
+              <Button
+                variant="ghost"
                 size="sm"
+                onClick={() => setConnectivityCollapsed(prev => ({ ...prev, brokers: !prev.brokers }))}
+                className="flex items-center gap-2 p-0 h-auto font-semibold text-left w-full justify-start"
               >
-                {isLoading ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : <CheckCircle className="w-4 h-4 mr-2" />}
-                Test Connection
+                <ChevronDown className={`h-4 w-4 transition-transform ${connectivityCollapsed.brokers ? '-rotate-90' : ''}`} />
+                Brokers
               </Button>
-              <Button 
-                onClick={() => updateApiKey('tradexchange')}
-                disabled={isLoading || !apiKeys.tradexchange}
-                size="sm" 
-                variant="outline"
-              >
-                Save Key
-              </Button>
-            </div>
-          </div>
+              
+              {!connectivityCollapsed.brokers && (
+                <div className="space-y-4 ml-6">
+                  {/* TradeStation Integration */}
+                  <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-blue-100 to-sky-100 ${isDarkTheme ? 'dark:from-blue-900/40 dark:to-sky-900/40 dark:border-gray-600' : ''}`}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-sky-400 rounded-lg flex items-center justify-center">
+                          <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 3H21C21.55 3 22 3.45 22 4V20C22 20.55 21.55 21 21 21H3C2.45 21 2 20.55 2 20V4C2 3.45 2.45 3 3 3ZM20 8H4V19H20V8ZM20 6V5H4V6H20ZM6 10H8V17H6V10ZM10 12H12V17H10V12ZM14 14H16V17H14V14Z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <Label className={`text-base font-semibold flex items-center gap-2 ${isDarkTheme ? 'text-white' : ''}`}>
+                            TradeStation
+                            <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.tradestation)} animate-pulse`} />
+                          </Label>
+                          <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>Brokerage integration for live trading</p>
+                        </div>
+                      </div>
+                      <Badge variant="secondary" className="px-3 py-1">
+                        {integrationStatus.tradestation === 'connected' ? 'Connected' : 
+                         integrationStatus.tradestation === 'warning' ? 'Connected (Issues)' : 'Disconnected'}
+                      </Badge>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="tradestationKey">Client ID</Label>
+                      <Input
+                        id="tradestationKey"
+                        type="password"
+                        value={apiKeys.tradestation}
+                        onChange={(e) => setApiKeys(prev => ({ ...prev, tradestation: e.target.value }))}
+                        placeholder="Enter TradeStation Client ID"
+                        className="font-mono text-sm"
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <Button 
+                        size="sm"
+                        onClick={() => {
+                          if (!isAuthenticated) {
+                            setError('Please sign in to connect your broker account');
+                            return;
+                          }
+                          if (integrationStatus.tradestation === 'connected') {
+                            // TODO: Implement disconnect
+                            setError('Disconnect functionality not yet implemented');
+                          } else {
+                            initiateOAuth('tradestation');
+                          }
+                        }}
+                        disabled={!isAuthenticated}
+                      >
+                        {integrationStatus.tradestation === 'connected' ? <CheckCircle className="w-4 h-4 mr-2" /> : <XCircle className="w-4 h-4 mr-2" />}
+                        {integrationStatus.tradestation === 'connected' ? 'Disconnect' : 'Connect TradeStation'}
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => testConnection('tradestation')}
+                        disabled={!isAuthenticated}
+                      >
+                        Test Connection
+                      </Button>
+                    </div>
+                  </div>
 
-          <Separator />
-
-          {/* TradeStation Integration */}
-          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-blue-100 to-sky-100 ${isDarkTheme ? 'dark:from-blue-900/40 dark:to-sky-900/40 dark:border-gray-600' : ''}`}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-sky-400 rounded-lg flex items-center justify-center">
-                  <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M3 3H21C21.55 3 22 3.45 22 4V20C22 20.55 21.55 21 21 21H3C2.45 21 2 20.55 2 20V4C2 3.45 2.45 3 3 3ZM20 8H4V19H20V8ZM20 6V5H4V6H20ZM6 10H8V17H6V10ZM10 12H12V17H10V12ZM14 14H16V17H14V14Z" />
-                  </svg>
+                  {/* Interactive Brokers (IBKR) */}
+                  <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-red-100 to-rose-100 ${isDarkTheme ? 'dark:from-red-900/40 dark:to-rose-900/40 dark:border-gray-600' : ''}`}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center">
+                          <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 3H21C21.55 3 22 3.45 22 4V20C22 20.55 21.55 21 21 21H3C2.45 21 2 20.55 2 20V4C2 3.45 2.45 3 3 3ZM20 8H4V19H20V8ZM20 6V5H4V6H20ZM6 10H8V17H6V10ZM10 12H12V17H10V12ZM14 14H16V17H14V14Z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <Label className={`text-base font-semibold flex items-center gap-2 ${isDarkTheme ? 'text-white' : ''}`}>
+                            Interactive Brokers (IBKR)
+                            <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.ibkr)} animate-pulse`} />
+                          </Label>
+                          <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>Professional trading platform with OAuth 2.0</p>
+                        </div>
+                      </div>
+                      <Badge variant="secondary" className="px-3 py-1">
+                        {integrationStatus.ibkr === 'connected' ? 'Connected' : 
+                         integrationStatus.ibkr === 'warning' ? 'Connected (Issues)' : 'Disconnected'}
+                      </Badge>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="ibkrClientId">Client ID</Label>
+                      <Input
+                        id="ibkrClientId"
+                        type="password"
+                        value={apiKeys.ibkr || ''}
+                        onChange={(e) => setApiKeys(prev => ({ ...prev, ibkr: e.target.value }))}
+                        placeholder="Enter IBKR Client ID"
+                        className="font-mono text-sm"
+                      />
+                      <p className="text-xs text-gray-500">
+                        Requires RSA key pair generation and OAuth 2.0 registration with IBKR API team
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button 
+                        size="sm"
+                        onClick={() => {
+                          if (!isAuthenticated) {
+                            setError('Please sign in to connect your broker account');
+                            return;
+                          }
+                          if (integrationStatus.ibkr === 'connected') {
+                            // TODO: Implement disconnect
+                            setError('Disconnect functionality not yet implemented');
+                          } else {
+                            initiateOAuth('ibkr');
+                          }
+                        }}
+                        disabled={!isAuthenticated}
+                      >
+                        {integrationStatus.ibkr === 'connected' ? <CheckCircle className="w-4 h-4 mr-2" /> : <XCircle className="w-4 h-4 mr-2" />}
+                        {integrationStatus.ibkr === 'connected' ? 'Disconnect' : 'Generate Keys & Connect'}
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => testConnection('ibkr')}
+                        disabled={!isAuthenticated}
+                      >
+                        Test Connection
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <Label className={`text-base font-semibold flex items-center gap-2 ${isDarkTheme ? 'text-white' : ''}`}>
-                    TradeStation
-                    <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.tradestation)} animate-pulse`} />
-                  </Label>
-                  <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>Brokerage integration for live trading</p>
-                </div>
-              </div>
-              <Badge variant="secondary" className="px-3 py-1">
-                {integrationStatus.tradestation === 'connected' ? 'Connected' : 
-                 integrationStatus.tradestation === 'warning' ? 'Connected (Issues)' : 'Disconnected'}
-              </Badge>
+              )}
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="tradestationKey">Client ID</Label>
-              <Input
-                id="tradestationKey"
-                type="password"
-                value={apiKeys.tradestation}
-                onChange={(e) => setApiKeys(prev => ({ ...prev, tradestation: e.target.value }))}
-                placeholder="Enter TradeStation Client ID"
-                className="font-mono text-sm"
-              />
-            </div>
-            <div className="flex gap-2">
-              <Button 
-                size="sm"
-                onClick={() => {
-                  if (!isAuthenticated) {
-                    setError('Please sign in to connect your broker account');
-                    return;
-                  }
-                  if (integrationStatus.tradestation === 'connected') {
-                    // TODO: Implement disconnect
-                    setError('Disconnect functionality not yet implemented');
-                  } else {
-                    initiateOAuth('tradestation');
-                  }
-                }}
-                disabled={!isAuthenticated}
-              >
-                {integrationStatus.tradestation === 'connected' ? <CheckCircle className="w-4 h-4 mr-2" /> : <XCircle className="w-4 h-4 mr-2" />}
-                {integrationStatus.tradestation === 'connected' ? 'Disconnect' : 'Connect TradeStation'}
-              </Button>
-              <Button 
-                size="sm" 
-                variant="outline"
-                onClick={() => testConnection('tradestation')}
-                disabled={!isAuthenticated}
-              >
-                Test Connection
-              </Button>
-            </div>
-          </div>
-
-          <Separator />
-
-          {/* Interactive Brokers (IBKR) */}
-          <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-red-100 to-rose-100 ${isDarkTheme ? 'dark:from-red-900/40 dark:to-rose-900/40 dark:border-gray-600' : ''}`}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center">
-                  <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M3 3H21C21.55 3 22 3.45 22 4V20C22 20.55 21.55 21 21 21H3C2.45 21 2 20.55 2 20V4C2 3.45 2.45 3 3 3ZM20 8H4V19H20V8ZM20 6V5H4V6H20ZM6 10H8V17H6V10ZM10 12H12V17H10V12ZM14 14H16V17H14V14Z" />
-                  </svg>
-                </div>
-                <div>
-                  <Label className={`text-base font-semibold flex items-center gap-2 ${isDarkTheme ? 'text-white' : ''}`}>
-                    Interactive Brokers (IBKR)
-                    <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.ibkr)} animate-pulse`} />
-                  </Label>
-                  <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>Professional trading platform with OAuth 2.0</p>
-                </div>
-              </div>
-              <Badge variant="secondary" className="px-3 py-1">
-                {integrationStatus.ibkr === 'connected' ? 'Connected' : 
-                 integrationStatus.ibkr === 'warning' ? 'Connected (Issues)' : 'Disconnected'}
-              </Badge>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="ibkrClientId">Client ID</Label>
-              <Input
-                id="ibkrClientId"
-                type="password"
-                value={apiKeys.ibkr || ''}
-                onChange={(e) => setApiKeys(prev => ({ ...prev, ibkr: e.target.value }))}
-                placeholder="Enter IBKR Client ID"
-                className="font-mono text-sm"
-              />
-              <p className="text-xs text-gray-500">
-                Requires RSA key pair generation and OAuth 2.0 registration with IBKR API team
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <Button 
-                size="sm"
-                onClick={() => {
-                  if (!isAuthenticated) {
-                    setError('Please sign in to connect your broker account');
-                    return;
-                  }
-                  if (integrationStatus.ibkr === 'connected') {
-                    // TODO: Implement disconnect
-                    setError('Disconnect functionality not yet implemented');
-                  } else {
-                    initiateOAuth('ibkr');
-                  }
-                }}
-                disabled={!isAuthenticated}
-              >
-                {integrationStatus.ibkr === 'connected' ? <CheckCircle className="w-4 h-4 mr-2" /> : <XCircle className="w-4 h-4 mr-2" />}
-                {integrationStatus.ibkr === 'connected' ? 'Disconnect' : 'Generate Keys & Connect'}
-              </Button>
-              <Button 
-                size="sm" 
-                variant="outline"
-                onClick={() => testConnection('ibkr')}
-                disabled={!isAuthenticated}
-              >
-                Test Connection
-              </Button>
-            </div>
-          </div>
         </CardContent>
         )}
       </Card>
