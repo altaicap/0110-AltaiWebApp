@@ -256,10 +256,10 @@
   color: #0a5d63 !important; /* Slightly darker green on hover */
 }
 
-/* GENERIC UI ICONS - LANDING PAGE */
-.dark .icon,
-.dark .btn-icon > svg,
-.dark button:not(.theme-toggle) svg,
+/* GENERIC UI ICONS - LANDING PAGE EXCLUDE THEME TOGGLE */
+.dark .icon:not(.theme-toggle svg):not(.lucide-sun),
+.dark .btn-icon:not(.theme-toggle) > svg,
+.dark button:not(.theme-toggle):not([aria-label*="theme"]) svg,
 .dark .action-icon,
 .dark .nav-icon {
   color: var(--accent-ui) !important;
