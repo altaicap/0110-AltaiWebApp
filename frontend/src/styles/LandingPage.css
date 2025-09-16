@@ -304,7 +304,7 @@
 }
 
 /* Fallback for browsers without backdrop-filter support */
-@supports not (backdrop-filter: blur(9px)) {
+@supports not (backdrop-filter: blur(12px)) {
   .landing-page-container.dark .landing-header {
     background-color: rgba(9, 13, 13, 0.85) !important;
   }
