@@ -5465,7 +5465,7 @@ metadata = {
                       value={authForm.email}
                       onChange={(e) => handleAuthFieldChange('email', e.target.value)}
                       placeholder="Enter your email"
-                      className={`${authErrors.email ? 'border-red-500' : ''} ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : ''}`}
+                      className={`${authErrors.email ? 'border-red-500' : ''} ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'}`}
                       required
                     />
                     {authErrors.email && (
