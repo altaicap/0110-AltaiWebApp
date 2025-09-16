@@ -349,9 +349,9 @@
 }
 
 .landing-h2 {
-  font-family: var(--font-tomorrow); /* CHANGED to Tomorrow font */
+  font-family: var(--font-tomorrow); /* Tomorrow font */
   font-size: 2.25rem;
-  font-weight: 700;
+  font-weight: 400; /* CHANGED: Regular weight instead of 700 */
   line-height: 1.2;
   letter-spacing: -0.025em;
   margin: 0;
