@@ -195,7 +195,7 @@
   z-index: 1;
 }
 
-/* Header Styling - CORRECTED LAYOUT STRUCTURE */
+/* Header Styling - CENTERED NAVIGATION LIKE ARBIBYTE.COM */
 .landing-header {
   position: sticky;
   top: 0;
@@ -209,30 +209,40 @@
   -webkit-backdrop-filter: none;
 }
 
-/* Header container layout - RESTORED SIMPLE STRUCTURE */
+/* Header container layout - THREE SECTIONS LAYOUT */
 .landing-header .landing-container {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr; /* Left | Center (wider) | Right */
   align-items: center;
   height: 4rem;
+  gap: 2rem;
 }
 
-/* Navigation and Auth Group - ALL IN ONE ROW */
-.header-nav-auth-group {
+/* Left section - Logo */
+.header-left {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  justify-self: start;
 }
 
-.header-nav-auth-group nav {
+/* Center section - Navigation */
+.header-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-center nav {
   display: flex;
   gap: 2rem;
 }
 
-.header-auth-group {
+/* Right section - Theme Toggle + Profile Icon */
+.header-right {
   display: flex;
   align-items: center;
   gap: 1rem;
+  justify-self: end;
 }
 
 /* Desktop Header Brand Sizing - INCREASED BY 15% */
@@ -244,6 +254,18 @@
   
   .landing-header #header-logo h1 {
     font-size: 1.38rem; /* Increased from 1.2rem by 15% */
+  }
+}
+
+/* Mobile header adjustments */
+@media (max-width: 768px) {
+  .landing-header .landing-container {
+    grid-template-columns: 1fr auto; /* Logo | Mobile Menu */
+    gap: 1rem;
+  }
+  
+  .header-center {
+    display: none; /* Hide desktop nav on mobile */
   }
 }
 
