@@ -458,12 +458,6 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                   <p className="landing-card-description">
                     Describe your idea and get production-ready Python code, complete with indicators, entry/exit rules, and risk controls.
                   </p>
-                  {/* Product Image Placeholder */}
-                  <div className="product-image-placeholder">
-                    <div className="placeholder-content">
-                      <span className="placeholder-text">Product Screenshot</span>
-                    </div>
-                  </div>
                 </div>
               </div>
 
@@ -477,12 +471,6 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                   <p className="landing-card-description">
                     Run accurate historical tests, visualise historical trades on a chart, view quartile trade curves and assess how the best and worst trades panned from entry to exit.
                   </p>
-                  {/* Product Image Placeholder */}
-                  <div className="product-image-placeholder">
-                    <div className="placeholder-content">
-                      <span className="placeholder-text">Product Screenshot</span>
-                    </div>
-                  </div>
                 </div>
               </div>
 
@@ -496,12 +484,6 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                   <p className="landing-card-description">
                     Deploy to paper or live trading with broker routing - no middleman and no webhook - orders submitted straight from your script to your broker.
                   </p>
-                  {/* Product Image Placeholder */}
-                  <div className="product-image-placeholder">
-                    <div className="placeholder-content">
-                      <span className="placeholder-text">Product Screenshot</span>
-                    </div>
-                  </div>
                 </div>
               </div>
 
@@ -515,12 +497,6 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                   <p className="landing-card-description">
                     Choose what strategy is filled on which account in which broker, separate or aggregate a portfolio of strategies.
                   </p>
-                  {/* Product Image Placeholder */}
-                  <div className="product-image-placeholder">
-                    <div className="placeholder-content">
-                      <span className="placeholder-text">Product Screenshot</span>
-                    </div>
-                  </div>
                 </div>
               </div>
 
@@ -534,12 +510,6 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                   <p className="landing-card-description">
                     Real-time dashboards, alerts, and a structured trade journal to track P&L, drawdown, win rate, and expectancy.
                   </p>
-                  {/* Product Image Placeholder */}
-                  <div className="product-image-placeholder">
-                    <div className="placeholder-content">
-                      <span className="placeholder-text">Product Screenshot</span>
-                    </div>
-                  </div>
                 </div>
               </div>
 
@@ -553,12 +523,6 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                   <p className="landing-card-description">
                     Integrate your strategy's entries to be dependent on live news pertaining to a specific ticker by simply connecting your API key from Newsware or TradeXchange.
                   </p>
-                  {/* Product Image Placeholder */}
-                  <div className="product-image-placeholder">
-                    <div className="placeholder-content">
-                      <span className="placeholder-text">Product Screenshot</span>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
