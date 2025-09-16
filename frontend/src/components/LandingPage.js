@@ -235,7 +235,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
           className="landing-header"
         >
           <div className="landing-container">
-            <div className="flex justify-between items-center h-16">
+            <div className="flex justify-between items-center h-16 w-full">
               <div className="flex items-center" id="header-logo">
                 <img 
                   src={isDarkTheme ? AltaiLogoDark : AltaiLogo} 
@@ -245,85 +245,88 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                 <h1 className="ml-2 text-xl font-bold">Altai Trader</h1>
               </div>
               
-              {/* Navigation Menu - Hidden on Mobile */}
-              <nav className="hidden md:flex space-x-8">
-                <button
-                  onClick={() => scrollToSection('home')}
-                  className={`nav-link ${activeSection === 'home' ? 'active' : ''}`}
-                >
-                  Home
-                </button>
-                <button
-                  onClick={() => scrollToSection('features')}
-                  className={`nav-link ${activeSection === 'features' ? 'active' : ''}`}
-                >
-                  Features
-                </button>
-                <button
-                  onClick={() => scrollToSection('pricing')}
-                  className={`nav-link ${activeSection === 'pricing' ? 'active' : ''}`}
-                >
-                  Pricing
-                </button>
-                <button
-                  onClick={() => scrollToSection('connections')}
-                  className={`nav-link ${activeSection === 'connections' ? 'active' : ''}`}
-                >
-                  Connections
-                </button>
-              </nav>
-
-              <div className="flex items-center space-x-4" id="header-register">
-                {/* Theme Toggle Button */}
-                <button
-                  onClick={onToggleTheme}
-                  className="theme-toggle"
-                  title={isDarkTheme ? 'Switch to light mode' : 'Switch to dark mode'}
-                >
-                  {isDarkTheme ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-                </button>
-
-                {/* Desktop Auth Buttons - Hidden on Mobile */}
-                <button onClick={onSignIn} className="landing-btn landing-btn-ghost hidden md:inline-flex">
-                  Sign In
-                </button>
-                <button onClick={onRegister} className="landing-btn landing-btn-primary hidden md:inline-flex">
-                  Register
-                </button>
-
-                {/* Mobile Hamburger Menu */}
-                <div className="relative">
+              {/* Navigation and Auth Group - ALL IN ONE ROW */}
+              <div className="header-nav-auth-group">
+                {/* Navigation Menu - Hidden on Mobile */}
+                <nav className="hidden md:flex space-x-8">
                   <button
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    className="mobile-hamburger"
-                    aria-label="Toggle mobile menu"
+                    onClick={() => scrollToSection('home')}
+                    className={`nav-link ${activeSection === 'home' ? 'active' : ''}`}
                   >
-                    {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                    Home
+                  </button>
+                  <button
+                    onClick={() => scrollToSection('features')}
+                    className={`nav-link ${activeSection === 'features' ? 'active' : ''}`}
+                  >
+                    Features
+                  </button>
+                  <button
+                    onClick={() => scrollToSection('pricing')}
+                    className={`nav-link ${activeSection === 'pricing' ? 'active' : ''}`}
+                  >
+                    Pricing
+                  </button>
+                  <button
+                    onClick={() => scrollToSection('connections')}
+                    className={`nav-link ${activeSection === 'connections' ? 'active' : ''}`}
+                  >
+                    Connections
+                  </button>
+                </nav>
+
+                <div className="header-auth-group">
+                  {/* Desktop Auth Buttons - Hidden on Mobile */}
+                  <button onClick={onSignIn} className="landing-btn landing-btn-ghost hidden md:inline-flex">
+                    Sign In
+                  </button>
+                  <button onClick={onRegister} className="landing-btn landing-btn-primary hidden md:inline-flex">
+                    Register
                   </button>
 
-                  {/* Mobile Dropdown Menu */}
-                  {isMobileMenuOpen && (
-                    <div className="mobile-menu">
-                      <button
-                        onClick={() => {
-                          onSignIn();
-                          setIsMobileMenuOpen(false);
-                        }}
-                        className="mobile-menu-item"
-                      >
-                        Sign In
-                      </button>
-                      <button
-                        onClick={() => {
-                          onRegister();
-                          setIsMobileMenuOpen(false);
-                        }}
-                        className="mobile-menu-item primary"
-                      >
-                        Register
-                      </button>
-                    </div>
-                  )}
+                  {/* Theme Toggle Button */}
+                  <button
+                    onClick={onToggleTheme}
+                    className="theme-toggle"
+                    title={isDarkTheme ? 'Switch to light mode' : 'Switch to dark mode'}
+                  >
+                    {isDarkTheme ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                  </button>
+
+                  {/* Mobile Hamburger Menu */}
+                  <div className="relative md:hidden">
+                    <button
+                      onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                      className="mobile-hamburger"
+                      aria-label="Toggle mobile menu"
+                    >
+                      {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                    </button>
+
+                    {/* Mobile Dropdown Menu */}
+                    {isMobileMenuOpen && (
+                      <div className="mobile-menu">
+                        <button
+                          onClick={() => {
+                            onSignIn();
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className="mobile-menu-item"
+                        >
+                          Sign In
+                        </button>
+                        <button
+                          onClick={() => {
+                            onRegister();
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className="mobile-menu-item primary"
+                        >
+                          Register
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
