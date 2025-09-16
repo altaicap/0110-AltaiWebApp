@@ -357,12 +357,95 @@
   border-radius: 0.5rem;
 }
 
-/* Focus states for accessibility */
-[data-theme="dark"] [role="tab"]:focus-visible,
-[role="tab"]:focus-visible {
+/* GENERIC UI ICONS - USE ACCENT COLORS */
+/* All generic UI icons use theme accent, NOT yellow */
+[data-theme="dark"] .icon,
+[data-theme="dark"] .btn-icon > svg,
+[data-theme="dark"] .toolbar .icon,
+[data-theme="dark"] .card .icon,
+[data-theme="dark"] .chip .icon,
+[data-theme="dark"] button:not(.theme-toggle) svg,
+[data-theme="dark"] [role="button"]:not(.theme-toggle) svg,
+[data-theme="dark"] .send-button svg,
+[data-theme="dark"] .expand-icon,
+[data-theme="dark"] .collapse-icon,
+[data-theme="dark"] .refresh-icon,
+[data-theme="dark"] .chevron-icon,
+[data-theme="dark"] .nav-icon,
+[data-theme="dark"] .action-icon,
+[data-theme="dark"] .toggle-handle,
+[data-theme="dark"] .radio-indicator,
+[data-theme="dark"] .switch-thumb {
+  color: var(--accent-ui) !important;
+  opacity: 0.82;
+  transition: all 0.15s ease;
+}
+
+/* Hover states */
+[data-theme="dark"] .icon:hover,
+[data-theme="dark"] .btn-icon:hover > svg,
+[data-theme="dark"] button:not(.theme-toggle):hover svg,
+[data-theme="dark"] [role="button"]:not(.theme-toggle):hover svg {
+  opacity: 1.0;
+}
+
+/* Active/pressed states */
+[data-theme="dark"] .icon:active,
+[data-theme="dark"] .btn-icon:active > svg,
+[data-theme="dark"] button:not(.theme-toggle):active svg {
+  color: #00a36a !important; /* Accent darkened ~8% */
+}
+
+/* Focus states */
+[data-theme="dark"] .icon:focus-visible,
+[data-theme="dark"] button:not(.theme-toggle):focus-visible {
   outline: 2px solid var(--dashboard-focus) !important;
   outline-offset: -2px !important;
-  z-index: 2;
+}
+
+/* Light theme generic UI icons */
+[data-theme="light"] .icon,
+[data-theme="light"] .btn-icon > svg,
+[data-theme="light"] .toolbar .icon,
+[data-theme="light"] .card .icon,
+[data-theme="light"] .chip .icon,
+[data-theme="light"] button:not(.theme-toggle) svg,
+[data-theme="light"] [role="button"]:not(.theme-toggle) svg,
+[data-theme="light"] .send-button svg,
+[data-theme="light"] .expand-icon,
+[data-theme="light"] .collapse-icon,
+[data-theme="light"] .refresh-icon,
+[data-theme="light"] .chevron-icon,
+[data-theme="light"] .nav-icon,
+[data-theme="light"] .action-icon,
+[data-theme="light"] .toggle-handle,
+[data-theme="light"] .radio-indicator,
+[data-theme="light"] .switch-thumb {
+  color: var(--accent-ui) !important;
+  opacity: 0.82;
+  transition: all 0.15s ease;
+}
+
+/* Light theme hover states */
+[data-theme="light"] .icon:hover,
+[data-theme="light"] .btn-icon:hover > svg,
+[data-theme="light"] button:not(.theme-toggle):hover svg,
+[data-theme="light"] [role="button"]:not(.theme-toggle):hover svg {
+  opacity: 1.0;
+}
+
+/* Light theme active/pressed states */
+[data-theme="light"] .icon:active,
+[data-theme="light"] .btn-icon:active > svg,
+[data-theme="light"] button:not(.theme-toggle):active svg {
+  color: #0c5d63 !important; /* Light accent darkened ~8% */
+}
+
+/* Light theme focus states */
+[data-theme="light"] .icon:focus-visible,
+[data-theme="light"] button:not(.theme-toggle):focus-visible {
+  outline: 2px solid rgba(14, 109, 115, 0.55) !important;
+  outline-offset: -2px !important;
 }
 
 /* Cards/Panels/Widgets */
