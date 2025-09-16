@@ -790,7 +790,7 @@ body {
 
 /* Fix notification and user button text in dark theme */
 [data-theme="dark"] .text-gray-900 {
-  color: #f9fafb !important;
+  color: #FBFCFC !important; /* Nightwatch white */
 }
 
 [data-theme="dark"] .text-gray-800 {
