@@ -1092,9 +1092,11 @@
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  width: 100%; /* Ensure full width for centering */
+  justify-content: center; /* Center the content */
 }
 
-/* Email Subscribe Form - FIXED LAYOUT BUG */
+/* Email Subscribe Form - HORIZONTALLY CENTERED */
 .email-subscribe-form {
   display: flex;
   align-items: stretch; /* Ensure equal height */
@@ -1105,6 +1107,7 @@
   width: 100%;
   overflow: hidden; /* Prevent button overflow */
   height: 3rem; /* Fixed height */
+  margin: 0 auto; /* Center horizontally */
 }
 
 .email-subscribe-input {
