@@ -205,39 +205,67 @@
 [role="tablist"] {
   background-color: var(--dashboard-bg-2);
   border: 1px solid var(--dashboard-border);
-  border-radius: 0.75rem;
-  padding: 0.25rem;
+  border-radius: 0.75rem; /* 12px */
+  padding: 0.25rem; /* 4px inset */
   overflow: hidden; /* Ensure active pill is contained */
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  min-height: 2.5rem; /* 40px - ensures adequate height */
 }
 
 [data-theme="dark"] [role="tab"],
 [role="tab"] {
   color: var(--dashboard-muted);
   background: transparent;
-  border: none;
-  border-radius: 0.625rem;
-  padding: 0.5rem 1rem;
+  border: none !important; /* Remove any borders that could cause overflow */
+  border-radius: 0.5rem; /* 8px - smaller radius to fit within container */
+  padding: 0.5rem 1rem; /* 8px 16px */
   font-size: 0.875rem;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth but subtle */
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2rem; /* 32px - fits within container with padding */
+  box-sizing: border-box;
+  margin: 0 !important; /* Ensure no margins cause overflow */
+  outline: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  flex-grow: 1;
+  flex-basis: 0;
 }
 
+/* Active tab styling - fully contained within parent */
 [data-theme="dark"] [role="tab"][data-state="active"],
 [data-theme="dark"] [role="tab"][aria-selected="true"],
 [role="tab"][data-state="active"],
 [role="tab"][aria-selected="true"] {
   background: var(--dashboard-panel-gradient) !important;
   color: var(--dashboard-fg) !important;
-  border: 1px solid rgba(107, 117, 125, 0.50) !important; /* Inner border */
-  box-shadow: none !important;
+  border: 1px solid rgba(107, 117, 125, 0.30) !important; /* Subtle inner border */
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05) !important; /* Subtle inner highlight */
   transform: none !important;
   margin: 0 !important;
+  /* Ensure the active pill stays within bounds */
+  max-height: calc(100% - 0.5rem); /* Account for container padding */
+  z-index: 1;
 }
 
 [data-theme="dark"] [role="tab"]:hover:not([data-state="active"]):not([aria-selected="true"]) {
   background-color: var(--dashboard-hover);
   color: var(--dashboard-fg);
+  border-radius: 0.5rem;
+}
+
+/* Focus states for accessibility */
+[data-theme="dark"] [role="tab"]:focus-visible,
+[role="tab"]:focus-visible {
+  outline: 2px solid var(--dashboard-focus) !important;
+  outline-offset: -2px !important;
+  z-index: 2;
 }
 
 /* Cards/Panels/Widgets */
