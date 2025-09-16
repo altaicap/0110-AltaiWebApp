@@ -250,15 +250,15 @@
   opacity: 1;
 }
 
-/* THEME TOGGLE SUN ICON - FORCE YELLOW/ORANGE IN DARK MODE */
+/* THEME TOGGLE SUN ICON - SATURATED ORANGE IN DARK MODE */
 [data-theme="dark"] .theme-toggle svg,
 [data-theme="dark"] button[aria-label*="theme"] svg,
 [data-theme="dark"] button[title*="theme"] svg,
 [data-theme="dark"] [data-testid="theme-toggle"] svg,
 [data-theme="dark"] .lucide-sun,
 [data-theme="dark"] .sun-icon {
-  color: #F59E0B !important; /* Force orange sun color */
-  fill: #F59E0B !important;
+  color: #FF8C00 !important; /* Saturated orange - more visible */
+  fill: #FF8C00 !important;
 }
 
 [data-theme="dark"] .theme-toggle:hover svg,
@@ -267,8 +267,8 @@
 [data-theme="dark"] [data-testid="theme-toggle"]:hover svg,
 [data-theme="dark"] .lucide-sun:hover,
 [data-theme="dark"] .sun-icon:hover {
-  color: #d97706 !important; /* Darker orange on hover */
-  fill: #d97706 !important;
+  color: #FF7F00 !important; /* Even more saturated on hover */
+  fill: #FF7F00 !important;
 }
 
 /* Light theme toggle uses accent-ui */
