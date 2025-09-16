@@ -267,14 +267,50 @@
   transition: all 0.15s ease;
 }
 
-.light .icon,
-.light .btn-icon > svg,
-.light button:not(.theme-toggle) svg,
+/* Light theme generic UI icons */
+.light .icon:not(.theme-toggle svg):not(.lucide-sun),
+.light .btn-icon:not(.theme-toggle) > svg,
+.light button:not(.theme-toggle):not([aria-label*="theme"]) svg,
 .light .action-icon,
-.light .nav-icon {
+.light .nav-icon,
+.light .profile-icon,
+.light .user-icon,
+.light .lucide-user {
   color: var(--accent-ui) !important;
   opacity: 0.82;
   transition: all 0.15s ease;
+}
+
+/* Profile icon specific styling */
+.light .profile-icon,
+.light .user-icon,
+.light .lucide-user,
+.landing-page-container:not(.dark) .profile-icon,
+.landing-page-container:not(.dark) .user-icon,
+.landing-page-container:not(.dark) .lucide-user {
+  color: #0E6D73 !important; /* Ensure profile icon is visible in light theme */
+  opacity: 0.9 !important;
+}
+
+/* Get Started button arrow visibility */
+.light .get-started-arrow,
+.light .cta-arrow,
+.light .arrow-right,
+.light .lucide-arrow-right,
+.dark .get-started-arrow,
+.dark .cta-arrow,
+.dark .arrow-right,
+.dark .lucide-arrow-right,
+.landing-page-container.dark .get-started-arrow,
+.landing-page-container.dark .cta-arrow,
+.landing-page-container.dark .arrow-right,
+.landing-page-container.dark .lucide-arrow-right,
+.landing-page-container:not(.dark) .get-started-arrow,
+.landing-page-container:not(.dark) .cta-arrow,
+.landing-page-container:not(.dark) .arrow-right,
+.landing-page-container:not(.dark) .lucide-arrow-right {
+  color: currentColor !important; /* Use button's text color */
+  opacity: 1 !important;
 }
 
 /* Hover states for landing icons */
