@@ -510,7 +510,10 @@ function App() {
     newsware: 'connected', 
     tradestation: 'disconnected',
     tradexchange: 'disconnected',
-    ibkr: 'disconnected'
+    ibkr: 'disconnected',
+    robinhood: 'disconnected',
+    coinbase: 'disconnected',
+    kraken: 'disconnected'
   });
   const [apiKeys, setApiKeys] = useState({
     polygon: '',
