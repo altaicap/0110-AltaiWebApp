@@ -217,17 +217,29 @@
   position: relative;
   z-index: 1;
 }
+/* Header Styling - CENTERED NAVIGATION LIKE ARBIBYTE.COM */
 .landing-header {
   position: sticky;
   top: 0;
   z-index: 50;
-  /* Light theme: solid white background */
-  background-color: var(--header-glass);
-  border-bottom: 1px solid var(--border);
+  width: 100%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.2s ease;
-  /* Ensure no backdrop filter by default */
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+}
+
+/* Dark theme header */
+.dark .landing-header {
+  background: rgba(9, 13, 13, 0.72); /* --glass tone */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Light theme header - ADD BLUR EFFECT */
+.light .landing-header {
+  background: rgba(255, 255, 255, 0.85); /* Semi-transparent white */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 /* Header container layout - THREE SECTIONS LAYOUT */
