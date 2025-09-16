@@ -66,7 +66,9 @@ import {
   HelpCircle,
   Upload,
   Sun,
-  Moon
+  Moon,
+  Paperclip,
+  X
 } from 'lucide-react';
 import { format } from "date-fns";
 import AltaiLogo from './assets/altai-logo.svg';
