@@ -1,64 +1,100 @@
 /*
-  Laravel-Inspired Landing Page Styles
+  Laravel Nightwatch/Arbibyte-Inspired Landing Page Styles
   
-  Theme Variables:
-  - --bg: Main background color
-  - --fg: Primary text color  
-  - --muted: Muted text color
-  - --card: Card background color
-  - --border: Border color
-  - --primary: Primary button color
-  - --primary-foreground: Primary button text color
-  - --glow-color-dark: Dark theme shimmer color
-  - --glow-color-light: Light theme shimmer color
+  EXACT THEME COLOR SPECIFICATIONS:
+  Dark Theme:
+  - --bg-0: #0E172A (primary background)
+  - --bg-1: #14213D (secondary background) 
+  - --bg-2: #252B3C (tertiary background)
+  - --accent-1: #7A51F6 (primary accent)
+  - --accent-2: #3B82F6 (secondary accent)  
+  - --fg: #FBFCFC (foreground text)
+  - --muted: #AAB3C5 (muted text)
   
-  Animation Controls:
-  - Typing animation respects prefers-reduced-motion
-  - Shimmer animation disabled for reduced motion users
-  - All animations are GPU-optimized
+  Light Theme:
+  - --bg-0: #FBFCFC (primary background)
+  - --bg-1: #F3F5F7 (secondary background)
+  - --bg-2: #EBEBEB (tertiary background) 
+  - --accent-1: #7A51F6 (primary accent)
+  - --accent-2: #3B82F6 (secondary accent)
+  - --fg: #0E172A (foreground text)
+  - --muted: #4A5568 (muted text)
+  
+  Typography (Landing Page Only):
+  - --font-display: 'Poppins' (headings/display text from arbibyte.com)
+  - --font-sans: 'Inter' (body/description text)
 */
+
+/* Import Google Fonts for Landing Page Typography */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
 
 /* Landing Page Theme Variables */
 .landing-page-container {
   /* Light Theme (default) */
-  --bg: #ffffff;
-  --fg: #0f172a;
-  --muted: #64748b;
-  --card: #ffffff;
-  --border: #e2e8f0;
-  --primary: #3b82f6;
-  --primary-foreground: #ffffff;
-  --glow-color-light: #cde4ff;
-  --glow-color-light-end: #dcebff;
+  --bg-0: #FBFCFC;
+  --bg-1: #F3F5F7;
+  --bg-2: #EBEBEB;
+  --accent-1: #7A51F6;
+  --accent-2: #3B82F6;
+  --fg: #0E172A;
+  --muted: #4A5568;
+  
+  /* Typography */
+  --font-display: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  /* Light theme glass overlay */
+  --header-glass: rgba(251, 252, 252, 0.70);
+  
+  /* Light theme subtle gradients (optional) */
+  --bg-gradient-subtle: linear-gradient(180deg, #FBFCFC 0%, #F3F5F7 100%);
+  
+  /* Shadows */
   --shadow-subtle: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-large: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-glow: 0 0 0 1px rgb(59 130 246 / 0.15), 0 1px 2px 0 rgb(59 130 246 / 0.1);
+  --shadow-glow: 0 0 0 1px rgba(122, 81, 246, 0.15), 0 1px 2px 0 rgba(122, 81, 246, 0.1);
 }
 
 /* Dark Theme */
 .landing-page-container.dark {
-  --bg: #0f172a;
-  --fg: #f8fafc;
-  --muted: #94a3b8;
-  --card: #1e293b;
-  --border: #334155;
-  --primary: #3b82f6;
-  --primary-foreground: #ffffff;
-  --glow-color-dark: #ffffff;
+  --bg-0: #0E172A;
+  --bg-1: #14213D;
+  --bg-2: #252B3C;
+  --accent-1: #7A51F6;
+  --accent-2: #3B82F6;
+  --fg: #FBFCFC;
+  --muted: #AAB3C5;
+  
+  /* Dark theme glass overlay */
+  --header-glass: rgba(14, 23, 42, 0.72);
+  
+  /* Dark theme gradients & opacity (within palette only) */
+  --bg-gradient-primary: linear-gradient(180deg, #0E172A 0%, #14213D 50%, #252B3C 100%);
+  --panel-gradient: linear-gradient(180deg, rgba(20, 33, 61, 0.96), rgba(37, 43, 60, 0.96));
+  --card-gradient: linear-gradient(180deg, rgba(20, 33, 61, 0.85), rgba(37, 43, 60, 0.85));
+  
+  /* Subtle accent glows only */
+  --glow-1: rgba(122, 81, 246, 0.12);
+  --glow-2: rgba(59, 130, 246, 0.10);
+  
+  /* Borders from palette */
+  --border: rgba(37, 43, 60, 0.60);
+  
+  /* Enhanced shadows for dark theme */
   --shadow-subtle: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
   --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
   --shadow-large: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
-  --shadow-glow: 0 0 0 1px rgb(59 130 246 / 0.25), 0 1px 2px 0 rgb(59 130 246 / 0.2);
+  --shadow-glow: 0 0 0 1px var(--glow-1), 0 1px 2px 0 var(--glow-2);
 }
 
 /* Base Landing Page Container */
 .landing-page-container {
   position: relative;
   min-height: 100vh;
-  background-color: var(--bg);
+  background-color: var(--bg-0);
   color: var(--fg);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segist UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: var(--font-sans);
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -83,8 +119,8 @@
   background: linear-gradient(
     110deg,
     transparent 25%,
-    var(--glow-color-light) 50%,
-    var(--glow-color-light-end) 55%,
+    var(--glow-2) 50%,
+    rgba(59, 130, 246, 0.05) 55%,
     transparent 75%
   );
   background-size: 200% 100%;
@@ -96,8 +132,8 @@
   background: linear-gradient(
     110deg,
     transparent 25%,
-    rgba(255, 255, 255, 0.1) 50%,
-    rgba(255, 255, 255, 0.15) 55%,
+    var(--glow-1) 50%,
+    var(--glow-2) 55%,
     transparent 75%
   );
   background-size: 200% 100%;
@@ -137,6 +173,11 @@
     animation: none !important;
     opacity: 1 !important;
   }
+  
+  .hero-text-fade {
+    animation: none !important;
+    opacity: 1 !important;
+  }
 }
 
 /* Content Layer - Above Shimmer */
@@ -145,31 +186,23 @@
   z-index: 1;
 }
 
-/* Header Styling - SEMI-TRANSPARENT WITH BACKDROP BLUR */
+/* Header Styling - SEMI-TRANSPARENT WITH BACKDROP BLUR (P0) */
 .landing-header {
-  background-color: var(--card);
-  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: var(--header-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--bg-2);
   transition: all 0.2s ease;
 }
 
-/* Dark theme semi-transparent header */
-.landing-page-container.dark .landing-header {
-  background-color: rgba(15, 23, 42, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(51, 65, 85, 0.3);
-}
-
-/* Scrolled header styling */
-.landing-header.scrolled {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: var(--shadow-subtle);
-}
-
-.landing-page-container.dark .landing-header.scrolled {
-  background-color: rgba(15, 23, 42, 0.9);
-  border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+/* Fallback for browsers without backdrop-filter support */
+@supports not (backdrop-filter: blur(12px)) {
+  .landing-header {
+    background-color: var(--header-glass);
+  }
 }
 
 /* Navigation Links */
@@ -179,6 +212,7 @@
   color: var(--muted);
   transition: color 0.2s ease;
   text-decoration: none;
+  font-family: var(--font-sans);
 }
 
 .nav-link:hover {
@@ -186,11 +220,12 @@
 }
 
 .nav-link.active {
-  color: var(--primary);
+  color: var(--accent-1);
 }
 
-/* Typography */
-.landing-h1 {
+/* Typography - Using Poppins for Display/Headings */
+.landing-h1, .hero-heading {
+  font-family: var(--font-display);
   font-size: 3.75rem;
   font-weight: 700;
   line-height: 1.1;
@@ -199,6 +234,7 @@
 }
 
 .landing-h2 {
+  font-family: var(--font-display);
   font-size: 2.25rem;
   font-weight: 700;
   line-height: 1.2;
@@ -207,6 +243,7 @@
 }
 
 .landing-h3 {
+  font-family: var(--font-display);
   font-size: 1.875rem;
   font-weight: 600;
   line-height: 1.3;
@@ -215,6 +252,7 @@
 }
 
 .landing-subtitle {
+  font-family: var(--font-sans);
   font-size: 1.25rem;
   line-height: 1.6;
   color: var(--muted);
@@ -222,14 +260,16 @@
 }
 
 .landing-body {
+  font-family: var(--font-sans);
   font-size: 1rem;
   line-height: 1.6;
   color: var(--muted);
 }
 
-/* Typing Animation */
-.typing-container {
-  min-height: 4.5rem;
+/* Hero Typing Animation - NO DELETE PHASE, SOFT FADE TRANSITIONS */
+.hero-title-container {
+  /* Reserve space for two-line heading to prevent content shift */
+  min-height: 9rem; /* Adjust based on font size and line height */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -237,10 +277,11 @@
 }
 
 .typing-text {
-  background: linear-gradient(135deg, var(--primary) 0%, #1d4ed8 100%);
+  background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  font-family: var(--font-display);
   font-size: 3.75rem;
   font-weight: 700;
   line-height: 1.1;
@@ -249,9 +290,19 @@
 }
 
 .typing-cursor {
-  color: var(--primary);
+  color: var(--accent-1);
   animation: blink 1.2s infinite;
   font-weight: 300;
+}
+
+/* Soft fade animation for text transitions */
+.hero-text-fade {
+  opacity: 1;
+  transition: opacity 300ms ease-out;
+}
+
+.hero-text-fade.fading {
+  opacity: 0;
 }
 
 @keyframes blink {
@@ -280,8 +331,8 @@
   max-width: calc(100vw - 2rem);
   aspect-ratio: 16 / 9;
   border-radius: 1rem;
-  border: 1px solid var(--border);
-  background-color: var(--card);
+  border: 1px solid var(--bg-2);
+  background: var(--card-gradient, var(--bg-1));
   box-shadow: var(--shadow-large);
   overflow: hidden;
 }
@@ -300,7 +351,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  background: linear-gradient(135deg, var(--card) 0%, var(--border) 100%);
+  background: var(--panel-gradient, linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 100%));
   color: var(--muted);
   font-size: 1.125rem;
   font-weight: 500;
@@ -308,8 +359,8 @@
 
 /* Cards and Components */
 .landing-card {
-  background-color: var(--card);
-  border: 1px solid var(--border);
+  background: var(--card-gradient, var(--bg-1));
+  border: 1px solid var(--border, var(--bg-2));
   border-radius: 1rem;
   box-shadow: var(--shadow-subtle);
   transition: all 0.2s ease;
@@ -319,12 +370,12 @@
 .landing-card:hover {
   box-shadow: var(--shadow-medium);
   transform: translateY(-2px);
-  border-color: var(--primary);
+  border-color: var(--accent-1);
 }
 
 .landing-card-header {
   padding: 1.5rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border, var(--bg-2));
 }
 
 .landing-card-content {
@@ -332,6 +383,7 @@
 }
 
 .landing-card-title {
+  font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.4;
@@ -340,6 +392,7 @@
 }
 
 .landing-card-description {
+  font-family: var(--font-sans);
   font-size: 0.875rem;
   line-height: 1.5;
   color: var(--muted);
@@ -360,17 +413,22 @@
   cursor: pointer;
   border: 1px solid transparent;
   transition: all 0.2s ease;
-  focus-visible: ring-2 ring-offset-2 ring-primary;
+  font-family: var(--font-sans);
+}
+
+.landing-btn:focus-visible {
+  outline: 2px solid var(--accent-1);
+  outline-offset: 2px;
 }
 
 .landing-btn-primary {
-  background-color: var(--primary);
-  color: var(--primary-foreground);
+  background-color: var(--accent-1);
+  color: var(--bg-0);
   box-shadow: var(--shadow-subtle);
 }
 
 .landing-btn-primary:hover {
-  background-color: #2563eb;
+  background-color: var(--accent-2);
   box-shadow: var(--shadow-glow);
   transform: translateY(-1px);
 }
@@ -378,13 +436,13 @@
 .landing-btn-secondary {
   background-color: transparent;
   color: var(--fg);
-  border-color: var(--border);
+  border-color: var(--border, var(--bg-2));
 }
 
 .landing-btn-secondary:hover {
-  background-color: var(--card);
-  border-color: var(--primary);
-  color: var(--primary);
+  background-color: var(--bg-1);
+  border-color: var(--accent-1);
+  color: var(--accent-1);
 }
 
 .landing-btn-ghost {
@@ -394,7 +452,7 @@
 }
 
 .landing-btn-ghost:hover {
-  background-color: var(--card);
+  background-color: var(--bg-1);
   color: var(--fg);
 }
 
@@ -416,8 +474,8 @@
 }
 
 .icon-container-blue {
-  background-color: rgba(59, 130, 246, 0.1);
-  color: var(--primary);
+  background-color: var(--glow-2);
+  color: var(--accent-2);
 }
 
 .icon-container-green {
@@ -426,8 +484,8 @@
 }
 
 .icon-container-purple {
-  background-color: rgba(147, 51, 234, 0.1);
-  color: #9333ea;
+  background-color: var(--glow-1);
+  color: var(--accent-1);
 }
 
 .icon-container-orange {
@@ -480,18 +538,20 @@
   position: relative;
 }
 
+/* Most Popular Badge - Ensure Full Visibility */
 .pricing-badge {
   position: absolute;
   top: -0.75rem;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--primary);
-  color: var(--primary-foreground);
+  background-color: var(--accent-1);
+  color: var(--bg-0);
   font-size: 0.75rem;
   font-weight: 500;
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
   box-shadow: var(--shadow-subtle);
+  z-index: 10; /* Ensure it's above card borders */
 }
 
 .price-display {
@@ -550,7 +610,7 @@
 .stat-number {
   font-size: 2.5rem;
   font-weight: 700;
-  color: var(--primary);
+  color: var(--accent-1);
   line-height: 1;
   margin-bottom: 0.5rem;
 }
@@ -569,6 +629,7 @@
 }
 
 .connection-category-title {
+  font-family: var(--font-display);
   font-size: 1.125rem;
   font-weight: 600;
   color: var(--fg);
@@ -591,16 +652,34 @@
   gap: 0.5rem;
 }
 
+/* IMPROVED LOGO SIZING - Consistent containers with proper sizing */
 .logo-image {
   height: 3rem;
   width: auto;
+  max-width: 8rem;
   object-fit: contain;
   opacity: 0.7;
   transition: opacity 0.2s ease;
   filter: grayscale(100%);
 }
 
-/* FIX POLYGON LOGO IN DARK THEME */
+/* Enhanced logo sizing for consistent visual heights */
+.logo-newsware {
+  height: 3rem !important;
+  padding: 0.3rem 0;
+}
+
+.logo-tradexchange {
+  height: 3rem !important;
+  padding: 0.2rem 0;
+}
+
+.logo-polygon {
+  height: 3rem !important;
+  padding: 0.1rem 0;
+}
+
+/* Dark theme logo adjustments */
 .landing-page-container.dark .logo-image {
   filter: grayscale(100%) invert(0.8);
   opacity: 0.6;
@@ -609,14 +688,6 @@
 .landing-page-container.dark .logo-polygon {
   filter: grayscale(100%) invert(0.8) brightness(1.2);
   opacity: 0.7;
-}
-
-/* TRADEXCHANGE LOGO SIZING */
-.logo-tradexchange {
-  height: 3rem !important;
-  padding: 0.2rem 0;
-  object-fit: contain;
-  object-position: center;
 }
 
 .logo-image:hover {
@@ -638,6 +709,112 @@
   font-size: 0.75rem;
   font-weight: 500;
   color: var(--muted);
+}
+
+/* Footer Styling with Social Icons and Email Subscribe */
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  md:flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  md:items-start;
+  gap: 1rem;
+}
+
+.footer-logo-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-social-icons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  background-color: var(--bg-1);
+  color: var(--muted);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 1px solid var(--border, var(--bg-2));
+}
+
+.social-icon:hover {
+  background-color: var(--accent-1);
+  color: var(--bg-0);
+  border-color: var(--accent-1);
+  transform: translateY(-1px);
+}
+
+.footer-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.email-subscribe-form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  background-color: var(--bg-1);
+  padding: 0.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border, var(--bg-2));
+  max-width: 20rem;
+}
+
+.email-subscribe-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0.75rem 1rem;
+  color: var(--fg);
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.email-subscribe-input::placeholder {
+  color: var(--muted);
+}
+
+.email-subscribe-button {
+  background-color: var(--accent-1);
+  color: var(--bg-0);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.email-subscribe-button:hover {
+  background-color: var(--accent-2);
+  transform: translateY(-1px);
+}
+
+.footer-right {
+  font-family: var(--font-sans);
+  color: var(--muted);
+  font-size: 0.875rem;
 }
 
 /* Sections */
@@ -674,8 +851,8 @@
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 0.5rem;
-  border: 1px solid var(--border);
-  background-color: var(--card);
+  border: 1px solid var(--border, var(--bg-2));
+  background-color: var(--bg-1);
   color: var(--muted);
   cursor: pointer;
   transition: all 0.2s ease;
@@ -683,14 +860,18 @@
 
 .theme-toggle:hover {
   color: var(--fg);
-  border-color: var(--primary);
-  background-color: rgba(59, 130, 246, 0.05);
+  border-color: var(--accent-1);
+  background-color: var(--glow-1, rgba(122, 81, 246, 0.05));
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .landing-h1, .typing-text {
+  .landing-h1, .typing-text, .hero-heading {
     font-size: 2.5rem;
+  }
+  
+  .hero-title-container {
+    min-height: 7rem; /* Adjust for smaller font size */
   }
   
   .landing-h2 {
@@ -712,11 +893,30 @@
   .logo-grid-row {
     gap: 2rem;
   }
+  
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .email-subscribe-form {
+    flex-direction: column;
+    width: 100%;
+    max-width: 16rem;
+  }
+  
+  .email-subscribe-input {
+    text-align: center;
+  }
 }
 
 @media (max-width: 480px) {
-  .landing-h1, .typing-text {
+  .landing-h1, .typing-text, .hero-heading {
     font-size: 2rem;
+  }
+  
+  .hero-title-container {
+    min-height: 6rem; /* Further adjustment for mobile */
   }
   
   .stats-grid {
@@ -731,8 +931,10 @@
 /* Focus Management */
 .landing-btn:focus-visible,
 .nav-link:focus-visible,
-.theme-toggle:focus-visible {
-  outline: 2px solid var(--primary);
+.theme-toggle:focus-visible,
+.social-icon:focus-visible,
+.email-subscribe-button:focus-visible {
+  outline: 2px solid var(--accent-1);
   outline-offset: 2px;
 }
 
@@ -740,7 +942,8 @@
 .landing-card,
 .landing-btn,
 .icon-container,
-.logo-image {
+.logo-image,
+.social-icon {
   will-change: transform;
   transform: translateZ(0);
 }

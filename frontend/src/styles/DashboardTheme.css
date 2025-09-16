@@ -1,95 +1,98 @@
 /*
-  Dashboard Dark Theme - Dark Blue Unified Colors
+  Dashboard Dark Theme - Unified Nightwatch Color Scheme
   
-  This file provides dark blue unified theming for the dashboard,
-  replacing the mixed black/grey backgrounds with consistent dark blue hues
-  that match the landing page theme.
+  EXACT THEME COLOR SPECIFICATIONS:
+  Dark Theme Only (Dashboard):
+  - --bg-0: #0E172A (primary background)
+  - --bg-1: #14213D (secondary background)
+  - --bg-2: #252B3C (tertiary background)
+  - --accent-1: #7A51F6 (primary accent)
+  - --accent-2: #3B82F6 (secondary accent)
+  - --fg: #FBFCFC (foreground text)
+  - --muted: #AAB3C5 (muted text)
+  
+  This file provides dark theme unification for the dashboard,
+  using ONLY the specified palette colors with gradients/opacity within the palette.
 */
 
 /* Dashboard Dark Theme Variables */
 [data-theme="dark"] {
-  /* Primary dark blue backgrounds */
-  --dashboard-bg-primary: #0f172a;      /* Main background - matches landing page */
-  --dashboard-bg-secondary: #1e293b;    /* Card/panel backgrounds */
-  --dashboard-bg-tertiary: #334155;     /* Hover states, accents */
+  /* Primary color palette - EXACT SPECIFICATION */
+  --dashboard-bg-0: #0E172A;      /* Primary background */
+  --dashboard-bg-1: #14213D;      /* Secondary background */
+  --dashboard-bg-2: #252B3C;      /* Tertiary background */
+  --dashboard-accent-1: #7A51F6;  /* Primary accent */
+  --dashboard-accent-2: #3B82F6;  /* Secondary accent */
+  --dashboard-fg: #FBFCFC;        /* Foreground text */
+  --dashboard-muted: #AAB3C5;     /* Muted text */
   
-  /* Text colors for proper contrast */
-  --dashboard-text-primary: #f8fafc;    /* Primary text - high contrast */
-  --dashboard-text-secondary: #cbd5e1;  /* Secondary text */
-  --dashboard-text-muted: #94a3b8;      /* Muted text, labels */
+  /* Gradients within palette only */
+  --dashboard-bg-gradient-primary: linear-gradient(180deg, #0E172A 0%, #14213D 50%, #252B3C 100%);
+  --dashboard-panel-gradient: linear-gradient(180deg, rgba(20, 33, 61, 0.96), rgba(37, 43, 60, 0.96));
+  --dashboard-card-gradient: linear-gradient(180deg, rgba(20, 33, 61, 0.85), rgba(37, 43, 60, 0.85));
   
-  /* Border colors */
-  --dashboard-border-primary: #334155;  /* Main borders */
-  --dashboard-border-secondary: #475569; /* Subtle borders */
+  /* Subtle accent glows only (≤0.18 alpha) */
+  --dashboard-glow-1: rgba(122, 81, 246, 0.12);
+  --dashboard-glow-2: rgba(59, 130, 246, 0.10);
   
-  /* Interactive elements */
-  --dashboard-hover: #475569;           /* Hover backgrounds */
-  --dashboard-active: #64748b;          /* Active states */
+  /* Borders from palette (0.35-0.70 alpha) */
+  --dashboard-border-primary: rgba(37, 43, 60, 0.60);
+  --dashboard-border-secondary: rgba(37, 43, 60, 0.45);
+  
+  /* Interactive states */
+  --dashboard-hover: rgba(37, 43, 60, 0.80);
+  --dashboard-active: rgba(37, 43, 60, 0.90);
 }
 
 /* Apply unified dark theme to dashboard elements */
-[data-theme="dark"] .bg-gray-900 {
-  background-color: var(--dashboard-bg-primary) !important;
-}
-
-[data-theme="dark"] .bg-gray-800 {
-  background-color: var(--dashboard-bg-secondary) !important;
-}
-
+[data-theme="dark"] .bg-gray-900,
+[data-theme="dark"] .bg-gray-800,
 [data-theme="dark"] .bg-gray-700 {
-  background-color: var(--dashboard-bg-tertiary) !important;
+  background-color: var(--dashboard-bg-1) !important;
 }
 
-[data-theme="dark"] .border-gray-700 {
+[data-theme="dark"] .bg-gray-50,
+[data-theme="dark"] .bg-white {
+  background-color: var(--dashboard-bg-1) !important;
+}
+
+[data-theme="dark"] .border-gray-700,
+[data-theme="dark"] .border-gray-600,
+[data-theme="dark"] .border-gray-200 {
   border-color: var(--dashboard-border-primary) !important;
-}
-
-[data-theme="dark"] .border-gray-600 {
-  border-color: var(--dashboard-border-secondary) !important;
 }
 
 [data-theme="dark"] .text-white {
-  color: var(--dashboard-text-primary) !important;
+  color: var(--dashboard-fg) !important;
 }
 
-[data-theme="dark"] .text-gray-200 {
-  color: var(--dashboard-text-secondary) !important;
+[data-theme="dark"] .text-gray-200,
+[data-theme="dark"] .text-gray-300,
+[data-theme="dark"] .text-gray-400 {
+  color: var(--dashboard-muted) !important;
 }
 
-[data-theme="dark"] .text-gray-300 {
-  color: var(--dashboard-text-muted) !important;
+[data-theme="dark"] .text-gray-600,
+[data-theme="dark"] .text-gray-500 {
+  color: var(--dashboard-muted) !important;
 }
 
-/* Chat interface dark theme */
-[data-theme="dark"] .bg-gray-50 {
-  background-color: var(--dashboard-bg-secondary) !important;
-}
-
-/* Card backgrounds */
-[data-theme="dark"] .bg-white {
-  background-color: var(--dashboard-bg-secondary) !important;
-}
-
-/* Hover states */
-[data-theme="dark"] .hover\:bg-gray-700:hover {
-  background-color: var(--dashboard-hover) !important;
-}
-
-[data-theme="dark"] .hover\:bg-gray-600:hover {
-  background-color: var(--dashboard-hover) !important;
-}
-
-/* Header styling */
+/* Header styling - Use palette colors only */
 [data-theme="dark"] .bg-white.border-b.border-gray-200,
 [data-theme="dark"] header.bg-white {
-  background-color: var(--dashboard-bg-secondary) !important;
+  background-color: var(--dashboard-bg-1) !important;
   border-color: var(--dashboard-border-primary) !important;
 }
 
-/* Tab panels and content areas */
+/* Tab panels and content areas - Use gradients from palette */
 [data-theme="dark"] .tab-content-padding {
-  background-color: var(--dashboard-bg-primary);
-  color: var(--dashboard-text-primary);
+  background: var(--dashboard-panel-gradient);
+  color: var(--dashboard-fg);
+}
+
+/* Card backgrounds - Use palette gradients */
+[data-theme="dark"] .bg-gradient-to-r {
+  background: var(--dashboard-card-gradient) !important;
 }
 
 /* Sidebar and navigation */
@@ -97,7 +100,7 @@
   border-color: var(--dashboard-border-primary) !important;
 }
 
-/* Buttons in dark theme */
+/* Buttons in dashboard dark theme */
 [data-theme="dark"] button:not(.landing-btn) {
   border-color: var(--dashboard-border-primary);
 }
@@ -106,9 +109,20 @@
   background-color: var(--dashboard-hover);
 }
 
+/* Primary accent buttons */
+[data-theme="dark"] .bg-blue-600,
+[data-theme="dark"] .bg-blue-500 {
+  background-color: var(--dashboard-accent-2) !important;
+}
+
+[data-theme="dark"] .bg-purple-600,
+[data-theme="dark"] .bg-purple-500 {
+  background-color: var(--dashboard-accent-1) !important;
+}
+
 /* Dropdown menus */
 [data-theme="dark"] .bg-gray-800.border-gray-700 {
-  background-color: var(--dashboard-bg-secondary) !important;
+  background-color: var(--dashboard-bg-1) !important;
   border-color: var(--dashboard-border-primary) !important;
 }
 
@@ -116,24 +130,16 @@
 [data-theme="dark"] input,
 [data-theme="dark"] textarea,
 [data-theme="dark"] select {
-  background-color: var(--dashboard-bg-tertiary) !important;
+  background-color: var(--dashboard-bg-2) !important;
   border-color: var(--dashboard-border-primary) !important;
-  color: var(--dashboard-text-primary) !important;
+  color: var(--dashboard-fg) !important;
 }
 
 [data-theme="dark"] input:focus,
 [data-theme="dark"] textarea:focus,
 [data-theme="dark"] select:focus {
-  border-color: #3b82f6 !important;
-  box-shadow: 0 0 0 1px #3b82f6 !important;
-}
-
-/* Shadows in dark theme */
-[data-theme="dark"] .shadow,
-[data-theme="dark"] .shadow-sm,
-[data-theme="dark"] .shadow-md,
-[data-theme="dark"] .shadow-lg {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2) !important;
+  border-color: var(--dashboard-accent-1) !important;
+  box-shadow: 0 0 0 1px var(--dashboard-glow-1) !important;
 }
 
 /* Connection status colors - enhanced visibility */
@@ -159,11 +165,11 @@
 }
 
 [data-theme="dark"] ::-webkit-scrollbar-track {
-  background: var(--dashboard-bg-primary);
+  background: var(--dashboard-bg-0);
 }
 
 [data-theme="dark"] ::-webkit-scrollbar-thumb {
-  background: var(--dashboard-bg-tertiary);
+  background: var(--dashboard-bg-2);
   border-radius: 4px;
 }
 
@@ -171,21 +177,7 @@
   background: var(--dashboard-hover);
 }
 
-/* Loading states and animations */
-[data-theme="dark"] .animate-pulse {
-  animation: pulse-dark 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes pulse-dark {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
-/* Alert and notification styling */
+/* Alert and notification styling - Use palette colors */
 [data-theme="dark"] .bg-red-100 {
   background-color: rgba(239, 68, 68, 0.1) !important;
 }
@@ -199,83 +191,134 @@
 }
 
 [data-theme="dark"] .bg-blue-100 {
-  background-color: rgba(59, 130, 246, 0.1) !important;
+  background-color: var(--dashboard-glow-2) !important;
+}
+
+[data-theme="dark"] .bg-purple-100 {
+  background-color: var(--dashboard-glow-1) !important;
 }
 
 /* Chart and visualization backgrounds */
 [data-theme="dark"] .chart-container,
 [data-theme="dark"] .visualization-panel {
-  background-color: var(--dashboard-bg-secondary) !important;
+  background: var(--dashboard-card-gradient) !important;
   border: 1px solid var(--dashboard-border-primary) !important;
 }
 
 /* Modal and dialog backgrounds */
 [data-theme="dark"] .modal-content,
 [data-theme="dark"] .dialog-content {
-  background-color: var(--dashboard-bg-secondary) !important;
+  background: var(--dashboard-panel-gradient) !important;
   border: 1px solid var(--dashboard-border-primary) !important;
 }
 
 /* Table styling */
 [data-theme="dark"] table {
-  background-color: var(--dashboard-bg-secondary) !important;
+  background-color: var(--dashboard-bg-1) !important;
 }
 
 [data-theme="dark"] th {
-  background-color: var(--dashboard-bg-tertiary) !important;
-  color: var(--dashboard-text-primary) !important;
+  background-color: var(--dashboard-bg-2) !important;
+  color: var(--dashboard-fg) !important;
   border-color: var(--dashboard-border-primary) !important;
 }
 
 [data-theme="dark"] td {
-  border-color: var(--dashboard-border-primary) !important;
-  color: var(--dashboard-text-secondary) !important;
+  border-color: var(--dashboard-border-secondary) !important;
+  color: var(--dashboard-muted) !important;
 }
 
 [data-theme="dark"] tr:hover {
   background-color: var(--dashboard-hover) !important;
 }
 
-/* Breadcrumb and navigation styling */
-[data-theme="dark"] .breadcrumb {
-  color: var(--dashboard-text-muted) !important;
-}
-
-[data-theme="dark"] .breadcrumb a {
-  color: var(--dashboard-text-secondary) !important;
-}
-
-[data-theme="dark"] .breadcrumb a:hover {
-  color: var(--dashboard-text-primary) !important;
-}
-
-/* Status badges */
+/* Status badges - Use palette colors */
 [data-theme="dark"] .badge {
-  background-color: var(--dashboard-bg-tertiary) !important;
-  color: var(--dashboard-text-primary) !important;
+  background-color: var(--dashboard-bg-2) !important;
+  color: var(--dashboard-fg) !important;
   border: 1px solid var(--dashboard-border-primary) !important;
 }
 
 /* Code blocks and monospace text */
 [data-theme="dark"] code,
 [data-theme="dark"] pre {
-  background-color: var(--dashboard-bg-tertiary) !important;
-  color: var(--dashboard-text-primary) !important;
+  background-color: var(--dashboard-bg-2) !important;
+  color: var(--dashboard-fg) !important;
   border: 1px solid var(--dashboard-border-primary) !important;
 }
 
-/* Progress bars */
+/* Progress bars - Use accent colors */
 [data-theme="dark"] .progress-bar-bg {
-  background-color: var(--dashboard-bg-tertiary) !important;
+  background-color: var(--dashboard-bg-2) !important;
 }
 
 [data-theme="dark"] .progress-bar-fill {
-  background-color: #3b82f6 !important;
+  background-color: var(--dashboard-accent-2) !important;
 }
 
 /* Tooltips */
 [data-theme="dark"] .tooltip {
-  background-color: var(--dashboard-bg-tertiary) !important;
-  color: var(--dashboard-text-primary) !important;
+  background: var(--dashboard-panel-gradient) !important;
+  color: var(--dashboard-fg) !important;
   border: 1px solid var(--dashboard-border-primary) !important;
+}
+
+/* Chat interface specific styling */
+[data-theme="dark"] .chat-container {
+  background: var(--dashboard-bg-gradient-primary) !important;
+}
+
+[data-theme="dark"] .chat-message {
+  background: var(--dashboard-card-gradient) !important;
+  border: 1px solid var(--dashboard-border-secondary) !important;
+}
+
+/* Hover states */
+[data-theme="dark"] .hover\:bg-gray-700:hover,
+[data-theme="dark"] .hover\:bg-gray-600:hover,
+[data-theme="dark"] .hover\:bg-gray-50:hover {
+  background-color: var(--dashboard-hover) !important;
+}
+
+/* Focus states - Use accent colors */
+[data-theme="dark"] *:focus-visible {
+  outline: 2px solid var(--dashboard-accent-1) !important;
+  outline-offset: 2px;
+}
+
+/* Remove any non-palette colors */
+[data-theme="dark"] .bg-black {
+  background-color: var(--dashboard-bg-0) !important;
+}
+
+[data-theme="dark"] .text-black {
+  color: var(--dashboard-fg) !important;
+}
+
+/* Gradient overrides to use only palette colors */
+[data-theme="dark"] .bg-gradient-to-br,
+[data-theme="dark"] .bg-gradient-to-bl,
+[data-theme="dark"] .bg-gradient-to-tr,
+[data-theme="dark"] .bg-gradient-to-tl {
+  background: var(--dashboard-card-gradient) !important;
+}
+
+/* Shadow overrides for dark theme */
+[data-theme="dark"] .shadow,
+[data-theme="dark"] .shadow-sm,
+[data-theme="dark"] .shadow-md,
+[data-theme="dark"] .shadow-lg {
+  box-shadow: 0 4px 6px -1px rgba(14, 23, 42, 0.4), 0 2px 4px -1px rgba(14, 23, 42, 0.3) !important;
+}
+
+/* Main application background */
+[data-theme="dark"] .min-h-screen {
+  background: var(--dashboard-bg-gradient-primary) !important;
+}
+
+/* Ensure consistent palette usage across all components */
+[data-theme="dark"] * {
+  /* Remove any hardcoded colors that don't match palette */
+  color: inherit;
+  border-color: inherit;
 }
