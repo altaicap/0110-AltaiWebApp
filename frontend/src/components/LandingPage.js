@@ -435,6 +435,12 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                   <p className="landing-card-description">
                     Run accurate historical tests, visualise historical trades on a chart, view quartile trade curves and assess how the best and worst trades panned from entry to exit.
                   </p>
+                  {/* Product Image Placeholder */}
+                  <div className="product-image-placeholder">
+                    <div className="placeholder-content">
+                      <span className="placeholder-text">Product Screenshot</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
