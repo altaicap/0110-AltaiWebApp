@@ -2,7 +2,27 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
-import { TrendingUp, BarChart3, FileText, PlayCircle, Users, Shield, Zap, ArrowRight, Star, CheckCircle, Sun, Moon, Play } from 'lucide-react';
+import { 
+  TrendingUp, 
+  BarChart3, 
+  FileText, 
+  PlayCircle, 
+  Users, 
+  Shield, 
+  Zap, 
+  ArrowRight, 
+  Star, 
+  CheckCircle, 
+  Sun, 
+  Moon, 
+  Play,
+  Code,
+  Target,
+  Gauge,
+  Activity,
+  Database,
+  Bell
+} from 'lucide-react';
 
 // Import logos
 import AltaiLogo from '../assets/altai-logo.svg';
@@ -23,16 +43,19 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
   const [isDeleting, setIsDeleting] = useState(false);
   const [showCursor, setShowCursor] = useState(true);
   
-  // Navigation state for smooth scrolling
+  // Navigation state for smooth scrolling with IntersectionObserver
   const [activeSection, setActiveSection] = useState('home');
+  const [isScrolled, setIsScrolled] = useState(false);
   
   // Hover states for preview images
   const [hoveredPreview, setHoveredPreview] = useState(null);
   
-  // Ref for sections
+  // Refs for sections and header
+  const homeRef = useRef(null);
   const featuresRef = useRef(null);
   const pricingRef = useRef(null);
   const connectionsRef = useRef(null);
+  const headerRef = useRef(null);
   
   // Typing animation phrases
   const phrases = [
@@ -46,6 +69,60 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
   
   useEffect(() => {
     prefersReducedMotion.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }, []);
+
+  // IntersectionObserver for nav highlighting
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -60% 0px',
+      threshold: 0.1,
+    };
+
+    const observerCallback = (entries) => {
+      const visibleSections = entries.filter(entry => entry.isIntersecting);
+      
+      if (visibleSections.length > 0) {
+        // Get the most visible section (highest intersection ratio)
+        const mostVisible = visibleSections.reduce((prev, current) => 
+          current.intersectionRatio > prev.intersectionRatio ? current : prev
+        );
+        
+        const sectionId = mostVisible.target.getAttribute('data-section');
+        if (sectionId && sectionId !== activeSection) {
+          setActiveSection(sectionId);
+        }
+      }
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    // Observe all sections
+    const sections = [
+      { ref: homeRef, id: 'home' },
+      { ref: featuresRef, id: 'features' },
+      { ref: pricingRef, id: 'pricing' },
+      { ref: connectionsRef, id: 'connections' }
+    ];
+
+    sections.forEach(({ ref, id }) => {
+      if (ref.current) {
+        ref.current.setAttribute('data-section', id);
+        observer.observe(ref.current);
+      }
+    });
+
+    return () => observer.disconnect();
+  }, [activeSection]);
+
+  // Header scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Typing animation effect - respects prefers-reduced-motion
@@ -97,16 +174,16 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
 
   // Smooth scroll to section
   const scrollToSection = (section) => {
-    setActiveSection(section);
+    const refs = {
+      home: homeRef,
+      features: featuresRef,
+      pricing: pricingRef,
+      connections: connectionsRef
+    };
     
-    if (section === 'home') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (section === 'features' && featuresRef.current) {
-      featuresRef.current.scrollIntoView({ behavior: 'smooth' });
-    } else if (section === 'pricing' && pricingRef.current) {
-      pricingRef.current.scrollIntoView({ behavior: 'smooth' });
-    } else if (section === 'connections' && connectionsRef.current) {
-      connectionsRef.current.scrollIntoView({ behavior: 'smooth' });
+    const targetRef = refs[section];
+    if (targetRef?.current) {
+      targetRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -114,10 +191,13 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
     <div className={`landing-page-container ${isDarkTheme ? 'dark' : ''}`}>
       <div className="landing-content">
         {/* Header */}
-        <header className="landing-header sticky top-0 z-50">
+        <header 
+          ref={headerRef}
+          className={`landing-header sticky top-0 z-50 ${isScrolled ? 'scrolled' : ''}`}
+        >
           <div className="landing-container">
             <div className="flex justify-between items-center h-16">
-              <div className="flex items-center">
+              <div className="flex items-center" id="header-logo">
                 <img 
                   src={isDarkTheme ? AltaiLogoDark : AltaiLogo} 
                   alt="Altai Trader" 
@@ -154,7 +234,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                 </button>
               </nav>
 
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-4" id="header-register">
                 {/* Theme Toggle Button */}
                 <button
                   onClick={onToggleTheme}
@@ -176,7 +256,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
         </header>
 
         {/* Hero Section */}
-        <section className="landing-section-lg">
+        <section ref={homeRef} className="landing-section-lg hero-section">
           <div className="landing-container text-center">
             {/* Typing Animation Hero Heading */}
             <div className="typing-container">
@@ -208,19 +288,8 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
               </button>
             </div>
 
-            {/* Video Container */}
-            <div className="video-container">
-              <div className="video-placeholder">
-                <div className="flex flex-col items-center">
-                  <Play className="h-12 w-12 mb-4 opacity-50" />
-                  <span>Product Demo Video</span>
-                  <span className="text-sm opacity-75 mt-1">Coming Soon</span>
-                </div>
-              </div>
-            </div>
-            
-            {/* Statistics */}
-            <div className="stats-grid">
+            {/* Statistics - MOVED ABOVE VIDEO */}
+            <div className="stats-grid mb-12">
               <div className="stat-item">
                 <div className="stat-number">5+</div>
                 <div className="stat-label">Exchanges</div>
@@ -238,10 +307,23 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                 <div className="stat-label">Optimised Rs</div>
               </div>
             </div>
+
+            {/* Video Container - CONSTRAINED AND ALIGNED */}
+            <div className="video-container-wrapper">
+              <div className="video-container">
+                <div className="video-placeholder">
+                  <div className="flex flex-col items-center">
+                    <Play className="h-12 w-12 mb-4 opacity-50" />
+                    <span>Product Demo Video</span>
+                    <span className="text-sm opacity-75 mt-1">Coming Soon</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* Features Section */}
+        {/* Features Section - UPDATED WITH 6 CARDS */}
         <section ref={featuresRef} className="landing-section">
           <div className="landing-container">
             <div className="text-center mb-16">
@@ -251,99 +333,85 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
               </p>
             </div>
 
-            <div className="feature-grid">
-              <div 
-                className="landing-card group"
-                onMouseEnter={() => setHoveredPreview('strategies')}
-                onMouseLeave={() => setHoveredPreview(null)}
-              >
+            <div className="feature-grid-six">
+              {/* Card 1 */}
+              <div className="landing-card group">
                 <div className="landing-card-content">
                   <div className="icon-container icon-container-blue">
-                    <TrendingUp className="h-6 w-6" />
+                    <Code className="h-6 w-6" />
                   </div>
-                  <h3 className="landing-card-title">Real-Time Trading & Backtesting</h3>
-                  <p className="landing-card-description mb-4">
-                    Execute live trades and test strategies with historical data simultaneously
+                  <h3 className="landing-card-title">Generate AI Python strategies</h3>
+                  <p className="landing-card-description">
+                    Describe your idea and get production-ready Python code, complete with indicators, entry/exit rules, and risk controls.
                   </p>
-                  <div className={`w-full h-48 rounded-lg flex items-center justify-center transition-all duration-500 ${
-                    hoveredPreview === 'strategies' 
-                      ? 'bg-blue-50 dark:bg-blue-900/20' 
-                      : 'bg-gray-50 dark:bg-gray-800'
-                  }`}>
-                    <TrendingUp className={`w-12 h-12 ${
-                      hoveredPreview === 'strategies' ? 'text-blue-500' : 'text-gray-400'
-                    }`} />
-                  </div>
                 </div>
               </div>
 
-              <div 
-                className="landing-card group"
-                onMouseEnter={() => setHoveredPreview('news')}
-                onMouseLeave={() => setHoveredPreview(null)}
-              >
-                <div className="landing-card-content">
-                  <div className="icon-container icon-container-green">
-                    <FileText className="h-6 w-6" />
-                  </div>
-                  <h3 className="landing-card-title">Live News Integration into Strategy</h3>
-                  <p className="landing-card-description mb-4">
-                    Real-time news feeds integrated directly into your trading strategies
-                  </p>
-                  <div className={`w-full h-48 rounded-lg flex items-center justify-center transition-all duration-500 ${
-                    hoveredPreview === 'news' 
-                      ? 'bg-green-50 dark:bg-green-900/20' 
-                      : 'bg-gray-50 dark:bg-gray-800'
-                  }`}>
-                    <FileText className={`w-12 h-12 ${
-                      hoveredPreview === 'news' ? 'text-green-500' : 'text-gray-400'
-                    }`} />
-                  </div>
-                </div>
-              </div>
-
-              <div 
-                className="landing-card group"
-                onMouseEnter={() => setHoveredPreview('backtest')}
-                onMouseLeave={() => setHoveredPreview(null)}
-              >
+              {/* Card 2 */}
+              <div className="landing-card group">
                 <div className="landing-card-content">
                   <div className="icon-container icon-container-purple">
                     <BarChart3 className="h-6 w-6" />
                   </div>
-                  <h3 className="landing-card-title">Advanced Backtesting & Analysis</h3>
-                  <p className="landing-card-description mb-4">
-                    Comprehensive backtesting with detailed performance metrics and analysis
+                  <h3 className="landing-card-title">Backtest with confidence</h3>
+                  <p className="landing-card-description">
+                    Run accurate historical tests, visualise historical trades on a chart, view quartile trade curves and assess how the best and worst trades panned from entry to exit.
                   </p>
-                  <div className={`w-full h-48 rounded-lg flex items-center justify-center transition-all duration-500 ${
-                    hoveredPreview === 'backtest' 
-                      ? 'bg-purple-50 dark:bg-purple-900/20' 
-                      : 'bg-gray-50 dark:bg-gray-800'
-                  }`}>
-                    <BarChart3 className={`w-12 h-12 ${
-                      hoveredPreview === 'backtest' ? 'text-purple-500' : 'text-gray-400'
-                    }`} />
+                </div>
+              </div>
+
+              {/* Card 3 */}
+              <div className="landing-card group">
+                <div className="landing-card-content">
+                  <div className="icon-container icon-container-green">
+                    <Target className="h-6 w-6" />
                   </div>
+                  <h3 className="landing-card-title">Go live in one click</h3>
+                  <p className="landing-card-description">
+                    Deploy to paper or live trading with broker routing - no middleman and no webhook - orders submitted straight from your script to your broker.
+                  </p>
+                </div>
+              </div>
+
+              {/* Card 4 */}
+              <div className="landing-card group">
+                <div className="landing-card-content">
+                  <div className="icon-container icon-container-orange">
+                    <Users className="h-6 w-6" />
+                  </div>
+                  <h3 className="landing-card-title">Multiple brokers and multiple accounts at once</h3>
+                  <p className="landing-card-description">
+                    Choose what strategy is filled on which account in which broker, separate or aggregate a portfolio of strategies.
+                  </p>
+                </div>
+              </div>
+
+              {/* Card 5 */}
+              <div className="landing-card group">
+                <div className="landing-card-content">
+                  <div className="icon-container icon-container-teal">
+                    <Database className="h-6 w-6" />
+                  </div>
+                  <h3 className="landing-card-title">Sync & review discretionary trades</h3>
+                  <p className="landing-card-description">
+                    Auto-sync fills from your brokerage account for manual trades, tag setups, and get objective post-trade analytics with our in built AI companion.
+                  </p>
+                </div>
+              </div>
+
+              {/* Card 6 */}
+              <div className="landing-card group">
+                <div className="landing-card-content">
+                  <div className="icon-container icon-container-red">
+                    <Gauge className="h-6 w-6" />
+                  </div>
+                  <h3 className="landing-card-title">Risk & performance control</h3>
+                  <p className="landing-card-description">
+                    Real-time dashboards, alerts, and a structured trade journal to track P&L, drawdown, win rate, and expectancy.
+                  </p>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* See Altai Trader in Action */}
-        <section className="landing-section">
-          <div className="landing-container text-center">
-            <h2 className="landing-h2 mb-4">See Altai Trader in Action</h2>
-            <p className="landing-subtitle mb-8 max-w-2xl mx-auto">
-              Experience the power of professional trading tools designed for serious traders
-            </p>
-            <button 
-              onClick={onGoToDashboard}
-              className="landing-btn landing-btn-primary landing-btn-lg"
-            >
-              Try Demo Now
-              <PlayCircle className="ml-2 h-5 w-5" />
-            </button>
           </div>
         </section>
 
@@ -446,7 +514,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
           </div>
         </section>
 
-        {/* Available Connections */}
+        {/* Available Connections - GROUPED INTO CATEGORIES */}
         <section ref={connectionsRef} className="landing-section">
           <div className="landing-container">
             <div className="text-center mb-16">
@@ -456,26 +524,44 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
               </p>
             </div>
 
-            <div className="logo-grid">
-              <div className="logo-item">
-                <img src={PolygonLogo} alt="Polygon" className="logo-image" />
-                <span className="logo-label">Polygon</span>
+            {/* Brokers */}
+            <div className="connection-category">
+              <h3 className="connection-category-title">Brokers</h3>
+              <div className="logo-grid-row">
+                <div className="logo-item">
+                  <img src={TradeStationLogo} alt="TradeStation" className="logo-image" />
+                  <span className="logo-label">TradeStation</span>
+                </div>
+                <div className="logo-item">
+                  <img src={IBKRLogo} alt="Interactive Brokers" className="logo-image" />
+                  <span className="logo-label">IBKR</span>
+                </div>
               </div>
-              <div className="logo-item">
-                <img src={NewsWareLogo} alt="NewsWare" className="logo-image" />
-                <span className="logo-label">NewsWare</span>
+            </div>
+
+            {/* News Integrations */}
+            <div className="connection-category">
+              <h3 className="connection-category-title">News Integrations</h3>
+              <div className="logo-grid-row">
+                <div className="logo-item">
+                  <img src={NewsWareLogo} alt="NewsWare" className="logo-image" />
+                  <span className="logo-label">NewsWare</span>
+                </div>
+                <div className="logo-item">
+                  <img src={TradeXchangeLogo} alt="TradeXchange" className="logo-image logo-tradexchange" />
+                  <span className="logo-label">TradeXchange</span>
+                </div>
               </div>
-              <div className="logo-item">
-                <img src={TradeXchangeLogo} alt="TradeXchange" className="logo-image" />
-                <span className="logo-label">TradeXchange</span>
-              </div>
-              <div className="logo-item">
-                <img src={TradeStationLogo} alt="TradeStation" className="logo-image" />
-                <span className="logo-label">TradeStation</span>
-              </div>
-              <div className="logo-item">
-                <img src={IBKRLogo} alt="Interactive Brokers" className="logo-image" />
-                <span className="logo-label">IBKR</span>
+            </div>
+
+            {/* Market Data */}
+            <div className="connection-category">
+              <h3 className="connection-category-title">Market Data</h3>
+              <div className="logo-grid-row">
+                <div className="logo-item">
+                  <img src={PolygonLogo} alt="Polygon" className="logo-image logo-polygon" />
+                  <span className="logo-label">Polygon</span>
+                </div>
               </div>
             </div>
           </div>

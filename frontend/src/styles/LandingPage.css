@@ -65,7 +65,7 @@
   text-rendering: optimizeLegibility;
 }
 
-/* Background Shimmer Animation */
+/* Background Shimmer Animation - SLOWED DOWN BY 30% */
 .landing-page-container::before {
   content: '';
   position: fixed;
@@ -78,7 +78,7 @@
   opacity: 0.6;
 }
 
-/* Light Theme Shimmer */
+/* Light Theme Shimmer - DURATION INCREASED FROM 8s TO ~11.4s */
 .landing-page-container:not(.dark)::before {
   background: linear-gradient(
     110deg,
@@ -88,10 +88,10 @@
     transparent 75%
   );
   background-size: 200% 100%;
-  animation: shimmer-light 8s ease-in-out infinite;
+  animation: shimmer-light 11.4s ease-in-out infinite;
 }
 
-/* Dark Theme Shimmer */
+/* Dark Theme Shimmer - DURATION INCREASED FROM 8s TO ~11.4s */
 .landing-page-container.dark::before {
   background: linear-gradient(
     110deg,
@@ -101,7 +101,7 @@
     transparent 75%
   );
   background-size: 200% 100%;
-  animation: shimmer-dark 8s ease-in-out infinite;
+  animation: shimmer-dark 11.4s ease-in-out infinite;
 }
 
 /* Shimmer Animations */
@@ -145,12 +145,31 @@
   z-index: 1;
 }
 
-/* Header Styling */
+/* Header Styling - SEMI-TRANSPARENT WITH BACKDROP BLUR */
 .landing-header {
   background-color: var(--card);
   border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+}
+
+/* Dark theme semi-transparent header */
+.landing-page-container.dark .landing-header {
+  background-color: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(51, 65, 85, 0.3);
+}
+
+/* Scrolled header styling */
+.landing-header.scrolled {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-subtle);
+}
+
+.landing-page-container.dark .landing-header.scrolled {
+  background-color: rgba(15, 23, 42, 0.9);
+  border-bottom: 1px solid rgba(51, 65, 85, 0.5);
 }
 
 /* Navigation Links */
@@ -240,18 +259,40 @@
   51%, 100% { opacity: 0; }
 }
 
-/* Video Container */
+/* Hero Section */
+.hero-section {
+  position: relative;
+}
+
+/* Video Container - CONSTRAINED AND ALIGNED */
+.video-container-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
 .video-container {
   position: relative;
   width: 100%;
-  max-width: 56rem;
-  margin: 0 auto 3rem auto;
+  max-width: calc(100vw - 2rem);
   aspect-ratio: 16 / 9;
   border-radius: 1rem;
   border: 1px solid var(--border);
   background-color: var(--card);
   box-shadow: var(--shadow-large);
   overflow: hidden;
+}
+
+/* Align video container with header elements */
+@media (min-width: 768px) {
+  .video-container {
+    margin-left: calc(var(--header-logo-left, 1rem));
+    margin-right: calc(var(--header-register-right, 1rem));
+    max-width: calc(100vw - var(--header-logo-left, 1rem) - var(--header-register-right, 1rem));
+  }
 }
 
 .video-placeholder {
@@ -389,12 +430,39 @@
   color: #9333ea;
 }
 
-/* Feature Grid */
-.feature-grid {
+.icon-container-orange {
+  background-color: rgba(249, 115, 22, 0.1);
+  color: #f97316;
+}
+
+.icon-container-teal {
+  background-color: rgba(20, 184, 166, 0.1);
+  color: #14b8a6;
+}
+
+.icon-container-red {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+/* Feature Grid - 6 CARDS IN 2 ROWS OF 3 */
+.feature-grid-six {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   margin: 3rem 0;
+}
+
+@media (max-width: 1024px) {
+  .feature-grid-six {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .feature-grid-six {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Pricing Grid */
@@ -495,14 +563,25 @@
   font-weight: 500;
 }
 
-/* Logo Grid */
-.logo-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 2rem;
+/* Connection Categories - GROUPED LAYOUT */
+.connection-category {
+  margin-bottom: 3rem;
+}
+
+.connection-category-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--fg);
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.logo-grid-row {
+  display: flex;
+  justify-content: center;
   align-items: center;
-  justify-items: center;
-  margin: 3rem 0;
+  gap: 4rem;
+  flex-wrap: wrap;
 }
 
 .logo-item {
@@ -521,9 +600,23 @@
   filter: grayscale(100%);
 }
 
+/* FIX POLYGON LOGO IN DARK THEME */
 .landing-page-container.dark .logo-image {
-  filter: grayscale(100%) brightness(0) invert(1);
+  filter: grayscale(100%) invert(0.8);
   opacity: 0.6;
+}
+
+.landing-page-container.dark .logo-polygon {
+  filter: grayscale(100%) invert(0.8) brightness(1.2);
+  opacity: 0.7;
+}
+
+/* TRADEXCHANGE LOGO SIZING */
+.logo-tradexchange {
+  height: 3rem !important;
+  padding: 0.2rem 0;
+  object-fit: contain;
+  object-position: center;
 }
 
 .logo-image:hover {
@@ -532,8 +625,13 @@
 }
 
 .landing-page-container.dark .logo-image:hover {
-  filter: grayscale(100%) brightness(0) invert(1);
+  filter: grayscale(100%) invert(0.8);
   opacity: 0.9;
+}
+
+.landing-page-container.dark .logo-polygon:hover {
+  filter: grayscale(100%) invert(0.8) brightness(1.2);
+  opacity: 1;
 }
 
 .logo-label {
@@ -603,7 +701,7 @@
     padding: 3rem 0;
   }
   
-  .feature-grid, .pricing-grid {
+  .pricing-grid {
     grid-template-columns: 1fr;
   }
   
@@ -611,8 +709,8 @@
     grid-template-columns: repeat(2, 1fr);
   }
   
-  .logo-grid {
-    grid-template-columns: repeat(3, 1fr);
+  .logo-grid-row {
+    gap: 2rem;
   }
 }
 
@@ -625,8 +723,8 @@
     grid-template-columns: 1fr;
   }
   
-  .logo-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .logo-grid-row {
+    gap: 1.5rem;
   }
 }
 
