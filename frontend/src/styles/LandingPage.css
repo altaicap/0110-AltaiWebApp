@@ -538,9 +538,9 @@
   text-align: center;
 }
 
-/* Light theme: Teal green gradient text */
+/* Light theme: Teal green gradient text - ENHANCED GRADIENT */
 .landing-page-container:not(.dark) .typing-text {
-  background: linear-gradient(135deg, var(--accent) 0%, #0a8a92 100%); /* Teal green gradient */
+  background: linear-gradient(135deg, #0E6D73 0%, #0a8a92 50%, #0E6D73 100%); /* Enhanced gradient with signature color */
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
