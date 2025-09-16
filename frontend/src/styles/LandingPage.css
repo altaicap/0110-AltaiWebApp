@@ -186,12 +186,12 @@
   z-index: 1;
 }
 
-/* Header Styling - SEMI-TRANSPARENT WITH BACKDROP BLUR (P0) */
+/* Header Styling - DARK BLUE NIGHTWATCH STYLE WITH 60% TRANSPARENCY */
 .landing-header {
   position: sticky;
   top: 0;
   z-index: 50;
-  background-color: var(--header-glass);
+  background-color: rgba(14, 23, 42, 0.60); /* Dark blue with 60% transparency */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--bg-2);
@@ -201,7 +201,7 @@
 /* Fallback for browsers without backdrop-filter support */
 @supports not (backdrop-filter: blur(12px)) {
   .landing-header {
-    background-color: var(--header-glass);
+    background-color: rgba(14, 23, 42, 0.60);
   }
 }
 
