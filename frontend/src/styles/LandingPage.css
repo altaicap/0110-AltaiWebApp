@@ -548,20 +548,21 @@
   position: relative;
 }
 
-/* Most Popular Badge - Ensure Full Visibility */
+/* Most Popular Badge - POSITIONED ABOVE PANE, NOT INSIDE */
 .pricing-badge {
   position: absolute;
-  top: -0.75rem;
+  top: -1rem; /* Moved further up to be completely outside the card */
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--accent-1);
   color: var(--bg-0);
   font-size: 0.75rem;
   font-weight: 500;
-  padding: 0.25rem 0.75rem;
+  padding: 0.5rem 1rem; /* Increased padding for better visibility */
   border-radius: 9999px;
   box-shadow: var(--shadow-subtle);
-  z-index: 10; /* Ensure it's above card borders */
+  z-index: 20; /* Higher z-index to ensure it's above everything */
+  white-space: nowrap; /* Prevent text wrapping */
 }
 
 .price-display {
