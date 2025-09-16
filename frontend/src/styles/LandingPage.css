@@ -1,22 +1,20 @@
 /*
-  Laravel Nightwatch/Arbibyte-Inspired Landing Page Styles
+  Laravel Nightwatch-Inspired Landing Page Styles
   
-  EXACT THEME COLOR SPECIFICATIONS:
+  EXACT THEME COLOR SPECIFICATIONS (UPDATED):
   Dark Theme:
-  - --bg-0: #0E172A (primary background)
-  - --bg-1: #14213D (secondary background) 
-  - --bg-2: #252B3C (tertiary background)
-  - --accent-1: #7A51F6 (primary accent)
-  - --accent-2: #3B82F6 (secondary accent)  
+  - --bg-0: #090D0D (black primary background)
+  - --bg-1: #171717 (dark green secondary background)
+  - --bg-2: color-mix(in srgb, #171717 70%, #090D0D 30%) (tertiary background)
+  - --accent: #00BD7D (green accent)
   - --fg: #FBFCFC (foreground text)
-  - --muted: #AAB3C5 (muted text)
+  - --muted: color-mix(in srgb, #6B757D 80%, white 20%) (muted text)
   
   Light Theme:
   - --bg-0: #FBFCFC (primary background)
   - --bg-1: #F3F5F7 (secondary background)
   - --bg-2: #EBEBEB (tertiary background) 
-  - --accent-1: #7A51F6 (primary accent)
-  - --accent-2: #3B82F6 (secondary accent)
+  - --accent: #00BD7D (green accent)
   - --fg: #0E172A (foreground text)
   - --muted: #4A5568 (muted text)
   
@@ -34,8 +32,7 @@
   --bg-0: #FBFCFC;
   --bg-1: #F3F5F7;
   --bg-2: #EBEBEB;
-  --accent-1: #7A51F6;
-  --accent-2: #3B82F6;
+  --accent: #00BD7D; /* Updated to green */
   --fg: #0E172A;
   --muted: #4A5568;
   
@@ -44,42 +41,50 @@
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   
   /* Light theme glass overlay */
-  --header-glass: rgba(251, 252, 252, 0.70);
+  --header-glass: rgba(255, 255, 255, 0.70);
   
-  /* Light theme subtle gradients (optional) */
+  /* Light theme shimmer */
+  --shimmer-light: rgba(0, 189, 125, 0.08); /* Pale green shimmer */
+  
+  /* Light theme subtle gradients */
   --bg-gradient-subtle: linear-gradient(180deg, #FBFCFC 0%, #F3F5F7 100%);
+  
+  /* Borders */
+  --border: rgba(107, 117, 125, 0.3);
   
   /* Shadows */
   --shadow-subtle: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-large: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-glow: 0 0 0 1px rgba(122, 81, 246, 0.15), 0 1px 2px 0 rgba(122, 81, 246, 0.1);
+  --shadow-glow: 0 0 0 1px rgba(0, 189, 125, 0.15), 0 1px 2px 0 rgba(0, 189, 125, 0.1);
 }
 
-/* Dark Theme */
+/* Dark Theme - Laravel Nightwatch Inspired */
 .landing-page-container.dark {
-  --bg-0: #0E172A;
-  --bg-1: #14213D;
-  --bg-2: #252B3C;
-  --accent-1: #7A51F6;
-  --accent-2: #3B82F6;
-  --fg: #FBFCFC;
-  --muted: #AAB3C5;
+  --bg-0: #090D0D; /* Black primary background */
+  --bg-1: #171717; /* Dark green secondary background */
+  --bg-2: #1a1a1a; /* Fallback for color-mix, computed equivalent */
+  --accent: #00BD7D; /* Green accent */
+  --fg: #FBFCFC; /* White foreground text */
+  --muted: #a8b1ba; /* Fallback for color-mix, computed equivalent */
   
   /* Dark theme glass overlay */
-  --header-glass: rgba(14, 23, 42, 0.72);
+  --header-glass: rgba(9, 13, 13, 0.72);
   
-  /* Dark theme gradients & opacity (within palette only) */
-  --bg-gradient-primary: linear-gradient(180deg, #0E172A 0%, #14213D 50%, #252B3C 100%);
-  --panel-gradient: linear-gradient(180deg, rgba(20, 33, 61, 0.96), rgba(37, 43, 60, 0.96));
-  --card-gradient: linear-gradient(180deg, rgba(20, 33, 61, 0.85), rgba(37, 43, 60, 0.85));
+  /* Dark theme gradients within palette only */
+  --bg-gradient: linear-gradient(180deg, #090D0D 0%, #171717 100%);
+  --panel-gradient: linear-gradient(180deg, rgba(23, 23, 23, 0.92) 0%, rgba(9, 13, 13, 0.92) 100%);
+  --card-gradient: linear-gradient(180deg, rgba(23, 23, 23, 0.85), rgba(9, 13, 13, 0.85));
+  
+  /* Dark theme shimmer */
+  --shimmer-dark: rgba(23, 23, 23, 0.7); /* Dark green shimmer with green accent */
   
   /* Subtle accent glows only */
-  --glow-1: rgba(122, 81, 246, 0.12);
-  --glow-2: rgba(59, 130, 246, 0.10);
+  --glow-1: rgba(0, 189, 125, 0.12);
+  --glow-2: rgba(0, 189, 125, 0.08);
   
   /* Borders from palette */
-  --border: rgba(37, 43, 60, 0.60);
+  --border: rgba(107, 117, 125, 0.4);
   
   /* Enhanced shadows for dark theme */
   --shadow-subtle: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
@@ -101,7 +106,7 @@
   text-rendering: optimizeLegibility;
 }
 
-/* Background Shimmer Animation - SLOWED DOWN BY 30% */
+/* Background Shimmer Animation - UPDATED TO GREEN */
 .landing-page-container::before {
   content: '';
   position: fixed;
@@ -114,39 +119,26 @@
   opacity: 0.6;
 }
 
-/* Light Theme Shimmer - DURATION INCREASED FROM 8s TO ~11.4s */
+/* Light Theme Shimmer - PALE GREEN */
 .landing-page-container:not(.dark)::before {
   background: linear-gradient(
     110deg,
     transparent 25%,
-    var(--glow-2) 50%,
-    rgba(59, 130, 246, 0.05) 55%,
+    var(--shimmer-light) 50%,
+    rgba(0, 189, 125, 0.04) 55%,
     transparent 75%
   );
   background-size: 200% 100%;
   animation: shimmer-light 11.4s ease-in-out infinite;
 }
 
-/* Light Theme Shimmer - MORE VISIBLE PALE BLUE, DURATION INCREASED FROM 8s TO ~11.4s */
-.landing-page-container:not(.dark)::before {
-  background: linear-gradient(
-    110deg,
-    transparent 25%,
-    rgba(59, 130, 246, 0.15) 50%,
-    rgba(96, 165, 250, 0.12) 55%,
-    transparent 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer-light 11.4s ease-in-out infinite;
-}
-
-/* Dark Theme Shimmer - DURATION INCREASED FROM 8s TO ~11.4s */
+/* Dark Theme Shimmer - DARK GREEN GLOW */
 .landing-page-container.dark::before {
   background: linear-gradient(
     110deg,
     transparent 25%,
-    var(--glow-1) 50%,
-    var(--glow-2) 55%,
+    var(--shimmer-dark) 50%,
+    rgba(0, 189, 125, 0.15) 55%,
     transparent 75%
   );
   background-size: 200% 100%;
@@ -199,32 +191,32 @@
   z-index: 1;
 }
 
-/* Header Styling - CORRECTED THEME BEHAVIOR */
+/* Header Styling - UPDATED FOR NIGHTWATCH STYLE */
 .landing-header {
   position: sticky;
   top: 0;
   z-index: 50;
   /* Light theme: solid white background */
-  background-color: #ffffff;
-  border-bottom: 1px solid var(--bg-2);
+  background-color: var(--header-glass);
+  border-bottom: 1px solid var(--border);
   transition: all 0.2s ease;
   /* Ensure no backdrop filter by default */
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
 
-/* Dark theme: transparency and blur effects - REDUCED BLUR BY 25% */
+/* Dark theme: transparency and blur effects */
 .landing-page-container.dark .landing-header {
-  background-color: rgba(14, 23, 42, 0.60) !important; /* Force 60% transparency */
-  backdrop-filter: blur(9px) !important; /* Reduced from 12px to 9px (25% reduction) */
+  background-color: var(--header-glass) !important;
+  backdrop-filter: blur(9px) !important;
   -webkit-backdrop-filter: blur(9px) !important;
-  border-bottom: 1px solid rgba(37, 43, 60, 0.6) !important;
+  border-bottom: 1px solid var(--border) !important;
 }
 
 /* Fallback for browsers without backdrop-filter support */
 @supports not (backdrop-filter: blur(9px)) {
   .landing-page-container.dark .landing-header {
-    background-color: rgba(14, 23, 42, 0.75) !important; /* Slightly more opaque when no blur */
+    background-color: rgba(9, 13, 13, 0.85) !important;
   }
 }
 
@@ -243,7 +235,7 @@
 }
 
 .nav-link.active {
-  color: var(--accent-1);
+  color: var(--accent);
 }
 
 /* Typography - Using Poppins for Display/Headings */
@@ -289,7 +281,7 @@
   color: var(--muted);
 }
 
-/* Hero Typing Animation - NO DELETE PHASE, SOFT FADE TRANSITIONS */
+/* Hero Typing Animation - UPDATED TO GREEN */
 .hero-title-container {
   /* Reserve space for two-line heading to prevent content shift */
   min-height: 9rem; /* Adjust based on font size and line height */
@@ -299,11 +291,28 @@
   margin-bottom: 1.5rem;
 }
 
-.typing-text {
-  background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
+/* Dark theme: Solid green text */
+.landing-page-container.dark .typing-text {
+  color: var(--accent); /* Solid green in dark theme */
+  -webkit-text-fill-color: var(--accent);
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  font-family: var(--font-display);
+  font-size: 3.75rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  text-align: center;
+}
+
+/* Light theme: Green gradient text */
+.landing-page-container:not(.dark) .typing-text {
+  background: linear-gradient(135deg, var(--accent) 0%, #3dd69b 100%); /* Green gradient */
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: var(--accent); /* Fallback */
   font-family: var(--font-display);
   font-size: 3.75rem;
   font-weight: 700;
@@ -313,7 +322,7 @@
 }
 
 .typing-cursor {
-  color: var(--accent-1);
+  color: var(--accent);
   animation: blink 1.2s infinite;
   font-weight: 300;
 }
@@ -354,7 +363,7 @@
   max-width: calc(100vw - 2rem);
   aspect-ratio: 16 / 9;
   border-radius: 1rem;
-  border: 1px solid var(--bg-2);
+  border: 1px solid var(--border);
   background: var(--card-gradient, var(--bg-1));
   box-shadow: var(--shadow-large);
   overflow: hidden;
@@ -383,7 +392,7 @@
 /* Cards and Components */
 .landing-card {
   background: var(--card-gradient, var(--bg-1));
-  border: 1px solid var(--border, var(--bg-2));
+  border: 1px solid var(--border);
   border-radius: 1rem;
   box-shadow: var(--shadow-subtle);
   transition: all 0.2s ease;
@@ -393,12 +402,12 @@
 .landing-card:hover {
   box-shadow: var(--shadow-medium);
   transform: translateY(-2px);
-  border-color: var(--accent-1);
+  border-color: var(--accent);
 }
 
 .landing-card-header {
   padding: 1.5rem;
-  border-bottom: 1px solid var(--border, var(--bg-2));
+  border-bottom: 1px solid var(--border);
 }
 
 .landing-card-content {
@@ -422,7 +431,7 @@
   margin: 0;
 }
 
-/* Buttons */
+/* Buttons - UPDATED TO GREEN */
 .landing-btn {
   display: inline-flex;
   align-items: center;
@@ -440,32 +449,36 @@
 }
 
 .landing-btn:focus-visible {
-  outline: 2px solid var(--accent-1);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
 .landing-btn-primary {
-  background-color: var(--accent-1);
+  background-color: var(--accent);
   color: var(--bg-0);
   box-shadow: var(--shadow-subtle);
 }
 
 .landing-btn-primary:hover {
-  background-color: var(--accent-2);
+  background-color: #00d18a; /* 8% brighter green */
   box-shadow: var(--shadow-glow);
   transform: translateY(-1px);
+}
+
+.landing-btn-primary:active {
+  background-color: #00a66b; /* 8% darker green */
 }
 
 .landing-btn-secondary {
   background-color: transparent;
   color: var(--fg);
-  border-color: var(--border, var(--bg-2));
+  border-color: var(--border);
 }
 
 .landing-btn-secondary:hover {
   background-color: var(--bg-1);
-  border-color: var(--accent-1);
-  color: var(--accent-1);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .landing-btn-ghost {
@@ -484,7 +497,7 @@
   font-size: 1rem;
 }
 
-/* Icon Containers - VIBRANT SATURATED COLORS IN BOTH THEMES */
+/* Icon Containers - KEEP VIBRANT RGBY COLORS SATURATED */
 .icon-container {
   width: 3rem;
   height: 3rem;
@@ -496,7 +509,7 @@
   transition: all 0.2s ease;
 }
 
-/* Use the same vibrant colors in both light and dark themes */
+/* Use the same vibrant colors in both light and dark themes - FULLY SATURATED */
 .icon-container-blue {
   background-color: rgba(37, 99, 235, 0.15);
   color: #2563eb; /* Vibrant blue in both themes */
@@ -527,35 +540,45 @@
   color: #ef4444; /* Vibrant red in both themes */
 }
 
-/* Ensure dark theme doesn't override the vibrant colors */
+.icon-container-yellow {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #f59e0b; /* Vibrant yellow in both themes */
+}
+
+/* Ensure dark theme doesn't override the vibrant colors - KEEP SATURATED */
 .landing-page-container.dark .icon-container-blue {
-  background-color: rgba(37, 99, 235, 0.2); /* Slightly more visible in dark */
-  color: #3b82f6; /* Slightly lighter blue for dark theme visibility */
+  background-color: rgba(37, 99, 235, 0.2);
+  color: #3b82f6;
 }
 
 .landing-page-container.dark .icon-container-green {
   background-color: rgba(16, 185, 129, 0.2);
-  color: #22c55e; /* Slightly lighter green for dark theme visibility */
+  color: #22c55e;
 }
 
 .landing-page-container.dark .icon-container-purple {
   background-color: rgba(139, 69, 219, 0.2);
-  color: #a855f7; /* Slightly lighter purple for dark theme visibility */
+  color: #a855f7;
 }
 
 .landing-page-container.dark .icon-container-orange {
   background-color: rgba(249, 115, 22, 0.2);
-  color: #fb923c; /* Slightly lighter orange for dark theme visibility */
+  color: #fb923c;
 }
 
 .landing-page-container.dark .icon-container-teal {
   background-color: rgba(6, 182, 212, 0.2);
-  color: #22d3ee; /* Slightly lighter cyan for dark theme visibility */
+  color: #22d3ee;
 }
 
 .landing-page-container.dark .icon-container-red {
   background-color: rgba(239, 68, 68, 0.2);
-  color: #f87171; /* Slightly lighter red for dark theme visibility */
+  color: #f87171;
+}
+
+.landing-page-container.dark .icon-container-yellow {
+  background-color: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
 }
 
 /* Feature Grid - 6 CARDS IN 2 ROWS OF 3 */
@@ -595,13 +618,13 @@
   margin-top: 0.5rem; /* Additional margin for badge space */
 }
 
-/* Most Popular Badge - POSITIONED WELL ABOVE PANE */
+/* Most Popular Badge - UPDATED TO GREEN */
 .pricing-badge {
   position: absolute;
   top: -1.5rem; /* Moved even further up */
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--accent-1);
+  background-color: var(--accent);
   color: var(--bg-0);
   font-size: 0.75rem;
   font-weight: 500;
@@ -669,7 +692,7 @@
 .stat-number {
   font-size: 2.5rem;
   font-weight: 700;
-  color: var(--accent-1);
+  color: var(--accent);
   line-height: 1;
   margin-bottom: 0.5rem;
 }
@@ -711,34 +734,34 @@
   gap: 0.5rem;
 }
 
-/* IMPROVED LOGO SIZING - Consistent containers with 40% larger sizing */
+/* IMPROVED LOGO SIZING - Keep saturated colors on hover */
 .logo-image {
-  height: 4.2rem; /* Increased from 3rem by 40% */
+  height: 4.2rem;
   width: auto;
-  max-width: 11.2rem; /* Increased from 8rem by 40% */
+  max-width: 11.2rem;
   object-fit: contain;
   opacity: 0.7;
   transition: all 0.2s ease;
   filter: grayscale(100%);
 }
 
-/* Enhanced logo sizing for consistent visual heights - 40% larger */
+/* Enhanced logo sizing for consistent visual heights */
 .logo-newsware {
   height: 4.2rem !important;
-  padding: 0.42rem 0; /* Scaled padding */
+  padding: 0.42rem 0;
 }
 
 .logo-tradexchange {
   height: 4.2rem !important;
-  padding: 0.28rem 0; /* Scaled padding */
+  padding: 0.28rem 0;
 }
 
 .logo-polygon {
   height: 4.2rem !important;
-  padding: 0.14rem 0; /* Scaled padding */
+  padding: 0.14rem 0;
 }
 
-/* FIXED: Dark theme logo adjustments - maintain grayscale in default state */
+/* Dark theme logo adjustments - maintain grayscale in default state */
 .landing-page-container.dark .logo-image {
   filter: grayscale(100%) invert(0.8);
   opacity: 0.6;
@@ -749,19 +772,19 @@
   opacity: 0.7;
 }
 
-/* FIXED: Hover effects - show colors in BOTH light and dark themes */
+/* Hover effects - show colors in BOTH light and dark themes - KEEP SATURATED */
 .logo-image:hover {
   opacity: 1;
   filter: none; /* Remove all filters to show original colors */
 }
 
 .landing-page-container.dark .logo-image:hover {
-  filter: none; /* FIXED: Remove all filters in dark theme too */
+  filter: none; /* Remove all filters in dark theme too */
   opacity: 1;
 }
 
 .landing-page-container.dark .logo-polygon:hover {
-  filter: none; /* FIXED: Remove all filters for colored display */
+  filter: none; /* Remove all filters for colored display */
   opacity: 1;
 }
 
@@ -822,13 +845,13 @@
   color: var(--muted);
   text-decoration: none;
   transition: all 0.2s ease;
-  border: 1px solid var(--border, var(--bg-2));
+  border: 1px solid var(--border);
 }
 
 .social-icon:hover {
-  background-color: var(--accent-1);
+  background-color: var(--accent);
   color: var(--bg-0);
-  border-color: var(--accent-1);
+  border-color: var(--accent);
   transform: translateY(-1px);
 }
 
@@ -846,7 +869,7 @@
   background-color: var(--bg-1);
   padding: 0.25rem;
   border-radius: 0.75rem;
-  border: 1px solid var(--border, var(--bg-2));
+  border: 1px solid var(--border);
   max-width: 20rem;
 }
 
@@ -865,7 +888,7 @@
 }
 
 .email-subscribe-button {
-  background-color: var(--accent-1);
+  background-color: var(--accent);
   color: var(--bg-0);
   border: none;
   padding: 0.75rem 1.5rem;
@@ -877,7 +900,7 @@
 }
 
 .email-subscribe-button:hover {
-  background-color: var(--accent-2);
+  background-color: #00d18a; /* 8% brighter green */
   transform: translateY(-1px);
 }
 
@@ -921,7 +944,7 @@
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 0.5rem;
-  border: 1px solid var(--border, var(--bg-2));
+  border: 1px solid var(--border);
   background-color: var(--bg-1);
   color: var(--muted);
   cursor: pointer;
@@ -930,8 +953,8 @@
 
 .theme-toggle:hover {
   color: var(--fg);
-  border-color: var(--accent-1);
-  background-color: var(--glow-1, rgba(122, 81, 246, 0.05));
+  border-color: var(--accent);
+  background-color: var(--glow-1, rgba(0, 189, 125, 0.05));
 }
 
 /* Responsive Design */
@@ -998,13 +1021,13 @@
   }
 }
 
-/* Focus Management */
+/* Focus Management - UPDATED TO GREEN */
 .landing-btn:focus-visible,
 .nav-link:focus-visible,
 .theme-toggle:focus-visible,
 .social-icon:focus-visible,
 .email-subscribe-button:focus-visible {
-  outline: 2px solid var(--accent-1);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
