@@ -1187,15 +1187,15 @@
 /* Mobile-specific adjustments - PREVENT LAYOUT SHIFT */
 @media (max-width: 430px) {
   .hero-title-container {
-    min-height: 12rem !important; /* Ensure adequate space for multi-line text */
+    min-height: 16rem !important; /* Increased for larger mobile text */
   }
   
   .typing-text {
-    font-size: clamp(1.5rem, 4vw, 2rem) !important; /* Smaller font size on mobile */
+    font-size: clamp(3rem, 8vw, 4rem) !important; /* Larger font size on mobile */
     line-height: 1.2 !important; /* Adjust line height for mobile */
   }
   
-  /* Adjust hero section padding to optimize viewport usage */
+  /* Adjust hero section padding to optimize viewport visibility */
   .hero-section {
     padding-top: 2rem;
     padding-bottom: 2rem;
@@ -1206,6 +1206,12 @@
     flex-direction: row; /* Keep on one line */
     max-width: calc(100vw - 2rem);
     margin: 0 auto;
+  }
+  
+  /* Mobile logo size increase - 25% larger to match theme toggle height */
+  .landing-header .flex #header-logo img {
+    height: 2.5rem !important; /* Increased from h-8 (2rem) to match theme toggle */
+    width: auto;
   }
 }
 
