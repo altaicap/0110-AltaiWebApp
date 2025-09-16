@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
-import { TrendingUp, BarChart3, FileText, PlayCircle, Users, Shield, Zap, ArrowRight, Star, CheckCircle, Sun, Moon } from 'lucide-react';
+import { TrendingUp, BarChart3, FileText, PlayCircle, Users, Shield, Zap, ArrowRight, Star, CheckCircle, Sun, Moon, Play } from 'lucide-react';
 
-// Import logos (screenshots commented out for now)
+// Import logos
 import AltaiLogo from '../assets/altai-logo.svg';
 import AltaiLogoDark from '../assets/altai-logo-dark.svg';
 import PolygonLogo from '../assets/polygon-logo.png';
@@ -12,9 +12,9 @@ import NewsWareLogo from '../assets/newsware-logo.png';
 import TradeXchangeLogo from '../assets/tradexchange-logo.png';
 import TradeStationLogo from '../assets/tradestation-logo.png';
 import IBKRLogo from '../assets/ibkr-logo.png';
-// import StrategiesScreenshot from '../assets/strategies-screenshot.png';
-// import BacktestScreenshot from '../assets/backtest-screenshot.png';
-// import NewsScreenshot from '../assets/news-screenshot.png';
+
+// Import the Laravel-inspired styles
+import '../styles/LandingPage.css';
 
 const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onToggleTheme }) => {
   // Typing animation state
@@ -41,8 +41,21 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
     "Log manual trades and let AI boost performance"
   ];
 
-  // Typing animation effect
+  // Check if user prefers reduced motion
+  const prefersReducedMotion = useRef(false);
+  
   useEffect(() => {
+    prefersReducedMotion.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }, []);
+
+  // Typing animation effect - respects prefers-reduced-motion
+  useEffect(() => {
+    if (prefersReducedMotion.current) {
+      // For users who prefer reduced motion, show the first phrase statically
+      setCurrentText(phrases[0]);
+      return;
+    }
+
     const typeSpeed = 100;
     const deleteSpeed = 50;
     const pauseTime = 3000;
@@ -71,6 +84,11 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
 
   // Cursor blinking effect
   useEffect(() => {
+    if (prefersReducedMotion.current) {
+      setShowCursor(true);
+      return;
+    }
+
     const cursor = setInterval(() => {
       setShowCursor(prev => !prev);
     }, 530);
@@ -92,442 +110,396 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
     }
   };
 
-  // Preview image alternates (temporarily disabled - no screenshots available)
-  // const previewImages = {
-  //   strategies: [StrategiesScreenshot, BacktestScreenshot],
-  //   backtest: [BacktestScreenshot, StrategiesScreenshot], 
-  //   news: [NewsScreenshot, StrategiesScreenshot]
-  // };
-
   return (
-    <div className={`min-h-screen ${isDarkTheme ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
-      {/* Header */}
-      <header className={`border-b ${isDarkTheme ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'} sticky top-0 z-50`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <img 
-                src={isDarkTheme ? AltaiLogoDark : AltaiLogo} 
-                alt="Altai Trader" 
-                className="h-8 w-auto"
-              />
-              <h1 className="ml-2 text-xl font-bold">Altai Trader</h1>
-            </div>
-            
-            {/* Navigation Menu */}
-            <nav className="hidden md:flex space-x-8">
-              <button
-                onClick={() => scrollToSection('home')}
-                className={`text-sm font-medium transition-colors ${
-                  activeSection === 'home' 
-                    ? 'text-blue-600' 
-                    : isDarkTheme ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                Home
-              </button>
-              <button
-                onClick={() => scrollToSection('features')}
-                className={`text-sm font-medium transition-colors ${
-                  activeSection === 'features' 
-                    ? 'text-blue-600' 
-                    : isDarkTheme ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                Features
-              </button>
-              <button
-                onClick={() => scrollToSection('pricing')}
-                className={`text-sm font-medium transition-colors ${
-                  activeSection === 'pricing' 
-                    ? 'text-blue-600' 
-                    : isDarkTheme ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                Pricing
-              </button>
-              <button
-                onClick={() => scrollToSection('connections')}
-                className={`text-sm font-medium transition-colors ${
-                  activeSection === 'connections' 
-                    ? 'text-blue-600' 
-                    : isDarkTheme ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                Connections
-              </button>
-            </nav>
+    <div className={`landing-page-container ${isDarkTheme ? 'dark' : ''}`}>
+      <div className="landing-content">
+        {/* Header */}
+        <header className="landing-header sticky top-0 z-50">
+          <div className="landing-container">
+            <div className="flex justify-between items-center h-16">
+              <div className="flex items-center">
+                <img 
+                  src={isDarkTheme ? AltaiLogoDark : AltaiLogo} 
+                  alt="Altai Trader" 
+                  className="h-8 w-auto"
+                />
+                <h1 className="ml-2 text-xl font-bold">Altai Trader</h1>
+              </div>
+              
+              {/* Navigation Menu */}
+              <nav className="hidden md:flex space-x-8">
+                <button
+                  onClick={() => scrollToSection('home')}
+                  className={`nav-link ${activeSection === 'home' ? 'active' : ''}`}
+                >
+                  Home
+                </button>
+                <button
+                  onClick={() => scrollToSection('features')}
+                  className={`nav-link ${activeSection === 'features' ? 'active' : ''}`}
+                >
+                  Features
+                </button>
+                <button
+                  onClick={() => scrollToSection('pricing')}
+                  className={`nav-link ${activeSection === 'pricing' ? 'active' : ''}`}
+                >
+                  Pricing
+                </button>
+                <button
+                  onClick={() => scrollToSection('connections')}
+                  className={`nav-link ${activeSection === 'connections' ? 'active' : ''}`}
+                >
+                  Connections
+                </button>
+              </nav>
 
-            <div className="flex items-center space-x-4">
-              {/* Theme Toggle Button */}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={onToggleTheme}
-                className={`${isDarkTheme ? 'text-gray-300 hover:text-white hover:bg-gray-700' : 'text-gray-600 hover:text-gray-900'}`}
-                title={isDarkTheme ? 'Switch to light mode' : 'Switch to dark mode'}
-              >
-                {isDarkTheme ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              </Button>
+              <div className="flex items-center space-x-4">
+                {/* Theme Toggle Button */}
+                <button
+                  onClick={onToggleTheme}
+                  className="theme-toggle"
+                  title={isDarkTheme ? 'Switch to light mode' : 'Switch to dark mode'}
+                >
+                  {isDarkTheme ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                </button>
 
-              <Button variant="ghost" onClick={onSignIn}>
-                Sign In
-              </Button>
-              <Button onClick={onRegister}>
-                Register
-              </Button>
+                <button onClick={onSignIn} className="landing-btn landing-btn-ghost">
+                  Sign In
+                </button>
+                <button onClick={onRegister} className="landing-btn landing-btn-primary">
+                  Register
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* Main Banner - Extended to full height with white background */}
-      <section className="relative min-h-screen flex items-center justify-center bg-white">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="max-w-4xl mx-auto">
-            {/* Typing Animation as Main Title */}
-            <div className="mb-6">
-              <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent leading-tight min-h-[1.2em] flex items-center justify-center">
+        {/* Hero Section */}
+        <section className="landing-section-lg">
+          <div className="landing-container text-center">
+            {/* Typing Animation Hero Heading */}
+            <div className="typing-container">
+              <h1 className="typing-text">
                 {currentText}
-                <span className={`${showCursor ? 'opacity-100' : 'opacity-0'} transition-opacity text-blue-600`}>|</span>
+                <span className={`typing-cursor ${showCursor ? 'opacity-100' : 'opacity-0'}`}>|</span>
               </h1>
             </div>
             
             {/* Static Subtitle */}
-            <p className="text-xl md:text-2xl text-gray-500 mb-12 max-w-2xl mx-auto font-medium">
+            <p className="landing-subtitle max-w-2xl mx-auto mb-8">
               Maximize Your Profits with AI-Powered Algorithmic Trading
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-              <Button 
-                size="lg" 
-                className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-4"
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+              <button 
                 onClick={onRegister}
+                className="landing-btn landing-btn-primary landing-btn-lg"
               >
                 Get Started for Free
                 <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button 
-                variant="outline" 
-                size="lg"
-                className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white text-lg px-8 py-4"
+              </button>
+              <button 
                 onClick={onGoToDashboard}
+                className="landing-btn landing-btn-secondary landing-btn-lg"
               >
                 View Demo
-              </Button>
+              </button>
             </div>
-          </div>
-          
-          {/* Highlighted Figures */}
-          <div className="w-full max-w-4xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              <div className="text-gray-700">
-                <div className="text-3xl md:text-4xl font-bold mb-2 text-blue-600">5+</div>
-                <div className="text-gray-500 text-sm uppercase tracking-wide">Exchanges</div>
-              </div>
-              <div className="text-gray-700">
-                <div className="text-3xl md:text-4xl font-bold mb-2 text-blue-600">$2M+</div>
-                <div className="text-gray-500 text-sm uppercase tracking-wide">Monthly Trading Volume</div>
-              </div>
-              <div className="text-gray-700">
-                <div className="text-3xl md:text-4xl font-bold mb-2 text-blue-600">99.9%</div>
-                <div className="text-gray-500 text-sm uppercase tracking-wide">Uptime</div>
-              </div>
-              <div className="text-gray-700">
-                <div className="text-3xl md:text-4xl font-bold mb-2 text-blue-600">2k+</div>
-                <div className="text-gray-500 text-sm uppercase tracking-wide">Optimised Rs</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Features Section */}
-      <section ref={featuresRef} className={`py-20 ${isDarkTheme ? 'bg-gray-900' : 'bg-gray-50'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Everything You Need to Trade Smart</h2>
-            <p className={`text-xl ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'} max-w-2xl mx-auto`}>
-              Comprehensive trading tools designed for modern traders who demand performance and reliability
-            </p>
-          </div>
-
-          {/* Feature Cards with Integrated Previews and Hover Effects */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card 
-              className={`group cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 ${
-                isDarkTheme ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'hover:shadow-2xl'
-              }`}
-              onMouseEnter={() => setHoveredPreview('strategies')}
-              onMouseLeave={() => setHoveredPreview(null)}
-            >
-              <CardHeader>
-                <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-700 transition-colors">
-                  <TrendingUp className="h-6 w-6 text-white" />
+            {/* Video Container */}
+            <div className="video-container">
+              <div className="video-placeholder">
+                <div className="flex flex-col items-center">
+                  <Play className="h-12 w-12 mb-4 opacity-50" />
+                  <span>Product Demo Video</span>
+                  <span className="text-sm opacity-75 mt-1">Coming Soon</span>
                 </div>
-                <CardTitle className="text-xl">Real-Time Trading & Backtesting</CardTitle>
-                <CardDescription className={isDarkTheme ? 'text-gray-300' : ''}>
-                  Execute live trades and test strategies with historical data simultaneously
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="relative overflow-hidden rounded-lg">
-                  <div className={`w-full h-48 flex items-center justify-center transition-all duration-500 ${
+              </div>
+            </div>
+            
+            {/* Statistics */}
+            <div className="stats-grid">
+              <div className="stat-item">
+                <div className="stat-number">5+</div>
+                <div className="stat-label">Exchanges</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-number">$2M+</div>
+                <div className="stat-label">Monthly Trading Volume</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-number">99.9%</div>
+                <div className="stat-label">Uptime</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-number">2k+</div>
+                <div className="stat-label">Optimised Rs</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section ref={featuresRef} className="landing-section">
+          <div className="landing-container">
+            <div className="text-center mb-16">
+              <h2 className="landing-h2 mb-4">Everything You Need to Trade Smart</h2>
+              <p className="landing-subtitle max-w-2xl mx-auto">
+                Comprehensive trading tools designed for modern traders who demand performance and reliability
+              </p>
+            </div>
+
+            <div className="feature-grid">
+              <div 
+                className="landing-card group"
+                onMouseEnter={() => setHoveredPreview('strategies')}
+                onMouseLeave={() => setHoveredPreview(null)}
+              >
+                <div className="landing-card-content">
+                  <div className="icon-container icon-container-blue">
+                    <TrendingUp className="h-6 w-6" />
+                  </div>
+                  <h3 className="landing-card-title">Real-Time Trading & Backtesting</h3>
+                  <p className="landing-card-description mb-4">
+                    Execute live trades and test strategies with historical data simultaneously
+                  </p>
+                  <div className={`w-full h-48 rounded-lg flex items-center justify-center transition-all duration-500 ${
                     hoveredPreview === 'strategies' 
-                      ? (isDarkTheme ? 'bg-blue-900' : 'bg-blue-100') 
-                      : (isDarkTheme ? 'bg-gray-700' : 'bg-gray-200')
+                      ? 'bg-blue-50 dark:bg-blue-900/20' 
+                      : 'bg-gray-50 dark:bg-gray-800'
                   }`}>
                     <TrendingUp className={`w-12 h-12 ${
                       hoveredPreview === 'strategies' ? 'text-blue-500' : 'text-gray-400'
                     }`} />
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
 
-            <Card 
-              className={`group cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 ${
-                isDarkTheme ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'hover:shadow-2xl'
-              }`}
-              onMouseEnter={() => setHoveredPreview('news')}
-              onMouseLeave={() => setHoveredPreview(null)}
-            >
-              <CardHeader>
-                <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4 group-hover:bg-green-700 transition-colors">
-                  <FileText className="h-6 w-6 text-white" />
-                </div>
-                <CardTitle className="text-xl">Live News Integration into Strategy</CardTitle>
-                <CardDescription className={isDarkTheme ? 'text-gray-300' : ''}>
-                  Real-time news feeds integrated directly into your trading strategies
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="relative overflow-hidden rounded-lg">
-                  <div className={`w-full h-48 flex items-center justify-center transition-all duration-500 ${
+              <div 
+                className="landing-card group"
+                onMouseEnter={() => setHoveredPreview('news')}
+                onMouseLeave={() => setHoveredPreview(null)}
+              >
+                <div className="landing-card-content">
+                  <div className="icon-container icon-container-green">
+                    <FileText className="h-6 w-6" />
+                  </div>
+                  <h3 className="landing-card-title">Live News Integration into Strategy</h3>
+                  <p className="landing-card-description mb-4">
+                    Real-time news feeds integrated directly into your trading strategies
+                  </p>
+                  <div className={`w-full h-48 rounded-lg flex items-center justify-center transition-all duration-500 ${
                     hoveredPreview === 'news' 
-                      ? (isDarkTheme ? 'bg-green-900' : 'bg-green-100') 
-                      : (isDarkTheme ? 'bg-gray-700' : 'bg-gray-200')
+                      ? 'bg-green-50 dark:bg-green-900/20' 
+                      : 'bg-gray-50 dark:bg-gray-800'
                   }`}>
                     <FileText className={`w-12 h-12 ${
                       hoveredPreview === 'news' ? 'text-green-500' : 'text-gray-400'
                     }`} />
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
 
-            <Card 
-              className={`group cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 ${
-                isDarkTheme ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'hover:shadow-2xl'
-              }`}
-              onMouseEnter={() => setHoveredPreview('backtest')}
-              onMouseLeave={() => setHoveredPreview(null)}
-            >
-              <CardHeader>
-                <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4 group-hover:bg-purple-700 transition-colors">
-                  <BarChart3 className="h-6 w-6 text-white" />
-                </div>
-                <CardTitle className="text-xl">Advanced Backtesting & Analysis</CardTitle>
-                <CardDescription className={isDarkTheme ? 'text-gray-300' : ''}>
-                  Comprehensive backtesting with detailed performance metrics and analysis
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="relative overflow-hidden rounded-lg">
-                  <div className={`w-full h-48 flex items-center justify-center transition-all duration-500 ${
+              <div 
+                className="landing-card group"
+                onMouseEnter={() => setHoveredPreview('backtest')}
+                onMouseLeave={() => setHoveredPreview(null)}
+              >
+                <div className="landing-card-content">
+                  <div className="icon-container icon-container-purple">
+                    <BarChart3 className="h-6 w-6" />
+                  </div>
+                  <h3 className="landing-card-title">Advanced Backtesting & Analysis</h3>
+                  <p className="landing-card-description mb-4">
+                    Comprehensive backtesting with detailed performance metrics and analysis
+                  </p>
+                  <div className={`w-full h-48 rounded-lg flex items-center justify-center transition-all duration-500 ${
                     hoveredPreview === 'backtest' 
-                      ? (isDarkTheme ? 'bg-purple-900' : 'bg-purple-100') 
-                      : (isDarkTheme ? 'bg-gray-700' : 'bg-gray-200')
+                      ? 'bg-purple-50 dark:bg-purple-900/20' 
+                      : 'bg-gray-50 dark:bg-gray-800'
                   }`}>
                     <BarChart3 className={`w-12 h-12 ${
                       hoveredPreview === 'backtest' ? 'text-purple-500' : 'text-gray-400'
                     }`} />
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* See Altai Trader in Action */}
-      <section className={`py-20 ${isDarkTheme ? 'bg-gray-800' : 'bg-white'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-4">See Altai Trader in Action</h2>
-          <p className={`text-xl ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'} mb-8 max-w-2xl mx-auto`}>
-            Experience the power of professional trading tools designed for serious traders
-          </p>
-          <Button 
-            size="lg" 
-            onClick={onGoToDashboard}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4"
-          >
-            Try Demo Now
-            <PlayCircle className="ml-2 h-5 w-5" />
-          </Button>
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section ref={pricingRef} className={`py-20 ${isDarkTheme ? 'bg-gray-900' : 'bg-gray-50'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Pricing</h2>
-            <p className={`text-xl ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'} max-w-2xl mx-auto`}>
-              Choose the perfect plan for your trading needs
+        {/* See Altai Trader in Action */}
+        <section className="landing-section">
+          <div className="landing-container text-center">
+            <h2 className="landing-h2 mb-4">See Altai Trader in Action</h2>
+            <p className="landing-subtitle mb-8 max-w-2xl mx-auto">
+              Experience the power of professional trading tools designed for serious traders
             </p>
+            <button 
+              onClick={onGoToDashboard}
+              className="landing-btn landing-btn-primary landing-btn-lg"
+            >
+              Try Demo Now
+              <PlayCircle className="ml-2 h-5 w-5" />
+            </button>
           </div>
+        </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Basic Plan */}
-            <Card className={`${isDarkTheme ? 'bg-gray-800 border-gray-700' : ''} transition-all duration-300 hover:shadow-xl`}>
-              <CardHeader>
-                <CardTitle className="text-2xl">Basic</CardTitle>
-                <div className="flex items-baseline">
-                  <span className="text-4xl font-bold">$34.99</span>
-                  <span className={`ml-2 ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>/month</span>
+        {/* Pricing Section */}
+        <section ref={pricingRef} className="landing-section">
+          <div className="landing-container">
+            <div className="text-center mb-16">
+              <h2 className="landing-h2 mb-4">Pricing</h2>
+              <p className="landing-subtitle max-w-2xl mx-auto">
+                Choose the perfect plan for your trading needs
+              </p>
+            </div>
+
+            <div className="pricing-grid">
+              {/* Basic Plan */}
+              <div className="landing-card pricing-card">
+                <div className="landing-card-content">
+                  <h3 className="landing-card-title text-center">Basic</h3>
+                  <div className="price-display justify-center">
+                    <span className="price-amount">$34.99</span>
+                    <span className="price-period">/month</span>
+                  </div>
+                  <ul className="feature-list">
+                    <li className="feature-item">
+                      <CheckCircle className="feature-icon" />
+                      <span>Backtesting</span>
+                    </li>
+                    <li className="feature-item">
+                      <CheckCircle className="feature-icon" />
+                      <span>Trading Log</span>
+                    </li>
+                  </ul>
+                  <button className="landing-btn landing-btn-secondary w-full">
+                    Get Started
+                  </button>
                 </div>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  <li className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
-                    <span>Backtesting</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
-                    <span>Trading Log</span>
-                  </li>
-                </ul>
-                <Button className="w-full mt-6" variant="outline">
-                  Get Started
-                </Button>
-              </CardContent>
-            </Card>
+              </div>
 
-            {/* Pro Plan */}
-            <Card className={`${isDarkTheme ? 'bg-gray-800 border-gray-700' : ''} transition-all duration-300 hover:shadow-xl`}>
-              <CardHeader>
-                <CardTitle className="text-2xl">Pro</CardTitle>
-                <div className="flex items-baseline">
-                  <span className="text-4xl font-bold">$69.99</span>
-                  <span className={`ml-2 ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>/month</span>
+              {/* Pro Plan */}
+              <div className="landing-card pricing-card">
+                <div className="landing-card-content">
+                  <h3 className="landing-card-title text-center">Pro</h3>
+                  <div className="price-display justify-center">
+                    <span className="price-amount">$69.99</span>
+                    <span className="price-period">/month</span>
+                  </div>
+                  <ul className="feature-list">
+                    <li className="feature-item">
+                      <CheckCircle className="feature-icon" />
+                      <span>Backtesting</span>
+                    </li>
+                    <li className="feature-item">
+                      <CheckCircle className="feature-icon" />
+                      <span>Trading Log</span>
+                    </li>
+                    <li className="feature-item">
+                      <CheckCircle className="feature-icon" />
+                      <span>5 Live Strategies</span>
+                    </li>
+                  </ul>
+                  <button className="landing-btn landing-btn-secondary w-full">
+                    Get Started
+                  </button>
                 </div>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  <li className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
-                    <span>Backtesting</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
-                    <span>Trading Log</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
-                    <span>5 Live Strategies</span>
-                  </li>
-                </ul>
-                <Button className="w-full mt-6" variant="outline">
-                  Get Started
-                </Button>
-              </CardContent>
-            </Card>
+              </div>
 
-            {/* Max Plan */}
-            <Card className={`${isDarkTheme ? 'bg-gray-800 border-gray-700' : ''} relative transition-all duration-300 hover:shadow-xl border-blue-600`}>
-              <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-600">
-                Most Popular
-              </Badge>
-              <CardHeader>
-                <CardTitle className="text-2xl">Max</CardTitle>
-                <div className="flex items-baseline">
-                  <span className="text-4xl font-bold">$119.99</span>
-                  <span className={`ml-2 ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>/month</span>
+              {/* Max Plan */}
+              <div className="landing-card pricing-card">
+                <div className="pricing-badge">Most Popular</div>
+                <div className="landing-card-content">
+                  <h3 className="landing-card-title text-center">Max</h3>
+                  <div className="price-display justify-center">
+                    <span className="price-amount">$119.99</span>
+                    <span className="price-period">/month</span>
+                  </div>
+                  <ul className="feature-list">
+                    <li className="feature-item">
+                      <CheckCircle className="feature-icon" />
+                      <span>Backtesting</span>
+                    </li>
+                    <li className="feature-item">
+                      <CheckCircle className="feature-icon" />
+                      <span>Trading Log</span>
+                    </li>
+                    <li className="feature-item">
+                      <CheckCircle className="feature-icon" />
+                      <span>Unlimited Live Strategies</span>
+                    </li>
+                    <li className="feature-item">
+                      <CheckCircle className="feature-icon" />
+                      <span>AI Assistant</span>
+                    </li>
+                  </ul>
+                  <button className="landing-btn landing-btn-primary w-full">
+                    Get Started
+                  </button>
                 </div>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  <li className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
-                    <span>Backtesting</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
-                    <span>Trading Log</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
-                    <span>Unlimited Live Strategies</span>
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-green-500 mr-3" />
-                    <span>AI Assistant</span>
-                  </li>
-                </ul>
-                <Button className="w-full mt-6 bg-blue-600 hover:bg-blue-700">
-                  Get Started
-                </Button>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Available Connections */}
-      <section ref={connectionsRef} className={`py-20 ${isDarkTheme ? 'bg-gray-800' : 'bg-white'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Available Connections</h2>
-            <p className={`text-xl ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'} max-w-2xl mx-auto`}>
-              Connect with leading financial data providers and brokers
-            </p>
-          </div>
+        {/* Available Connections */}
+        <section ref={connectionsRef} className="landing-section">
+          <div className="landing-container">
+            <div className="text-center mb-16">
+              <h2 className="landing-h2 mb-4">Available Connections</h2>
+              <p className="landing-subtitle max-w-2xl mx-auto">
+                Connect with leading financial data providers and brokers
+              </p>
+            </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 items-center justify-items-center">
-            <div className="flex flex-col items-center">
-              <img src={PolygonLogo} alt="Polygon" className="h-12 w-auto mb-2 opacity-70 hover:opacity-100 transition-opacity object-contain" />
-              <span className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>Polygon</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <img src={NewsWareLogo} alt="NewsWare" className="h-12 w-auto mb-2 opacity-70 hover:opacity-100 transition-opacity object-contain" />
-              <span className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>NewsWare</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <img src={TradeXchangeLogo} alt="TradeXchange" className="h-12 w-auto mb-2 opacity-70 hover:opacity-100 transition-opacity object-contain" />
-              <span className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>TradeXchange</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <img src={TradeStationLogo} alt="TradeStation" className="h-12 w-auto mb-2 opacity-70 hover:opacity-100 transition-opacity object-contain" />
-              <span className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>TradeStation</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <img src={IBKRLogo} alt="Interactive Brokers" className="h-12 w-auto mb-2 opacity-70 hover:opacity-100 transition-opacity object-contain" />
-              <span className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>IBKR</span>
+            <div className="logo-grid">
+              <div className="logo-item">
+                <img src={PolygonLogo} alt="Polygon" className="logo-image" />
+                <span className="logo-label">Polygon</span>
+              </div>
+              <div className="logo-item">
+                <img src={NewsWareLogo} alt="NewsWare" className="logo-image" />
+                <span className="logo-label">NewsWare</span>
+              </div>
+              <div className="logo-item">
+                <img src={TradeXchangeLogo} alt="TradeXchange" className="logo-image" />
+                <span className="logo-label">TradeXchange</span>
+              </div>
+              <div className="logo-item">
+                <img src={TradeStationLogo} alt="TradeStation" className="logo-image" />
+                <span className="logo-label">TradeStation</span>
+              </div>
+              <div className="logo-item">
+                <img src={IBKRLogo} alt="Interactive Brokers" className="logo-image" />
+                <span className="logo-label">IBKR</span>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Footer */}
-      <footer className={`py-12 ${isDarkTheme ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'} border-t`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center mb-4 md:mb-0">
-              <img 
-                src={isDarkTheme ? AltaiLogoDark : AltaiLogo} 
-                alt="Altai Trader" 
-                className="h-6 w-auto"
-              />
-              <span className="ml-2 text-lg font-bold">Altai Trader</span>
-            </div>
-            <div className={`text-sm ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>
-              © 2025 Altai Trader. All rights reserved.
+        {/* Footer */}
+        <footer className="landing-section-sm border-t border-gray-200 dark:border-gray-800">
+          <div className="landing-container">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <div className="flex items-center mb-4 md:mb-0">
+                <img 
+                  src={isDarkTheme ? AltaiLogoDark : AltaiLogo} 
+                  alt="Altai Trader" 
+                  className="h-6 w-auto"
+                />
+                <span className="ml-2 text-lg font-bold">Altai Trader</span>
+              </div>
+              <div className="landing-body">
+                © 2025 Altai Trader. All rights reserved.
+              </div>
             </div>
           </div>
-        </div>
-      </footer>
+        </footer>
+      </div>
     </div>
   );
 };
