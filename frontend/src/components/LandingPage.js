@@ -454,6 +454,12 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                   <p className="landing-card-description">
                     Deploy to paper or live trading with broker routing - no middleman and no webhook - orders submitted straight from your script to your broker.
                   </p>
+                  {/* Product Image Placeholder */}
+                  <div className="product-image-placeholder">
+                    <div className="placeholder-content">
+                      <span className="placeholder-text">Product Screenshot</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
