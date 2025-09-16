@@ -41,8 +41,8 @@
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-tomorrow: 'Tomorrow', -apple-system, BlinkMacSystemFont, sans-serif;
   
-  /* Light theme glass overlay */
-  --header-glass: rgba(255, 255, 255, 0.70);
+  /* Light theme glass overlay - INCREASED TRANSPARENCY */
+  --header-glass: rgba(255, 255, 255, 0.55); /* Reduced from 0.70 to 0.55 (15% more transparent) */
   
   /* Light theme shimmer */
   --shimmer-light: rgba(14, 109, 115, 0.08); /* Updated to match new accent */
