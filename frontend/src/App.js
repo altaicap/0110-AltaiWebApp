@@ -5185,6 +5185,36 @@ metadata = {
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-default">
                     <div className="flex items-center gap-2 w-full">
+                      <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.robinhood)}`} />
+                      <span className="flex-1">Robinhood</span>
+                      <span className="text-xs text-muted-foreground">
+                        {integrationStatus.robinhood === 'connected' ? 'Connected' : 
+                         integrationStatus.robinhood === 'warning' ? 'Warning' : 'Disconnected'}
+                      </span>
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-default">
+                    <div className="flex items-center gap-2 w-full">
+                      <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.coinbase)}`} />
+                      <span className="flex-1">Coinbase</span>
+                      <span className="text-xs text-muted-foreground">
+                        {integrationStatus.coinbase === 'connected' ? 'Connected' : 
+                         integrationStatus.coinbase === 'warning' ? 'Warning' : 'Disconnected'}
+                      </span>
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-default">
+                    <div className="flex items-center gap-2 w-full">
+                      <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.kraken)}`} />
+                      <span className="flex-1">Kraken</span>
+                      <span className="text-xs text-muted-foreground">
+                        {integrationStatus.kraken === 'connected' ? 'Connected' : 
+                         integrationStatus.kraken === 'warning' ? 'Warning' : 'Disconnected'}
+                      </span>
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-default">
+                    <div className="flex items-center gap-2 w-full">
                       <div className="w-3 h-3 rounded-full bg-green-500" />
                       <span className="flex-1">Claude</span>
                       <span className="text-xs text-muted-foreground">Connected</span>
