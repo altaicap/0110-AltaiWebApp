@@ -209,6 +209,32 @@
   -webkit-backdrop-filter: none;
 }
 
+/* Header Navigation Centering */
+.landing-header .landing-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.landing-header nav {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Desktop Header Brand Sizing - INCREASED BY 15% */
+@media (min-width: 768px) {
+  .landing-header #header-logo img {
+    height: 2.3rem; /* Increased from 2rem (h-8) by 15% */
+    width: auto;
+  }
+  
+  .landing-header #header-logo h1 {
+    font-size: 1.38rem; /* Increased from 1.2rem by 15% */
+  }
+}
+
 /* Dark theme: transparency and blur effects */
 .landing-page-container.dark .landing-header {
   background-color: var(--header-glass) !important;
