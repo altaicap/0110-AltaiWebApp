@@ -195,7 +195,7 @@
   z-index: 1;
 }
 
-/* Header Styling - UPDATED FOR NIGHTWATCH STYLE */
+/* Header Styling - FIXED LAYOUT WITH CENTERED NAVIGATION */
 .landing-header {
   position: sticky;
   top: 0;
@@ -209,18 +209,21 @@
   -webkit-backdrop-filter: none;
 }
 
-/* Header Navigation Centering */
+/* Header container layout - RESTORED PROPER STRUCTURE */
 .landing-header .landing-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative;
+  height: 4rem;
 }
 
+/* Navigation centering - IMPROVED APPROACH */
 .landing-header nav {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  gap: 2rem;
 }
 
 /* Desktop Header Brand Sizing - INCREASED BY 15% */
