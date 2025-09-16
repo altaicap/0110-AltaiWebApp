@@ -626,8 +626,9 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                 </div>
               </div>
 
-              {/* Max Plan - REMOVED BADGE, NORMALIZED SPACING */}
+              {/* Max Plan - ADDED ORANGE RECOMMENDED BADGE */}
               <div className="landing-card pricing-card">
+                <div className="recommended-badge-orange">Recommended</div>
                 <div className="landing-card-content">
                   <h3 className="landing-card-title text-center">Max</h3>
                   <div className="price-display justify-center">
