@@ -461,7 +461,7 @@
   font-size: 1rem;
 }
 
-/* Icon Containers */
+/* Icon Containers - RESTORED ORIGINAL COLORS */
 .icon-container {
   width: 3rem;
   height: 3rem;
@@ -474,8 +474,8 @@
 }
 
 .icon-container-blue {
-  background-color: var(--glow-2);
-  color: var(--accent-2);
+  background-color: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
 }
 
 .icon-container-green {
@@ -484,8 +484,8 @@
 }
 
 .icon-container-purple {
-  background-color: var(--glow-1);
-  color: var(--accent-1);
+  background-color: rgba(147, 51, 234, 0.1);
+  color: #9333ea;
 }
 
 .icon-container-orange {
