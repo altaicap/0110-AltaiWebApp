@@ -625,17 +625,19 @@
   border-color: var(--accent);
 }
 
-/* Feature Cards Hover Glow - INCREASED INTENSITY AND RADIUS */
+/* Feature Cards Hover Glow - SIGNIFICANTLY INCREASED RADIUS AND TRANSPARENCY */
 .feature-grid-six .landing-card:hover {
   box-shadow: 
-    0 0 40px rgba(0, 189, 125, 0.25), /* Increased radius and intensity */
+    0 0 80px rgba(0, 189, 125, 0.35), /* Significantly increased radius and transparency */
+    0 0 40px rgba(0, 189, 125, 0.25),
     0 0 20px rgba(0, 189, 125, 0.15),
     var(--shadow-medium);
 }
 
 .landing-page-container:not(.dark) .feature-grid-six .landing-card:hover {
   box-shadow: 
-    0 0 40px rgba(14, 109, 115, 0.25), /* Increased radius and intensity */
+    0 0 80px rgba(14, 109, 115, 0.35), /* Significantly increased radius and transparency */
+    0 0 40px rgba(14, 109, 115, 0.25),
     0 0 20px rgba(14, 109, 115, 0.15),
     var(--shadow-medium);
 }
