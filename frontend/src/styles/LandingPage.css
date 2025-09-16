@@ -1245,6 +1245,36 @@
   outline-offset: 2px;
 }
 
+/* Product Image Placeholders */
+.product-image-placeholder {
+  margin-top: 1.5rem;
+  width: 100%;
+  height: 8rem;
+  border-radius: 0.75rem;
+  border: 2px dashed var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-1);
+  transition: all 0.2s ease;
+}
+
+.product-image-placeholder:hover {
+  border-color: var(--accent);
+  background-color: var(--bg-2);
+}
+
+.placeholder-content {
+  text-align: center;
+  color: var(--muted);
+}
+
+.placeholder-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: var(--font-sans);
+}
+
 /* Animation Performance Optimizations */
 .landing-card,
 .landing-btn,
