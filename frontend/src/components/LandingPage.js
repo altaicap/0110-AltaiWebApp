@@ -37,7 +37,7 @@ import CoinbaseLogo from '../assets/coinbase-logo-square.png';
 import KrakenLogo from '../assets/kraken-logo-square.jpg';
 import TradeStationLogo from '../assets/tradestation-logo-square.png';
 import IBKRLogo from '../assets/ibkr-logo-square.png';
-import PolygonLogo from '../assets/polygon-logo.png';
+import PolygonLogo from '../assets/polygon-logo-square.png';
 import NewsWareLogo from '../assets/newsware-logo.png';
 import TradeXchangeLogoNew from '../assets/tradexchange-logo-new.png'; // NEW LOGO
 
