@@ -786,6 +786,12 @@
   color: #ffffff !important;
 }
 
+[data-theme="light"] .llm-send-btn:disabled {
+  opacity: 0.45;
+  background: #9ca3af !important;
+  color: #ffffff !important;
+}
+
 [data-theme="light"] .llm-attachment-btn {
   color: var(--accent-ui);
   border: 1px solid #d1d5db;
