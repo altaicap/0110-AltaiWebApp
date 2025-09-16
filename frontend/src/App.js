@@ -5122,7 +5122,7 @@ metadata = {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="sm" className="text-xs">
-                    Connection Statuses {Object.values(integrationStatus).filter(status => status === 'connected').length}/7
+                    Connection Statuses {Object.values(integrationStatus).filter(status => status === 'connected').length}/10
                     <ChevronDown className="h-3 w-3 ml-1" />
                   </Button>
                 </DropdownMenuTrigger>
