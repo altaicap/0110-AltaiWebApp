@@ -286,52 +286,73 @@
   color: #0a5d63 !important; /* Slightly darker green on hover */
 }
 
-/* Left AI Assistant Pane - DARKER THAN GREY, LIGHTER THAN HEADER */
+/* Left AI Assistant Pane - TRANSPARENT HEADER TO SHOW SHIMMER */
 [data-theme="dark"] .ai-assistant-pane {
-  background: var(--dashboard-llm-bg) !important;
+  background: transparent !important; /* Let shimmer show through */
   border-right: 1px solid var(--dashboard-border);
-  padding: 2rem 1.5rem; /* Match right-hand content padding */
+  padding: 2rem 1.5rem;
 }
 
-/* LLM Header Block - Matches Right-Hand Content Header */
-[data-theme="dark"] .llm-header-block {
-  margin-bottom: 1.5rem;
+/* LLM Header - TRANSPARENT TO EXPOSE SHIMMER BACKGROUND */
+[data-theme="dark"] .llm-header-transparent {
+  background: transparent; /* No opaque fill - shimmer shows through */
+  border: none;
+  margin-bottom: 1rem; /* Reduced from 1.5rem to align panel better */
 }
 
-[data-theme="dark"] .llm-header-block h2 {
+[data-theme="dark"] .llm-header-transparent h2 {
   color: var(--dashboard-fg);
   font-size: 1.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); /* Subtle shadow for contrast over shimmer */
 }
 
 [data-theme="dark"] .llm-description {
   color: var(--dashboard-muted);
   font-size: 1rem;
   line-height: 1.5;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem; /* Reduced spacing to align panel */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Subtle shadow for readability */
 }
 
 [data-theme="dark"] .llm-clear-button {
   color: var(--dashboard-muted);
   opacity: 0.82;
   transition: all 0.15s ease;
+  background: rgba(9, 13, 13, 0.6); /* Subtle background for visibility over shimmer */
+  backdrop-filter: blur(8px);
 }
 
 [data-theme="dark"] .llm-clear-button:hover {
   color: var(--dashboard-fg);
   opacity: 1.0;
+  background: rgba(9, 13, 13, 0.8);
 }
 
-/* LLM Suggestions - Outside Panel */
-[data-theme="dark"] .llm-suggestions {
-  color: var(--dashboard-muted);
-  font-size: 0.875rem;
-  line-height: 1.4;
+/* LLM Chat Panel - ALIGNED WITH RIGHT-HAND PANELS */
+[data-theme="dark"] .llm-chat-panel {
+  background: var(--dashboard-card-gradient);
+  border: 1px solid var(--dashboard-border);
+  border-radius: 0.875rem; /* 14px */
+  overflow: hidden;
+  min-height: 24rem;
+  margin-top: 0; /* No extra top margin - aligns with right panels */
 }
 
-[data-theme="dark"] .llm-suggestions strong {
+/* Try Asking Examples - INSIDE WELCOME MESSAGE */
+[data-theme="dark"] .llm-try-asking-examples {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--dashboard-border);
+}
+
+[data-theme="dark"] .llm-try-asking-examples strong {
   color: var(--dashboard-fg);
+}
+
+[data-theme="dark"] .llm-try-asking-examples p {
+  color: var(--dashboard-muted);
 }
 
 /* LLM Chat Panel - Matches Dashboard Cards */
