@@ -18,10 +18,10 @@ body {
   background-color: #f9fafb;
 }
 
-/* Dark Theme - Deep Blacks and Refined Colors */
+/* Dark Theme - Laravel Nightwatch Green + Black */
 [data-theme="dark"] {
-  background-color: #0a0a0a;
-  color: #f9fafb;
+  background-color: #090D0D; /* Nightwatch black */
+  color: #FBFCFC; /* White foreground */
 }
 
 [data-theme="dark"] .bg-white {
