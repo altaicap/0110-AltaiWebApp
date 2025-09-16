@@ -410,13 +410,13 @@
 }
 
 /* Light theme generic UI icons */
-[data-theme="light"] .icon,
-[data-theme="light"] .btn-icon > svg,
-[data-theme="light"] .toolbar .icon,
-[data-theme="light"] .card .icon,
-[data-theme="light"] .chip .icon,
-[data-theme="light"] button:not(.theme-toggle) svg,
-[data-theme="light"] [role="button"]:not(.theme-toggle) svg,
+[data-theme="light"] .icon:not(.theme-toggle svg):not(.lucide-sun),
+[data-theme="light"] .btn-icon:not(.theme-toggle) > svg,
+[data-theme="light"] .toolbar .icon:not(.theme-toggle svg),
+[data-theme="light"] .card .icon:not(.theme-toggle svg),
+[data-theme="light"] .chip .icon:not(.theme-toggle svg),
+[data-theme="light"] button:not(.theme-toggle):not([aria-label*="theme"]) svg,
+[data-theme="light"] [role="button"]:not(.theme-toggle):not([aria-label*="theme"]) svg,
 [data-theme="light"] .send-button svg,
 [data-theme="light"] .expand-icon,
 [data-theme="light"] .collapse-icon,
@@ -426,10 +426,34 @@
 [data-theme="light"] .action-icon,
 [data-theme="light"] .toggle-handle,
 [data-theme="light"] .radio-indicator,
-[data-theme="light"] .switch-thumb {
+[data-theme="light"] .switch-thumb,
+[data-theme="light"] .profile-icon,
+[data-theme="light"] .user-icon,
+[data-theme="light"] .lucide-user {
   color: var(--accent-ui) !important;
   opacity: 0.82;
   transition: all 0.15s ease;
+}
+
+/* Profile icon specific styling - Dashboard */
+[data-theme="light"] .profile-icon,
+[data-theme="light"] .user-icon,
+[data-theme="light"] .lucide-user {
+  color: #0E6D73 !important; /* Ensure profile icon is visible in light theme */
+  opacity: 0.9 !important;
+}
+
+/* CTA/Action button arrow visibility - Dashboard */
+[data-theme="light"] .get-started-arrow,
+[data-theme="light"] .cta-arrow,
+[data-theme="light"] .arrow-right,
+[data-theme="light"] .lucide-arrow-right,
+[data-theme="dark"] .get-started-arrow,
+[data-theme="dark"] .cta-arrow,
+[data-theme="dark"] .arrow-right,
+[data-theme="dark"] .lucide-arrow-right {
+  color: currentColor !important; /* Use button's text color */
+  opacity: 1 !important;
 }
 
 /* Light theme hover states */
