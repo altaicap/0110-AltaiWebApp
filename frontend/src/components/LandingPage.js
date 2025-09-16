@@ -382,7 +382,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
             
             {/* Static Subtitle - FIXED POSITION */}
             <p className="landing-subtitle max-w-2xl mx-auto mb-8">
-              Write strategies with AI, backtest in seconds, and log every trade—algo or manual—no webhooks, no lag.
+              Write strategies with AI, backtest in seconds, and log every trade — algo or manual — no webhooks, no lag.
             </p>
             
             {/* CTA Buttons - FIXED POSITION */}
