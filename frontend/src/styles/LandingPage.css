@@ -297,9 +297,9 @@
 
 /* Dark theme: transparency and blur effects */
 .landing-page-container.dark .landing-header {
-  background-color: var(--header-glass) !important;
-  backdrop-filter: blur(9px) !important;
-  -webkit-backdrop-filter: blur(9px) !important;
+  background: rgba(9, 13, 13, 0.72) !important; /* --glass tone */
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
   border-bottom: 1px solid var(--border) !important;
 }
 
