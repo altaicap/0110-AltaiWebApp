@@ -690,7 +690,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                     </li>
                     <li className="feature-item">
                       <CheckCircle className="feature-icon" />
-                      <span>AI Assistant (200 free monthly credits)</span>
+                      <span>AI Assistant (unlimited credits)</span>
                     </li>
                     <li className="feature-item">
                       <CheckCircle className="feature-icon" />
