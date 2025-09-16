@@ -874,19 +874,18 @@
 /* Pricing Grid with proper spacing for badge */
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmin(280px, 1fr));
   gap: 2rem;
   margin: 3rem 0;
   max-width: 60rem;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 1.5rem; /* Add padding to accommodate the badge */
+  padding-top: 2.5rem; /* Increased padding to accommodate the badge */
 }
 
-/* Pricing Card Layout - NORMALIZED BOTTOM SPACING */
 .pricing-card {
   position: relative;
-  margin-top: 0.5rem; /* Additional margin for badge space */
+  margin-top: 1rem; /* Additional margin for badge space */
   display: flex;
   flex-direction: column;
 }
