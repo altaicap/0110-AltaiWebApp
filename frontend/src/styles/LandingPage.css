@@ -405,7 +405,7 @@
   background: none;
   -webkit-background-clip: initial;
   background-clip: initial;
-  font-family: var(--font-display);
+  font-family: var(--font-tomorrow); /* CHANGED to Tomorrow font */
   font-size: clamp(4rem, 10vw, 3.75rem); /* DOUBLED mobile font size */
   font-weight: 700;
   line-height: 1.1;
@@ -420,7 +420,7 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: var(--accent); /* Fallback */
-  font-family: var(--font-display);
+  font-family: var(--font-tomorrow); /* CHANGED to Tomorrow font */
   font-size: clamp(4rem, 10vw, 3.75rem); /* DOUBLED mobile font size */
   font-weight: 700;
   line-height: 1.1;
