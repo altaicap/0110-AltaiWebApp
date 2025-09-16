@@ -29,7 +29,7 @@ body {
 }
 
 [data-theme="dark"] .bg-gray-50 {
-  background-color: #0a0a0a !important;
+  background-color: #090D0D !important; /* Nightwatch black */
 }
 
 [data-theme="dark"] .text-gray-900 {
