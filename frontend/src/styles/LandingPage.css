@@ -123,13 +123,13 @@
   opacity: 0.6;
 }
 
-/* Light Theme Shimmer - PALE TEAL GREEN */
+/* Light Theme Shimmer - INCREASED VISIBILITY */
 .landing-page-container:not(.dark)::before {
   background: linear-gradient(
     110deg,
     transparent 25%,
     var(--shimmer-light) 50%,
-    rgba(14, 109, 115, 0.04) 55%,
+    rgba(14, 109, 115, 0.08) 55%, /* Increased secondary shimmer visibility */
     transparent 75%
   );
   background-size: 200% 100%;
