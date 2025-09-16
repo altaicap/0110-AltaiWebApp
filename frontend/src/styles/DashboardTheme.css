@@ -855,37 +855,51 @@
   z-index: 1;
 }
 
-/* Segmented Tabs - PROPERLY CONTAINED ACTIVE PILL - FIXED SIZE */
+/* TABS INTERFACE - CENTERED WITH EQUAL SPACING */
+.tabs-container-centered {
+  margin-inline: auto;
+  padding-inline: 1.5rem; /* Equal spacing on both sides */
+  max-width: calc(100% - 3rem); /* Account for total padding */
+}
+
+@media (min-width: 768px) {
+  .tabs-container-centered {
+    padding-inline: 3rem; /* Larger equal spacing on desktop */
+    max-width: calc(100% - 6rem);
+  }
+}
+
+/* Segmented Tabs - FIXED SIZE WITH PROPER CONTAINMENT */
 [data-theme="dark"] [role="tablist"],
 [role="tablist"] {
   background-color: var(--dashboard-bg-2);
   border: 1px solid var(--dashboard-border);
   border-radius: 0.75rem; /* 12px */
-  padding: 0.25rem; /* 4px inset */
+  padding: 0.5rem; /* 8px inset for proper containment */
   overflow: hidden; /* Ensure active pill is contained */
   position: relative;
   box-sizing: border-box;
   height: 2.75rem; /* Fixed height: 44px */
-  min-height: 2.75rem; /* 44px - consistent height */
+  min-height: 2.75rem; /* 44px */
 }
 
 [data-theme="dark"] [role="tab"],
 [role="tab"] {
   color: var(--dashboard-muted);
   background: transparent;
-  border: none !important; /* Remove any borders that could cause overflow */
-  border-radius: 0.5rem; /* 8px - smaller radius to fit within container */
-  padding: 0.375rem 1rem; /* 6px 16px - reduced vertical padding */
+  border: none !important;
+  border-radius: 0.5rem; /* 8px */
+  padding: 0.25rem 1rem; /* Reduced vertical padding: 4px 16px */
   font-size: 0.875rem;
   font-weight: 500;
-  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth but subtle */
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 2.25rem; /* Fixed height: 36px - fits within container with padding */
+  height: 1.75rem; /* Fixed height: 28px - properly contained with 8px insets */
   box-sizing: border-box;
-  margin: 0 !important; /* Ensure no margins cause overflow */
+  margin: 0 !important;
   outline: none;
   white-space: nowrap;
   flex-shrink: 0;
@@ -893,7 +907,7 @@
   flex-basis: 0;
 }
 
-/* Active tab styling - ACCENT GREEN TINTED FILL */
+/* Active tab styling - ACCENT GREEN TINTED FILL WITH PROPER CONTAINMENT */
 [data-theme="dark"] [role="tab"][data-state="active"],
 [data-theme="dark"] [role="tab"][aria-selected="true"],
 [role="tab"][data-state="active"],
@@ -904,7 +918,7 @@
   box-shadow: none !important;
   transform: none !important;
   margin: 0 !important;
-  height: 2.25rem; /* Same as inactive tabs */
+  height: 1.75rem; /* Same as inactive tabs - 28px */
   z-index: 1;
 }
 
