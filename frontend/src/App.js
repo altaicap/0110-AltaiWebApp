@@ -5445,28 +5445,26 @@ metadata = {
                 </TabsTrigger>
               </TabsList>
 
-              {/* Tab Contents with proper scrolling */}
-              <div className="flex-1 overflow-y-auto">
-                <TabsContent value="dashboard" className="tab-content-padding h-full">
-                  <DashboardTab />
-                </TabsContent>
+              {/* Tab Contents - INDIVIDUAL PANES WITHOUT WRAPPER */}
+              <TabsContent value="dashboard" className="tab-content-padding h-full flex-1 overflow-y-auto">
+                <DashboardTab />
+              </TabsContent>
 
-                <TabsContent value="settings" className="tab-content-padding h-full">
-                  <SettingsTab />
-                </TabsContent>
+              <TabsContent value="settings" className="tab-content-padding h-full flex-1 overflow-y-auto">
+                <SettingsTab />
+              </TabsContent>
 
-                <TabsContent value="strategies" className="tab-content-padding h-full">
-                  <StrategiesTab />
-                </TabsContent>
+              <TabsContent value="strategies" className="tab-content-padding h-full flex-1 overflow-y-auto">
+                <StrategiesTab />
+              </TabsContent>
 
-                <TabsContent value="backtest" className="tab-content-padding h-full">
-                  <BacktestTab />
-                </TabsContent>
+              <TabsContent value="backtest" className="tab-content-padding h-full flex-1 overflow-y-auto">
+                <BacktestTab />
+              </TabsContent>
 
-                <TabsContent value="news" className="tab-content-padding h-full">
-                  <NewsTab />
-                </TabsContent>
-              </div>
+              <TabsContent value="news" className="tab-content-padding h-full flex-1 overflow-y-auto">
+                <NewsTab />
+              </TabsContent>
 
               {/* Live Strategy Tab Contents */}
               {liveTabs.map((tabName) => (
