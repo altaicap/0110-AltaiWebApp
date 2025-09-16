@@ -3387,8 +3387,8 @@ metadata = {
 
     return (
       <div className="h-full flex flex-col ai-assistant-pane">
-        {/* Title Block - Matches Right-Hand Content Header */}
-        <div className="llm-header-block">
+        {/* Title Block - TRANSPARENT TO SHOW SHIMMER */}
+        <div className="llm-header-transparent">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold">AI ASSISTANT</h2>
             <Button
@@ -3400,22 +3400,12 @@ metadata = {
               <RotateCcw className="w-4 h-4" />
             </Button>
           </div>
-          <p className="llm-description mb-6">
+          <p className="llm-description">
             Get help with trading strategies, analysis, and platform usage
           </p>
         </div>
-
-        {/* LLM Suggestions - Outside Panel */}
-        <div className="llm-suggestions mb-4">
-          <p className="text-sm mb-2"><strong>Try asking:</strong></p>
-          <div className="space-y-1 text-xs">
-            <p>"How is my Prior Bar Break strategy performing?"</p>
-            <p>"What should I know about the latest market news?"</p>
-            <p>"Help me optimize my risk management settings"</p>
-          </div>
-        </div>
         
-        {/* Chat Panel - Matches Dashboard Cards */}
+        {/* Chat Panel - ALIGNED WITH RIGHT-HAND PANELS */}
         <div className="llm-chat-panel flex-1 flex flex-col">
           {/* Messages Area */}
           <div 
@@ -3439,10 +3429,19 @@ metadata = {
               <div className="llm-welcome-message">
                 <MessageSquare className="w-12 h-12 mx-auto mb-4 opacity-30" />
                 <p className="text-lg font-medium mb-2">Welcome to Altai Trader AI</p>
-                <p className="text-sm">
+                <p className="text-sm mb-4">
                   I can help you analyze your trading strategies, interpret market data, 
                   and provide insights on your portfolio performance.
                 </p>
+                {/* Try asking examples - MOVED BELOW HELPER SENTENCE */}
+                <div className="llm-try-asking-examples">
+                  <p className="text-sm mb-2"><strong>Try asking:</strong></p>
+                  <div className="space-y-1 text-xs">
+                    <p>"How is my Prior Bar Break strategy performing?"</p>
+                    <p>"What should I know about the latest market news?"</p>
+                    <p>"Help me optimize my risk management settings"</p>
+                  </div>
+                </div>
               </div>
             )}
             
