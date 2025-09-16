@@ -18,6 +18,13 @@ body {
   background-color: #f9fafb;
 }
 
+/* Light Theme Tokens */
+[data-theme="light"] {
+  /* AUTHORITATIVE ACCENT TOKENS */
+  --accent-ui: #0E6D73;           /* Generic UI icons and controls */
+  --accent-sun: #0E6D73;          /* Sun icon uses UI accent in light theme */
+}
+
 /* Light Theme Segmented Control - FIXED SIZE */
 [data-theme="light"] [role="tablist"] {
   background-color: #f3f4f6; /* Light grey background */
