@@ -1017,23 +1017,275 @@
   color: #fbbf24;
 }
 
-/* Feature Grid - 6 CARDS IN 2 ROWS OF 3 */
-.feature-grid-six {
+/* Feature Grid - EXPANDABLE 3×3 SYSTEM */
+.feature-grid-expandable {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
   gap: 2rem;
   margin: 3rem 0;
+  min-height: 600px; /* Ensure consistent grid height */
+  position: relative;
 }
 
+/* Feature Cards - Base Styling */
+.feature-card {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 1;
+  outline: none;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.feature-card:hover {
+  transform: translateY(-2px);
+  z-index: 2;
+}
+
+.feature-card:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Desktop Grid Positioning - Default 1×1 cells */
+.feature-card:nth-child(1) { grid-column: 1; grid-row: 1; }
+.feature-card:nth-child(2) { grid-column: 2; grid-row: 1; }
+.feature-card:nth-child(3) { grid-column: 3; grid-row: 1; }
+.feature-card:nth-child(4) { grid-column: 1; grid-row: 2; }
+.feature-card:nth-child(5) { grid-column: 2; grid-row: 2; }
+.feature-card:nth-child(6) { grid-column: 3; grid-row: 2; }
+
+/* Expanded Card State - 2×2 */
+.feature-card.expanded {
+  grid-column: span 2;
+  grid-row: span 2;
+  z-index: 10;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Dark theme expanded card shadow */
+.landing-page-container.dark .feature-card.expanded {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+/* Dynamic Grid Rearrangement for Remaining Cards */
+/* When card 1 is expanded (position 1,1 → 1,1 span 2x2) */
+.feature-card:nth-child(1).expanded { grid-column: 1 / 3; grid-row: 1 / 3; }
+.feature-card:nth-child(1).expanded ~ .feature-card:nth-child(2) { grid-column: 3; grid-row: 1; }
+.feature-card:nth-child(1).expanded ~ .feature-card:nth-child(3) { grid-column: 3; grid-row: 2; }
+.feature-card:nth-child(1).expanded ~ .feature-card:nth-child(4) { grid-column: 1; grid-row: 3; }
+.feature-card:nth-child(1).expanded ~ .feature-card:nth-child(5) { grid-column: 2; grid-row: 3; }
+.feature-card:nth-child(1).expanded ~ .feature-card:nth-child(6) { grid-column: 3; grid-row: 3; }
+
+/* When card 2 is expanded (position 2,1 → 2,1 span 2x2) */
+.feature-card:nth-child(2).expanded { grid-column: 2 / 4; grid-row: 1 / 3; }
+.feature-card:nth-child(2).expanded ~ .feature-card:nth-child(3) { grid-column: 1; grid-row: 3; }
+.feature-card:nth-child(2).expanded ~ .feature-card:nth-child(4) { grid-column: 2; grid-row: 3; }
+.feature-card:nth-child(2).expanded ~ .feature-card:nth-child(5) { grid-column: 3; grid-row: 3; }
+.feature-card:nth-child(2).expanded ~ .feature-card:nth-child(6) { grid-column: 1; grid-row: 2; }
+
+/* When card 3 is expanded (position 3,1 → 2,1 span 2x2) */
+.feature-card:nth-child(3).expanded { grid-column: 2 / 4; grid-row: 1 / 3; }
+.feature-card:nth-child(3).expanded ~ .feature-card:nth-child(4) { grid-column: 1; grid-row: 2; }
+.feature-card:nth-child(3).expanded ~ .feature-card:nth-child(5) { grid-column: 1; grid-row: 3; }
+.feature-card:nth-child(3).expanded ~ .feature-card:nth-child(6) { grid-column: 2; grid-row: 3; }
+
+/* When card 4 is expanded (position 1,2 → 1,2 span 2x2) */
+.feature-card:nth-child(4).expanded { grid-column: 1 / 3; grid-row: 2 / 4; }
+.feature-card:nth-child(4).expanded ~ .feature-card:nth-child(5) { grid-column: 3; grid-row: 2; }
+.feature-card:nth-child(4).expanded ~ .feature-card:nth-child(6) { grid-column: 3; grid-row: 3; }
+
+/* When card 5 is expanded (position 2,2 → 2,2 span 2x2) */
+.feature-card:nth-child(5).expanded { grid-column: 2 / 4; grid-row: 2 / 4; }
+.feature-card:nth-child(5).expanded ~ .feature-card:nth-child(6) { grid-column: 1; grid-row: 3; }
+
+/* When card 6 is expanded (position 3,2 → 2,2 span 2x2) */
+.feature-card:nth-child(6).expanded { grid-column: 2 / 4; grid-row: 2 / 4; }
+
+/* Feature Meta - Top-left content block */
+.feature-meta {
+  position: relative;
+  z-index: 2;
+}
+
+/* Expand Affordance - Corner control */
+.expand-affordance {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 3;
+  color: var(--text-secondary);
+}
+
+.landing-page-container.dark .expand-affordance {
+  background: rgba(0, 0, 0, 0.7);
+  color: var(--text-primary-dark);
+}
+
+.feature-card.expanded .expand-affordance {
+  top: 0.75rem;
+  right: 0.75rem;
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
+.feature-card:hover .expand-affordance {
+  transform: scale(1.1);
+  background: var(--accent-primary);
+  color: white;
+}
+
+.feature-card.expanded:hover .expand-affordance {
+  background: rgba(239, 68, 68, 0.2);
+  color: #dc2626;
+}
+
+/* Expanded Content - Screenshot placeholder */
+.feature-expanded-content {
+  margin-top: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+}
+
+.screenshot-placeholder {
+  position: relative;
+  flex: 1;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 160px;
+  transition: all 0.18s ease;
+}
+
+.landing-page-container.dark .screenshot-placeholder {
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+}
+
+/* Green glow hover effect on screenshot */
+.feature-card:hover .screenshot-placeholder {
+  box-shadow: 
+    0 0 0 1px var(--accent-primary),
+    0 0 20px rgba(0, 189, 125, 0.16);
+}
+
+.landing-page-container.dark .feature-card:hover .screenshot-placeholder {
+  box-shadow: 
+    0 0 0 1px var(--accent-primary),
+    0 0 20px rgba(0, 189, 125, 0.16);
+}
+
+.landing-page-container:not(.dark) .feature-card:hover .screenshot-placeholder {
+  box-shadow: 
+    0 0 0 1px #0E6D73,
+    0 0 20px rgba(14, 109, 115, 0.16);
+}
+
+.screenshot-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  z-index: 2;
+  position: relative;
+}
+
+.screenshot-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.1), transparent);
+  pointer-events: none;
+}
+
+.landing-page-container.dark .screenshot-gradient {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent);
+}
+
+/* Mobile Behavior - Accordion (≤1024px) */
 @media (max-width: 1024px) {
-  .feature-grid-six {
+  .feature-grid-expandable {
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    min-height: auto;
+  }
+  
+  .feature-card {
+    grid-column: unset !important;
+    grid-row: unset !important;
+  }
+  
+  .feature-card.expanded {
+    grid-column: unset;
+    grid-row: unset;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .feature-expanded-content {
+    animation: accordion-expand 240ms ease-out;
+  }
+  
+  .expand-affordance {
+    transform: rotate(90deg);
+  }
+  
+  .feature-card.expanded .expand-affordance {
+    transform: rotate(0deg);
   }
 }
 
 @media (max-width: 640px) {
-  .feature-grid-six {
+  .feature-grid-expandable {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Accordion Animation for Mobile */
+@keyframes accordion-expand {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .feature-card {
+    transition: none;
+  }
+  
+  .feature-expanded-content {
+    animation: none;
+  }
+  
+  .expand-affordance {
+    transition: none;
+  }
+  
+  .screenshot-placeholder {
+    transition: none;
   }
 }
 
