@@ -5400,24 +5400,28 @@ metadata = {
           </div>
         </div>
 
-        {/* Authentication Modal */}
+        {/* Authentication Modal - THEMED FOR CURRENT MODE */}
         {showAuthModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <Card className="w-96">
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => setShowAuthModal(false)}>
+            <Card 
+              className={`w-full max-w-md mx-4 ${isDarkTheme ? 'bg-gray-800 border-gray-600' : 'bg-white'}`} 
+              onClick={(e) => e.stopPropagation()}
+            >
               <CardHeader>
-                <CardTitle>{authMode === 'login' ? 'Sign In' : 'Create Account'}</CardTitle>
-                <CardDescription>
+                <CardTitle className={isDarkTheme ? 'text-white' : 'text-gray-900'}>
+                  {authMode === 'login' ? 'Sign In to Altai Trader' : 'Create Your Account'}
+                </CardTitle>
+                <CardDescription className={isDarkTheme ? 'text-gray-300' : 'text-gray-600'}>
                   {authMode === 'login' 
-                    ? 'Sign in to your Altai Trader account'
-                    : 'Create a new account to get started'
+                    ? 'Enter your credentials to access your trading dashboard' 
+                    : 'Join thousands of traders using Altai Trader'
                   }
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                {/* General Error Message */}
                 {authErrors.general && (
-                  <div className="bg-red-50 border border-red-200 text-red-600 px-3 py-2 rounded-md text-sm">
-                    {authErrors.general}
+                  <div className={`border rounded-md p-3 ${isDarkTheme ? 'bg-red-900 border-red-700 text-red-300' : 'bg-red-50 border-red-200 text-red-700'}`}>
+                    <p className="text-sm">{authErrors.general}</p>
                   </div>
                 )}
                 
@@ -5437,14 +5441,14 @@ metadata = {
                   
                   {authMode === 'register' && (
                     <div>
-                      <Label htmlFor="fullName">Full Name</Label>
+                      <Label htmlFor="fullName" className={isDarkTheme ? 'text-gray-200' : 'text-gray-700'}>Full Name</Label>
                       <Input
                         id="fullName"
                         type="text"
                         value={authForm.fullName}
                         onChange={(e) => handleAuthFieldChange('fullName', e.target.value)}
                         placeholder="Enter your full name"
-                        className={authErrors.fullName ? 'border-red-500' : ''}
+                        className={`${authErrors.fullName ? 'border-red-500' : ''} ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : ''}`}
                         required
                       />
                       {authErrors.fullName && (
@@ -5454,14 +5458,14 @@ metadata = {
                   )}
                   
                   <div>
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email" className={isDarkTheme ? 'text-gray-200' : 'text-gray-700'}>Email</Label>
                     <Input
                       id="email"
                       type="email"
                       value={authForm.email}
                       onChange={(e) => handleAuthFieldChange('email', e.target.value)}
                       placeholder="Enter your email"
-                      className={authErrors.email ? 'border-red-500' : ''}
+                      className={`${authErrors.email ? 'border-red-500' : ''} ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : ''}`}
                       required
                     />
                     {authErrors.email && (
@@ -5470,7 +5474,7 @@ metadata = {
                   </div>
                   
                   <div>
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password" className={isDarkTheme ? 'text-gray-200' : 'text-gray-700'}>Password</Label>
                     <div className="relative">
                       <Input
                         id="password"
@@ -5478,7 +5482,7 @@ metadata = {
                         value={authForm.password}
                         onChange={(e) => handleAuthFieldChange('password', e.target.value)}
                         placeholder={authMode === 'register' ? 'At least 8 characters with letters and numbers' : 'Enter your password'}
-                        className={`pr-10 ${authErrors.password ? 'border-red-500' : ''}`}
+                        className={`pr-10 ${authErrors.password ? 'border-red-500' : ''} ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : ''}`}
                         required
                       />
                       <button
@@ -5487,9 +5491,9 @@ metadata = {
                         className="absolute inset-y-0 right-0 pr-3 flex items-center"
                       >
                         {showPassword ? (
-                          <EyeOff className="h-4 w-4 text-gray-400" />
+                          <EyeOff className={`h-4 w-4 ${isDarkTheme ? 'text-gray-400' : 'text-gray-400'}`} />
                         ) : (
-                          <Eye className="h-4 w-4 text-gray-400" />
+                          <Eye className={`h-4 w-4 ${isDarkTheme ? 'text-gray-400' : 'text-gray-400'}`} />
                         )}
                       </button>
                     </div>
@@ -5500,7 +5504,7 @@ metadata = {
                   
                   {authMode === 'register' && (
                     <div>
-                      <Label htmlFor="confirmPassword">Confirm Password</Label>
+                      <Label htmlFor="confirmPassword" className={isDarkTheme ? 'text-gray-200' : 'text-gray-700'}>Confirm Password</Label>
                       <div className="relative">
                         <Input
                           id="confirmPassword"
@@ -5508,7 +5512,7 @@ metadata = {
                           value={authForm.confirmPassword}
                           onChange={(e) => handleAuthFieldChange('confirmPassword', e.target.value)}
                           placeholder="Confirm your password"
-                          className={`pr-10 ${authErrors.confirmPassword ? 'border-red-500' : ''}`}
+                          className={`pr-10 ${authErrors.confirmPassword ? 'border-red-500' : ''} ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : ''}`}
                           required
                         />
                         <button
@@ -5517,9 +5521,9 @@ metadata = {
                           className="absolute inset-y-0 right-0 pr-3 flex items-center"
                         >
                           {showConfirmPassword ? (
-                            <EyeOff className="h-4 w-4 text-gray-400" />
+                            <EyeOff className={`h-4 w-4 ${isDarkTheme ? 'text-gray-400' : 'text-gray-400'}`} />
                           ) : (
-                            <Eye className="h-4 w-4 text-gray-400" />
+                            <Eye className={`h-4 w-4 ${isDarkTheme ? 'text-gray-400' : 'text-gray-400'}`} />
                           )}
                         </button>
                       </div>
@@ -5530,13 +5534,18 @@ metadata = {
                   )}
                   
                   <div className="flex gap-2 mt-6">
-                    <Button type="submit" disabled={isLoading} className="flex-1">
+                    <Button 
+                      type="submit" 
+                      disabled={isLoading} 
+                      className={`flex-1 ${isDarkTheme ? 'bg-blue-600 hover:bg-blue-700' : ''}`}
+                    >
                       {isLoading ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : null}
                       {authMode === 'login' ? 'Sign In' : 'Create Account'}
                     </Button>
                     <Button 
                       type="button" 
                       variant="outline" 
+                      className={isDarkTheme ? 'border-gray-600 text-gray-200 hover:bg-gray-700' : ''}
                       onClick={() => {
                         setShowAuthModal(false);
                         setAuthForm({ email: '', password: '', fullName: '', confirmPassword: '' });
@@ -5557,10 +5566,10 @@ metadata = {
                       setAuthForm({ email: '', password: '', fullName: '', confirmPassword: '' });
                       setAuthErrors({ email: '', password: '', fullName: '', confirmPassword: '', general: '' });
                     }}
-                    className="text-sm"
+                    className={`text-sm ${isDarkTheme ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-500'}`}
                   >
                     {authMode === 'login' 
-                      ? "Don't have an account? Sign up" 
+                      ? "Don't have an account? Create one" 
                       : 'Already have an account? Sign in'
                     }
                   </Button>
