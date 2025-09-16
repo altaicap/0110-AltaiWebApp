@@ -253,10 +253,22 @@
   color: #f59e0b !important; /* Slightly more saturated on hover */
 }
 
-/* Left AI Assistant Pane */
+/* Left AI Assistant Pane - DARKER THAN GREY, LIGHTER THAN HEADER */
 [data-theme="dark"] .ai-assistant-pane {
-  background: var(--dashboard-bg-0);
-  background-image: var(--dashboard-bg-gradient);
+  background: var(--dashboard-llm-bg) !important;
+  border-right: 1px solid var(--dashboard-border);
+}
+
+/* Dashboard Tab Panes - LANDING PAGE CARD GRADIENT */
+[data-theme="dark"] .tab-content-padding,
+[data-theme="dark"] [data-radix-tabs-content] {
+  background: var(--dashboard-card-gradient) !important;
+  border-radius: 0.875rem;
+  border: 1px solid var(--dashboard-border);
+  margin: 0.5rem;
+  padding: 1.5rem !important;
+  position: relative;
+  z-index: 1;
 }
 
 /* Segmented Tabs - PROPERLY CONTAINED ACTIVE PILL */
