@@ -542,9 +542,9 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                   <div className="icon-container icon-container-red">
                     <Gauge className="h-6 w-6" />
                   </div>
-                  <h3 className="landing-card-title">Risk & performance control</h3>
+                  <h3 className="landing-card-title">Integrate Strategies with Live News</h3>
                   <p className="landing-card-description">
-                    Real-time dashboards, alerts, and a structured trade journal to track P&L, drawdown, win rate, and expectancy.
+                    Integrate your strategies entries to be dependent on live news pertaining to a specific ticker by simply connecting your API key from Newsware or TradeXchange.
                   </p>
                   {/* Product Image Placeholder */}
                   <div className="product-image-placeholder">
