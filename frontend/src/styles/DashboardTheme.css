@@ -1,47 +1,46 @@
 /*
-  Dashboard Dark Theme - Unified Nightwatch Color Scheme
+  Dashboard Dark Theme - Laravel Nightwatch Green + Black Palette
   
-  EXACT THEME COLOR SPECIFICATIONS:
+  EXACT THEME COLOR SPECIFICATIONS (UPDATED):
   Dark Theme Only (Dashboard):
-  - --bg-0: #0E172A (primary background)
-  - --bg-1: #14213D (secondary background)
-  - --bg-2: #252B3C (tertiary background)
-  - --accent-1: #7A51F6 (primary accent)
-  - --accent-2: #3B82F6 (secondary accent)
+  - --bg-0: #090D0D (black primary background)
+  - --bg-1: #171717 (dark green secondary background)
+  - --bg-2: color-mix(in srgb, #171717 70%, #090D0D 30%) (tertiary background)
+  - --accent: #00BD7D (green accent)
   - --fg: #FBFCFC (foreground text)
-  - --muted: #AAB3C5 (muted text)
+  - --muted: color-mix(in srgb, #6B757D 80%, white 20%) (muted text)
+  - --border: color-mix(in srgb, #6B757D 55%, transparent 45%) (borders)
   
   This file provides dark theme unification for the dashboard,
-  using ONLY the specified palette colors with gradients/opacity within the palette.
+  using ONLY the specified Nightwatch palette colors with gradients/opacity within the palette.
 */
 
 /* Dashboard Dark Theme Variables */
 [data-theme="dark"] {
-  /* Primary color palette - EXACT SPECIFICATION */
-  --dashboard-bg-0: #0E172A;      /* Primary background */
-  --dashboard-bg-1: #14213D;      /* Secondary background */
-  --dashboard-bg-2: #252B3C;      /* Tertiary background */
-  --dashboard-accent-1: #7A51F6;  /* Primary accent */
-  --dashboard-accent-2: #3B82F6;  /* Secondary accent */
-  --dashboard-fg: #FBFCFC;        /* Foreground text */
-  --dashboard-muted: #AAB3C5;     /* Muted text */
+  /* Primary color palette - NIGHTWATCH SPECIFICATION */
+  --dashboard-bg-0: #090D0D;      /* Black primary background */
+  --dashboard-bg-1: #171717;      /* Dark green secondary background */
+  --dashboard-bg-2: #1a1a1a;      /* Tertiary background (computed fallback for color-mix) */
+  --dashboard-accent: #00BD7D;    /* Green accent */
+  --dashboard-fg: #FBFCFC;        /* White foreground text */
+  --dashboard-muted: #a8b1ba;     /* Muted text (computed fallback for color-mix) */
+  --dashboard-border: rgba(107, 117, 125, 0.4); /* Border color (computed fallback) */
   
   /* Gradients within palette only */
-  --dashboard-bg-gradient-primary: linear-gradient(180deg, #0E172A 0%, #14213D 50%, #252B3C 100%);
-  --dashboard-panel-gradient: linear-gradient(180deg, rgba(20, 33, 61, 0.96), rgba(37, 43, 60, 0.96));
-  --dashboard-card-gradient: linear-gradient(180deg, rgba(20, 33, 61, 0.85), rgba(37, 43, 60, 0.85));
+  --dashboard-bg-gradient: linear-gradient(180deg, #090D0D 0%, #171717 100%);
+  --dashboard-panel-gradient: linear-gradient(180deg, rgba(23, 23, 23, 0.92) 0%, rgba(9, 13, 13, 0.92) 100%);
+  --dashboard-card-gradient: linear-gradient(180deg, rgba(23, 23, 23, 0.85), rgba(9, 13, 13, 0.85));
+  
+  /* Glass header style */
+  --dashboard-header-glass: rgba(9, 13, 13, 0.72);
   
   /* Subtle accent glows only (≤0.18 alpha) */
-  --dashboard-glow-1: rgba(122, 81, 246, 0.12);
-  --dashboard-glow-2: rgba(59, 130, 246, 0.10);
-  
-  /* Borders from palette (0.35-0.70 alpha) */
-  --dashboard-border-primary: rgba(37, 43, 60, 0.60);
-  --dashboard-border-secondary: rgba(37, 43, 60, 0.45);
+  --dashboard-glow-1: rgba(0, 189, 125, 0.12);
+  --dashboard-glow-2: rgba(0, 189, 125, 0.08);
   
   /* Interactive states */
-  --dashboard-hover: rgba(37, 43, 60, 0.80);
-  --dashboard-active: rgba(37, 43, 60, 0.90);
+  --dashboard-hover: rgba(23, 23, 23, 0.80);
+  --dashboard-active: rgba(23, 23, 23, 0.90);
 }
 
 /* Apply unified dark theme to dashboard elements */
@@ -59,7 +58,7 @@
 [data-theme="dark"] .border-gray-700,
 [data-theme="dark"] .border-gray-600,
 [data-theme="dark"] .border-gray-200 {
-  border-color: var(--dashboard-border-primary) !important;
+  border-color: var(--dashboard-border) !important;
 }
 
 [data-theme="dark"] .text-white {
@@ -77,11 +76,13 @@
   color: var(--dashboard-muted) !important;
 }
 
-/* Header styling - Use palette colors only */
+/* Header styling - Use Nightwatch glass style */
 [data-theme="dark"] .bg-white.border-b.border-gray-200,
 [data-theme="dark"] header.bg-white {
-  background-color: var(--dashboard-bg-1) !important;
-  border-color: var(--dashboard-border-primary) !important;
+  background-color: var(--dashboard-header-glass) !important;
+  backdrop-filter: blur(9px) !important;
+  -webkit-backdrop-filter: blur(9px) !important;
+  border-color: var(--dashboard-border) !important;
 }
 
 /* Tab panels and content areas - Use gradients from palette */
@@ -97,33 +98,53 @@
 
 /* Sidebar and navigation */
 [data-theme="dark"] .border-r {
-  border-color: var(--dashboard-border-primary) !important;
+  border-color: var(--dashboard-border) !important;
 }
 
-/* Buttons in dashboard dark theme */
+/* Buttons in dashboard dark theme - UPDATED TO GREEN */
 [data-theme="dark"] button:not(.landing-btn) {
-  border-color: var(--dashboard-border-primary);
+  border-color: var(--dashboard-border);
 }
 
 [data-theme="dark"] button:not(.landing-btn):hover {
   background-color: var(--dashboard-hover);
 }
 
-/* Primary accent buttons */
+/* Primary accent buttons - GREEN ACCENT */
 [data-theme="dark"] .bg-blue-600,
-[data-theme="dark"] .bg-blue-500 {
-  background-color: var(--dashboard-accent-2) !important;
-}
-
+[data-theme="dark"] .bg-blue-500,
 [data-theme="dark"] .bg-purple-600,
 [data-theme="dark"] .bg-purple-500 {
-  background-color: var(--dashboard-accent-1) !important;
+  background-color: var(--dashboard-accent) !important;
+}
+
+[data-theme="dark"] .bg-blue-600:hover,
+[data-theme="dark"] .bg-blue-500:hover,
+[data-theme="dark"] .bg-purple-600:hover,
+[data-theme="dark"] .bg-purple-500:hover {
+  background-color: #00d18a !important; /* 8% brighter green */
+}
+
+/* Text colors that were blue/purple - UPDATE TO GREEN */
+[data-theme="dark"] .text-blue-600,
+[data-theme="dark"] .text-blue-500,
+[data-theme="dark"] .text-purple-600,
+[data-theme="dark"] .text-purple-500 {
+  color: var(--dashboard-accent) !important;
+}
+
+/* Border colors that were blue/purple - UPDATE TO GREEN */
+[data-theme="dark"] .border-blue-600,
+[data-theme="dark"] .border-blue-500,
+[data-theme="dark"] .border-purple-600,
+[data-theme="dark"] .border-purple-500 {
+  border-color: var(--dashboard-accent) !important;
 }
 
 /* Dropdown menus */
 [data-theme="dark"] .bg-gray-800.border-gray-700 {
   background-color: var(--dashboard-bg-1) !important;
-  border-color: var(--dashboard-border-primary) !important;
+  border-color: var(--dashboard-border) !important;
 }
 
 /* Input fields */
@@ -131,14 +152,14 @@
 [data-theme="dark"] textarea,
 [data-theme="dark"] select {
   background-color: var(--dashboard-bg-2) !important;
-  border-color: var(--dashboard-border-primary) !important;
+  border-color: var(--dashboard-border) !important;
   color: var(--dashboard-fg) !important;
 }
 
 [data-theme="dark"] input:focus,
 [data-theme="dark"] textarea:focus,
 [data-theme="dark"] select:focus {
-  border-color: var(--dashboard-accent-1) !important;
+  border-color: var(--dashboard-accent) !important;
   box-shadow: 0 0 0 1px var(--dashboard-glow-1) !important;
 }
 
@@ -156,6 +177,37 @@
 [data-theme="dark"] .connection-status-disconnected,
 [data-theme="dark"] .bg-red-500 {
   background-color: #ef4444 !important;
+}
+
+/* Navigation and active states - GREEN ACCENT */
+[data-theme="dark"] [data-state="active"],
+[data-theme="dark"] .active {
+  background-color: var(--dashboard-bg-2) !important;
+  color: var(--dashboard-accent) !important;
+  border-color: var(--dashboard-accent) !important;
+}
+
+/* Toggle switches and sliders - GREEN ACCENT */
+[data-theme="dark"] [data-state="checked"] {
+  background-color: var(--dashboard-accent) !important;
+}
+
+[data-theme="dark"] .slider-thumb {
+  background-color: var(--dashboard-accent) !important;
+}
+
+/* Charts and visuals - PRIMARY GREEN, NEUTRALS FROM GREY */
+[data-theme="dark"] .chart-primary,
+[data-theme="dark"] .chart-accent {
+  color: var(--dashboard-accent) !important;
+  fill: var(--dashboard-accent) !important;
+  stroke: var(--dashboard-accent) !important;
+}
+
+[data-theme="dark"] .chart-secondary {
+  color: var(--dashboard-muted) !important;
+  fill: var(--dashboard-muted) !important;
+  stroke: var(--dashboard-muted) !important;
 }
 
 /* Scrollbars in dark theme */
@@ -177,7 +229,7 @@
   background: var(--dashboard-hover);
 }
 
-/* Alert and notification styling - Use palette colors */
+/* Alert and notification styling - REMOVE BLUE TINTS */
 [data-theme="dark"] .bg-red-100 {
   background-color: rgba(239, 68, 68, 0.1) !important;
 }
@@ -190,26 +242,27 @@
   background-color: rgba(234, 179, 8, 0.1) !important;
 }
 
+/* Replace blue backgrounds with green or neutral */
 [data-theme="dark"] .bg-blue-100 {
   background-color: var(--dashboard-glow-2) !important;
 }
 
 [data-theme="dark"] .bg-purple-100 {
-  background-color: var(--dashboard-glow-1) !important;
+  background-color: rgba(107, 117, 125, 0.1) !important; /* Neutral grey */
 }
 
 /* Chart and visualization backgrounds */
 [data-theme="dark"] .chart-container,
 [data-theme="dark"] .visualization-panel {
   background: var(--dashboard-card-gradient) !important;
-  border: 1px solid var(--dashboard-border-primary) !important;
+  border: 1px solid var(--dashboard-border) !important;
 }
 
 /* Modal and dialog backgrounds */
 [data-theme="dark"] .modal-content,
 [data-theme="dark"] .dialog-content {
   background: var(--dashboard-panel-gradient) !important;
-  border: 1px solid var(--dashboard-border-primary) !important;
+  border: 1px solid var(--dashboard-border) !important;
 }
 
 /* Table styling */
@@ -220,11 +273,11 @@
 [data-theme="dark"] th {
   background-color: var(--dashboard-bg-2) !important;
   color: var(--dashboard-fg) !important;
-  border-color: var(--dashboard-border-primary) !important;
+  border-color: var(--dashboard-border) !important;
 }
 
 [data-theme="dark"] td {
-  border-color: var(--dashboard-border-secondary) !important;
+  border-color: var(--dashboard-border) !important;
   color: var(--dashboard-muted) !important;
 }
 
@@ -232,11 +285,16 @@
   background-color: var(--dashboard-hover) !important;
 }
 
-/* Status badges - Use palette colors */
+/* Status badges - Use palette colors, GREEN ACCENT */
 [data-theme="dark"] .badge {
   background-color: var(--dashboard-bg-2) !important;
   color: var(--dashboard-fg) !important;
-  border: 1px solid var(--dashboard-border-primary) !important;
+  border: 1px solid var(--dashboard-border) !important;
+}
+
+[data-theme="dark"] .badge-primary {
+  background-color: var(--dashboard-accent) !important;
+  color: var(--dashboard-bg-0) !important;
 }
 
 /* Code blocks and monospace text */
@@ -244,33 +302,33 @@
 [data-theme="dark"] pre {
   background-color: var(--dashboard-bg-2) !important;
   color: var(--dashboard-fg) !important;
-  border: 1px solid var(--dashboard-border-primary) !important;
+  border: 1px solid var(--dashboard-border) !important;
 }
 
-/* Progress bars - Use accent colors */
+/* Progress bars - GREEN ACCENT */
 [data-theme="dark"] .progress-bar-bg {
   background-color: var(--dashboard-bg-2) !important;
 }
 
 [data-theme="dark"] .progress-bar-fill {
-  background-color: var(--dashboard-accent-2) !important;
+  background-color: var(--dashboard-accent) !important;
 }
 
 /* Tooltips */
 [data-theme="dark"] .tooltip {
   background: var(--dashboard-panel-gradient) !important;
   color: var(--dashboard-fg) !important;
-  border: 1px solid var(--dashboard-border-primary) !important;
+  border: 1px solid var(--dashboard-border) !important;
 }
 
 /* Chat interface specific styling */
 [data-theme="dark"] .chat-container {
-  background: var(--dashboard-bg-gradient-primary) !important;
+  background: var(--dashboard-bg-gradient) !important;
 }
 
 [data-theme="dark"] .chat-message {
   background: var(--dashboard-card-gradient) !important;
-  border: 1px solid var(--dashboard-border-secondary) !important;
+  border: 1px solid var(--dashboard-border) !important;
 }
 
 /* Hover states */
@@ -280,9 +338,9 @@
   background-color: var(--dashboard-hover) !important;
 }
 
-/* Focus states - Use accent colors */
+/* Focus states - GREEN ACCENT */
 [data-theme="dark"] *:focus-visible {
-  outline: 2px solid var(--dashboard-accent-1) !important;
+  outline: 2px solid var(--dashboard-accent) !important;
   outline-offset: 2px;
 }
 
@@ -308,17 +366,120 @@
 [data-theme="dark"] .shadow-sm,
 [data-theme="dark"] .shadow-md,
 [data-theme="dark"] .shadow-lg {
-  box-shadow: 0 4px 6px -1px rgba(14, 23, 42, 0.4), 0 2px 4px -1px rgba(14, 23, 42, 0.3) !important;
+  box-shadow: 0 4px 6px -1px rgba(9, 13, 13, 0.4), 0 2px 4px -1px rgba(9, 13, 13, 0.3) !important;
 }
 
 /* Main application background */
 [data-theme="dark"] .min-h-screen {
-  background: var(--dashboard-bg-gradient-primary) !important;
+  background: var(--dashboard-bg-gradient) !important;
+}
+
+/* Tabs and navigation - GREEN ACTIVE STATES */
+[data-theme="dark"] [data-radix-collection-item][data-state="active"] {
+  background-color: var(--dashboard-bg-2) !important;
+  color: var(--dashboard-accent) !important;
+  border-bottom-color: var(--dashboard-accent) !important;
+}
+
+/* Selected menu items - GREEN ACCENT */
+[data-theme="dark"] [aria-selected="true"],
+[data-theme="dark"] .selected {
+  background-color: var(--dashboard-hover) !important;
+  color: var(--dashboard-accent) !important;
+}
+
+/* Links - GREEN ACCENT */
+[data-theme="dark"] a {
+  color: var(--dashboard-accent) !important;
+}
+
+[data-theme="dark"] a:hover {
+  color: #00d18a !important; /* 8% brighter green */
+}
+
+/* Remove blue contamination from chips, tags, and micro-accents */
+[data-theme="dark"] .chip,
+[data-theme="dark"] .tag {
+  background-color: var(--dashboard-bg-2) !important;
+  color: var(--dashboard-fg) !important;
+  border: 1px solid var(--dashboard-border) !important;
+}
+
+[data-theme="dark"] .chip-primary,
+[data-theme="dark"] .tag-primary {
+  background-color: var(--dashboard-accent) !important;
+  color: var(--dashboard-bg-0) !important;
+}
+
+/* Dividers - GREY FROM PALETTE */
+[data-theme="dark"] .divider,
+[data-theme="dark"] hr {
+  border-color: var(--dashboard-border) !important;
+}
+
+/* Form controls - GREEN ACCENT FOR ACTIVE STATES */
+[data-theme="dark"] input[type="checkbox"]:checked,
+[data-theme="dark"] input[type="radio"]:checked {
+  background-color: var(--dashboard-accent) !important;
+  border-color: var(--dashboard-accent) !important;
+}
+
+/* Switch components - GREEN ACCENT */
+[data-theme="dark"] .switch[data-state="checked"] {
+  background-color: var(--dashboard-accent) !important;
+}
+
+/* Slider components - GREEN ACCENT */
+[data-theme="dark"] .slider-range {
+  background-color: var(--dashboard-accent) !important;
+}
+
+[data-theme="dark"] .slider-thumb {
+  background-color: var(--dashboard-accent) !important;
+  border-color: var(--dashboard-accent) !important;
+}
+
+/* Button variants - GREEN PRIMARY */
+[data-theme="dark"] .btn-primary {
+  background-color: var(--dashboard-accent) !important;
+  color: var(--dashboard-bg-0) !important;
+  border-color: var(--dashboard-accent) !important;
+}
+
+[data-theme="dark"] .btn-primary:hover {
+  background-color: #00d18a !important; /* 8% brighter */
+}
+
+[data-theme="dark"] .btn-primary:active {
+  background-color: #00a66b !important; /* 8% darker */
+}
+
+/* Remove any remaining blue/purple tokens */
+[data-theme="dark"] .text-blue-400,
+[data-theme="dark"] .text-blue-300,
+[data-theme="dark"] .text-purple-400,
+[data-theme="dark"] .text-purple-300 {
+  color: var(--dashboard-accent) !important;
+}
+
+[data-theme="dark"] .bg-blue-400,
+[data-theme="dark"] .bg-blue-300,
+[data-theme="dark"] .bg-purple-400,
+[data-theme="dark"] .bg-purple-300 {
+  background-color: var(--dashboard-accent) !important;
+}
+
+[data-theme="dark"] .border-blue-400,
+[data-theme="dark"] .border-blue-300,
+[data-theme="dark"] .border-purple-400,
+[data-theme="dark"] .border-purple-300 {
+  border-color: var(--dashboard-accent) !important;
 }
 
 /* Ensure consistent palette usage across all components */
 [data-theme="dark"] * {
-  /* Remove any hardcoded colors that don't match palette */
-  color: inherit;
-  border-color: inherit;
+  /* Override any hardcoded blue/purple colors */
+  --tw-color-primary: var(--dashboard-accent);
+  --primary-color: var(--dashboard-accent);
+  --accent-color: var(--dashboard-accent);
 }
