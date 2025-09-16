@@ -39,6 +39,7 @@
   /* Typography */
   --font-display: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-tomorrow: 'Tomorrow', -apple-system, BlinkMacSystemFont, sans-serif;
   
   /* Light theme glass overlay */
   --header-glass: rgba(255, 255, 255, 0.70);
