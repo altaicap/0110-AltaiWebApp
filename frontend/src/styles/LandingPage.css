@@ -727,12 +727,18 @@
   outline-offset: 2px;
 }
 
-/* Primary button - NO BORDER IN DARK THEME */
+/* Primary button - NO BORDER IN DARK THEME, GRADIENT IN LIGHT THEME */
 .landing-btn-primary {
   background-color: var(--accent);
   color: var(--bg-0);
   box-shadow: var(--shadow-subtle);
   border: 1px solid var(--accent); /* Light theme keeps border */
+}
+
+/* Light theme: Enhanced gradient for primary buttons */
+.landing-page-container:not(.dark) .landing-btn-primary {
+  background: linear-gradient(135deg, #0E6D73 0%, #0a8a92 50%, #0E6D73 100%); /* Enhanced gradient with signature color */
+  border: 1px solid #0E6D73;
 }
 
 /* Dark theme: Remove border from primary button */
@@ -746,18 +752,19 @@
   transform: translateY(-1px);
 }
 
-/* Light theme hover for primary button */
+/* Light theme hover for primary button - ENHANCED GRADIENT */
 .landing-page-container:not(.dark) .landing-btn-primary:hover {
-  background-color: #0b5c61; /* 8% darker for light theme */
+  background: linear-gradient(135deg, #0b5c61 0%, #0a8a92 50%, #0b5c61 100%); /* Darker gradient on hover */
+  border-color: #0b5c61;
 }
 
 .landing-btn-primary:active {
   background-color: #00a66b; /* 8% darker green for dark theme */
 }
 
-/* Light theme active for primary button */
+/* Light theme active for primary button - ENHANCED GRADIENT */
 .landing-page-container:not(.dark) .landing-btn-primary:active {
-  background-color: #084d52; /* 8% darker for light theme */
+  background: linear-gradient(135deg, #084d52 0%, #087d82 50%, #084d52 100%); /* Even darker gradient on active */
 }
 
 /* Secondary button - SUBTLE BORDER TREATMENT */
