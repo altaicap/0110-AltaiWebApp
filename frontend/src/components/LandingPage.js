@@ -31,6 +31,9 @@ import {
 // Import logos
 import AltaiLogo from '../assets/altai-logo.svg';
 import AltaiLogoDark from '../assets/altai-logo-dark.svg';
+import RobinhoodLogo from '../assets/robinhood-logo.png';
+import CoinbaseLogo from '../assets/coinbase-logo.png';
+import KrakenLogo from '../assets/kraken-logo.webp';
 import PolygonLogo from '../assets/polygon-logo.png';
 import NewsWareLogo from '../assets/newsware-logo.png';
 import TradeXchangeLogoNew from '../assets/tradexchange-logo-new.png'; // NEW LOGO
