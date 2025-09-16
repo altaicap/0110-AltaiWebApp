@@ -189,10 +189,19 @@
   }
 }
 
-/* Content Layer - Above Shimmer */
-.landing-content {
-  position: relative;
-  z-index: 1;
+/* Theme Toggle - ORANGE/YELLOW IN DARK THEME */
+.landing-page-container.dark .theme-toggle,
+.landing-page-container.dark button[aria-label*="theme"],
+.landing-page-container.dark button[title*="theme"],
+.landing-page-container.dark [data-testid="theme-toggle"] {
+  color: #fbbf24 !important; /* Warm orange/yellow sun color */
+}
+
+.landing-page-container.dark .theme-toggle:hover,
+.landing-page-container.dark button[aria-label*="theme"]:hover,
+.landing-page-container.dark button[title*="theme"]:hover,
+.landing-page-container.dark [data-testid="theme-toggle"]:hover {
+  color: #f59e0b !important; /* Slightly more saturated on hover */
 }
 
 /* Header Styling - CENTERED NAVIGATION LIKE ARBIBYTE.COM */
