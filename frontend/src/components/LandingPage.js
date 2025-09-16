@@ -530,13 +530,15 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                       <span>Trading Log</span>
                     </li>
                   </ul>
-                  <div className="text-center mb-4">
-                    <div className="text-sm font-medium text-blue-600">14-day free trial</div>
-                    <div className="text-xs text-gray-500">Card required for trial activation</div>
+                  <div className="pricing-cta-section">
+                    <div className="text-center mb-4">
+                      <div className="text-sm font-medium text-blue-600">14-day free trial</div>
+                      <div className="text-xs text-gray-500">Card required for trial activation</div>
+                    </div>
+                    <button className="landing-btn landing-btn-secondary w-full">
+                      Start Free Trial
+                    </button>
                   </div>
-                  <button className="landing-btn landing-btn-secondary w-full">
-                    Start Free Trial
-                  </button>
                 </div>
               </div>
 
