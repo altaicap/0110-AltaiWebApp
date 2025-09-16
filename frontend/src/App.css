@@ -85,6 +85,15 @@ body {
   z-index: 2;
 }
 
+/* TABS INTERFACE SYMMETRICAL SPACING - Light Theme */
+[data-theme="light"] .tabs-container-centered {
+  margin-inline: auto !important;
+  padding-inline: var(--tabs-padding-inline, 1.5rem) !important;
+  max-width: fit-content !important;
+  position: relative;
+  overflow: hidden !important;
+}
+
 /* Responsive Design for Segmented Control */
 @media (max-width: 768px) {
   [role="tablist"] {

@@ -1,470 +1,372 @@
-/*
-  Dashboard Dark Theme - Laravel Nightwatch Authoritative Palette
-  
-  AUTHORITATIVE DARK PALETTE (use only these bases):
-  - #090D0D: page background/black
-  - #171717: elevated surface/dark green stop  
-  - #6B757D: muted text/border base
-  - #00BD7D: primary accent/CTAs/active/focus
-  - #FBFCFC: primary text
-  
-  All other colors derived via opacity/color-mix from these four bases.
-  NO blues or purples anywhere in dark theme.
-*/
+/* NIGHTWATCH DARK THEME OVERRIDES FOR DASHBOARD */
+/* Used to make Dashboard match Laravel Nightwatch green/black aesthetic */
 
-/* Dashboard Dark Theme Variables - AUTHORITATIVE NIGHTWATCH PALETTE */
+/* CSS Variables - AUTHORITATIVE TOKENS */
 [data-theme="dark"] {
-  /* Core palette - ONLY THESE FOUR BASES */
-  --dashboard-bg-0: #090D0D;      /* Page background/black */
-  --dashboard-bg-1: #171717;      /* Elevated surface/dark green stop */
-  --dashboard-bg-2: #131313;      /* Panels/cards (computed: color-mix(#171717 70%, #090D0D 30%)) */
-  --dashboard-fg: #FBFCFC;        /* Primary text */
-  --dashboard-muted: #949faa;     /* Muted text (computed: color-mix(#6B757D 80%, #FFFFFF 20%)) */
-  --dashboard-border: rgba(107, 117, 125, 0.55); /* Hairlines (computed: color-mix(#6B757D 55%, transparent 45%)) */
-  --dashboard-accent: #00BD7D;    /* Primary CTAs/active/focus */
+  /* Background hierarchy - Nightwatch green-black palette */
+  --bg-0: #090D0D;              /* Nightwatch black (page background) */
+  --bg-1: #171717;              /* Nightwatch dark green (primary surfaces) */
+  --bg-2: #171717;              /* Nightwatch dark green (secondary surfaces) */
+  --bg-3: #090D0D;              /* Nightwatch black (tertiary surfaces) */
   
-  /* AUTHORITATIVE ACCENT TOKENS */
-  --accent-ui: #00BD7D;           /* Generic UI icons and controls */
-  --accent-sun: #F59E0B;          /* Sun icon in dark theme only */
+  /* Text hierarchy */
+  --fg: #FBFCFC;                /* Nightwatch white (primary text) */
+  --muted: #949faa;             /* Nightwatch muted text */
   
-  /* LLM Interface Background - DARKER THAN GREY, LIGHTER THAN HEADER */
-  --dashboard-llm-bg: #0F1214;    /* Between header (#090D0D) and bg-1 (#171717) */
+  /* Accent and semantic colors */
+  --accent: #00BD7D;            /* Nightwatch accent green */
+  --accent-on: #07110F;         /* Dark text on accent (high contrast) */
+  --success: #00BD7D;           /* Success = accent */
+  --warning: #F59E0B;           /* Warning yellow */
+  --danger: #EF4444;            /* Danger red */
   
-  /* Dashboard Right Pane Background - MATCHING LANDING PAGE */
-  --dashboard-main-bg: linear-gradient(180deg, #090D0D 0%, #171717 100%);
+  /* Border and input */
+  --border: rgba(107, 117, 125, 0.4); /* Nightwatch grey border */
+  --input-bg: rgba(23, 23, 23, 0.8);  /* Input background */
+  --hover: rgba(23, 23, 23, 0.8);     /* Hover state */
+  --focus: rgba(0, 189, 125, 0.5);    /* Focus ring */
   
-  /* Dashboard Tab Panes - LANDING PAGE CARD GRADIENT */
-  --dashboard-card-gradient: linear-gradient(180deg, rgba(23, 23, 23, 0.85), rgba(9, 13, 13, 0.85));
+  /* Dashboard-specific tokens */
+  --dashboard-bg-main: var(--bg-0);
+  --dashboard-bg-1: var(--bg-1);
+  --dashboard-bg-2: var(--bg-2);
+  --dashboard-fg: var(--fg);
+  --dashboard-muted: var(--muted);
+  --dashboard-accent: var(--accent);
+  --dashboard-border: var(--border);
+  --dashboard-input-bg: var(--input-bg);
+  --dashboard-hover: var(--hover);
+  --dashboard-focus: var(--focus);
+  --dashboard-success: var(--success);
+  --dashboard-warning: var(--warning);
+  --dashboard-danger: var(--danger);
   
-  /* Gradients within palette only */
-  --dashboard-bg-gradient: linear-gradient(180deg, #090D0D 0%, #171717 100%);
-  --dashboard-panel-gradient: linear-gradient(180deg, rgba(23, 23, 23, 0.96) 0%, rgba(9, 13, 13, 0.96) 100%);
-  --dashboard-glass: rgba(9, 13, 13, 0.72); /* Header/toolbars */
+  /* Glass and effect tokens */
+  --dashboard-glass: rgba(9, 13, 13, 0.72); /* Semi-transparent black */
+  --dashboard-panel-gradient: linear-gradient(135deg, #171717 0%, #171717 100%);
+  --dashboard-shimmer: linear-gradient(110deg, 
+    rgba(0, 189, 125, 0.08) 0%, 
+    rgba(0, 189, 125, 0.16) 50%, 
+    rgba(0, 189, 125, 0.08) 100%);
   
-  /* Shimmer Animation Variables - FROM LANDING PAGE */
-  --dashboard-shimmer-dark: rgba(23, 23, 23, 0.7);
-  --dashboard-shimmer-accent: rgba(0, 189, 125, 0.15);
+  /* Table tokens */
+  --dashboard-table-header: rgba(23, 23, 23, 0.6);
+  --dashboard-table-zebra: rgba(23, 23, 23, 0.3);
+  --dashboard-chart-secondary: #6B757D;
+  --dashboard-chart-grid: rgba(107, 117, 125, 0.2);
   
-  /* Interactive states */
-  --dashboard-hover: rgba(23, 23, 23, 0.80);
-  --dashboard-active: rgba(23, 23, 23, 0.90);
-  --dashboard-focus: rgba(0, 189, 125, 0.55); /* Focus ring */
-  
-  /* Semantic colors (keep saturated RGBY) */
-  --dashboard-success: #00BD7D;   /* Success (green) */
-  --dashboard-warning: #F59E0B;   /* Warning (yellow) */
-  --dashboard-danger: #EF4444;    /* Danger (red) */
-  --dashboard-info: #22D3EE;      /* Info (cyan) - scoped to semantic only */
-  
-  /* Computed surfaces */
-  --dashboard-input-bg: rgba(23, 23, 23, 0.92);
-  --dashboard-table-header: rgba(23, 23, 23, 0.85);
-  --dashboard-table-zebra: rgba(255, 255, 255, 0.02);
-  --dashboard-pill-bg: rgba(23, 23, 23, 0.92);
-  --dashboard-secondary-border: rgba(107, 117, 125, 0.40);
-  --dashboard-chart-grid: rgba(255, 255, 255, 0.06);
-  --dashboard-chart-secondary: #8A949C;
+  /* Pill and badge tokens */
+  --dashboard-pill-bg: rgba(23, 23, 23, 0.6);
+  --dashboard-secondary-border: rgba(107, 117, 125, 0.6);
 }
 
-/* GLOBAL RULES & TOKEN AUDIT - REMOVE ALL BLUE/PURPLE */
-
-/* Page background */
-[data-theme="dark"] {
-  background-color: var(--dashboard-bg-0) !important;
-  color: var(--dashboard-fg) !important;
-}
-
-[data-theme="dark"] .min-h-screen {
-  background: var(--dashboard-main-bg) !important;
-  position: relative;
-}
-
-/* Right Tabs Panel - Landing Page Background with Shimmer */
-[data-theme="dark"] .flex.flex-col:has([role="tablist"]) {
-  background: var(--dashboard-main-bg) !important;
-  position: relative;
-}
-
-/* Dashboard Right Panel Shimmer Animation - FROM LANDING PAGE */
-[data-theme="dark"] .flex.flex-col:has([role="tablist"])::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.6;
-  background: linear-gradient(
-    110deg,
-    transparent 25%,
-    var(--dashboard-shimmer-dark) 50%,
-    var(--dashboard-shimmer-accent) 55%,
-    transparent 75%
-  );
+/* Main Dashboard Shimmer Background */
+[data-theme="dark"] .dashboard-main {
+  background: var(--dashboard-bg-main);
+  background-image: var(--dashboard-shimmer);
   background-size: 200% 100%;
-  animation: dashboard-shimmer 11.4s ease-in-out infinite;
+  animation: shimmer 8s ease-in-out infinite;
+  background-attachment: fixed;
 }
 
-/* Ensure tab content is above shimmer */
-[data-theme="dark"] .flex.flex-col:has([role="tablist"]) > * {
+@keyframes shimmer {
+  0%, 100% { background-position: -200% 0; }
+  50% { background-position: 200% 0; }
+}
+
+/* TABS INTERFACE SYMMETRICAL SPACING - REQUIREMENT 1 */
+/* Center tabs bar with equal left/right spacing */
+[data-theme="dark"] .tabs-container-centered {
+  margin-inline: auto !important;
+  padding-inline: var(--tabs-padding-inline, 1.5rem) !important;
+  max-width: fit-content !important;
+  position: relative;
+  overflow: hidden !important;
+}
+
+/* Light theme version */
+[data-theme="light"] .tabs-container-centered {
+  margin-inline: auto !important;
+  padding-inline: var(--tabs-padding-inline, 1.5rem) !important;
+  max-width: fit-content !important;
+  position: relative;
+  overflow: hidden !important;
+}
+
+/* Active pill containment with proper insets */
+[data-theme="dark"] [role="tablist"] {
+  background-color: var(--dashboard-glass);
+  border: 1px solid var(--dashboard-border);
+  border-radius: 0.75rem;
+  padding: 0.375rem;
+  overflow: hidden !important;
+  position: relative;
+  box-sizing: border-box;
+  height: 2.75rem;
+  min-height: 2.75rem;
+}
+
+[data-theme="dark"] [role="tab"] {
+  color: var(--dashboard-muted);
+  background: transparent;
+  border: none !important;
+  border-radius: 0.5rem;
+  padding: 0.375rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2rem;
+  box-sizing: border-box;
+  margin: 0 !important;
+  outline: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  flex-grow: 1;
+  flex-basis: 0;
+  /* Ensure pill stays within bounds with 6-8px inset */
+  inset: 6px;
+}
+
+[data-theme="dark"] [role="tab"][data-state="active"],
+[data-theme="dark"] [role="tab"][aria-selected="true"] {
+  background: var(--dashboard-accent) !important;
+  color: var(--dashboard-accent-on, #07110F) !important;
+  border: 1px solid var(--dashboard-accent) !important;
+  box-shadow: none !important;
+  transform: none !important;
+  margin: 0 !important;
+  height: 2rem;
+  z-index: 1;
+  /* Keep active pill contained with inset */
+  max-width: calc(100% - 12px);
+  max-height: calc(100% - 12px);
+}
+
+[data-theme="dark"] [role="tab"]:hover:not([data-state="active"]):not([aria-selected="true"]) {
+  background-color: var(--dashboard-hover);
+  color: var(--dashboard-fg);
+  border-radius: 0.5rem;
+}
+
+/* LLM INTERFACE REDESIGN - REQUIREMENTS 2, 3, 4 */
+
+/* AI Assistant Pane - Full Height Container */
+[data-theme="dark"] .ai-assistant-pane {
+  background: var(--dashboard-bg-main);
+  background-image: var(--dashboard-shimmer);
+  background-size: 200% 100%;
+  animation: shimmer 8s ease-in-out infinite;
+  background-attachment: fixed;
+  padding: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* LLM Header Transparent - REQUIREMENT 2: Expose shimmer background */
+[data-theme="dark"] .llm-header-transparent {
+  background: transparent !important;
+  border: none !important;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+  margin-bottom: 0;
   position: relative;
   z-index: 1;
 }
 
-/* Shimmer Animation Keyframes */
-@keyframes dashboard-shimmer {
-  0%, 100% {
-    background-position: 200% 0;
-  }
-  50% {
-    background-position: -200% 0;
-  }
-}
-
-/* Disable animations for reduced motion users */
-@media (prefers-reduced-motion: reduce) {
-  [data-theme="dark"] .flex.flex-col:has([role="tablist"])::before {
-    animation: none !important;
-  }
-}
-
-/* Remove all blue/purple tokens */
-[data-theme="dark"] .bg-blue-50,
-[data-theme="dark"] .bg-blue-100,
-[data-theme="dark"] .bg-blue-200,
-[data-theme="dark"] .bg-blue-300,
-[data-theme="dark"] .bg-blue-400,
-[data-theme="dark"] .bg-blue-500,
-[data-theme="dark"] .bg-blue-600,
-[data-theme="dark"] .bg-blue-700,
-[data-theme="dark"] .bg-blue-800,
-[data-theme="dark"] .bg-blue-900 {
-  background-color: var(--dashboard-accent) !important;
-}
-
-[data-theme="dark"] .bg-purple-50,
-[data-theme="dark"] .bg-purple-100,
-[data-theme="dark"] .bg-purple-200,
-[data-theme="dark"] .bg-purple-300,
-[data-theme="dark"] .bg-purple-400,
-[data-theme="dark"] .bg-purple-500,
-[data-theme="dark"] .bg-purple-600,
-[data-theme="dark"] .bg-purple-700,
-[data-theme="dark"] .bg-purple-800,
-[data-theme="dark"] .bg-purple-900 {
-  background-color: var(--dashboard-accent) !important;
-}
-
-[data-theme="dark"] .text-blue-400,
-[data-theme="dark"] .text-blue-500,
-[data-theme="dark"] .text-blue-600,
-[data-theme="dark"] .text-blue-700,
-[data-theme="dark"] .text-purple-400,
-[data-theme="dark"] .text-purple-500,
-[data-theme="dark"] .text-purple-600,
-[data-theme="dark"] .text-purple-700 {
-  color: var(--dashboard-accent) !important;
-}
-
-[data-theme="dark"] .border-blue-400,
-[data-theme="dark"] .border-blue-500,
-[data-theme="dark"] .border-blue-600,
-[data-theme="dark"] .border-purple-400,
-[data-theme="dark"] .border-purple-500,
-[data-theme="dark"] .border-purple-600 {
-  border-color: var(--dashboard-accent) !important;
-}
-
-/* CORE SURFACE SYSTEM */
-
-/* Standard surface backgrounds */
-[data-theme="dark"] .bg-white {
-  background-color: var(--dashboard-bg-1) !important;
-}
-
-[data-theme="dark"] .bg-gray-50 {
-  background-color: var(--dashboard-bg-0) !important;
-}
-
-[data-theme="dark"] .bg-gray-100,
-[data-theme="dark"] .bg-gray-200 {
-  background-color: var(--dashboard-bg-2) !important;
-}
-
-[data-theme="dark"] .bg-gray-800,
-[data-theme="dark"] .bg-gray-900 {
-  background-color: var(--dashboard-bg-1) !important;
-}
-
-/* Text system */
-[data-theme="dark"] .text-white,
-[data-theme="dark"] .text-gray-900,
-[data-theme="dark"] .text-gray-800 {
-  color: var(--dashboard-fg) !important;
-}
-
-[data-theme="dark"] .text-gray-200,
-[data-theme="dark"] .text-gray-300,
-[data-theme="dark"] .text-gray-400,
-[data-theme="dark"] .text-gray-500,
-[data-theme="dark"] .text-gray-600 {
-  color: var(--dashboard-muted) !important;
-}
-
-/* Border system */
-[data-theme="dark"] .border-gray-200,
-[data-theme="dark"] .border-gray-300,
-[data-theme="dark"] .border-gray-600,
-[data-theme="dark"] .border-gray-700 {
-  border-color: var(--dashboard-border) !important;
-}
-
-/* COMPONENT THEMING MATRIX */
-
-/* Header / Toolbars - Glass surface with backdrop blur */
-[data-theme="dark"] header,
-[data-theme="dark"] .app-header,
-[data-theme="dark"] .tab-toolbar,
-[data-theme="dark"] .bg-white.border-b {
-  background-color: var(--dashboard-glass) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  border-bottom: 1px solid var(--dashboard-border) !important;
-}
-
-[data-theme="dark"] header *,
-[data-theme="dark"] .app-header * {
-  color: var(--dashboard-fg) !important;
-}
-
-[data-theme="dark"] header svg,
-[data-theme="dark"] .app-header svg {
-  opacity: 0.78;
-  transition: opacity 0.2s ease;
-}
-
-[data-theme="dark"] header svg:hover,
-[data-theme="dark"] .app-header svg:hover {
-  opacity: 1;
-}
-
-/* THEME TOGGLE SUN ICON - SATURATED ORANGE IN DARK MODE */
-[data-theme="dark"] .theme-toggle svg,
-[data-theme="dark"] button[aria-label*="theme"] svg,
-[data-theme="dark"] button[title*="theme"] svg,
-[data-theme="dark"] [data-testid="theme-toggle"] svg,
-[data-theme="dark"] .lucide-sun,
-[data-theme="dark"] .sun-icon {
-  color: #FF8C00 !important; /* Saturated orange - more visible */
-  fill: #FF8C00 !important;
-}
-
-[data-theme="dark"] .theme-toggle:hover svg,
-[data-theme="dark"] button[aria-label*="theme"]:hover svg,
-[data-theme="dark"] button[title*="theme"]:hover svg,
-[data-theme="dark"] [data-testid="theme-toggle"]:hover svg,
-[data-theme="dark"] .lucide-sun:hover,
-[data-theme="dark"] .sun-icon:hover {
-  color: #FF7F00 !important; /* Even more saturated on hover */
-  fill: #FF7F00 !important;
-}
-
-/* Light theme toggle uses accent-ui */
-[data-theme="light"] .theme-toggle,
-[data-theme="light"] button[aria-label*="theme"],
-[data-theme="light"] button[title*="theme"],
-[data-theme="light"] [data-testid="theme-toggle"] {
-  color: var(--accent-ui) !important; /* Green in light theme */
-}
-
-[data-theme="light"] .theme-toggle:hover,
-[data-theme="light"] button[aria-label*="theme"]:hover,
-[data-theme="light"] button[title*="theme"]:hover,
-[data-theme="light"] [data-testid="theme-toggle"]:hover {
-  color: #0a5d63 !important; /* Slightly darker green on hover */
-}
-
-/* Left AI Assistant Pane - TRANSPARENT HEADER TO SHOW SHIMMER */
-[data-theme="dark"] .ai-assistant-pane {
-  background: transparent !important; /* Let shimmer show through */
-  border-right: 1px solid var(--dashboard-border);
-  padding: 2rem 1.5rem;
-}
-
-/* LLM Header - TRANSPARENT TO EXPOSE SHIMMER BACKGROUND */
-[data-theme="dark"] .llm-header-transparent {
-  background: transparent; /* No opaque fill - shimmer shows through */
-  border: none;
-  margin-bottom: 1rem; /* Reduced from 1.5rem to align panel better */
-}
-
 [data-theme="dark"] .llm-header-transparent h2 {
-  color: var(--dashboard-fg);
+  color: var(--dashboard-fg) !important;
   font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 1rem;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); /* Subtle shadow for contrast over shimmer */
+  margin-bottom: 0.5rem;
 }
 
 [data-theme="dark"] .llm-description {
-  color: var(--dashboard-muted);
-  font-size: 1rem;
-  line-height: 1.5;
-  margin-bottom: 1rem; /* Reduced spacing to align panel */
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Subtle shadow for readability */
+  color: var(--dashboard-muted) !important;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  margin-bottom: 1.5rem;
 }
 
 [data-theme="dark"] .llm-clear-button {
-  color: var(--dashboard-muted);
-  opacity: 0.82;
+  background: transparent !important;
+  border: 1px solid var(--dashboard-border) !important;
+  color: var(--dashboard-muted) !important;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
   transition: all 0.15s ease;
-  background: rgba(9, 13, 13, 0.6); /* Subtle background for visibility over shimmer */
-  backdrop-filter: blur(8px);
 }
 
 [data-theme="dark"] .llm-clear-button:hover {
-  color: var(--dashboard-fg);
-  opacity: 1.0;
-  background: rgba(9, 13, 13, 0.8);
+  background: var(--dashboard-hover) !important;
+  color: var(--dashboard-fg) !important;
+  border-color: var(--dashboard-accent) !important;
 }
 
-/* LLM Chat Panel - ALIGNED WITH RIGHT-HAND PANELS */
+/* LLM Chat Panel - REQUIREMENT 3: Align with right-hand panels */
 [data-theme="dark"] .llm-chat-panel {
-  background: var(--dashboard-card-gradient);
-  border: 1px solid var(--dashboard-border);
-  border-radius: 0.875rem; /* 14px */
-  overflow: hidden;
-  min-height: 24rem;
-  margin-top: 0; /* No extra top margin - aligns with right panels */
-}
-
-/* Try Asking Examples - INSIDE WELCOME MESSAGE */
-[data-theme="dark"] .llm-try-asking-examples {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--dashboard-border);
-}
-
-[data-theme="dark"] .llm-try-asking-examples strong {
-  color: var(--dashboard-fg);
-}
-
-[data-theme="dark"] .llm-try-asking-examples p {
-  color: var(--dashboard-muted);
-}
-
-/* LLM Chat Panel - Matches Dashboard Cards */
-[data-theme="dark"] .llm-chat-panel {
-  background: var(--dashboard-card-gradient);
-  border: 1px solid var(--dashboard-border);
-  border-radius: 0.875rem; /* 14px */
-  overflow: hidden;
-  min-height: 24rem; /* Adequate height for messages */
+  background: var(--dashboard-panel-gradient) !important;
+  border: 1px solid var(--dashboard-border) !important;
+  border-radius: 0.875rem !important;
+  margin: 0 1.5rem 1.5rem 1.5rem;
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* Remove extra top margin to align with right panels */
+  margin-top: -0.5rem;
+  /* Ensure top edge aligns with right-hand panels */
+  min-height: 0;
 }
 
 /* Messages Area */
 [data-theme="dark"] .llm-messages-area {
-  padding: 1.5rem;
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+  margin-bottom: 1rem;
   position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(107, 117, 125, 0.35) transparent;
 }
 
-[data-theme="dark"] .llm-messages-area.drag-active {
-  background: rgba(59, 130, 246, 0.1);
-  border: 2px dashed rgba(59, 130, 246, 0.3);
+[data-theme="dark"] .llm-messages-area::-webkit-scrollbar {
+  width: 6px;
 }
 
-[data-theme="dark"] .llm-drag-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(9, 13, 13, 0.9);
-  z-index: 10;
+[data-theme="dark"] .llm-messages-area::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-/* Welcome Message */
+[data-theme="dark"] .llm-messages-area::-webkit-scrollbar-thumb {
+  background: rgba(107, 117, 125, 0.35);
+  border-radius: 3px;
+}
+
+[data-theme="dark"] .llm-messages-area::-webkit-scrollbar-thumb:hover {
+  background: rgba(107, 117, 125, 0.5);
+}
+
+/* Welcome Message - REQUIREMENT 4: Reorder intro copy */
 [data-theme="dark"] .llm-welcome-message {
   text-align: center;
-  padding: 2rem 0;
+  padding: 2rem 1rem;
   color: var(--dashboard-muted);
 }
 
-[data-theme="dark"] .llm-welcome-message .text-lg {
-  color: var(--dashboard-fg);
+[data-theme="dark"] .llm-welcome-message .w-12 {
+  color: var(--dashboard-muted);
+  opacity: 0.3;
+}
+
+[data-theme="dark"] .llm-welcome-message p:first-of-type {
+  color: var(--dashboard-fg) !important;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+[data-theme="dark"] .llm-welcome-message p:nth-of-type(2) {
+  color: var(--dashboard-muted) !important;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+/* Try asking examples - positioned below helper sentence */
+[data-theme="dark"] .llm-try-asking-examples {
+  background: rgba(23, 23, 23, 0.4);
+  border: 1px solid var(--dashboard-border);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  text-align: left;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+[data-theme="dark"] .llm-try-asking-examples p:first-child {
+  color: var(--dashboard-fg) !important;
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
 
-/* Messages */
+[data-theme="dark"] .llm-try-asking-examples .space-y-1 p {
+  color: var(--dashboard-muted) !important;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  margin: 0.25rem 0;
+  padding-left: 0.5rem;
+  border-left: 2px solid var(--dashboard-accent);
+}
+
+/* Message Bubbles */
 [data-theme="dark"] .llm-message {
   margin-bottom: 1rem;
   display: flex;
+  flex-direction: column;
 }
 
-[data-theme="dark"] .llm-message.user-message {
-  justify-content: flex-end;
+[data-theme="dark"] .user-message {
+  align-items: flex-end;
 }
 
-[data-theme="dark"] .llm-message.ai-message {
-  justify-content: flex-start;
+[data-theme="dark"] .ai-message {
+  align-items: flex-start;
 }
 
 [data-theme="dark"] .message-bubble {
   max-width: 80%;
   padding: 0.75rem 1rem;
-  border-radius: 0.75rem;
+  border-radius: 1rem;
   position: relative;
 }
 
 [data-theme="dark"] .user-message .message-bubble {
-  background: var(--accent-ui);
-  color: #07110F; /* High contrast on accent */
-  margin-left: 1rem;
+  background: var(--dashboard-accent);
+  color: var(--dashboard-accent-on);
+  border-bottom-right-radius: 0.25rem;
 }
 
 [data-theme="dark"] .ai-message .message-bubble {
-  background: var(--dashboard-bg-1);
+  background: rgba(23, 23, 23, 0.8);
   color: var(--dashboard-fg);
   border: 1px solid var(--dashboard-border);
-  margin-right: 1rem;
+  border-bottom-left-radius: 0.25rem;
 }
 
 [data-theme="dark"] .message-content {
   font-size: 0.875rem;
   line-height: 1.5;
+  margin-bottom: 0.25rem;
   white-space: pre-wrap;
 }
 
 [data-theme="dark"] .message-timestamp {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   opacity: 0.7;
-  margin-top: 0.25rem;
-}
-
-[data-theme="dark"] .user-message .message-timestamp {
-  color: rgba(7, 17, 15, 0.7);
+  text-align: right;
 }
 
 [data-theme="dark"] .ai-message .message-timestamp {
-  color: var(--dashboard-muted);
+  text-align: left;
 }
 
 /* Loading Message */
 [data-theme="dark"] .llm-loading-message {
   display: flex;
-  justify-content: flex-start;
+  align-items: flex-start;
   margin-bottom: 1rem;
 }
 
 [data-theme="dark"] .loading-bubble {
-  background: var(--dashboard-bg-1);
+  background: rgba(23, 23, 23, 0.8);
   border: 1px solid var(--dashboard-border);
+  border-radius: 1rem;
+  border-bottom-left-radius: 0.25rem;
   padding: 0.75rem 1rem;
-  border-radius: 0.75rem;
-  margin-right: 1rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -476,46 +378,40 @@
 }
 
 [data-theme="dark"] .loading-dots .dot {
-  width: 0.5rem;
-  height: 0.5rem;
-  background: var(--dashboard-muted);
+  width: 6px;
+  height: 6px;
+  background: var(--dashboard-accent);
   border-radius: 50%;
-  animation: bounce 1.4s ease-in-out infinite both;
+  animation: pulse 1.4s ease-in-out infinite both;
 }
 
 [data-theme="dark"] .loading-dots .dot:nth-child(1) { animation-delay: -0.32s; }
 [data-theme="dark"] .loading-dots .dot:nth-child(2) { animation-delay: -0.16s; }
+[data-theme="dark"] .loading-dots .dot:nth-child(3) { animation-delay: 0s; }
 
 [data-theme="dark"] .loading-text {
-  font-size: 0.875rem;
   color: var(--dashboard-muted);
-}
-
-@keyframes bounce {
-  0%, 80%, 100% {
-    transform: scale(0);
-  } 40% {
-    transform: scale(1);
-  }
-}
-
-/* Composer Divider */
-[data-theme="dark"] .llm-composer-divider {
-  height: 1px;
-  background: var(--dashboard-border);
-  margin: 0;
+  font-size: 0.875rem;
 }
 
 /* Composer Area */
+[data-theme="dark"] .llm-composer-divider {
+  height: 1px;
+  background: var(--dashboard-border);
+  margin: 0 -1.5rem 1rem -1.5rem;
+}
+
 [data-theme="dark"] .llm-composer {
-  padding: 1.5rem;
-  background: var(--dashboard-bg-2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex-shrink: 0;
 }
 
 [data-theme="dark"] .composer-input-row {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  align-items: flex-end;
 }
 
 [data-theme="dark"] .llm-input {
@@ -523,68 +419,71 @@
   border: 1px solid var(--dashboard-border) !important;
   color: var(--dashboard-fg) !important;
   border-radius: 0.5rem;
-}
-
-[data-theme="dark"] .llm-input::placeholder {
-  color: var(--dashboard-muted);
+  font-size: 0.875rem;
+  padding: 0.75rem;
+  transition: border-color 0.15s ease;
 }
 
 [data-theme="dark"] .llm-input:focus {
-  outline: 2px solid var(--dashboard-focus) !important;
-  outline-offset: -2px;
-  border-color: var(--accent-ui) !important;
+  outline: 2px solid var(--dashboard-focus) inset !important;
+  outline-offset: -2px !important;
+  border-color: var(--dashboard-accent) !important;
 }
 
-/* Send Button - FIXED VISIBILITY */
-[data-theme="dark"] .llm-send-btn {
-  background: var(--accent-ui) !important;
-  color: #07110F !important; /* High contrast on accent */
-  border: none !important;
-  padding: 0.5rem 0.75rem;
+[data-theme="dark"] .llm-input::placeholder {
+  color: var(--dashboard-muted) !important;
+}
+
+[data-theme="dark"] .llm-attachment-btn {
+  background: transparent !important;
+  border: 1px solid var(--dashboard-border) !important;
+  color: var(--dashboard-muted) !important;
   border-radius: 0.5rem;
-  min-width: 2.5rem;
+  padding: 0.75rem;
   transition: all 0.15s ease;
+  flex-shrink: 0;
 }
 
-[data-theme="dark"] .llm-send-btn:hover:not(:disabled) {
-  background: #00a36a !important; /* +8% brightness */
+[data-theme="dark"] .llm-attachment-btn:hover {
+  background: var(--dashboard-hover) !important;
+  color: var(--dashboard-fg) !important;
+  border-color: var(--dashboard-accent) !important;
 }
 
-[data-theme="dark"] .llm-send-btn:active:not(:disabled) {
-  background: #00966c !important; /* -8% brightness */
+/* Send Button - ENSURE VISIBILITY */
+[data-theme="dark"] .llm-send-btn {
+  background: var(--dashboard-accent) !important;
+  color: var(--dashboard-accent-on) !important;
+  border: 1px solid var(--dashboard-accent) !important;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+  min-width: 2.75rem;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-[data-theme="dark"] .llm-send-btn:focus-visible {
-  outline: 2px solid var(--dashboard-focus) !important;
-  outline-offset: -2px;
+[data-theme="dark"] .llm-send-btn:enabled:hover {
+  background: #00d18a !important;
+  color: var(--dashboard-accent-on) !important;
+}
+
+[data-theme="dark"] .llm-send-btn:enabled:active {
+  background: #00a66b !important;
 }
 
 [data-theme="dark"] .llm-send-btn:disabled {
   opacity: 0.45;
-  background: var(--dashboard-muted) !important;
-  color: var(--dashboard-bg-0) !important;
+  background: var(--dashboard-accent) !important;
+  cursor: not-allowed;
 }
 
 [data-theme="dark"] .llm-send-btn svg {
-  width: 1.25rem !important; /* 20px */
-  height: 1.25rem !important;
-  fill: #07110F !important; /* Force high contrast color */
-  stroke: none !important;
-  color: #07110F !important;
-}
-
-/* Attachment Button */
-[data-theme="dark"] .llm-attachment-btn {
-  color: var(--accent-ui);
-  border: 1px solid var(--dashboard-border);
-  background: transparent;
-  opacity: 0.82;
-  transition: all 0.15s ease;
-}
-
-[data-theme="dark"] .llm-attachment-btn:hover {
-  opacity: 1.0;
-  background: var(--dashboard-hover);
+  color: inherit !important;
+  opacity: 1 !important;
 }
 
 /* Composer Controls */
@@ -593,447 +492,235 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.875rem;
+}
+
+[data-theme="dark"] .composer-controls label {
   color: var(--dashboard-muted);
+  font-weight: 500;
+}
+
+[data-theme="dark"] .composer-controls [role="combobox"] {
+  background: var(--dashboard-input-bg) !important;
+  border: 1px solid var(--dashboard-border) !important;
+  color: var(--dashboard-fg) !important;
+  border-radius: 0.375rem;
+  font-size: 0.8125rem;
+}
+
+[data-theme="dark"] .composer-controls [role="combobox"]:focus {
+  outline: 2px solid var(--dashboard-focus) inset !important;
+  outline-offset: -2px !important;
+  border-color: var(--dashboard-accent) !important;
 }
 
 /* Attached Files */
 [data-theme="dark"] .attached-files {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--dashboard-border);
+  background: rgba(23, 23, 23, 0.4);
+  border: 1px solid var(--dashboard-border);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
 }
 
 [data-theme="dark"] .attached-files p {
   color: var(--dashboard-muted);
-  font-size: 0.875rem;
-  margin-bottom: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
 }
 
 [data-theme="dark"] .files-list {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 0.5rem;
 }
 
 [data-theme="dark"] .file-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background: var(--dashboard-bg-1);
+  gap: 0.375rem;
+  background: var(--dashboard-hover);
   border: 1px solid var(--dashboard-border);
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
+  border-radius: 0.375rem;
+  padding: 0.375rem 0.5rem;
+  font-size: 0.75rem;
 }
 
 [data-theme="dark"] .file-name {
-  font-size: 0.875rem;
   color: var(--dashboard-fg);
-  truncate: true;
-  flex: 1;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 [data-theme="dark"] .file-remove-btn {
-  color: var(--dashboard-danger);
-  opacity: 0.7;
-  transition: opacity 0.15s ease;
+  background: transparent !important;
+  border: none !important;
+  color: var(--dashboard-muted) !important;
+  padding: 0.125rem !important;
+  min-width: auto !important;
+  height: auto !important;
 }
 
 [data-theme="dark"] .file-remove-btn:hover {
-  opacity: 1.0;
+  color: var(--dashboard-danger) !important;
 }
 
-/* LIGHT THEME LLM INTERFACE STYLING */
-[data-theme="light"] .ai-assistant-pane {
-  background: #ffffff !important;
-  border-right: 1px solid #e5e7eb;
-  padding: 2rem 1.5rem;
-}
-
-[data-theme="light"] .llm-header-block h2 {
-  color: #111827;
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-
-[data-theme="light"] .llm-description {
-  color: #6b7280;
-  font-size: 1rem;
-  line-height: 1.5;
-  margin-bottom: 1.5rem;
-}
-
-[data-theme="light"] .llm-clear-button {
-  color: #6b7280;
-  opacity: 0.82;
-  transition: all 0.15s ease;
-}
-
-[data-theme="light"] .llm-clear-button:hover {
-  color: #374151;
-  opacity: 1.0;
-}
-
-[data-theme="light"] .llm-suggestions {
-  color: #6b7280;
-  font-size: 0.875rem;
-  line-height: 1.4;
-}
-
-[data-theme="light"] .llm-suggestions strong {
-  color: #111827;
-}
-
-[data-theme="light"] .llm-chat-panel {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.875rem;
-  overflow: hidden;
-  min-height: 24rem;
-}
-
-[data-theme="light"] .llm-messages-area {
-  padding: 1.5rem;
-  position: relative;
-}
-
-[data-theme="light"] .llm-welcome-message {
-  text-align: center;
-  padding: 2rem 0;
-  color: #6b7280;
-}
-
-[data-theme="light"] .llm-welcome-message .text-lg {
-  color: #111827;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-[data-theme="light"] .user-message .message-bubble {
-  background: var(--accent-ui); /* #0E6D73 in light theme */
-  color: #ffffff; /* High contrast on accent */
-  margin-left: 1rem;
-}
-
-[data-theme="light"] .ai-message .message-bubble {
-  background: #f9fafb;
-  color: #111827;
-  border: 1px solid #e5e7eb;
-  margin-right: 1rem;
-}
-
-[data-theme="light"] .user-message .message-timestamp {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-[data-theme="light"] .ai-message .message-timestamp {
-  color: #6b7280;
-}
-
-[data-theme="light"] .loading-bubble {
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  padding: 0.75rem 1rem;
-  border-radius: 0.75rem;
-  margin-right: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-[data-theme="light"] .loading-dots .dot {
-  background: #6b7280;
-}
-
-[data-theme="light"] .loading-text {
-  color: #6b7280;
-}
-
-[data-theme="light"] .llm-composer-divider {
-  background: #e5e7eb;
-}
-
-[data-theme="light"] .llm-composer {
-  padding: 1.5rem;
-  background: #f9fafb;
-}
-
-[data-theme="light"] .llm-input {
-  background: #ffffff !important;
-  border: 1px solid #d1d5db !important;
-  color: #111827 !important;
+/* Drag and Drop */
+[data-theme="dark"] .llm-messages-area.drag-active::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(59, 130, 246, 0.1);
+  border: 2px dashed #3b82f6;
   border-radius: 0.5rem;
+  z-index: 10;
+  pointer-events: none;
 }
 
-[data-theme="light"] .llm-input::placeholder {
-  color: #9ca3af;
-}
-
-[data-theme="light"] .llm-input:focus {
-  outline: 2px solid rgba(14, 109, 115, 0.55) !important;
-  outline-offset: -2px;
-  border-color: var(--accent-ui) !important;
-}
-
-/* Light Theme Send Button */
-[data-theme="light"] .llm-send-btn {
-  background: var(--accent-ui) !important; /* #0E6D73 */
-  color: #ffffff !important;
-  border: none !important;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
-  min-width: 2.5rem;
-  transition: all 0.15s ease;
-}
-
-[data-theme="light"] .llm-send-btn:hover:not(:disabled) {
-  background: #0c5d63 !important; /* +8% darker */
-}
-
-[data-theme="light"] .llm-send-btn:active:not(:disabled) {
-  background: #0a5459 !important; /* -8% darker */
-}
-
-[data-theme="light"] .llm-send-btn:focus-visible {
-  outline: 2px solid rgba(14, 109, 115, 0.55) !important;
-  outline-offset: -2px;
-}
-
-[data-theme="light"] .llm-send-btn svg {
-  width: 1.25rem !important;
-  height: 1.25rem !important;
-  fill: #ffffff !important; /* Force white on teal background */
-  stroke: none !important;
-  color: #ffffff !important;
-}
-
-[data-theme="light"] .llm-send-btn:disabled {
-  opacity: 0.45;
-  background: #9ca3af !important;
-  color: #ffffff !important;
-}
-
-[data-theme="light"] .llm-attachment-btn {
-  color: var(--accent-ui);
-  border: 1px solid #d1d5db;
-  background: transparent;
-  opacity: 0.82;
-  transition: all 0.15s ease;
-}
-
-[data-theme="light"] .llm-attachment-btn:hover {
-  opacity: 1.0;
-  background: #f3f4f6;
-}
-
-[data-theme="light"] .composer-controls {
-  color: #6b7280;
-}
-
-[data-theme="light"] .attached-files p {
-  color: #6b7280;
-}
-
-[data-theme="light"] .file-item {
-  background: #ffffff;
-  border: 1px solid #d1d5db;
-  color: #111827;
-}
-
-[data-theme="light"] .file-remove-btn {
-  color: #ef4444;
-  opacity: 0.7;
-}
-
-[data-theme="light"] .file-remove-btn:hover {
-  opacity: 1.0;
-}
-
-/* Accessibility & Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-  [data-theme="dark"] .loading-dots .dot,
-  [data-theme="light"] .loading-dots .dot {
-    animation: none !important;
-  }
-  
-  [data-theme="dark"] .llm-send-btn,
-  [data-theme="light"] .llm-send-btn,
-  [data-theme="dark"] .llm-attachment-btn,
-  [data-theme="light"] .llm-attachment-btn {
-    transition: none !important;
-  }
-}
-
-/* Dashboard Tab Panes - LANDING PAGE CARD GRADIENT */
-[data-theme="dark"] .tab-content-padding,
-[data-theme="dark"] [data-radix-tabs-content] {
-  background: var(--dashboard-card-gradient) !important;
-  border-radius: 0.875rem;
-  border: 1px solid var(--dashboard-border);
-  margin: 0.5rem;
-  padding: 1.5rem !important;
-  position: relative;
-  z-index: 1;
-}
-
-/* TABS INTERFACE - CENTERED WITH EQUAL SPACING */
-.tabs-container-centered {
-  margin-inline: auto;
-  padding-inline: 1.5rem; /* Equal spacing on both sides */
-  max-width: calc(100% - 3rem); /* Account for total padding */
-}
-
-@media (min-width: 768px) {
-  .tabs-container-centered {
-    padding-inline: 3rem; /* Larger equal spacing on desktop */
-    max-width: calc(100% - 6rem);
-  }
-}
-
-/* Segmented Tabs - FIXED SIZE WITH PROPER CONTAINMENT */
-[data-theme="dark"] [role="tablist"],
-[role="tablist"] {
-  background-color: var(--dashboard-bg-2);
-  border: 1px solid var(--dashboard-border);
-  border-radius: 0.75rem; /* 12px */
-  padding: 0.5rem; /* 8px inset for proper containment */
-  overflow: hidden; /* Ensure active pill is contained */
-  position: relative;
-  box-sizing: border-box;
-  height: 2.75rem; /* Fixed height: 44px */
-  min-height: 2.75rem; /* 44px */
-}
-
-[data-theme="dark"] [role="tab"],
-[role="tab"] {
-  color: var(--dashboard-muted);
-  background: transparent;
-  border: none !important;
-  border-radius: 0.5rem; /* 8px */
-  padding: 0.25rem 1rem; /* Reduced vertical padding: 4px 16px */
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
+[data-theme="dark"] .llm-drag-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(9, 13, 13, 0.95);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 1.75rem; /* Fixed height: 28px - properly contained with 8px insets */
-  box-sizing: border-box;
-  margin: 0 !important;
-  outline: none;
-  white-space: nowrap;
-  flex-shrink: 0;
-  flex-grow: 1;
-  flex-basis: 0;
-}
-
-/* Active tab styling - ACCENT GREEN TINTED FILL WITH PROPER CONTAINMENT */
-[data-theme="dark"] [role="tab"][data-state="active"],
-[data-theme="dark"] [role="tab"][aria-selected="true"],
-[role="tab"][data-state="active"],
-[role="tab"][aria-selected="true"] {
-  background: rgba(0, 189, 125, 0.14) !important; /* Accent tinted at 14% */
-  color: var(--dashboard-fg) !important;
-  border: 1px solid rgba(0, 189, 125, 0.35) !important; /* Accent border at 35% */
-  box-shadow: none !important;
-  transform: none !important;
-  margin: 0 !important;
-  height: 1.75rem; /* Same as inactive tabs - 28px */
-  z-index: 1;
-}
-
-[data-theme="dark"] [role="tab"]:hover:not([data-state="active"]):not([aria-selected="true"]) {
-  background-color: var(--dashboard-hover);
-  color: var(--dashboard-fg);
+  z-index: 20;
+  border: 2px dashed #3b82f6;
   border-radius: 0.5rem;
 }
 
-/* GENERIC UI ICONS - USE ACCENT COLORS BUT EXCLUDE THEME TOGGLE */
-/* All generic UI icons use theme accent, NOT yellow */
-[data-theme="dark"] .icon:not(.theme-toggle svg):not(.lucide-sun),
-[data-theme="dark"] .btn-icon:not(.theme-toggle) > svg,
-[data-theme="dark"] .toolbar .icon:not(.theme-toggle svg),
-[data-theme="dark"] .card .icon:not(.theme-toggle svg),
-[data-theme="dark"] .chip .icon:not(.theme-toggle svg),
-[data-theme="dark"] button:not(.theme-toggle):not([aria-label*="theme"]) svg,
-[data-theme="dark"] [role="button"]:not(.theme-toggle):not([aria-label*="theme"]) svg,
-[data-theme="dark"] .send-button svg,
-[data-theme="dark"] .expand-icon,
-[data-theme="dark"] .collapse-icon,
-[data-theme="dark"] .refresh-icon,
-[data-theme="dark"] .chevron-icon,
-[data-theme="dark"] .nav-icon,
-[data-theme="dark"] .action-icon,
-[data-theme="dark"] .toggle-handle,
-[data-theme="dark"] .radio-indicator,
-[data-theme="dark"] .switch-thumb {
-  color: var(--accent-ui) !important;
-  opacity: 0.82;
+[data-theme="dark"] .llm-drag-overlay .text-center p {
+  color: #3b82f6;
+}
+
+/* Light Theme LLM Interface */
+[data-theme="light"] .ai-assistant-pane {
+  background: #f9fafb;
+  padding: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+[data-theme="light"] .llm-header-transparent {
+  background: transparent !important;
+  border: none !important;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+  margin-bottom: 0;
+}
+
+[data-theme="light"] .llm-header-transparent h2 {
+  color: #111827 !important;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+[data-theme="light"] .llm-description {
+  color: #6b7280 !important;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  margin-bottom: 1.5rem;
+}
+
+[data-theme="light"] .llm-chat-panel {
+  background: white !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 0.875rem !important;
+  margin: 0 1.5rem 1.5rem 1.5rem;
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-top: -0.5rem;
+  min-height: 0;
+}
+
+[data-theme="light"] .llm-send-btn {
+  background: #0E6D73 !important;
+  color: white !important;
+  border: 1px solid #0E6D73 !important;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+  min-width: 2.75rem;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[data-theme="light"] .llm-send-btn:enabled:hover {
+  background: #0c5d63 !important;
+  color: white !important;
+}
+
+[data-theme="light"] .llm-send-btn svg {
+  color: inherit !important;
+  opacity: 1 !important;
+}
+
+/* EXISTING DASHBOARD STYLES CONTINUE... */
+
+/* Generic UI icon theming - GREEN ACCENT */
+[data-theme="dark"] .icon,
+[data-theme="dark"] .btn-icon > svg,
+[data-theme="dark"] button:not(.theme-toggle):not(.llm-send-btn) svg,
+[data-theme="dark"] [role="button"]:not(.theme-toggle) svg {
+  color: var(--dashboard-accent) !important; /* Green for generic UI */
+  opacity: 0.8;
   transition: all 0.15s ease;
 }
 
-/* Hover states */
+/* Specific semantic overrides - SATURATED COLORS */
+[data-theme="dark"] .sun-icon,
+[data-theme="dark"] .theme-toggle svg {
+  color: #F59E0B !important; /* Saturated orange/yellow for sun icon */
+  opacity: 1 !important;
+}
+
+/* Success/Error/Warning badges - keep semantic RGBY */
+[data-theme="dark"] .success-icon,
+[data-theme="dark"] .icon-success {
+  color: var(--dashboard-success) !important;
+}
+
+[data-theme="dark"] .warning-icon,
+[data-theme="dark"] .icon-warning {
+  color: var(--dashboard-warning) !important;
+}
+
+[data-theme="dark"] .error-icon,
+[data-theme="dark"] .danger-icon,
+[data-theme="dark"] .icon-danger {
+  color: var(--dashboard-danger) !important;
+}
+
+/* Hover states for generic UI icons */
 [data-theme="dark"] .icon:hover,
 [data-theme="dark"] .btn-icon:hover > svg,
 [data-theme="dark"] button:not(.theme-toggle):hover svg,
 [data-theme="dark"] [role="button"]:not(.theme-toggle):hover svg {
   opacity: 1.0;
+  color: #00d18a !important; /* ~8% lighter green */
 }
 
 /* Active/pressed states */
 [data-theme="dark"] .icon:active,
 [data-theme="dark"] .btn-icon:active > svg,
 [data-theme="dark"] button:not(.theme-toggle):active svg {
-  color: #00a36a !important; /* Accent darkened ~8% */
+  color: #00a66b !important; /* ~8% darker green */
 }
 
-/* Focus states */
+/* Focus states for accessibility */
 [data-theme="dark"] .icon:focus-visible,
 [data-theme="dark"] button:not(.theme-toggle):focus-visible {
   outline: 2px solid var(--dashboard-focus) !important;
   outline-offset: -2px !important;
 }
 
-/* Light theme generic UI icons */
-[data-theme="light"] .icon:not(.theme-toggle svg):not(.lucide-sun),
-[data-theme="light"] .btn-icon:not(.theme-toggle) > svg,
-[data-theme="light"] .toolbar .icon:not(.theme-toggle svg),
-[data-theme="light"] .card .icon:not(.theme-toggle svg),
-[data-theme="light"] .chip .icon:not(.theme-toggle svg),
-[data-theme="light"] button:not(.theme-toggle):not([aria-label*="theme"]) svg,
-[data-theme="light"] [role="button"]:not(.theme-toggle):not([aria-label*="theme"]) svg,
-[data-theme="light"] .send-button svg,
-[data-theme="light"] .expand-icon,
-[data-theme="light"] .collapse-icon,
-[data-theme="light"] .refresh-icon,
-[data-theme="light"] .chevron-icon,
-[data-theme="light"] .nav-icon,
-[data-theme="light"] .action-icon,
-[data-theme="light"] .toggle-handle,
-[data-theme="light"] .radio-indicator,
-[data-theme="light"] .switch-thumb,
-[data-theme="light"] .profile-icon,
-[data-theme="light"] .user-icon,
-[data-theme="light"] .lucide-user {
-  color: var(--accent-ui) !important;
-  opacity: 0.82;
-  transition: all 0.15s ease;
-}
-
-/* Profile icon specific styling - Dashboard */
-[data-theme="light"] .profile-icon,
-[data-theme="light"] .user-icon,
-[data-theme="light"] .lucide-user {
-  color: #0E6D73 !important; /* Ensure profile icon is visible in light theme */
-  opacity: 0.9 !important;
-}
-
-/* CTA/Action button arrow visibility - Dashboard */
-[data-theme="light"] .get-started-arrow,
-[data-theme="light"] .cta-arrow,
-[data-theme="light"] .arrow-right,
-[data-theme="light"] .lucide-arrow-right,
+/* Arrow icons for CTAs - ensure visibility in both themes */
 [data-theme="dark"] .get-started-arrow,
 [data-theme="dark"] .cta-arrow,
 [data-theme="dark"] .arrow-right,
