@@ -15,6 +15,8 @@ import {
   CheckCircle, 
   Sun, 
   Moon, 
+  Menu,
+  X,
   Play,
   Code,
   Target,
