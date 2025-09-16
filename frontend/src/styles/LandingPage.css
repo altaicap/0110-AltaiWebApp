@@ -227,15 +227,8 @@
   transition: all 0.2s ease;
 }
 
-/* Dark theme header */
-.dark .landing-header {
-  background: rgba(9, 13, 13, 0.72); /* --glass tone */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
 /* Light theme header - ADD BLUR EFFECT */
-.light .landing-header {
+.landing-page-container:not(.dark) .landing-header {
   background: rgba(255, 255, 255, 0.85); /* Semi-transparent white */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
