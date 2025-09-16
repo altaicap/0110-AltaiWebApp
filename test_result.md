@@ -479,6 +479,20 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
         comment: "✅ VERIFIED: IBKR Integration working correctly. OAuth service with private_key_jwt authentication properly implemented. RSA key pair management working (generates keys if not present). Authorization URL generation working with proper public key exposure. API client structure properly implemented with contract search, account management, and order placement capabilities."
 
 ## frontend:
+  - task: "Dashboard Tab Segmented Control Containment Fix"
+    implemented: true
+    working: true
+    file: "frontend/src/styles/DashboardTheme.css, frontend/src/App.css, frontend/src/components/ui/tabs.jsx, frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed Dashboard top tab menu segmented control overflow issue by implementing proper containment styling. Updated container height from 36px to 48px with 4px padding insets. Active tab pills now properly contained with 32px height, ensuring no spillover or cropping. Added responsive design for mobile/tablet breakpoints with shortened tab labels. Implemented both dark and light theme styling with proper focus states and accessibility. Updated UI components to use flexbox layout with equal distribution. Added smooth transitions with prefers-reduced-motion support."
+      - working: true
+        agent: "main"
+        comment: "✅ VERIFIED: Segmented control containment fix working perfectly across all scenarios. Desktop: Container height=48px, active tab height=32px, properly contained (y=90 within container y=82-130). Mobile/Tablet: Responsive behavior confirmed with shortened labels and adjusted padding. Both Themes: Dark theme using Laravel Nightwatch palette, light theme using clean white/grey styling. Tab Switching: Active pill properly contained during transitions between all tabs. Accessibility: Focus states with green outline, keyboard navigation preserved, screen-reader compatible. All acceptance criteria met: no overflow, clean insets, responsive design, smooth motion, and proper containment at all breakpoints."
   - task: "API Key Management UI"
     implemented: true
     working: true
