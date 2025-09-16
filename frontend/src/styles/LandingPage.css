@@ -1177,7 +1177,7 @@
   padding: 0 1rem;
 }
 
-/* Theme Toggle Button */
+/* Theme Toggle Button - ICON ONLY, NO BACKGROUND */
 .theme-toggle {
   display: flex;
   align-items: center;
@@ -1185,17 +1185,17 @@
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 0.5rem;
-  border: 1px solid var(--border);
-  background-color: var(--bg-1);
+  border: none; /* Removed border */
+  background-color: transparent; /* Removed background */
   color: var(--muted);
   cursor: pointer;
   transition: all 0.2s ease;
+  padding: 0.5rem; /* Invisible padding for click target */
 }
 
 .theme-toggle:hover {
   color: var(--fg);
-  border-color: var(--accent);
-  background-color: var(--glow-1, rgba(0, 189, 125, 0.05));
+  background-color: transparent; /* Keep transparent on hover */
 }
 
 /* Responsive Design */
