@@ -652,34 +652,34 @@
   gap: 0.5rem;
 }
 
-/* IMPROVED LOGO SIZING - Consistent containers with proper sizing */
+/* IMPROVED LOGO SIZING - Consistent containers with 40% larger sizing */
 .logo-image {
-  height: 3rem;
+  height: 4.2rem; /* Increased from 3rem by 40% */
   width: auto;
-  max-width: 8rem;
+  max-width: 11.2rem; /* Increased from 8rem by 40% */
   object-fit: contain;
   opacity: 0.7;
-  transition: opacity 0.2s ease;
+  transition: all 0.2s ease;
   filter: grayscale(100%);
 }
 
-/* Enhanced logo sizing for consistent visual heights */
+/* Enhanced logo sizing for consistent visual heights - 40% larger */
 .logo-newsware {
-  height: 3rem !important;
-  padding: 0.3rem 0;
+  height: 4.2rem !important;
+  padding: 0.42rem 0; /* Scaled padding */
 }
 
 .logo-tradexchange {
-  height: 3rem !important;
-  padding: 0.2rem 0;
+  height: 4.2rem !important;
+  padding: 0.28rem 0; /* Scaled padding */
 }
 
 .logo-polygon {
-  height: 3rem !important;
-  padding: 0.1rem 0;
+  height: 4.2rem !important;
+  padding: 0.14rem 0; /* Scaled padding */
 }
 
-/* Dark theme logo adjustments */
+/* FIXED: Dark theme logo adjustments - maintain grayscale in default state */
 .landing-page-container.dark .logo-image {
   filter: grayscale(100%) invert(0.8);
   opacity: 0.6;
@@ -690,18 +690,19 @@
   opacity: 0.7;
 }
 
+/* FIXED: Hover effects - show colors in BOTH light and dark themes */
 .logo-image:hover {
   opacity: 1;
-  filter: none;
+  filter: none; /* Remove all filters to show original colors */
 }
 
 .landing-page-container.dark .logo-image:hover {
-  filter: grayscale(100%) invert(0.8);
-  opacity: 0.9;
+  filter: none; /* FIXED: Remove all filters in dark theme too */
+  opacity: 1;
 }
 
 .landing-page-container.dark .logo-polygon:hover {
-  filter: grayscale(100%) invert(0.8) brightness(1.2);
+  filter: none; /* FIXED: Remove all filters for colored display */
   opacity: 1;
 }
 
