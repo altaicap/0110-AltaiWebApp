@@ -154,14 +154,14 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
           setCurrentText(currentPhrase.substring(0, currentText.length + 1));
         }, typeSpeed);
         return () => clearTimeout(timer);
-      } else if (currentText.length === currentPhrase.length) {
-        // Finished typing, wait then start fading
+      } else if (currentText.length === currentPhrase.length && currentText === currentPhrase) {
+        // Finished typing current phrase, wait then start fading
         const timer = setTimeout(() => {
           setIsFading(true);
         }, pauseTime);
         return () => clearTimeout(timer);
       }
-    } else if (isFading) {
+    } else {
       // Fade out phase
       const timer = setTimeout(() => {
         setIsFading(false);
