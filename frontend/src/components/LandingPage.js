@@ -278,13 +278,40 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                 </nav>
 
                 <div className="header-auth-group">
-                  {/* Desktop Auth Buttons - Hidden on Mobile */}
-                  <button onClick={onSignIn} className="landing-btn landing-btn-ghost hidden md:inline-flex">
-                    Sign In
-                  </button>
-                  <button onClick={onRegister} className="landing-btn landing-btn-primary hidden md:inline-flex">
-                    Register
-                  </button>
+                  {/* Desktop Profile Dropdown - Replaces individual Sign In/Register buttons */}
+                  <div className="relative hidden md:block">
+                    <button
+                      onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                      className="profile-dropdown-trigger"
+                      aria-label="User profile menu"
+                    >
+                      <User className="h-5 w-5" />
+                    </button>
+
+                    {/* Profile Dropdown Menu */}
+                    {isProfileDropdownOpen && (
+                      <div className="profile-dropdown-menu">
+                        <button
+                          onClick={() => {
+                            onSignIn();
+                            setIsProfileDropdownOpen(false);
+                          }}
+                          className="profile-dropdown-item"
+                        >
+                          Sign In
+                        </button>
+                        <button
+                          onClick={() => {
+                            onRegister();
+                            setIsProfileDropdownOpen(false);
+                          }}
+                          className="profile-dropdown-item"
+                        >
+                          Register
+                        </button>
+                      </div>
+                    )}
+                  </div>
 
                   {/* Theme Toggle Button */}
                   <button
