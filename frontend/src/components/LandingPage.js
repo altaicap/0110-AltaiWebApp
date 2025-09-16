@@ -459,15 +459,29 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
             </div>
 
             <div className="pricing-grid">
-              {/* Basic Plan */}
+              {/* Basic Plan - UPDATED PRICING AND BENEFITS */}
               <div className="landing-card pricing-card">
                 <div className="landing-card-content">
                   <h3 className="landing-card-title text-center">Basic</h3>
                   <div className="price-display justify-center">
-                    <span className="price-amount">$34.99</span>
-                    <span className="price-period">/month</span>
+                    <div className="flex flex-col items-center">
+                      <div className="flex items-baseline">
+                        <span className="price-amount">$24.99</span>
+                        <span className="price-period">/month</span>
+                      </div>
+                      <div className="text-sm text-gray-500 line-through">$39.99/month</div>
+                      <div className="text-xs text-green-600 font-medium">Save $15/month</div>
+                    </div>
                   </div>
                   <ul className="feature-list">
+                    <li className="feature-item">
+                      <CheckCircle className="feature-icon" />
+                      <span>AI Assistant (50 free monthly credits)</span>
+                    </li>
+                    <li className="feature-item">
+                      <CheckCircle className="feature-icon" />
+                      <span>Altai Newsletter Basic</span>
+                    </li>
                     <li className="feature-item">
                       <CheckCircle className="feature-icon" />
                       <span>Backtesting</span>
@@ -477,21 +491,39 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                       <span>Trading Log</span>
                     </li>
                   </ul>
+                  <div className="text-center mb-4">
+                    <div className="text-sm font-medium text-blue-600">14-day free trial</div>
+                    <div className="text-xs text-gray-500">Card required for trial activation</div>
+                  </div>
                   <button className="landing-btn landing-btn-secondary w-full">
-                    Get Started
+                    Start Free Trial
                   </button>
                 </div>
               </div>
 
-              {/* Pro Plan - ADD ALTAI CAPITAL NEWSLETTER */}
+              {/* Pro Plan - UPDATED PRICING AND BENEFITS */}
               <div className="landing-card pricing-card">
                 <div className="landing-card-content">
                   <h3 className="landing-card-title text-center">Pro</h3>
                   <div className="price-display justify-center">
-                    <span className="price-amount">$69.99</span>
-                    <span className="price-period">/month</span>
+                    <div className="flex flex-col items-center">
+                      <div className="flex items-baseline">
+                        <span className="price-amount">$79.99</span>
+                        <span className="price-period">/month</span>
+                      </div>
+                      <div className="text-sm text-gray-500 line-through">$99.99/month</div>
+                      <div className="text-xs text-green-600 font-medium">Save $20/month</div>
+                    </div>
                   </div>
                   <ul className="feature-list">
+                    <li className="feature-item">
+                      <CheckCircle className="feature-icon" />
+                      <span>Altai Newsletter Pro</span>
+                    </li>
+                    <li className="feature-item">
+                      <CheckCircle className="feature-icon" />
+                      <span>AI Assistant (100 free monthly credits)</span>
+                    </li>
                     <li className="feature-item">
                       <CheckCircle className="feature-icon" />
                       <span>Backtesting</span>
@@ -504,27 +536,41 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                       <CheckCircle className="feature-icon" />
                       <span>5 Live Strategies</span>
                     </li>
-                    <li className="feature-item">
-                      <CheckCircle className="feature-icon" />
-                      <span>Altai Capital Newsletter</span>
-                    </li>
                   </ul>
+                  <div className="text-center mb-4">
+                    <div className="text-sm font-medium text-blue-600">14-day free trial</div>
+                    <div className="text-xs text-gray-500">Card required for trial activation</div>
+                  </div>
                   <button className="landing-btn landing-btn-secondary w-full">
-                    Get Started
+                    Start Free Trial
                   </button>
                 </div>
               </div>
 
-              {/* Max Plan - ADD ALTAI CAPITAL NEWSLETTER */}
+              {/* Max Plan - UPDATED PRICING AND BENEFITS */}
               <div className="landing-card pricing-card">
                 <div className="pricing-badge">Most Popular</div>
                 <div className="landing-card-content">
                   <h3 className="landing-card-title text-center">Max</h3>
                   <div className="price-display justify-center">
-                    <span className="price-amount">$119.99</span>
-                    <span className="price-period">/month</span>
+                    <div className="flex flex-col items-center">
+                      <div className="flex items-baseline">
+                        <span className="price-amount">$109.99</span>
+                        <span className="price-period">/month</span>
+                      </div>
+                      <div className="text-sm text-gray-500 line-through">$149.99/month</div>
+                      <div className="text-xs text-green-600 font-medium">Save $40/month</div>
+                    </div>
                   </div>
                   <ul className="feature-list">
+                    <li className="feature-item">
+                      <CheckCircle className="feature-icon" />
+                      <span>Altai Newsletter Max</span>
+                    </li>
+                    <li className="feature-item">
+                      <CheckCircle className="feature-icon" />
+                      <span>AI Assistant (200 free monthly credits)</span>
+                    </li>
                     <li className="feature-item">
                       <CheckCircle className="feature-icon" />
                       <span>Backtesting</span>
@@ -535,19 +581,15 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                     </li>
                     <li className="feature-item">
                       <CheckCircle className="feature-icon" />
-                      <span>Unlimited Live Strategies</span>
-                    </li>
-                    <li className="feature-item">
-                      <CheckCircle className="feature-icon" />
-                      <span>AI Assistant</span>
-                    </li>
-                    <li className="feature-item">
-                      <CheckCircle className="feature-icon" />
-                      <span>Altai Capital Newsletter</span>
+                      <span>5 Live Strategies</span>
                     </li>
                   </ul>
+                  <div className="text-center mb-4">
+                    <div className="text-sm font-medium text-blue-600">14-day free trial</div>
+                    <div className="text-xs text-gray-500">Card required for trial activation</div>
+                  </div>
                   <button className="landing-btn landing-btn-primary w-full">
-                    Get Started
+                    Start Free Trial
                   </button>
                 </div>
               </div>
