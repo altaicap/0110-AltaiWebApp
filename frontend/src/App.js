@@ -5065,22 +5065,22 @@ metadata = {
       className={`min-h-screen bg-gray-50 ${appSettings.theme === 'dark' ? 'dark' : ''} font-size-${appSettings.fontSize}`}
       data-theme={appSettings.theme}
     >
-      {/* Header - UPDATED ALIGNMENT & ORDER */}
+      {/* Header - FULL WIDTH WITH PROPER SPACING */}
       <header className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 w-full">
-            {/* Left: Logo aligned with AI Assistant icon */}
-            <div className="flex items-center">
+            {/* Left: Logo with minimal indent */}
+            <div className="flex items-center flex-shrink-0">
               <img 
                 src={isDarkTheme ? AltaiLogoDark : AltaiLogo} 
                 alt="Altai Capital" 
                 className="w-8 h-8 mr-3" 
               />
-              <h1 className="text-xl font-bold text-gray-900 logo-text">Altai Trader</h1>
+              <h1 className="text-xl font-bold text-gray-900 logo-text whitespace-nowrap">Altai Trader</h1>
             </div>
             
-            {/* Right: Header items in specified order */}
-            <div className="flex items-center space-x-4">
+            {/* Right: Header items with minimal margin */}
+            <div className="flex items-center space-x-4 flex-shrink-0">
               {/* Home (renamed from Landing) */}
               <Button 
                 variant="ghost"
