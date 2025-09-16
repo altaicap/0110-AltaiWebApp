@@ -273,7 +273,7 @@
   z-index: 1;
 }
 
-/* Segmented Tabs - PROPERLY CONTAINED ACTIVE PILL */
+/* Segmented Tabs - PROPERLY CONTAINED ACTIVE PILL - FIXED SIZE */
 [data-theme="dark"] [role="tablist"],
 [role="tablist"] {
   background-color: var(--dashboard-bg-2);
@@ -283,8 +283,8 @@
   overflow: hidden; /* Ensure active pill is contained */
   position: relative;
   box-sizing: border-box;
-  height: auto;
-  min-height: 2.5rem; /* 40px - ensures adequate height */
+  height: 2.75rem; /* Fixed height: 44px */
+  min-height: 2.75rem; /* 44px - consistent height */
 }
 
 [data-theme="dark"] [role="tab"],
@@ -293,7 +293,7 @@
   background: transparent;
   border: none !important; /* Remove any borders that could cause overflow */
   border-radius: 0.5rem; /* 8px - smaller radius to fit within container */
-  padding: 0.5rem 1rem; /* 8px 16px */
+  padding: 0.375rem 1rem; /* 6px 16px - reduced vertical padding */
   font-size: 0.875rem;
   font-weight: 500;
   transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth but subtle */
@@ -301,7 +301,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 2rem; /* 32px - fits within container with padding */
+  height: 2.25rem; /* Fixed height: 36px - fits within container with padding */
   box-sizing: border-box;
   margin: 0 !important; /* Ensure no margins cause overflow */
   outline: none;
@@ -323,7 +323,7 @@
   transform: none !important;
   margin: 0 !important;
   /* Ensure the active pill stays within bounds */
-  max-height: calc(100% - 0.5rem); /* Account for container padding */
+  height: 2.25rem; /* Same as inactive tabs */
   z-index: 1;
 }
 
