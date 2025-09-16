@@ -50,6 +50,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
   // Navigation state for smooth scrolling with IntersectionObserver
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   // Hover states for preview images
   const [hoveredPreview, setHoveredPreview] = useState(null);
