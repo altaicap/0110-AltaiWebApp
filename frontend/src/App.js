@@ -599,6 +599,14 @@ function App() {
   // Feedback 7.0 New State Variables
   const [showAccountSettings, setShowAccountSettings] = useState(false);
   const [uploadedStrategies, setUploadedStrategies] = useState([]);
+  
+  // Collapsible connectivity sections - all collapsed by default
+  const [connectivityCollapsed, setConnectivityCollapsed] = useState({
+    brokers: true,
+    newsIntegrations: true,
+    dataConnectivity: true
+  });
+  
   const [strategyVisualizationSettings, setStrategyVisualizationSettings] = useState({
     dateRange: { start: null, end: null },
     timeframe: '1-minute',
