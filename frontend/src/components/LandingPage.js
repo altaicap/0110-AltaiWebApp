@@ -511,6 +511,12 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                   <p className="landing-card-description">
                     Real-time dashboards, alerts, and a structured trade journal to track P&L, drawdown, win rate, and expectancy.
                   </p>
+                  {/* Product Image Placeholder */}
+                  <div className="product-image-placeholder">
+                    <div className="placeholder-content">
+                      <span className="placeholder-text">Product Screenshot</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
