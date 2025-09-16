@@ -501,13 +501,13 @@
   font-weight: 500;
 }
 
-/* Cards and Components - NO WHITE BORDERS IN DARK THEME */
+/* Cards and Components - ADDED HOVER GLOW EFFECTS */
 .landing-card {
   background: var(--card-gradient, var(--bg-1));
   border: 1px solid var(--border);
   border-radius: 1rem;
   box-shadow: var(--shadow-subtle);
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   overflow: hidden;
 }
 
@@ -520,6 +520,32 @@
   box-shadow: var(--shadow-medium);
   transform: translateY(-2px);
   border-color: var(--accent);
+}
+
+/* Feature Cards Hover Glow - MATCHING SHIMMER INTENSITY */
+.feature-grid-six .landing-card:hover {
+  box-shadow: 
+    0 0 20px rgba(0, 189, 125, 0.15), /* Dark theme glow */
+    var(--shadow-medium);
+}
+
+.landing-page-container:not(.dark) .feature-grid-six .landing-card:hover {
+  box-shadow: 
+    0 0 20px rgba(14, 109, 115, 0.15), /* Light theme glow matching shimmer */
+    var(--shadow-medium);
+}
+
+/* Pricing Cards Hover Glow - MATCHING SHIMMER INTENSITY */
+.pricing-card .landing-card:hover {
+  box-shadow: 
+    0 0 20px rgba(0, 189, 125, 0.15), /* Dark theme glow */
+    var(--shadow-medium);
+}
+
+.landing-page-container:not(.dark) .pricing-card .landing-card:hover {
+  box-shadow: 
+    0 0 20px rgba(14, 109, 115, 0.15), /* Light theme glow matching shimmer */
+    var(--shadow-medium);
 }
 
 .landing-card-header {
