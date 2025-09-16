@@ -60,6 +60,10 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
   // Hover states for preview images
   const [hoveredPreview, setHoveredPreview] = useState(null);
   
+  // Feature cards expand/collapse state
+  const [expandedCard, setExpandedCard] = useState(null);
+  const [isAnimating, setIsAnimating] = useState(false);
+  
   // Email subscription state
   const [email, setEmail] = useState('');
   const [isSubscribing, setIsSubscribing] = useState(false);
