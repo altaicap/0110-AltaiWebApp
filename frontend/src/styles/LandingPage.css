@@ -44,8 +44,8 @@
   /* Light theme glass overlay - INCREASED TRANSPARENCY */
   --header-glass: rgba(255, 255, 255, 0.55); /* Reduced from 0.70 to 0.55 (15% more transparent) */
   
-  /* Light theme shimmer */
-  --shimmer-light: rgba(14, 109, 115, 0.08); /* Updated to match new accent */
+  /* Light theme shimmer - INCREASED VISIBILITY */
+  --shimmer-light: rgba(14, 109, 115, 0.15); /* Increased from 0.08 to 0.15 for better visibility */
   
   /* Light theme subtle gradients */
   --bg-gradient-subtle: linear-gradient(180deg, #FBFCFC 0%, #F3F5F7 100%);
