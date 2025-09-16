@@ -1086,6 +1086,8 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  white-space: nowrap; /* Prevent text wrapping */
+  flex-shrink: 0; /* Prevent shrinking */
 }
 
 .footer-social-icons {
