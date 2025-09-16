@@ -5239,50 +5239,6 @@ metadata = {
           </div>
         </div>
       </header>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className={isDarkTheme ? 'text-gray-300 hover:text-white hover:bg-gray-700' : ''}
-                      data-user-menu-button
-                    >
-                      <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
-                          <span className="text-xs font-medium text-white">
-                            {currentAuthUser?.full_name?.charAt(0) || 'U'}
-                          </span>
-                        </div>
-                        <span className="text-sm font-medium">
-                          {currentAuthUser?.full_name || 'User'}
-                        </span>
-                        <ChevronDown className="h-3 w-3" />
-                      </div>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className={isDarkTheme ? 'bg-gray-800 border-gray-700' : ''}>
-                    <DropdownMenuItem 
-                      onClick={() => setShowAuthModal(true)}
-                      className={isDarkTheme ? 'text-gray-200 hover:bg-gray-700' : ''}
-                    >
-                      <UserPlus className="mr-2 h-4 w-4" />
-                      <span>Account Settings</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator className={isDarkTheme ? 'border-gray-600' : ''} />
-                    <DropdownMenuItem 
-                      onClick={handleLogout}
-                      className={isDarkTheme ? 'text-gray-200 hover:bg-gray-700' : ''}
-                    >
-                      <LogOut className="mr-2 h-4 w-4" />
-                      <span>Sign Out</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
 
       {/* Split Screen Layout */}
       <div className="flex h-[calc(100vh-4rem)] w-full">
