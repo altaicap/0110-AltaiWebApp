@@ -1335,6 +1335,24 @@
   background-color: transparent; /* Keep transparent on hover */
 }
 
+/* Sun icon in dark theme - ORANGE/YELLOW LIKE THE SUN */
+.landing-page-container.dark .theme-toggle {
+  color: #fbbf24; /* Warm orange/yellow sun color */
+}
+
+.landing-page-container.dark .theme-toggle:hover {
+  color: #f59e0b; /* Slightly more saturated yellow-orange on hover */
+}
+
+/* Moon icon in light theme - keep existing styling */
+.landing-page-container:not(.dark) .theme-toggle {
+  color: var(--muted);
+}
+
+.landing-page-container:not(.dark) .theme-toggle:hover {
+  color: var(--fg);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .landing-h1, .typing-text, .hero-heading {
