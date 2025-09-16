@@ -1026,6 +1026,27 @@
   color: var(--muted);
 }
 
+/* Logo Placeholders for New Brokers */
+.logo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 4.2rem;
+  width: 6rem;
+  background-color: var(--bg-2);
+  border: 2px dashed var(--border);
+  border-radius: 0.5rem;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.logo-placeholder:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 /* Footer Styling with Social Icons and Email Subscribe - FIXED LAYOUT */
 .footer-content {
   display: flex;
