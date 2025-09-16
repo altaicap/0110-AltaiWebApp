@@ -75,10 +75,16 @@
   position: relative;
 }
 
-/* Dashboard Background Shimmer Animation - FROM LANDING PAGE */
-[data-theme="dark"] .min-h-screen::before {
+/* Right Tabs Panel - Landing Page Background with Shimmer */
+[data-theme="dark"] .flex.flex-col:has([role="tablist"]) {
+  background: var(--dashboard-main-bg) !important;
+  position: relative;
+}
+
+/* Dashboard Right Panel Shimmer Animation - FROM LANDING PAGE */
+[data-theme="dark"] .flex.flex-col:has([role="tablist"])::before {
   content: '';
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -97,25 +103,8 @@
   animation: dashboard-shimmer 11.4s ease-in-out infinite;
 }
 
-/* Shimmer Animation Keyframes */
-@keyframes dashboard-shimmer {
-  0%, 100% {
-    background-position: 200% 0;
-  }
-  50% {
-    background-position: -200% 0;
-  }
-}
-
-/* Disable animations for reduced motion users */
-@media (prefers-reduced-motion: reduce) {
-  [data-theme="dark"] .min-h-screen::before {
-    animation: none !important;
-  }
-}
-
-/* Ensure content is above shimmer */
-[data-theme="dark"] .min-h-screen > * {
+/* Ensure tab content is above shimmer */
+[data-theme="dark"] .flex.flex-col:has([role="tablist"]) > * {
   position: relative;
   z-index: 1;
 }
