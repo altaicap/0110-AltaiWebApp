@@ -200,16 +200,16 @@
   -webkit-backdrop-filter: none;
 }
 
-/* Dark theme: transparency and blur effects - HIGHER SPECIFICITY */
+/* Dark theme: transparency and blur effects - REDUCED BLUR BY 25% */
 .landing-page-container.dark .landing-header {
   background-color: rgba(14, 23, 42, 0.60) !important; /* Force 60% transparency */
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(9px) !important; /* Reduced from 12px to 9px (25% reduction) */
+  -webkit-backdrop-filter: blur(9px) !important;
   border-bottom: 1px solid rgba(37, 43, 60, 0.6) !important;
 }
 
 /* Fallback for browsers without backdrop-filter support */
-@supports not (backdrop-filter: blur(12px)) {
+@supports not (backdrop-filter: blur(9px)) {
   .landing-page-container.dark .landing-header {
     background-color: rgba(14, 23, 42, 0.75) !important; /* Slightly more opaque when no blur */
   }
