@@ -3351,8 +3351,40 @@ metadata = {
 
   // LLM Chat Interface Component
   const ChatInterface = () => {
+    const [dragActive, setDragActive] = useState(false);
+    const [attachedFiles, setAttachedFiles] = useState([]);
+    const fileInputRef = useRef(null);
+
+    const handleDrag = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.type === "dragenter" || e.type === "dragover") {
+        setDragActive(true);
+      } else if (e.type === "dragleave") {
+        setDragActive(false);
+      }
+    };
+
+    const handleDrop = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setDragActive(false);
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        handleFiles(e.dataTransfer.files);
+      }
+    };
+
+    const handleFiles = (files) => {
+      const newFiles = Array.from(files).slice(0, 5 - attachedFiles.length); // Max 5 files
+      setAttachedFiles(prev => [...prev, ...newFiles]);
+    };
+
+    const removeFile = (index) => {
+      setAttachedFiles(prev => prev.filter((_, i) => i !== index));
+    };
+
     return (
-      <div className="h-full flex flex-col">
+      <div className="h-full flex flex-col ai-assistant-pane">
         {/* Chat Header */}
         <div className={`p-4 border-b ${isDarkTheme ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'}`}>
           <div className="flex items-center justify-between">
@@ -3374,8 +3406,24 @@ metadata = {
           </p>
         </div>
         
-        {/* Chat Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {/* Chat Messages with Drag & Drop */}
+        <div 
+          className={`flex-1 overflow-y-auto p-4 space-y-4 ${dragActive ? 'bg-blue-50 border-2 border-dashed border-blue-300' : ''}`}
+          onDragEnter={handleDrag}
+          onDragLeave={handleDrag}
+          onDragOver={handleDrag}
+          onDrop={handleDrop}
+        >
+          {dragActive && (
+            <div className="absolute inset-0 flex items-center justify-center bg-blue-50 bg-opacity-90 z-10">
+              <div className="text-center">
+                <Upload className="w-12 h-12 mx-auto mb-4 text-blue-500" />
+                <p className="text-lg font-medium text-blue-700">Drop files here</p>
+                <p className="text-sm text-blue-600">Maximum 5 files</p>
+              </div>
+            </div>
+          )}
+          
           {chatMessages.length === 0 && (
             <div className="text-center text-gray-500 py-8">
               <MessageSquare className="w-12 h-12 mx-auto mb-4 opacity-30" />
@@ -3436,7 +3484,7 @@ metadata = {
         
         {/* Chat Input */}
         <div className={`p-4 border-t ${isDarkTheme ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'}`}>
-          <div className="flex gap-2">
+          <div className="flex gap-2 mb-3">
             <Input
               value={chatInput}
               onChange={(e) => setChatInput(e.target.value)}
@@ -3451,6 +3499,15 @@ metadata = {
               disabled={isChatLoading}
             />
             <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => fileInputRef.current?.click()}
+              className="px-3"
+              title="Attach files"
+            >
+              <Paperclip className="w-4 h-4" />
+            </Button>
+            <Button
               onClick={sendChatMessage}
               disabled={!chatInput.trim() || isChatLoading}
               className="px-3"
@@ -3458,6 +3515,50 @@ metadata = {
               <Send className="w-4 h-4" />
             </Button>
           </div>
+          
+          {/* LLM Selector */}
+          <div className="flex items-center gap-2">
+            <Label htmlFor="llm-selector" className="text-sm">LLM:</Label>
+            <Select value={selectedLLM} onValueChange={setSelectedLLM}>
+              <SelectTrigger className="w-32" id="llm-selector">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="chatgpt">ChatGPT</SelectItem>
+                <SelectItem value="claude">Claude</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          
+          {/* Attached Files */}
+          {attachedFiles.length > 0 && (
+            <div className="mt-3 space-y-2">
+              <p className="text-sm text-gray-500">Attached files:</p>
+              {attachedFiles.map((file, index) => (
+                <div key={index} className="flex items-center justify-between bg-gray-100 dark:bg-gray-700 p-2 rounded">
+                  <span className="text-sm truncate">{file.name}</span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => removeFile(index)}
+                    className="h-6 w-6 p-0"
+                  >
+                    <X className="w-3 h-3" />
+                  </Button>
+                </div>
+              ))}
+            </div>
+          )}
+          
+          {/* Hidden file input */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            multiple
+            className="hidden"
+            onChange={(e) => handleFiles(e.target.files)}
+            accept=".txt,.pdf,.doc,.docx,.jpg,.jpeg,.png,.csv,.json"
+          />
         </div>
       </div>
     );
