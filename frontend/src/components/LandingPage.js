@@ -21,7 +21,9 @@ import {
   Gauge,
   Activity,
   Database,
-  Bell
+  Bell,
+  Mail,
+  Twitter
 } from 'lucide-react';
 
 // Import logos
@@ -29,18 +31,19 @@ import AltaiLogo from '../assets/altai-logo.svg';
 import AltaiLogoDark from '../assets/altai-logo-dark.svg';
 import PolygonLogo from '../assets/polygon-logo.png';
 import NewsWareLogo from '../assets/newsware-logo.png';
-import TradeXchangeLogo from '../assets/tradexchange-logo.png';
+import TradeXchangeLogoNew from '../assets/tradexchange-logo-new.png'; // NEW LOGO
 import TradeStationLogo from '../assets/tradestation-logo.png';
 import IBKRLogo from '../assets/ibkr-logo.png';
 
-// Import the Laravel-inspired styles
+// Import the updated styles
 import '../styles/LandingPage.css';
 
 const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onToggleTheme }) => {
-  // Typing animation state
+  // Typing animation state - NO DELETE PHASE
   const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
   const [currentText, setCurrentText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [isTyping, setIsTyping] = useState(true);
+  const [isFading, setIsFading] = useState(false);
   const [showCursor, setShowCursor] = useState(true);
   
   // Navigation state for smooth scrolling with IntersectionObserver
@@ -49,6 +52,11 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
   
   // Hover states for preview images
   const [hoveredPreview, setHoveredPreview] = useState(null);
+  
+  // Email subscription state
+  const [email, setEmail] = useState('');
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const [subscribeMessage, setSubscribeMessage] = useState('');
   
   // Refs for sections and header
   const homeRef = useRef(null);
@@ -125,39 +133,45 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Typing animation effect - respects prefers-reduced-motion
+  // NEW: Typing animation effect - NO DELETE PHASE, SOFT FADE TRANSITIONS
   useEffect(() => {
     if (prefersReducedMotion.current) {
       // For users who prefer reduced motion, show the first phrase statically
       setCurrentText(phrases[0]);
+      setIsFading(false);
       return;
     }
 
     const typeSpeed = 100;
-    const deleteSpeed = 50;
     const pauseTime = 3000;
+    const fadeTime = 300;
 
     const currentPhrase = phrases[currentPhraseIndex];
     
-    const timer = setTimeout(() => {
-      if (!isDeleting && currentText === currentPhrase) {
-        // Pause then start deleting
-        setTimeout(() => setIsDeleting(true), pauseTime);
-      } else if (isDeleting && currentText === '') {
-        // Move to next phrase
-        setIsDeleting(false);
-        setCurrentPhraseIndex((prev) => (prev + 1) % phrases.length);
-      } else if (isDeleting) {
-        // Delete character
-        setCurrentText(currentPhrase.substring(0, currentText.length - 1));
+    if (isTyping && !isFading) {
+      // Typing phase
+      if (currentText.length < currentPhrase.length) {
+        const timer = setTimeout(() => {
+          setCurrentText(currentPhrase.substring(0, currentText.length + 1));
+        }, typeSpeed);
+        return () => clearTimeout(timer);
       } else {
-        // Add character
-        setCurrentText(currentPhrase.substring(0, currentText.length + 1));
+        // Finished typing, wait then start fading
+        const timer = setTimeout(() => {
+          setIsFading(true);
+        }, pauseTime);
+        return () => clearTimeout(timer);
       }
-    }, isDeleting ? deleteSpeed : typeSpeed);
-
-    return () => clearTimeout(timer);
-  }, [currentText, isDeleting, currentPhraseIndex, phrases]);
+    } else if (isFading) {
+      // Fade out phase
+      const timer = setTimeout(() => {
+        setIsFading(false);
+        setCurrentText('');
+        setCurrentPhraseIndex((prev) => (prev + 1) % phrases.length);
+      }, fadeTime);
+      return () => clearTimeout(timer);
+    }
+  }, [currentText, isTyping, isFading, currentPhraseIndex, phrases]);
 
   // Cursor blinking effect
   useEffect(() => {
@@ -187,13 +201,33 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
     }
   };
 
+  // Email subscription handler
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    if (!email) return;
+    
+    setIsSubscribing(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      setSubscribeMessage('Thank you for subscribing!');
+      setEmail('');
+      setIsSubscribing(false);
+      
+      // Clear message after 3 seconds
+      setTimeout(() => {
+        setSubscribeMessage('');
+      }, 3000);
+    }, 1000);
+  };
+
   return (
     <div className={`landing-page-container ${isDarkTheme ? 'dark' : ''}`}>
       <div className="landing-content">
-        {/* Header */}
+        {/* Header - SEMI-TRANSPARENT NIGHTWATCH STYLE (P0) */}
         <header 
           ref={headerRef}
-          className={`landing-header sticky top-0 z-50 ${isScrolled ? 'scrolled' : ''}`}
+          className="landing-header"
         >
           <div className="landing-container">
             <div className="flex justify-between items-center h-16">
@@ -258,20 +292,20 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
         {/* Hero Section */}
         <section ref={homeRef} className="landing-section-lg hero-section">
           <div className="landing-container text-center">
-            {/* Typing Animation Hero Heading */}
-            <div className="typing-container">
-              <h1 className="typing-text">
+            {/* Hero Typing Animation - NO DELETE PHASE, RESERVED SPACE */}
+            <div className="hero-title-container">
+              <h1 className={`typing-text hero-text-fade ${isFading ? 'fading' : ''}`}>
                 {currentText}
                 <span className={`typing-cursor ${showCursor ? 'opacity-100' : 'opacity-0'}`}>|</span>
               </h1>
             </div>
             
-            {/* Static Subtitle */}
+            {/* Static Subtitle - FIXED POSITION */}
             <p className="landing-subtitle max-w-2xl mx-auto mb-8">
               Maximize Your Profits with AI-Powered Algorithmic Trading
             </p>
             
-            {/* CTA Buttons */}
+            {/* CTA Buttons - FIXED POSITION */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <button 
                 onClick={onRegister}
@@ -288,7 +322,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
               </button>
             </div>
 
-            {/* Statistics - MOVED ABOVE VIDEO */}
+            {/* Statistics - FIXED POSITION */}
             <div className="stats-grid mb-12">
               <div className="stat-item">
                 <div className="stat-number">5+</div>
@@ -308,7 +342,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
               </div>
             </div>
 
-            {/* Video Container - CONSTRAINED AND ALIGNED */}
+            {/* Video Container - FIXED POSITION */}
             <div className="video-container-wrapper">
               <div className="video-container">
                 <div className="video-placeholder">
@@ -323,7 +357,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
           </div>
         </section>
 
-        {/* Features Section - UPDATED WITH 6 CARDS */}
+        {/* Features Section - 6 CARDS */}
         <section ref={featuresRef} className="landing-section">
           <div className="landing-container">
             <div className="text-center mb-16">
@@ -450,7 +484,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                 </div>
               </div>
 
-              {/* Pro Plan */}
+              {/* Pro Plan - ADD ALTAI CAPITAL NEWSLETTER */}
               <div className="landing-card pricing-card">
                 <div className="landing-card-content">
                   <h3 className="landing-card-title text-center">Pro</h3>
@@ -471,6 +505,10 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                       <CheckCircle className="feature-icon" />
                       <span>5 Live Strategies</span>
                     </li>
+                    <li className="feature-item">
+                      <CheckCircle className="feature-icon" />
+                      <span>Altai Capital Newsletter</span>
+                    </li>
                   </ul>
                   <button className="landing-btn landing-btn-secondary w-full">
                     Get Started
@@ -478,7 +516,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                 </div>
               </div>
 
-              {/* Max Plan */}
+              {/* Max Plan - ADD ALTAI CAPITAL NEWSLETTER */}
               <div className="landing-card pricing-card">
                 <div className="pricing-badge">Most Popular</div>
                 <div className="landing-card-content">
@@ -504,6 +542,10 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                       <CheckCircle className="feature-icon" />
                       <span>AI Assistant</span>
                     </li>
+                    <li className="feature-item">
+                      <CheckCircle className="feature-icon" />
+                      <span>Altai Capital Newsletter</span>
+                    </li>
                   </ul>
                   <button className="landing-btn landing-btn-primary w-full">
                     Get Started
@@ -514,7 +556,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
           </div>
         </section>
 
-        {/* Available Connections - GROUPED INTO CATEGORIES */}
+        {/* Available Connections - IMPROVED LOGO SIZING */}
         <section ref={connectionsRef} className="landing-section">
           <div className="landing-container">
             <div className="text-center mb-16">
@@ -544,11 +586,11 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
               <h3 className="connection-category-title">News Integrations</h3>
               <div className="logo-grid-row">
                 <div className="logo-item">
-                  <img src={NewsWareLogo} alt="NewsWare" className="logo-image" />
+                  <img src={NewsWareLogo} alt="NewsWare" className="logo-image logo-newsware" />
                   <span className="logo-label">NewsWare</span>
                 </div>
                 <div className="logo-item">
-                  <img src={TradeXchangeLogo} alt="TradeXchange" className="logo-image logo-tradexchange" />
+                  <img src={TradeXchangeLogoNew} alt="TradeXchange" className="logo-image logo-tradexchange" />
                   <span className="logo-label">TradeXchange</span>
                 </div>
               </div>
@@ -567,19 +609,66 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="landing-section-sm border-t border-gray-200 dark:border-gray-800">
+        {/* Footer with Social Icons and Email Subscribe */}
+        <footer className="landing-section-sm border-t" style={{borderColor: 'var(--bg-2)'}}>
           <div className="landing-container">
-            <div className="flex flex-col md:flex-row justify-between items-center">
-              <div className="flex items-center mb-4 md:mb-0">
-                <img 
-                  src={isDarkTheme ? AltaiLogoDark : AltaiLogo} 
-                  alt="Altai Trader" 
-                  className="h-6 w-auto"
-                />
-                <span className="ml-2 text-lg font-bold">Altai Trader</span>
+            <div className="footer-content">
+              <div className="footer-left">
+                <div className="footer-logo-section">
+                  <img 
+                    src={isDarkTheme ? AltaiLogoDark : AltaiLogo} 
+                    alt="Altai Trader" 
+                    className="h-6 w-auto"
+                  />
+                  <span className="ml-2 text-lg font-bold">Altai Trader</span>
+                </div>
+                
+                {/* Social Icons */}
+                <div className="footer-social-icons">
+                  <a 
+                    href="mailto:contact@altaitrader.com" 
+                    className="social-icon"
+                    aria-label="Email us"
+                  >
+                    <Mail className="h-4 w-4" />
+                  </a>
+                  <a 
+                    href="https://twitter.com/altaitrader" 
+                    className="social-icon"
+                    aria-label="Follow us on Twitter"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Twitter className="h-4 w-4" />
+                  </a>
+                </div>
               </div>
-              <div className="landing-body">
+              
+              {/* Email Subscribe */}
+              <div className="footer-center">
+                <form onSubmit={handleSubscribe} className="email-subscribe-form">
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="email-subscribe-input"
+                    required
+                  />
+                  <button 
+                    type="submit" 
+                    disabled={isSubscribing}
+                    className="email-subscribe-button"
+                  >
+                    {isSubscribing ? 'Subscribing...' : 'Subscribe'}
+                  </button>
+                </form>
+                {subscribeMessage && (
+                  <p className="text-sm text-green-600 mt-2">{subscribeMessage}</p>
+                )}
+              </div>
+              
+              <div className="footer-right">
                 © 2025 Altai Trader. All rights reserved.
               </div>
             </div>
