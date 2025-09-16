@@ -24,7 +24,7 @@
 */
 
 /* Import Google Fonts for Landing Page Typography */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Tomorrow:wght@400;500;600;700;800&display=swap');
 
 /* Landing Page Theme Variables */
 .landing-page-container {
