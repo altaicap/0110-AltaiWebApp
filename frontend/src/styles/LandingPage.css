@@ -14,7 +14,7 @@
   - --bg-0: #FBFCFC (primary background)
   - --bg-1: #F3F5F7 (secondary background)
   - --bg-2: #EBEBEB (tertiary background) 
-  - --accent: #00BD7D (green accent)
+  - --accent: #0E6D73 (UPDATED - teal green accent)
   - --fg: #0E172A (foreground text)
   - --muted: #4A5568 (muted text)
   
@@ -32,7 +32,7 @@
   --bg-0: #FBFCFC;
   --bg-1: #F3F5F7;
   --bg-2: #EBEBEB;
-  --accent: #00BD7D; /* Updated to green */
+  --accent: #0E6D73; /* UPDATED to teal green */
   --fg: #0E172A;
   --muted: #4A5568;
   
@@ -44,19 +44,20 @@
   --header-glass: rgba(255, 255, 255, 0.70);
   
   /* Light theme shimmer */
-  --shimmer-light: rgba(0, 189, 125, 0.08); /* Pale green shimmer */
+  --shimmer-light: rgba(14, 109, 115, 0.08); /* Updated to match new accent */
   
   /* Light theme subtle gradients */
   --bg-gradient-subtle: linear-gradient(180deg, #FBFCFC 0%, #F3F5F7 100%);
   
   /* Borders */
   --border: rgba(107, 117, 125, 0.3);
+  --border-light: rgba(107, 117, 125, 0.2); /* Lighter border for subtle outlines */
   
   /* Shadows */
   --shadow-subtle: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-large: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-glow: 0 0 0 1px rgba(0, 189, 125, 0.15), 0 1px 2px 0 rgba(0, 189, 125, 0.1);
+  --shadow-glow: 0 0 0 1px rgba(14, 109, 115, 0.15), 0 1px 2px 0 rgba(14, 109, 115, 0.1);
 }
 
 /* Dark Theme - Laravel Nightwatch Inspired */
@@ -64,7 +65,7 @@
   --bg-0: #090D0D; /* Black primary background */
   --bg-1: #171717; /* Dark green secondary background */
   --bg-2: #1a1a1a; /* Fallback for color-mix, computed equivalent */
-  --accent: #00BD7D; /* Green accent */
+  --accent: #00BD7D; /* Green accent - UNCHANGED for dark theme */
   --fg: #FBFCFC; /* White foreground text */
   --muted: #a8b1ba; /* Fallback for color-mix, computed equivalent */
   
@@ -85,6 +86,8 @@
   
   /* Borders from palette */
   --border: rgba(107, 117, 125, 0.4);
+  --border-light: rgba(107, 117, 125, 0.35); /* Lighter border for subtle outlines */
+  --border-subtle: rgba(107, 117, 125, 0.25); /* Very subtle border */
   
   /* Enhanced shadows for dark theme */
   --shadow-subtle: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
@@ -119,13 +122,13 @@
   opacity: 0.6;
 }
 
-/* Light Theme Shimmer - PALE GREEN */
+/* Light Theme Shimmer - PALE TEAL GREEN */
 .landing-page-container:not(.dark)::before {
   background: linear-gradient(
     110deg,
     transparent 25%,
     var(--shimmer-light) 50%,
-    rgba(0, 189, 125, 0.04) 55%,
+    rgba(14, 109, 115, 0.04) 55%,
     transparent 75%
   );
   background-size: 200% 100%;
@@ -220,6 +223,102 @@
   }
 }
 
+/* Mobile Header - HAMBURGER MENU IMPLEMENTATION */
+.mobile-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: var(--fg);
+  transition: color 0.2s ease;
+}
+
+.mobile-hamburger:hover {
+  color: var(--accent);
+}
+
+.mobile-hamburger svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Mobile Dropdown Menu */
+.mobile-menu {
+  position: absolute;
+  top: 100%;
+  right: 1rem;
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-large);
+  padding: 0.5rem;
+  min-width: 10rem;
+  z-index: 100;
+}
+
+.mobile-menu-item {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  color: var(--fg);
+  background: none;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 0.25rem;
+}
+
+.mobile-menu-item:last-child {
+  margin-bottom: 0;
+}
+
+.mobile-menu-item:hover {
+  background-color: var(--bg-2);
+  color: var(--accent);
+}
+
+.mobile-menu-item.primary {
+  background-color: var(--accent);
+  color: var(--bg-0);
+}
+
+.mobile-menu-item.primary:hover {
+  background-color: #00d18a; /* 8% brighter green */
+}
+
+/* Mobile-specific header layout */
+@media (max-width: 430px) {
+  .landing-header .landing-container .flex {
+    justify-content: space-between;
+  }
+  
+  /* Hide desktop navigation and buttons on mobile */
+  .landing-header nav,
+  .landing-header #header-register .landing-btn {
+    display: none !important;
+  }
+  
+  /* Show hamburger menu on mobile */
+  .mobile-hamburger {
+    display: block;
+  }
+  
+  /* Hide wordmark, show logo only */
+  .landing-header h1 {
+    display: none;
+  }
+  
+  /* Adjust header right side spacing */
+  .landing-header #header-register {
+    gap: 1rem;
+  }
+}
+
 /* Navigation Links */
 .nav-link {
   font-weight: 500;
@@ -283,12 +382,19 @@
 
 /* Hero Typing Animation - UPDATED TO GREEN */
 .hero-title-container {
-  /* Reserve space for two-line heading to prevent content shift */
-  min-height: 9rem; /* Adjust based on font size and line height */
+  /* Reserve space for multi-line heading to prevent content shift */
+  min-height: 9rem; /* Default for desktop */
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 1.5rem;
+}
+
+/* Mobile hero title container - PREVENT LAYOUT SHIFT */
+@media (max-width: 430px) {
+  .hero-title-container {
+    min-height: 12rem; /* Increased for mobile multi-line text */
+  }
 }
 
 /* Dark theme: Solid green text */
@@ -299,22 +405,22 @@
   -webkit-background-clip: initial;
   background-clip: initial;
   font-family: var(--font-display);
-  font-size: 3.75rem;
+  font-size: clamp(2rem, 5vw, 3.75rem); /* Responsive font size */
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.025em;
   text-align: center;
 }
 
-/* Light theme: Green gradient text */
+/* Light theme: Teal green gradient text */
 .landing-page-container:not(.dark) .typing-text {
-  background: linear-gradient(135deg, var(--accent) 0%, #3dd69b 100%); /* Green gradient */
+  background: linear-gradient(135deg, var(--accent) 0%, #0a8a92 100%); /* Teal green gradient */
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: var(--accent); /* Fallback */
   font-family: var(--font-display);
-  font-size: 3.75rem;
+  font-size: clamp(2rem, 5vw, 3.75rem); /* Responsive font size */
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.025em;
@@ -347,7 +453,7 @@
   position: relative;
 }
 
-/* Video Container - CONSTRAINED AND ALIGNED */
+/* Video Container - NO WHITE BORDERS IN DARK THEME */
 .video-container-wrapper {
   position: relative;
   width: 100%;
@@ -367,6 +473,11 @@
   background: var(--card-gradient, var(--bg-1));
   box-shadow: var(--shadow-large);
   overflow: hidden;
+}
+
+/* Dark theme: Remove white border from video container */
+.landing-page-container.dark .video-container {
+  border-color: var(--border-subtle);
 }
 
 /* Align video container with header elements */
@@ -389,7 +500,7 @@
   font-weight: 500;
 }
 
-/* Cards and Components */
+/* Cards and Components - NO WHITE BORDERS IN DARK THEME */
 .landing-card {
   background: var(--card-gradient, var(--bg-1));
   border: 1px solid var(--border);
@@ -397,6 +508,11 @@
   box-shadow: var(--shadow-subtle);
   transition: all 0.2s ease;
   overflow: hidden;
+}
+
+/* Dark theme: Remove white borders from cards */
+.landing-page-container.dark .landing-card {
+  border-color: var(--border-subtle);
 }
 
 .landing-card:hover {
@@ -431,7 +547,7 @@
   margin: 0;
 }
 
-/* Buttons - UPDATED TO GREEN */
+/* Buttons - UPDATED BORDER TREATMENTS */
 .landing-btn {
   display: inline-flex;
   align-items: center;
@@ -453,26 +569,44 @@
   outline-offset: 2px;
 }
 
+/* Primary button - NO BORDER IN DARK THEME */
 .landing-btn-primary {
   background-color: var(--accent);
   color: var(--bg-0);
   box-shadow: var(--shadow-subtle);
+  border: 1px solid var(--accent); /* Light theme keeps border */
+}
+
+/* Dark theme: Remove border from primary button */
+.landing-page-container.dark .landing-btn-primary {
+  border: none;
 }
 
 .landing-btn-primary:hover {
-  background-color: #00d18a; /* 8% brighter green */
+  background-color: #00d18a; /* 8% brighter green for dark theme */
   box-shadow: var(--shadow-glow);
   transform: translateY(-1px);
 }
 
-.landing-btn-primary:active {
-  background-color: #00a66b; /* 8% darker green */
+/* Light theme hover for primary button */
+.landing-page-container:not(.dark) .landing-btn-primary:hover {
+  background-color: #0b5c61; /* 8% darker for light theme */
 }
 
+.landing-btn-primary:active {
+  background-color: #00a66b; /* 8% darker green for dark theme */
+}
+
+/* Light theme active for primary button */
+.landing-page-container:not(.dark) .landing-btn-primary:active {
+  background-color: #084d52; /* 8% darker for light theme */
+}
+
+/* Secondary button - SUBTLE BORDER TREATMENT */
 .landing-btn-secondary {
   background-color: transparent;
   color: var(--fg);
-  border-color: var(--border);
+  border-color: var(--border-light); /* Use subtle border */
 }
 
 .landing-btn-secondary:hover {
@@ -613,27 +747,48 @@
   padding-top: 1.5rem; /* Add padding to accommodate the badge */
 }
 
+/* Pricing Card Layout - NORMALIZED BOTTOM SPACING */
 .pricing-card {
   position: relative;
   margin-top: 0.5rem; /* Additional margin for badge space */
+  display: flex;
+  flex-direction: column;
 }
 
-/* Most Popular Badge - UPDATED TO GREEN */
+/* Dark theme: Remove white borders from pricing cards */
+.landing-page-container.dark .pricing-card .landing-card {
+  border-color: var(--border-subtle);
+}
+
+.pricing-card .landing-card-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.5rem;
+}
+
+.pricing-card .price-display {
+  margin: 1rem 0;
+}
+
+.pricing-card .feature-list {
+  flex: 1;
+  margin: 1.5rem 0;
+}
+
+.pricing-card .pricing-cta-section {
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+/* Pricing CTA buttons - SUBTLE BORDER TREATMENT */
+.pricing-card .landing-btn {
+  border-color: var(--border-light); /* Subtle border like secondary buttons */
+}
+
+/* Remove Most Popular Badge - HIDDEN ENTIRELY */
 .pricing-badge {
-  position: absolute;
-  top: -1.5rem; /* Moved even further up */
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--accent);
-  color: var(--bg-0);
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 9999px;
-  box-shadow: var(--shadow-medium); /* Enhanced shadow for better visibility */
-  z-index: 30; /* Even higher z-index */
-  white-space: nowrap;
-  border: 2px solid var(--bg-0); /* Add border to make it stand out more */
+  display: none !important; /* Remove entirely as requested */
 }
 
 .price-display {
@@ -677,7 +832,7 @@
   flex-shrink: 0;
 }
 
-/* Statistics Grid */
+/* Statistics Grid - WHITE TEXT IN DARK THEME */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -695,6 +850,11 @@
   color: var(--accent);
   line-height: 1;
   margin-bottom: 0.5rem;
+}
+
+/* Dark theme: Stats must be white */
+.landing-page-container.dark .stat-number {
+  color: #FFFFFF; /* Pure white for highlighted stats in dark theme */
 }
 
 .stat-label {
@@ -794,7 +954,7 @@
   color: var(--muted);
 }
 
-/* Footer Styling with Social Icons and Email Subscribe */
+/* Footer Styling with Social Icons and Email Subscribe - FIXED LAYOUT */
 .footer-content {
   display: flex;
   flex-direction: column;
@@ -862,25 +1022,28 @@
   gap: 1rem;
 }
 
+/* Email Subscribe Form - FIXED LAYOUT BUG */
 .email-subscribe-form {
   display: flex;
-  gap: 0.5rem;
-  align-items: center;
+  align-items: stretch; /* Ensure equal height */
   background-color: var(--bg-1);
-  padding: 0.25rem;
   border-radius: 0.75rem;
   border: 1px solid var(--border);
   max-width: 20rem;
+  width: 100%;
+  overflow: hidden; /* Prevent button overflow */
+  height: 3rem; /* Fixed height */
 }
 
 .email-subscribe-input {
   flex: 1;
   border: none;
   background: transparent;
-  padding: 0.75rem 1rem;
+  padding: 0 1rem;
   color: var(--fg);
   font-size: 0.875rem;
   outline: none;
+  min-width: 0; /* Prevent flex overflow */
 }
 
 .email-subscribe-input::placeholder {
@@ -891,17 +1054,23 @@
   background-color: var(--accent);
   color: var(--bg-0);
   border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
+  padding: 0 1.5rem;
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
+  flex-shrink: 0; /* Prevent button shrinking */
+  height: 100%; /* Match container height */
+  border-radius: 0 0.5rem 0.5rem 0; /* Match container border radius */
 }
 
 .email-subscribe-button:hover {
-  background-color: #00d18a; /* 8% brighter green */
-  transform: translateY(-1px);
+  background-color: #00d18a; /* 8% brighter green for dark theme */
+}
+
+/* Light theme hover for subscribe button */
+.landing-page-container:not(.dark) .email-subscribe-button:hover {
+  background-color: #0b5c61; /* 8% darker for light theme */
 }
 
 .footer-right {
@@ -993,13 +1162,7 @@
   }
   
   .email-subscribe-form {
-    flex-direction: column;
-    width: 100%;
     max-width: 16rem;
-  }
-  
-  .email-subscribe-input {
-    text-align: center;
   }
 }
 
@@ -1018,6 +1181,31 @@
   
   .logo-grid-row {
     gap: 1.5rem;
+  }
+}
+
+/* Mobile-specific adjustments - PREVENT LAYOUT SHIFT */
+@media (max-width: 430px) {
+  .hero-title-container {
+    min-height: 12rem !important; /* Ensure adequate space for multi-line text */
+  }
+  
+  .typing-text {
+    font-size: clamp(1.5rem, 4vw, 2rem) !important; /* Smaller font size on mobile */
+    line-height: 1.2 !important; /* Adjust line height for mobile */
+  }
+  
+  /* Adjust hero section padding to optimize viewport usage */
+  .hero-section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  /* Ensure email subscribe form works on mobile */
+  .email-subscribe-form {
+    flex-direction: row; /* Keep on one line */
+    max-width: calc(100vw - 2rem);
+    margin: 0 auto;
   }
 }
 
