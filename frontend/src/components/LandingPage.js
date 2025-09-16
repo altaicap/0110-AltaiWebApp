@@ -154,7 +154,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
           setCurrentText(currentPhrase.substring(0, currentText.length + 1));
         }, typeSpeed);
         return () => clearTimeout(timer);
-      } else if (currentText.length === currentPhrase.length && currentText === currentPhrase) {
+      } else if (currentText === currentPhrase) {
         // Finished typing current phrase, wait then start fading
         const timer = setTimeout(() => {
           setIsFading(true);
@@ -170,7 +170,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
       }, fadeTime);
       return () => clearTimeout(timer);
     }
-  }, [currentText, isFading, currentPhraseIndex, phrases]);
+  }, [currentText, isFading, currentPhraseIndex]);
 
   // Cursor blinking effect
   useEffect(() => {
