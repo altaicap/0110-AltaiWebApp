@@ -582,10 +582,10 @@ body {
   }
 }
 
-/* Focus Styles */
+/* Focus Styles - GREEN ACCENT */
 .focus-ring:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 0 3px rgba(0, 189, 125, 0.5); /* Green focus ring */
 }
 
 /* Success/Error States */
