@@ -109,6 +109,23 @@
   z-index: 1;
 }
 
+/* Shimmer Animation Keyframes */
+@keyframes dashboard-shimmer {
+  0%, 100% {
+    background-position: 200% 0;
+  }
+  50% {
+    background-position: -200% 0;
+  }
+}
+
+/* Disable animations for reduced motion users */
+@media (prefers-reduced-motion: reduce) {
+  [data-theme="dark"] .flex.flex-col:has([role="tablist"])::before {
+    animation: none !important;
+  }
+}
+
 /* Remove all blue/purple tokens */
 [data-theme="dark"] .bg-blue-50,
 [data-theme="dark"] .bg-blue-100,
