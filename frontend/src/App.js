@@ -5482,7 +5482,7 @@ metadata = {
                         value={authForm.password}
                         onChange={(e) => handleAuthFieldChange('password', e.target.value)}
                         placeholder={authMode === 'register' ? 'At least 8 characters with letters and numbers' : 'Enter your password'}
-                        className={`pr-10 ${authErrors.password ? 'border-red-500' : ''} ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : ''}`}
+                        className={`pr-10 ${authErrors.password ? 'border-red-500' : ''} ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'}`}
                         required
                       />
                       <button
