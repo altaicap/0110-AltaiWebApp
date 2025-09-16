@@ -578,7 +578,7 @@
   }
 }
 
-/* Pricing Grid */
+/* Pricing Grid with proper spacing for badge */
 .pricing-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -587,27 +587,30 @@
   max-width: 60rem;
   margin-left: auto;
   margin-right: auto;
+  padding-top: 1.5rem; /* Add padding to accommodate the badge */
 }
 
 .pricing-card {
   position: relative;
+  margin-top: 0.5rem; /* Additional margin for badge space */
 }
 
-/* Most Popular Badge - POSITIONED ABOVE PANE, NOT INSIDE */
+/* Most Popular Badge - POSITIONED WELL ABOVE PANE */
 .pricing-badge {
   position: absolute;
-  top: -1rem; /* Moved further up to be completely outside the card */
+  top: -1.5rem; /* Moved even further up */
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--accent-1);
   color: var(--bg-0);
   font-size: 0.75rem;
   font-weight: 500;
-  padding: 0.5rem 1rem; /* Increased padding for better visibility */
+  padding: 0.5rem 1rem;
   border-radius: 9999px;
-  box-shadow: var(--shadow-subtle);
-  z-index: 20; /* Higher z-index to ensure it's above everything */
-  white-space: nowrap; /* Prevent text wrapping */
+  box-shadow: var(--shadow-medium); /* Enhanced shadow for better visibility */
+  z-index: 30; /* Even higher z-index */
+  white-space: nowrap;
+  border: 2px solid var(--bg-0); /* Add border to make it stand out more */
 }
 
 .price-display {
