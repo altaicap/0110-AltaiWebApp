@@ -63,10 +63,10 @@ body {
 
 [data-theme="light"] [role="tab"][data-state="active"],
 [data-theme="light"] [role="tab"][aria-selected="true"] {
-  background: #ffffff !important; /* White active background */
+  background: rgba(14, 109, 115, 0.16) !important; /* Light accent tinted at 16% */
   color: #111827 !important; /* Dark text */
-  border: 1px solid #d1d5db !important; /* Light border */
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important; /* Subtle shadow */
+  border: 1px solid rgba(14, 109, 115, 0.35) !important; /* Light accent border */
+  box-shadow: none !important;
   transform: none !important;
   margin: 0 !important;
   height: 2.25rem; /* Same as inactive tabs */
