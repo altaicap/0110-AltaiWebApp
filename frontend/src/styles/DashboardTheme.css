@@ -487,7 +487,9 @@
 }
 
 [data-theme="dark"] .llm-send-btn svg {
-  color: inherit !important;
+  color: var(--dashboard-accent-on) !important;
+  fill: var(--dashboard-accent-on) !important;
+  stroke: var(--dashboard-accent-on) !important;
   opacity: 1 !important;
 }
 
