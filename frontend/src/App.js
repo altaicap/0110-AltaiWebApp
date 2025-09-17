@@ -3698,7 +3698,90 @@ metadata = {
               onChange={(e) => handleFiles(e.target.files)}
               accept=".txt,.pdf,.doc,.docx,.jpg,.jpeg,.png,.csv,.json"
             />
+          </div>
+          {/* Composer stays full-width at bottom */}
+          <div className="composer">
+            <div className="composer-input-row">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="llm-sidebar-btn"
+                title="Toggle conversation history"
+              >
+                <Menu className="w-4 h-4" />
+              </Button>
+              <Textarea
+                ref={(textarea) => {
+                  textareaRef.current = textarea;
+                  autoExpandTextarea(textarea);
+                }}
+                value={chatInput}
+                onChange={(e) => {
+                  setChatInput(e.target.value);
+                  // Trigger auto-expansion on change
+                  setTimeout(() => autoExpandTextarea(e.target), 0);
+                }}
+                placeholder="Ask me anything about your trading strategies..."
+                className="llm-input flex-1"
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendChatMessage();
+                  }
+                }}
+                disabled={isChatLoading}
+                rows={1}
+              />
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => fileInputRef.current?.click()}
+                className="llm-attachment-btn"
+                title="Attach file"
+              >
+                <Paperclip className="w-4 h-4" />
+              </Button>
+              <Button 
+                onClick={sendChatMessage}
+                disabled={!chatInput.trim() || isChatLoading}
+                className="llm-send-btn"
+                title="Send message"
+              >
+                <Send className="w-5 h-5" />
+              </Button>
             </div>
+
+            {/* Attached Files Display */}
+            {attachedFiles.length > 0 && (
+              <div className="composer-files">
+                <div className="file-list">
+                  {attachedFiles.map((file, index) => (
+                    <div key={index} className="file-item">
+                      <span className="file-name">{file.name}</span>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeFile(index)}
+                        className="file-remove-btn"
+                      >
+                        <X className="w-3 h-3" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {/* Hidden file input */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              className="hidden"
+              onChange={(e) => handleFiles(e.target.files)}
+              accept=".txt,.pdf,.doc,.docx,.jpg,.jpeg,.png,.csv,.json"
+            />
           </div>
         </div>
       </div>
