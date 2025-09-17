@@ -6000,4 +6000,4 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
   );
 };
 
-export default App;export default App;
+export default App;
