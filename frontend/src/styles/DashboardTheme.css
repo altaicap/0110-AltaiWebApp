@@ -467,6 +467,17 @@
   margin: 0 -1.5rem 1rem 0;
 }
 
+/* Light theme composer background to match transparency */
+[data-theme="light"] .llm-composer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  background: rgba(249, 250, 251, 0.75);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
 [data-theme="dark"] .llm-composer {
   display: flex;
   flex-direction: column;
