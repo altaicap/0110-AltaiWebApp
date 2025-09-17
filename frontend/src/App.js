@@ -5041,17 +5041,26 @@ metadata = {
                 
                 {authMode === 'register' && (
                   <div>
-                    <Label htmlFor="fullName">Full Name</Label>
+                    <Label 
+                      htmlFor="fullName" 
+                      className={isDarkTheme ? 'text-gray-200' : 'text-gray-700'}
+                    >
+                      Full Name
+                    </Label>
                     <Input
                       id="fullName"
                       type="text"
                       value={authForm.fullName}
                       onChange={(e) => setAuthForm({...authForm, fullName: e.target.value})}
                       placeholder="Enter your full name"
-                      className={`mt-1 ${authErrors.fullName ? 'border-red-500' : ''}`}
+                      className={`mt-1 ${
+                        isDarkTheme ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300'
+                      } ${authErrors.fullName ? 'border-red-500' : ''}`}
                     />
                     {authErrors.fullName && (
-                      <p className="text-red-500 text-xs mt-1">{authErrors.fullName}</p>
+                      <p className={`text-xs mt-1 ${isDarkTheme ? 'text-red-400' : 'text-red-500'}`}>
+                        {authErrors.fullName}
+                      </p>
                     )}
                   </div>
                 )}
