@@ -278,17 +278,6 @@
   transition: all 0.15s ease;
 }
 
-/* Profile icon specific styling */
-.light .profile-icon,
-.light .user-icon,
-.light .lucide-user,
-.landing-page-container:not(.dark) .profile-icon,
-.landing-page-container:not(.dark) .user-icon,
-.landing-page-container:not(.dark) .lucide-user {
-  color: #0E6D73 !important; /* Ensure profile icon is visible in light theme */
-  opacity: 0.9 !important;
-}
-
 /* Get Started button arrow visibility */
 .light .get-started-arrow,
 .light .cta-arrow,
