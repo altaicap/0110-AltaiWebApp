@@ -655,8 +655,9 @@
   background: #f9fafb;
   padding: 0;
   height: 100%;
+  /* Support both vertical (default) and horizontal (when sidebar open) layouts */
   display: flex;
-  flex-direction: column;
+  /* flex-direction is controlled by the parent div in JSX */
 }
 
 [data-theme="light"] .llm-header-transparent {
