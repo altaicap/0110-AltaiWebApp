@@ -493,12 +493,6 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                 Get Started for Free
                 <ArrowRight className="ml-2 h-5 w-5" />
               </button>
-              <button 
-                onClick={onGoToDashboard}
-                className="landing-btn landing-btn-secondary landing-btn-lg"
-              >
-                View Demo
-              </button>
             </div>
 
             {/* Statistics - FIXED POSITION */}
