@@ -702,7 +702,7 @@
 }
 
 [data-theme="light"] .llm-chat-panel {
-  background: linear-gradient(180deg, #FBFCFC 0%, #F3F5F7 100%) !important;
+  background: linear-gradient(180deg, rgba(251, 252, 252, 0.75) 0%, rgba(243, 245, 247, 0.75) 100%) !important;
   border: 1px solid #e5e7eb !important;
   border-radius: 0.875rem !important;
   margin: 0 1.5rem 1rem 1.5rem;
