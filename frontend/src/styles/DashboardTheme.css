@@ -154,7 +154,7 @@
 
 /* LLM INTERFACE REDESIGN - REQUIREMENTS 2, 3, 4 */
 
-/* AI Assistant Pane - Full Height Container */
+/* AI Assistant Pane - Full Height Container with Horizontal Layout Support */
 [data-theme="dark"] .ai-assistant-pane {
   background: var(--dashboard-bg-main);
   background-image: var(--dashboard-shimmer);
@@ -163,8 +163,9 @@
   background-attachment: fixed;
   padding: 0;
   height: 100%;
+  /* Support both vertical (default) and horizontal (when sidebar open) layouts */
   display: flex;
-  flex-direction: column;
+  /* flex-direction is controlled by the parent div in JSX */
 }
 
 /* LLM Header Transparent - REQUIREMENT 2: Expose shimmer background */
