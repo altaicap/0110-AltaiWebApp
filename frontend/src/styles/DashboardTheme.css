@@ -636,10 +636,10 @@
 }
 
 [data-theme="light"] .llm-chat-panel {
-  background: white !important;
+  background: linear-gradient(180deg, #FBFCFC 0%, #F3F5F7 100%) !important;
   border: 1px solid #e5e7eb !important;
   border-radius: 0.875rem !important;
-  margin: 0 1.5rem 0.5rem 1.5rem;
+  margin: 0 1.5rem 1rem 1.5rem;
   padding: 1.5rem;
   flex: 1;
   display: flex;
