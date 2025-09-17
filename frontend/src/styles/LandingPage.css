@@ -471,11 +471,18 @@
   padding: 0.5rem;
 }
 
-/* Profile icon - white in both dark and light themes - STRONGER OVERRIDE */
+/* Profile icon - signature green in both themes - STRONGER OVERRIDE */
 .profile-dropdown-trigger svg,
 .profile-dropdown-trigger .h-5 {
-  color: white !important;
-  fill: white !important;
+  color: var(--accent-ui) !important;
+  fill: var(--accent-ui) !important;
+}
+
+/* Light theme profile icon color */
+.landing-page-container:not(.dark) .profile-dropdown-trigger svg,
+.landing-page-container:not(.dark) .profile-dropdown-trigger .h-5 {
+  color: var(--accent) !important;
+  fill: var(--accent) !important;
 }
 
 .profile-dropdown-trigger:hover {
