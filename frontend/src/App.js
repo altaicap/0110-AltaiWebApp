@@ -5034,8 +5034,8 @@ metadata = {
               </CardHeader>
               <CardContent className="space-y-4">
                 {authErrors.general && (
-                  <div className="bg-red-50 border border-red-200 rounded-md p-3">
-                    <p className="text-red-700 text-sm">{authErrors.general}</p>
+                  <div className={`rounded-md p-3 ${isDarkTheme ? 'bg-red-900 border border-red-700' : 'bg-red-50 border border-red-200'}`}>
+                    <p className={`text-sm ${isDarkTheme ? 'text-red-300' : 'text-red-700'}`}>{authErrors.general}</p>
                   </div>
                 )}
                 
