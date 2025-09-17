@@ -888,7 +888,8 @@
 /* Arrow icon in primary button should match text color in each theme */
 .landing-btn-primary svg,
 .landing-btn-primary .lucide,
-.landing-btn-primary .lucide-arrow-right {
+.landing-btn-primary .lucide-arrow-right,
+.landing-btn-primary .lucide-chevron-right {
   color: white !important;
   fill: white !important;
   stroke: white !important;
@@ -897,7 +898,8 @@
 /* Dark theme: Arrow should be black to match black text */
 .landing-page-container.dark .landing-btn-primary svg,
 .landing-page-container.dark .landing-btn-primary .lucide,
-.landing-page-container.dark .landing-btn-primary .lucide-arrow-right {
+.landing-page-container.dark .landing-btn-primary .lucide-arrow-right,
+.landing-page-container.dark .landing-btn-primary .lucide-chevron-right {
   color: black !important;
   fill: black !important;
   stroke: black !important;
