@@ -5065,17 +5065,26 @@ metadata = {
                   </div>
                 )}
                 <div>
-                  <Label htmlFor="email">Email</Label>
+                  <Label 
+                    htmlFor="email" 
+                    className={isDarkTheme ? 'text-gray-200' : 'text-gray-700'}
+                  >
+                    Email
+                  </Label>
                   <Input
                     id="email"
                     type="email"
                     value={authForm.email}
                     onChange={(e) => setAuthForm({...authForm, email: e.target.value})}
                     placeholder="Enter your email"
-                    className={`mt-1 ${authErrors.email ? 'border-red-500' : ''}`}
+                    className={`mt-1 ${
+                      isDarkTheme ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300'
+                    } ${authErrors.email ? 'border-red-500' : ''}`}
                   />
                   {authErrors.email && (
-                    <p className="text-red-500 text-xs mt-1">{authErrors.email}</p>
+                    <p className={`text-xs mt-1 ${isDarkTheme ? 'text-red-400' : 'text-red-500'}`}>
+                      {authErrors.email}
+                    </p>
                   )}
                 </div>
                 <div>
