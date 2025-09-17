@@ -3463,14 +3463,14 @@ metadata = {
               </div>
             )}
             
-            {chatMessages.map((message) => (
-              <div key={message.id} className={`llm-message ${message.type === 'user' ? 'user-message' : 'ai-message'}`}>
-                <div className="message-bubble">
+            {chatMessages.map((message, index) => (
+              <div key={index} className={`llm-message ${message.role === 'user' ? 'user-message' : 'ai-message'}`}>
+                <div className={`message-bubble ${message.role === 'user' ? 'user-bubble' : 'ai-bubble'}`}>
                   <div className="message-content">
                     {message.content}
                   </div>
                   <div className="message-timestamp">
-                    {message.timestamp.toLocaleTimeString()}
+                    {message.timestamp ? message.timestamp.toLocaleTimeString() : ''}
                   </div>
                 </div>
               </div>
