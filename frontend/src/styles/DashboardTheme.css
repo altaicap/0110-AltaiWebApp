@@ -718,6 +718,16 @@
   opacity: 1 !important;
 }
 
+/* Light theme composer controls */
+[data-theme="light"] .composer-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  color: #6b7280;
+}
+
 /* EXISTING DASHBOARD STYLES CONTINUE... */
 
 /* Generic UI icon theming - GREEN ACCENT */
