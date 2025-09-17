@@ -5821,7 +5821,6 @@ const ChatInterface = ({
           />
         </div>
       </div>
-      </div>
     </div>
   );
 };
