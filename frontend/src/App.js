@@ -5504,7 +5504,25 @@ metadata = {
 }
 
 // LLM Chat Interface Component - REDESIGNED TO MATCH RIGHT-HAND CONTENT
-const ChatInterface = () => {
+const ChatInterface = ({ 
+  clearChatHistory, 
+  sidebarOpen, 
+  setSidebarOpen, 
+  startNewConversation, 
+  conversationHistory, 
+  chatSessionId, 
+  loadConversation, 
+  deleteConversation, 
+  chatMessages, 
+  isChatLoading, 
+  chatInput, 
+  setChatInput, 
+  textareaRef, 
+  autoExpandTextarea, 
+  sendChatMessage, 
+  selectedLLM, 
+  setSelectedLLM 
+}) => {
   const [dragActive, setDragActive] = useState(false);
   const [attachedFiles, setAttachedFiles] = useState([]);
   const fileInputRef = useRef(null);
