@@ -905,11 +905,10 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                 </div>
               </div>
 
-              {/* Max Plan - MOVED RECOMMENDED BADGE BELOW TITLE */}
+              {/* Max Plan - MOVED RECOMMENDED BADGE ABOVE FREE TRIAL */}
               <div className="landing-card pricing-card pricing-card-tall">
                 <div className="landing-card-content">
                   <h3 className="landing-card-title text-center">Max</h3>
-                  <div className="recommended-badge-orange recommended-badge-below-title">Recommended</div>
                   <div className="price-display justify-center">
                     <div className="flex flex-col items-center">
                       <div className="flex items-baseline">
@@ -943,6 +942,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                     </li>
                   </ul>
                   <div className="pricing-cta-section">
+                    <div className="recommended-badge-orange recommended-badge-above-trial">Recommended</div>
                     <div className="text-center mb-4">
                       <div className="text-sm font-medium text-blue-600">14-day free trial</div>
                       <div className="text-xs text-gray-500">Card required for trial activation</div>
