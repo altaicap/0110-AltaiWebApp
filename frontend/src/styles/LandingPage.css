@@ -1447,6 +1447,15 @@
   width: fit-content;
 }
 
+/* Repositioned recommended badge - above free trial */
+.recommended-badge-above-trial {
+  position: static !important;
+  transform: none !important;
+  margin: 0 auto 1rem auto;
+  display: block;
+  width: fit-content;
+}
+
 .price-display {
   display: flex;
   align-items: baseline;
