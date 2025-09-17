@@ -890,7 +890,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                     </li>
                     <li className="feature-item">
                       <CheckCircle className="feature-icon" />
-                      <span>Unlimited Live Strategies</span>
+                      <span>5 Live Strategies</span>
                     </li>
                   </ul>
                   <div className="pricing-cta-section">
