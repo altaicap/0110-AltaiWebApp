@@ -254,6 +254,9 @@ function App() {
     setConversationHistory(prev => prev.filter(conv => conv.id !== conversationId));
   }, []);
 
+  // LLM Chat Interface Component - REDESIGNED TO MATCH RIGHT-HAND CONTENT
+  const ChatInterface = () => {
+
   // Chat functions
   const sendChatMessage = async () => {
     if (!chatInput.trim() || isChatLoading) return;
