@@ -1833,6 +1833,7 @@
 
 .landing-page-container:not(.dark) .theme-toggle:hover {
   color: var(--fg);
+  transform: translateY(-2px);
 }
 
 /* Responsive Design */
