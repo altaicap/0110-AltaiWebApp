@@ -1138,7 +1138,7 @@
   z-index: 2;
 }
 
-/* Expand Affordance - Corner control */
+/* Expand Affordance - Corner control with smoother animations */
 .expand-affordance {
   position: absolute;
   top: 1rem;
@@ -1150,7 +1150,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition */
   z-index: 3;
   color: var(--text-secondary);
 }
@@ -1171,6 +1171,7 @@
   transform: scale(1.1);
   background: var(--accent-primary);
   color: white;
+  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother hover transition */
 }
 
 .feature-card.expanded:hover .expand-affordance {
