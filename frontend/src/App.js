@@ -5125,7 +5125,12 @@ metadata = {
                 </div>
                 {authMode === 'register' && (
                   <div>
-                    <Label htmlFor="confirmPassword">Confirm Password</Label>
+                    <Label 
+                      htmlFor="confirmPassword" 
+                      className={isDarkTheme ? 'text-gray-200' : 'text-gray-700'}
+                    >
+                      Confirm Password
+                    </Label>
                     <div className="relative">
                       <Input
                         id="confirmPassword"
@@ -5133,7 +5138,9 @@ metadata = {
                         value={authForm.confirmPassword}
                         onChange={(e) => setAuthForm({...authForm, confirmPassword: e.target.value})}
                         placeholder="Confirm your password"
-                        className={`mt-1 pr-10 ${authErrors.confirmPassword ? 'border-red-500' : ''}`}
+                        className={`mt-1 pr-10 ${
+                          isDarkTheme ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300'
+                        } ${authErrors.confirmPassword ? 'border-red-500' : ''}`}
                       />
                       <button
                         type="button"
@@ -5141,14 +5148,16 @@ metadata = {
                         className="absolute inset-y-0 right-0 pr-3 flex items-center"
                       >
                         {showConfirmPassword ? (
-                          <EyeOff className="h-4 w-4 text-gray-400" />
+                          <EyeOff className={`h-4 w-4 ${isDarkTheme ? 'text-gray-400' : 'text-gray-400'}`} />
                         ) : (
-                          <Eye className="h-4 w-4 text-gray-400" />
+                          <Eye className={`h-4 w-4 ${isDarkTheme ? 'text-gray-400' : 'text-gray-400'}`} />
                         )}
                       </button>
                     </div>
                     {authErrors.confirmPassword && (
-                      <p className="text-red-500 text-xs mt-1">{authErrors.confirmPassword}</p>
+                      <p className={`text-xs mt-1 ${isDarkTheme ? 'text-red-400' : 'text-red-500'}`}>
+                        {authErrors.confirmPassword}
+                      </p>
                     )}
                   </div>
                 )}
