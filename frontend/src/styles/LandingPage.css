@@ -1187,6 +1187,7 @@
   min-height: 200px;
 }
 
+/* Screenshot placeholder with smoother transitions */
 .screenshot-placeholder {
   position: relative;
   flex: 1;
@@ -1197,18 +1198,19 @@
   justify-content: center;
   overflow: hidden;
   min-height: 160px;
-  transition: all 0.18s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition */
 }
 
 .landing-page-container.dark .screenshot-placeholder {
   background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
 }
 
-/* Green glow hover effect on screenshot */
+/* Green glow hover effect on screenshot with smoother timing */
 .feature-card:hover .screenshot-placeholder {
   box-shadow: 
     0 0 0 1px var(--accent-primary),
     0 0 20px rgba(0, 189, 125, 0.16);
+  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother hover transition */
 }
 
 .landing-page-container.dark .feature-card:hover .screenshot-placeholder {
