@@ -3400,9 +3400,6 @@ metadata = {
               <RotateCcw className="w-4 h-4" />
             </Button>
           </div>
-          <p className="llm-description">
-            Get help with trading strategies, analysis, and platform usage
-          </p>
         </div>
         
         {/* Chat Panel - ALIGNED WITH RIGHT-HAND PANELS */}
