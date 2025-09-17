@@ -495,11 +495,18 @@
   background-color: #0b5c61; /* 8% darker for light theme */
 }
 
-/* Ensure icon stays white on hover in both themes - STRONGER OVERRIDE */
+/* Ensure icon stays green on hover in both themes - STRONGER OVERRIDE */
 .profile-dropdown-trigger:hover svg,
 .profile-dropdown-trigger:hover .h-5 {
-  color: white !important;
-  fill: white !important;
+  color: var(--accent-ui) !important;
+  fill: var(--accent-ui) !important;
+}
+
+/* Light theme hover icon color */
+.landing-page-container:not(.dark) .profile-dropdown-trigger:hover svg,
+.landing-page-container:not(.dark) .profile-dropdown-trigger:hover .h-5 {
+  color: var(--accent) !important;
+  fill: var(--accent) !important;
 }
 
 .profile-dropdown-menu {
