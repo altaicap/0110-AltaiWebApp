@@ -186,7 +186,12 @@ function App() {
   const [conversationHistory, setConversationHistory] = useState([]);
   
   // Navigation and authentication state
-  const [showLandingPage, setShowLandingPage] = useState(true); // Navigation state
+  const [showLandingPage, setShowLandingPage] = useState(() => {
+    // Initialize based on existing authentication
+    const token = localStorage.getItem('access_token');
+    const userData = localStorage.getItem('user_data');
+    return !(token && userData); // Show landing page only if not authenticated
+  });
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentAuthUser, setCurrentAuthUser] = useState(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
