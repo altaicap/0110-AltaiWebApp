@@ -68,7 +68,8 @@ import {
   Sun,
   Moon,
   Paperclip,
-  X
+  X,
+  Menu
 } from 'lucide-react';
 import { format } from "date-fns";
 import AltaiLogo from './assets/altai-logo.svg';
