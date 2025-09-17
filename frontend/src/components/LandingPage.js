@@ -11,6 +11,7 @@ import {
   Shield, 
   Zap, 
   ArrowRight, 
+  ChevronRight,
   Star, 
   CheckCircle, 
   Sun, 
