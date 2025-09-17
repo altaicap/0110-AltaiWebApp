@@ -1032,7 +1032,7 @@
 .feature-card {
   position: relative;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother base transition */
   z-index: 1;
   outline: none;
   border-radius: 1rem;
@@ -1047,6 +1047,18 @@
 .feature-card:focus-visible {
   outline: 2px solid var(--accent-primary);
   outline-offset: 2px;
+}
+
+/* Icon containers - white icons in dark theme */
+.landing-page-container.dark .feature-card .icon-container svg,
+.landing-page-container.dark .icon-container svg {
+  color: white !important;
+}
+
+/* Light theme - keep existing icon colors */
+.landing-page-container:not(.dark) .feature-card .icon-container svg,
+.landing-page-container:not(.dark) .icon-container svg {
+  color: inherit;
 }
 
 /* Desktop Grid Positioning - Default 1×1 cells */
