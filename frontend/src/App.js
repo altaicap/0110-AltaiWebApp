@@ -589,6 +589,7 @@ function App() {
         const user = JSON.parse(userData);
         setIsAuthenticated(true);
         setCurrentAuthUser(user);
+        setShowLandingPage(false); // Redirect to dashboard if already authenticated
         // Load user-specific data
         loadUserApiKeys();
       } catch (error) {
