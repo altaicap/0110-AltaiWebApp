@@ -220,7 +220,6 @@
   margin-top: -0.5rem;
   /* Ensure top edge aligns with right-hand panels */
   min-height: 0;
-  overflow: hidden; /* Prevent content from spilling outside */
 }
 
 /* Messages Area */
