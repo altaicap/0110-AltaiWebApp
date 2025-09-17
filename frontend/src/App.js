@@ -3698,7 +3698,7 @@ metadata = {
               onChange={(e) => handleFiles(e.target.files)}
               accept=".txt,.pdf,.doc,.docx,.jpg,.jpeg,.png,.csv,.json"
             />
-          </div>
+            </div>
           </div>
         </div>
       </div>
