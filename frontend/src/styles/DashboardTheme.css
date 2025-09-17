@@ -211,7 +211,7 @@
   background: var(--dashboard-panel-gradient) !important;
   border: 1px solid var(--dashboard-border) !important;
   border-radius: 0.875rem !important;
-  margin: 0 1.5rem 1.5rem 1.5rem;
+  margin: 0 1.5rem 0.5rem 1.5rem;
   padding: 1.5rem;
   flex: 1;
   display: flex;
