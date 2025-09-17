@@ -5174,12 +5174,16 @@ metadata = {
                         await handleRegister(authForm.email, authForm.password, authForm.fullName);
                       }
                     }} 
-                    className="flex-1"
+                    className={`flex-1 ${isDarkTheme ? 'bg-blue-600 hover:bg-blue-700' : ''}`}
                     disabled={isLoading}
                   >
                     {isLoading ? 'Please wait...' : authMode === 'login' ? 'Sign In' : 'Create Account'}
                   </Button>
-                  <Button variant="outline" onClick={() => setShowAuthModal(false)}>
+                  <Button 
+                    variant="outline" 
+                    className={isDarkTheme ? 'border-gray-600 text-gray-200 hover:bg-gray-700' : ''}
+                    onClick={() => setShowAuthModal(false)}
+                  >
                     Cancel
                   </Button>
                 </div>
