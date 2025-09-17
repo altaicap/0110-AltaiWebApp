@@ -455,6 +455,18 @@
   margin: 0 -1.5rem 1rem 0;
 }
 
+/* Light theme composer divider */
+[data-theme="light"] .llm-composer-divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 0 -1.5rem 1rem -1.5rem;
+}
+
+/* Adjust light theme composer divider when sidebar is open */
+[data-theme="light"] .llm-composer-divider.sidebar-open {
+  margin: 0 -1.5rem 1rem 0;
+}
+
 [data-theme="dark"] .llm-composer {
   display: flex;
   flex-direction: column;
