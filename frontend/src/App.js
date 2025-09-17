@@ -3458,85 +3458,84 @@ metadata = {
     };
 
     return (
-      <div className="h-full flex ai-assistant-pane">
-        {/* Sidebar */}
-        {sidebarOpen && (
-          <div className="llm-sidebar">
-            <div className="llm-sidebar-header">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={startNewConversation}
-                className="llm-new-chat-btn w-full"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                New Conversation
-              </Button>
-            </div>
-            
-            <div className="llm-sidebar-content">
-              <div className="llm-sidebar-section">
-                <h3 className="llm-sidebar-section-title">Recent Conversations</h3>
-                <div className="llm-conversation-list">
-                  {conversationHistory.length === 0 ? (
-                    <div className="llm-no-conversations">
-                      <p>No previous conversations</p>
-                    </div>
-                  ) : (
-                    conversationHistory.map((conversation) => (
-                      <div
-                        key={conversation.id}
-                        className={`llm-conversation-item ${conversation.id === chatSessionId ? 'active' : ''}`}
-                        onClick={() => loadConversation(conversation)}
-                      >
-                        <div className="conversation-title">
-                          {conversation.title}
-                        </div>
-                        <div className="conversation-date">
-                          {format(new Date(conversation.timestamp), 'MMM d')}
-                        </div>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            deleteConversation(conversation.id);
-                          }}
-                          className="conversation-delete"
-                        >
-                          <X className="w-3 h-3" />
-                        </Button>
+      <div className="h-full flex flex-col ai-assistant-pane">
+        {/* Title Block - TRANSPARENT TO SHOW SHIMMER */}
+        <div className="llm-header-transparent">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold">AI ASSISTANT</h2>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={clearChatHistory}
+              className="llm-clear-button"
+            >
+              <RotateCcw className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+
+        {/* Messages Area with Sidebar */}
+        <div className="flex flex-1 llm-messages-container">
+          {/* Sidebar within messages area */}
+          {sidebarOpen && (
+            <div className="llm-sidebar">
+              <div className="llm-sidebar-header">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={startNewConversation}
+                  className="llm-new-chat-btn w-full"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  New Conversation
+                </Button>
+              </div>
+              
+              <div className="llm-sidebar-content">
+                <div className="llm-sidebar-section">
+                  <h3 className="llm-sidebar-section-title">Recent Conversations</h3>
+                  <div className="llm-conversation-list">
+                    {conversationHistory.length === 0 ? (
+                      <div className="llm-no-conversations">
+                        <p>No previous conversations</p>
                       </div>
-                    ))
-                  )}
+                    ) : (
+                      conversationHistory.map((conversation) => (
+                        <div
+                          key={conversation.id}
+                          className={`llm-conversation-item ${conversation.id === chatSessionId ? 'active' : ''}`}
+                          onClick={() => loadConversation(conversation)}
+                        >
+                          <div className="conversation-title">
+                            {conversation.title}
+                          </div>
+                          <div className="conversation-date">
+                            {format(new Date(conversation.timestamp), 'MMM d')}
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteConversation(conversation.id);
+                            }}
+                            className="conversation-delete"
+                          >
+                            <X className="w-3 h-3" />
+                          </Button>
+                        </div>
+                      ))
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Main Chat Panel */}
-        <div className="flex-1 flex flex-col">
-          {/* Title Block - TRANSPARENT TO SHOW SHIMMER */}
-          <div className="llm-header-transparent">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold">AI ASSISTANT</h2>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={clearChatHistory}
-                className="llm-clear-button"
-              >
-                <RotateCcw className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
-        
-        {/* Chat Panel - ALIGNED WITH RIGHT-HAND PANELS */}
-        <div className="llm-chat-panel flex-1 flex flex-col">
-          {/* Messages Area */}
-          <div 
-            className={`llm-messages-area flex-1 overflow-y-auto ${dragActive ? 'drag-active' : ''}`}
+          {/* Messages Display Area */}
+          <div className="flex-1 flex flex-col llm-messages-display">
+            <div 
+              className={`llm-messages-area flex-1 overflow-y-auto ${dragActive ? 'drag-active' : ''}`}
             onDragEnter={handleDrag}
             onDragLeave={handleDrag}
             onDragOver={handleDrag}
