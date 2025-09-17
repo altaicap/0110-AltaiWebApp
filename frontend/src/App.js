@@ -3495,7 +3495,10 @@ metadata = {
           <div className="llm-composer">
             <div className="composer-input-row">
               <Textarea
-                ref={(textarea) => autoExpandTextarea(textarea)}
+                ref={(textarea) => {
+                  textareaRef.current = textarea;
+                  autoExpandTextarea(textarea);
+                }}
                 value={chatInput}
                 onChange={(e) => {
                   setChatInput(e.target.value);
