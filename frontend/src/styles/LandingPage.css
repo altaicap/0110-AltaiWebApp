@@ -886,8 +886,12 @@
 }
 
 /* Arrow icon in primary button should be white in both themes */
-.landing-btn-primary svg {
+.landing-btn-primary svg,
+.landing-btn-primary .lucide,
+.landing-btn-primary .lucide-arrow-right {
   color: white !important;
+  fill: white !important;
+  stroke: white !important;
 }
 
 /* Light theme: Enhanced gradient for primary buttons */
