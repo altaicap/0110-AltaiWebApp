@@ -1020,7 +1020,7 @@
   max-width: 320px; /* Maximum width cap */
   min-width: 240px; /* Minimum width to maintain usability */
   height: 100%; /* Fill only the messages container height */
-  background: rgba(249, 250, 251, 0.95);
+  background: rgba(249, 250, 251, 0.75);
   border-right: 1px solid #e5e7eb;
   display: flex;
   flex-direction: column;
