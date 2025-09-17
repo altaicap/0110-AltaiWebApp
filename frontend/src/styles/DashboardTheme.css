@@ -712,7 +712,9 @@
 }
 
 [data-theme="light"] .llm-send-btn svg {
-  color: inherit !important;
+  color: white !important;
+  fill: white !important;
+  stroke: white !important;
   opacity: 1 !important;
 }
 
