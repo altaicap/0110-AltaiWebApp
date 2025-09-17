@@ -316,6 +316,21 @@ function App() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
+  // Auto-expand textarea function
+  const autoExpandTextarea = useCallback((textarea) => {
+    if (!textarea) return;
+    
+    const baseHeight = 2.75 * 16; // 2.75rem in pixels
+    const lineHeight = 1.25 * 16; // 1.25rem line height
+    const padding = 0.75 * 16 * 2; // top and bottom padding
+    const maxHeight = lineHeight * 5 + padding; // 5 lines max
+    
+    textarea.style.height = `${baseHeight}px`;
+    const scrollHeight = textarea.scrollHeight;
+    const newHeight = Math.min(scrollHeight, maxHeight);
+    textarea.style.height = `${Math.max(newHeight, baseHeight)}px`;
+  }, []);
+
   // Chat functions
   const sendChatMessage = async () => {
     if (!chatInput.trim() || isChatLoading) return;
