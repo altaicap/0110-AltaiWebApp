@@ -5588,7 +5588,12 @@ metadata = {
         {showAuthModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => setShowAuthModal(false)}>
             <Card 
-              className={`w-full max-w-md mx-4 ${isDarkTheme ? 'bg-gray-800 border-gray-600' : 'bg-white'}`} 
+              className={`w-full max-w-md mx-4 border ${isDarkTheme ? 'border-gray-600' : 'border-gray-300'}`}
+              style={{
+                background: isDarkTheme 
+                  ? 'linear-gradient(180deg, rgba(23, 23, 23, 0.85), rgba(9, 13, 13, 0.85))'
+                  : 'linear-gradient(180deg, #FBFCFC 0%, #F3F5F7 100%)'
+              }}
               onClick={(e) => e.stopPropagation()}
             >
               <CardHeader>
