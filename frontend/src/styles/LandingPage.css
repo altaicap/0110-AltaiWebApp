@@ -471,9 +471,11 @@
   padding: 0.5rem;
 }
 
-/* Profile icon - white in both dark and light themes */
-.profile-dropdown-trigger svg {
+/* Profile icon - white in both dark and light themes - STRONGER OVERRIDE */
+.profile-dropdown-trigger svg,
+.profile-dropdown-trigger .h-5 {
   color: white !important;
+  fill: white !important;
 }
 
 .profile-dropdown-trigger:hover {
@@ -486,9 +488,11 @@
   background-color: #0b5c61; /* 8% darker for light theme */
 }
 
-/* Ensure icon stays white on hover in both themes */
-.profile-dropdown-trigger:hover svg {
+/* Ensure icon stays white on hover in both themes - STRONGER OVERRIDE */
+.profile-dropdown-trigger:hover svg,
+.profile-dropdown-trigger:hover .h-5 {
   color: white !important;
+  fill: white !important;
 }
 
 .profile-dropdown-menu {
