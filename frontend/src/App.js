@@ -3542,6 +3542,15 @@ metadata = {
           <div className="llm-composer-divider"></div>
           <div className="llm-composer">
             <div className="composer-input-row">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="llm-sidebar-btn"
+                title="Toggle conversation history"
+              >
+                <Menu className="w-4 h-4" />
+              </Button>
               <Textarea
                 ref={(textarea) => {
                   textareaRef.current = textarea;
