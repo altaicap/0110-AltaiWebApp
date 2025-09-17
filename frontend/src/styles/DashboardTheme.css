@@ -208,7 +208,7 @@
 
 /* LLM Chat Panel - REQUIREMENT 3: Align with right-hand panels */
 [data-theme="dark"] .llm-chat-panel {
-  background: linear-gradient(180deg, #171717 0%, #090D0D 100%) !important;
+  background: linear-gradient(180deg, rgba(23, 23, 23, 0.75) 0%, rgba(9, 13, 13, 0.75) 100%) !important;
   border: 1px solid var(--dashboard-border) !important;
   border-radius: 0.875rem !important;
   margin: 0 1.5rem 1rem 1.5rem;
