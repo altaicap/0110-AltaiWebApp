@@ -5169,7 +5169,25 @@ metadata = {
           style={{ width: `${splitScreenRatio}%` }}
           className={`border-r ${isDarkTheme ? 'border-gray-700 bg-gray-900' : 'border-gray-200 bg-gray-50'} flex flex-col`}
         >
-          <ChatInterface />
+          <ChatInterface 
+            clearChatHistory={clearChatHistory}
+            sidebarOpen={sidebarOpen}
+            setSidebarOpen={setSidebarOpen}
+            startNewConversation={startNewConversation}
+            conversationHistory={conversationHistory}
+            chatSessionId={chatSessionId}
+            loadConversation={loadConversation}
+            deleteConversation={deleteConversation}
+            chatMessages={chatMessages}
+            isChatLoading={isChatLoading}
+            chatInput={chatInput}
+            setChatInput={setChatInput}
+            textareaRef={textareaRef}
+            autoExpandTextarea={autoExpandTextarea}
+            sendChatMessage={sendChatMessage}
+            selectedLLM={selectedLLM}
+            setSelectedLLM={setSelectedLLM}
+          />
         </div>
         
         {/* Resizable Divider */}
