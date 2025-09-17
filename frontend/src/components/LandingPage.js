@@ -492,7 +492,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                 className="landing-btn landing-btn-primary landing-btn-lg"
               >
                 Get Started for Free
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ChevronRight className="ml-2 h-5 w-5" />
               </button>
             </div>
 
