@@ -5088,7 +5088,12 @@ metadata = {
                   )}
                 </div>
                 <div>
-                  <Label htmlFor="password">Password</Label>
+                  <Label 
+                    htmlFor="password" 
+                    className={isDarkTheme ? 'text-gray-200' : 'text-gray-700'}
+                  >
+                    Password
+                  </Label>
                   <div className="relative">
                     <Input
                       id="password"
@@ -5096,7 +5101,9 @@ metadata = {
                       value={authForm.password}
                       onChange={(e) => setAuthForm({...authForm, password: e.target.value})}
                       placeholder="Enter your password"
-                      className={`mt-1 pr-10 ${authErrors.password ? 'border-red-500' : ''}`}
+                      className={`mt-1 pr-10 ${
+                        isDarkTheme ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300'
+                      } ${authErrors.password ? 'border-red-500' : ''}`}
                     />
                     <button
                       type="button"
@@ -5104,14 +5111,16 @@ metadata = {
                       className="absolute inset-y-0 right-0 pr-3 flex items-center"
                     >
                       {showPassword ? (
-                        <EyeOff className="h-4 w-4 text-gray-400" />
+                        <EyeOff className={`h-4 w-4 ${isDarkTheme ? 'text-gray-400' : 'text-gray-400'}`} />
                       ) : (
-                        <Eye className="h-4 w-4 text-gray-400" />
+                        <Eye className={`h-4 w-4 ${isDarkTheme ? 'text-gray-400' : 'text-gray-400'}`} />
                       )}
                     </button>
                   </div>
                   {authErrors.password && (
-                    <p className="text-red-500 text-xs mt-1">{authErrors.password}</p>
+                    <p className={`text-xs mt-1 ${isDarkTheme ? 'text-red-400' : 'text-red-500'}`}>
+                      {authErrors.password}
+                    </p>
                   )}
                 </div>
                 {authMode === 'register' && (
