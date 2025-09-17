@@ -306,6 +306,7 @@ function App() {
   const [chatSessionId, setChatSessionId] = useState(null);
   const [isChatLoading, setIsChatLoading] = useState(false);
   const [selectedLLM, setSelectedLLM] = useState('claude'); // Default to Claude
+  const textareaRef = useRef(null);
   
   // Navigation and authentication state
   const [showLandingPage, setShowLandingPage] = useState(true); // Navigation state
