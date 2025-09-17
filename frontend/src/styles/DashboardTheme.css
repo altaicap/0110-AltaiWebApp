@@ -215,11 +215,12 @@
   padding: 1.5rem;
   flex: 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row; /* Changed to row to accommodate sidebar */
   /* Remove extra top margin to align with right panels */
   margin-top: -0.5rem;
   /* Ensure top edge aligns with right-hand panels */
   min-height: 0;
+  overflow: hidden; /* Prevent content from spilling outside */
 }
 
 /* Messages Area */
