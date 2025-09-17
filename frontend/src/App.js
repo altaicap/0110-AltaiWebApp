@@ -307,6 +307,8 @@ function App() {
   const [isChatLoading, setIsChatLoading] = useState(false);
   const [selectedLLM, setSelectedLLM] = useState('claude'); // Default to Claude
   const textareaRef = useRef(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [conversationHistory, setConversationHistory] = useState([]);
   
   // Navigation and authentication state
   const [showLandingPage, setShowLandingPage] = useState(true); // Navigation state
