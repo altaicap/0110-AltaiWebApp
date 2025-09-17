@@ -5721,7 +5721,7 @@ const ChatInterface = ({
           </div>
         </div>
         
-        {/* Composer Area - Bottom of Panel - OUTSIDE of messages container */}
+        {/* Composer Area - Bottom of Panel - OUTSIDE messages container so sidebar doesn't affect it */}
         <div className={`llm-composer-divider ${sidebarOpen ? 'sidebar-open' : ''}`}></div>
         <div className="llm-composer">
               <div className="composer-input-row">
