@@ -3412,11 +3412,11 @@ metadata = {
             <div className="flex-1 flex flex-col llm-messages-display">
               <div 
                 className={`llm-messages-area flex-1 overflow-y-auto ${dragActive ? 'drag-active' : ''}`}
-            onDragEnter={handleDrag}
-            onDragLeave={handleDrag}
-            onDragOver={handleDrag}
-            onDrop={handleDrop}
-          >
+                onDragEnter={handleDrag}
+                onDragLeave={handleDrag}
+                onDragOver={handleDrag}
+                onDrop={handleDrop}
+              >
             {dragActive && (
               <div className="llm-drag-overlay">
                 <div className="text-center">
