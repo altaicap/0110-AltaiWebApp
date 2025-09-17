@@ -3473,9 +3473,32 @@ metadata = {
           <div className="llm-composer-divider"></div>
           <div className="llm-composer">
             <div className="composer-input-row">
-              <Input
+              <Textarea
+                ref={(textarea) => {
+                  if (textarea) {
+                    // Auto-expand logic for up to 5 lines
+                    textarea.style.height = '2.75rem';
+                    const scrollHeight = textarea.scrollHeight;
+                    const lineHeight = 1.25 * 16; // 1.25rem in pixels (assuming 16px base)
+                    const padding = 0.75 * 16 * 2; // top and bottom padding
+                    const maxHeight = lineHeight * 5 + padding;
+                    const newHeight = Math.min(scrollHeight, maxHeight);
+                    textarea.style.height = `${Math.max(newHeight, 2.75 * 16)}px`;
+                  }
+                }}
                 value={chatInput}
-                onChange={(e) => setChatInput(e.target.value)}
+                onChange={(e) => {
+                  setChatInput(e.target.value);
+                  // Trigger auto-expansion on change
+                  const textarea = e.target;
+                  textarea.style.height = '2.75rem';
+                  const scrollHeight = textarea.scrollHeight;
+                  const lineHeight = 1.25 * 16; // 1.25rem in pixels
+                  const padding = 0.75 * 16 * 2; // top and bottom padding
+                  const maxHeight = lineHeight * 5 + padding;
+                  const newHeight = Math.min(scrollHeight, maxHeight);
+                  textarea.style.height = `${Math.max(newHeight, 2.75 * 16)}px`;
+                }}
                 placeholder="Ask me anything about your trading strategies..."
                 className="llm-input flex-1"
                 onKeyPress={(e) => {
@@ -3485,6 +3508,7 @@ metadata = {
                   }
                 }}
                 disabled={isChatLoading}
+                rows={1}
               />
               <Button
                 variant="ghost"
