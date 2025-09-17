@@ -5449,17 +5449,7 @@ metadata = {
           style={{ width: `${splitScreenRatio}%` }}
           className={`border-r ${isDarkTheme ? 'border-gray-700 bg-gray-900' : 'border-gray-200 bg-gray-50'} flex flex-col`}
         >
-          <ChatInterface 
-            chatMessages={chatMessages}
-            chatInput={chatInput}
-            setChatInput={setChatInput}
-            isChatLoading={isChatLoading}
-            selectedLLM={selectedLLM}
-            setSelectedLLM={setSelectedLLM}
-            sendChatMessage={sendChatMessage}
-            clearChatHistory={clearChatHistory}
-            isDarkTheme={isDarkTheme}
-          />
+          <ChatInterface />
         </div>
         
         {/* Resizable Divider */}
