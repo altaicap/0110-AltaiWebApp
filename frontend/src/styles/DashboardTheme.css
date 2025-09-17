@@ -445,6 +445,16 @@
   margin: 0 -1.5rem 1rem -1.5rem;
 }
 
+/* Adjust composer divider when sidebar is open */
+[data-theme="dark"] .llm-messages-container:has(.llm-sidebar) + * .llm-composer-divider {
+  margin: 0 -1.5rem 1rem 0; /* Remove left negative margin when sidebar is present */
+}
+
+/* Alternative approach using class-based targeting */
+[data-theme="dark"] .llm-composer-divider.sidebar-open {
+  margin: 0 -1.5rem 1rem 0;
+}
+
 [data-theme="dark"] .llm-composer {
   display: flex;
   flex-direction: column;
