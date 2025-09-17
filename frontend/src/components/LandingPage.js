@@ -905,11 +905,11 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
                 </div>
               </div>
 
-              {/* Max Plan - ADDED ORANGE RECOMMENDED BADGE */}
-              <div className="landing-card pricing-card">
-                <div className="recommended-badge-orange">Recommended</div>
+              {/* Max Plan - MOVED RECOMMENDED BADGE BELOW TITLE */}
+              <div className="landing-card pricing-card pricing-card-tall">
                 <div className="landing-card-content">
                   <h3 className="landing-card-title text-center">Max</h3>
+                  <div className="recommended-badge-orange recommended-badge-below-title">Recommended</div>
                   <div className="price-display justify-center">
                     <div className="flex flex-col items-center">
                       <div className="flex items-baseline">
