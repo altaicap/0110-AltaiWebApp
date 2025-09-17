@@ -472,13 +472,12 @@
 }
 
 .profile-dropdown-trigger:hover {
-  background-color: #00d18a; /* 8% brighter green for dark theme */
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 /* Light theme hover for profile button */
 .landing-page-container:not(.dark) .profile-dropdown-trigger:hover {
-  background-color: #0b5c61; /* 8% darker for light theme */
+  transform: translateY(-2px);
 }
 
 /* Ensure icon stays green on hover in both themes - STRONGER OVERRIDE */
