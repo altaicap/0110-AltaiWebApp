@@ -636,6 +636,54 @@
   min-height: 0;
 }
 
+/* Light theme input styling */
+[data-theme="light"] .composer-input-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+[data-theme="light"] .llm-input {
+  background: white !important;
+  border: 1px solid #d1d5db !important;
+  color: #1f2937 !important;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.75rem;
+  transition: border-color 0.15s ease;
+}
+
+[data-theme="light"] .llm-input:focus {
+  outline: 2px solid #0E6D73 inset !important;
+  outline-offset: -2px !important;
+  border-color: #0E6D73 !important;
+}
+
+[data-theme="light"] .llm-input::placeholder {
+  color: #6b7280 !important;
+}
+
+[data-theme="light"] .llm-attachment-btn {
+  background: transparent !important;
+  border: 1px solid #d1d5db !important;
+  color: #6b7280 !important;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+  min-width: 2.75rem;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[data-theme="light"] .llm-attachment-btn:hover {
+  background: #f3f4f6 !important;
+  color: #374151 !important;
+  border-color: #0E6D73 !important;
+}
+
 [data-theme="light"] .llm-send-btn {
   background: #0E6D73 !important;
   color: white !important;
