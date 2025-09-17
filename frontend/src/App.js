@@ -5720,7 +5720,7 @@ const ChatInterface = ({
             </div>
             
             {/* Composer Area - Bottom of Panel */}
-            <div className="llm-composer-divider"></div>
+            <div className={`llm-composer-divider ${sidebarOpen ? 'sidebar-open' : ''}`}></div>
             <div className="llm-composer">
               <div className="composer-input-row">
                 <Button
