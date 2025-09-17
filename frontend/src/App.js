@@ -5189,7 +5189,7 @@ metadata = {
                 </div>
                 <div className="text-center pt-2">
                   <button
-                    className="text-sm text-blue-600 hover:underline"
+                    className={`text-sm hover:underline ${isDarkTheme ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-500'}`}
                     onClick={() => setAuthMode(authMode === 'login' ? 'register' : 'login')}
                   >
                     {authMode === 'login' 
