@@ -5591,7 +5591,7 @@ metadata = {
               className={`w-full max-w-md mx-4 border ${isDarkTheme ? 'border-gray-600' : 'border-gray-300'}`}
               style={{
                 background: isDarkTheme 
-                  ? 'linear-gradient(180deg, rgba(23, 23, 23, 0.85), rgba(9, 13, 13, 0.85))'
+                  ? 'linear-gradient(180deg, #171717 0%, #090D0D 100%)'
                   : 'linear-gradient(180deg, #FBFCFC 0%, #F3F5F7 100%)'
               }}
               onClick={(e) => e.stopPropagation()}
