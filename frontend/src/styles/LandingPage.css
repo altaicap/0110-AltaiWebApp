@@ -1160,11 +1160,18 @@
   color: var(--text-primary-dark);
 }
 
+/* Expanded state - different styling for light vs dark theme */
 .feature-card.expanded .expand-affordance {
   top: 0.75rem;
   right: 0.75rem;
-  background: rgba(239, 68, 68, 0.1);
+  background: rgba(239, 68, 68, 0.1); /* Light theme keeps red background */
   color: #dc2626;
+}
+
+/* Dark theme - no red background for expanded state */
+.landing-page-container.dark .feature-card.expanded .expand-affordance {
+  background: rgba(0, 0, 0, 0.8); /* Dark background instead of red */
+  color: #f3f4f6; /* Light gray for visibility */
 }
 
 .feature-card:hover .expand-affordance {
@@ -1174,9 +1181,15 @@
   transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother hover transition */
 }
 
+/* Expanded hover states - different for light vs dark */
 .feature-card.expanded:hover .expand-affordance {
-  background: rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.2); /* Light theme keeps red hover */
   color: #dc2626;
+}
+
+.landing-page-container.dark .feature-card.expanded:hover .expand-affordance {
+  background: rgba(0, 0, 0, 0.9); /* Dark theme no red background on hover */
+  color: white;
 }
 
 /* Expanded Content - Screenshot placeholder */
