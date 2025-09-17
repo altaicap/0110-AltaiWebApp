@@ -688,7 +688,7 @@
   padding: 1.5rem;
   flex: 1;
   display: flex;
-  flex-direction: row; /* Changed to row to accommodate sidebar */
+  flex-direction: column;
   margin-top: -0.5rem;
   min-height: 0;
   overflow: hidden; /* Prevent content from spilling outside */
