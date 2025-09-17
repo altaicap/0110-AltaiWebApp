@@ -335,6 +335,51 @@ function App() {
     textarea.style.height = `${Math.max(newHeight, baseHeight)}px`;
   }, []);
 
+  // Conversation management functions
+  const saveCurrentConversation = useCallback(() => {
+    if (chatMessages.length > 0) {
+      const conversationTitle = chatMessages[0]?.content?.substring(0, 50) + '...' || 'New Conversation';
+      const existingIndex = conversationHistory.findIndex(conv => conv.id === chatSessionId);
+      
+      const conversationData = {
+        id: chatSessionId,
+        title: conversationTitle,
+        messages: chatMessages,
+        timestamp: new Date(),
+        lastUpdated: new Date()
+      };
+
+      if (existingIndex >= 0) {
+        // Update existing conversation
+        setConversationHistory(prev => 
+          prev.map((conv, index) => 
+            index === existingIndex ? conversationData : conv
+          )
+        );
+      } else {
+        // Add new conversation
+        setConversationHistory(prev => [conversationData, ...prev]);
+      }
+    }
+  }, [chatMessages, chatSessionId, conversationHistory]);
+
+  const startNewConversation = useCallback(() => {
+    saveCurrentConversation();
+    setChatMessages([]);
+    setChatSessionId(Date.now().toString());
+  }, [saveCurrentConversation]);
+
+  const loadConversation = useCallback((conversation) => {
+    saveCurrentConversation();
+    setChatMessages(conversation.messages);
+    setChatSessionId(conversation.id);
+    setSidebarOpen(false);
+  }, [saveCurrentConversation]);
+
+  const deleteConversation = useCallback((conversationId) => {
+    setConversationHistory(prev => prev.filter(conv => conv.id !== conversationId));
+  }, []);
+
   // Chat functions
   const sendChatMessage = async () => {
     if (!chatInput.trim() || isChatLoading) return;
