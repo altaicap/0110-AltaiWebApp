@@ -885,6 +885,11 @@
   border: 1px solid var(--accent); /* Light theme keeps border */
 }
 
+/* Arrow icon in primary button should be white in both themes */
+.landing-btn-primary svg {
+  color: white !important;
+}
+
 /* Light theme: Enhanced gradient for primary buttons */
 .landing-page-container:not(.dark) .landing-btn-primary {
   background: linear-gradient(135deg, #0E6D73 0%, #0a8a92 50%, #0E6D73 100%); /* Enhanced gradient with signature color */
