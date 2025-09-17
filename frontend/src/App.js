@@ -343,6 +343,11 @@ function App() {
     setChatMessages(prev => [...prev, { role: 'user', content: userMessage, timestamp: new Date() }]);
     setChatInput('');
     
+    // Reset textarea height
+    if (textareaRef.current) {
+      textareaRef.current.style.height = '2.75rem';
+    }
+    
     try {
       const response = await fetch(`${BACKEND_URL}/api/chat/send`, {
         method: 'POST',
