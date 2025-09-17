@@ -5503,6 +5503,291 @@ metadata = {
   );
 }
 
+// LLM Chat Interface Component - REDESIGNED TO MATCH RIGHT-HAND CONTENT
+const ChatInterface = () => {
+  const [dragActive, setDragActive] = useState(false);
+  const [attachedFiles, setAttachedFiles] = useState([]);
+  const fileInputRef = useRef(null);
+
+  const handleDrag = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const files = Array.from(e.dataTransfer.files);
+      handleFiles(files);
+    }
+  };
+
+  const handleFiles = (files) => {
+    const newFiles = Array.from(files).slice(0, 5 - attachedFiles.length);
+    setAttachedFiles(prev => [...prev, ...newFiles]);
+  };
+
+  const removeFile = (index) => {
+    setAttachedFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  return (
+    <div className="h-full flex flex-col ai-assistant-pane">
+      {/* Title Block - TRANSPARENT TO SHOW SHIMMER */}
+      <div className="llm-header-transparent">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-2xl font-bold">AI ASSISTANT</h2>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={clearChatHistory}
+            className="llm-clear-button"
+          >
+            <RotateCcw className="w-4 h-4" />
+          </Button>
+        </div>
+      </div>
+
+      {/* Chat Panel - BORDERED CONTAINER */}
+      <div className="llm-chat-panel flex-1 flex flex-col">
+        {/* Messages Area with Sidebar */}
+        <div className="flex flex-1 llm-messages-container">
+          {/* Sidebar within chat panel */}
+          {sidebarOpen && (
+            <div className="llm-sidebar">
+              <div className="llm-sidebar-header">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={startNewConversation}
+                  className="llm-new-chat-btn w-full"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  New Conversation
+                </Button>
+              </div>
+              
+              <div className="llm-sidebar-content">
+                <div className="llm-sidebar-section">
+                  <h3 className="llm-sidebar-section-title">Recent Conversations</h3>
+                  <div className="llm-conversation-list">
+                    {conversationHistory.length === 0 ? (
+                      <div className="llm-no-conversations">
+                        <p>No previous conversations</p>
+                      </div>
+                    ) : (
+                      conversationHistory.map((conversation) => (
+                        <div
+                          key={conversation.id}
+                          className={`llm-conversation-item ${conversation.id === chatSessionId ? 'active' : ''}`}
+                          onClick={() => loadConversation(conversation)}
+                        >
+                          <div className="conversation-title">
+                            {conversation.title}
+                          </div>
+                          <div className="conversation-date">
+                            {format(new Date(conversation.timestamp), 'MMM d')}
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteConversation(conversation.id);
+                            }}
+                            className="conversation-delete"
+                          >
+                            <X className="w-3 h-3" />
+                          </Button>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Messages Display Area */}
+          <div className="flex-1 flex flex-col llm-messages-display">
+            <div 
+              className={`llm-messages-area flex-1 overflow-y-auto ${dragActive ? 'drag-active' : ''}`}
+              onDragEnter={handleDrag}
+              onDragLeave={handleDrag}
+              onDragOver={handleDrag}
+              onDrop={handleDrop}
+            >
+              {dragActive && (
+                <div className="llm-drag-overlay">
+                  <div className="text-center">
+                    <Upload className="w-12 h-12 mx-auto mb-4 text-blue-500" />
+                    <p className="text-lg font-medium text-blue-700">Drop files here</p>
+                    <p className="text-sm text-blue-600">Maximum 5 files</p>
+                  </div>
+                </div>
+              )}
+              
+              {chatMessages.length === 0 && (
+                <div className="llm-welcome-message">
+                  <MessageSquare className="w-12 h-12 mx-auto mb-4 opacity-30" />
+                  <p className="text-lg font-medium mb-2">Welcome to Altai Trader AI</p>
+                  <p className="text-sm mb-4">
+                    I can help you analyze your trading strategies, interpret market data, 
+                    and provide insights on your portfolio performance.
+                  </p>
+                  {/* Try asking examples - MOVED BELOW HELPER SENTENCE */}
+                  <div className="llm-try-asking-examples">
+                    <p className="text-sm mb-2"><strong>Try asking:</strong></p>
+                    <div className="space-y-1 text-xs">
+                      <p>"How is my Prior Bar Break strategy performing?"</p>
+                      <p>"What should I know about the latest market news?"</p>
+                      <p>"Help me optimize my risk management settings"</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {chatMessages.map((message, index) => (
+                <div key={index} className={`llm-message ${message.role === 'user' ? 'user-message' : 'ai-message'}`}>
+                  <div className={`message-bubble ${message.role === 'user' ? 'user-bubble' : 'ai-bubble'}`}>
+                    <div className="message-content">
+                      {message.content}
+                    </div>
+                    <div className="message-timestamp">
+                      {message.timestamp ? message.timestamp.toLocaleTimeString() : ''}
+                    </div>
+                  </div>
+                </div>
+              ))}
+              
+              {isChatLoading && (
+                <div className="llm-loading-message">
+                  <div className="loading-bubble">
+                    <div className="loading-dots">
+                      <div className="dot"></div>
+                      <div className="dot"></div>
+                      <div className="dot"></div>
+                    </div>
+                    <span className="loading-text">Thinking...</span>
+                  </div>
+                </div>
+              )}
+            </div>
+            
+            {/* Composer Area - Bottom of Panel */}
+            <div className="llm-composer-divider"></div>
+            <div className="llm-composer">
+              <div className="composer-input-row">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setSidebarOpen(!sidebarOpen)}
+                  className="llm-sidebar-btn"
+                  title="Toggle conversation history"
+                >
+                  <Menu className="w-4 h-4" />
+                </Button>
+                <Textarea
+                  ref={(textarea) => {
+                    textareaRef.current = textarea;
+                    autoExpandTextarea(textarea);
+                  }}
+                  value={chatInput}
+                  onChange={(e) => {
+                    setChatInput(e.target.value);
+                    // Trigger auto-expansion on change
+                    setTimeout(() => autoExpandTextarea(e.target), 0);
+                  }}
+                  placeholder="Ask me anything about your trading strategies..."
+                  className="llm-input flex-1"
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      sendChatMessage();
+                    }
+                  }}
+                  disabled={isChatLoading}
+                  rows={1}
+                />
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="llm-attachment-btn"
+                  title="Attach files"
+                >
+                  <Paperclip className="w-4 h-4" />
+                </Button>
+                <Button
+                  onClick={sendChatMessage}
+                  disabled={!chatInput.trim() || isChatLoading}
+                  className="llm-send-btn"
+                >
+                  <Send className="w-5 h-5" />
+                </Button>
+              </div>
+              
+              {/* LLM Selector */}
+              <div className="composer-controls">
+                <Label htmlFor="llm-selector" className="text-sm">LLM:</Label>
+                <Select value={selectedLLM} onValueChange={setSelectedLLM}>
+                  <SelectTrigger className="w-32" id="llm-selector">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="chatgpt">ChatGPT</SelectItem>
+                    <SelectItem value="claude">Claude</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              {/* Attached Files */}
+              {attachedFiles.length > 0 && (
+                <div className="attached-files">
+                  <p className="text-sm mb-2">Attached files:</p>
+                  <div className="files-list">
+                    {attachedFiles.map((file, index) => (
+                      <div key={index} className="file-item">
+                        <span className="file-name">{file.name}</span>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeFile(index)}
+                          className="file-remove-btn"
+                        >
+                          <X className="w-3 h-3" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {/* Hidden file input */}
+              <input
+                ref={fileInputRef}
+                type="file"
+                multiple
+                className="hidden"
+                onChange={(e) => handleFiles(e.target.files)}
+                accept=".txt,.pdf,.doc,.docx,.jpg,.jpeg,.png,.csv,.json"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Account Settings Form Component
 const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
   const [formData, setFormData] = useState({
