@@ -463,12 +463,17 @@
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 0.5rem;
+  background-color: var(--accent-primary); /* Green background in both themes */
   border: none;
-  background-color: var(--accent); /* Green background */
-  color: var(--bg-0); /* White icon */
+  outline: none;
   cursor: pointer;
   transition: all 0.2s ease;
   padding: 0.5rem;
+}
+
+/* Profile icon - white in both dark and light themes */
+.profile-dropdown-trigger svg {
+  color: white !important;
 }
 
 .profile-dropdown-trigger:hover {
@@ -479,6 +484,11 @@
 /* Light theme hover for profile button */
 .landing-page-container:not(.dark) .profile-dropdown-trigger:hover {
   background-color: #0b5c61; /* 8% darker for light theme */
+}
+
+/* Ensure icon stays white on hover in both themes */
+.profile-dropdown-trigger:hover svg {
+  color: white !important;
 }
 
 .profile-dropdown-menu {
