@@ -690,7 +690,6 @@
   flex-direction: column;
   margin-top: -0.5rem;
   min-height: 0;
-  overflow: hidden; /* Prevent content from spilling outside */
 }
 
 /* Light theme input styling */
