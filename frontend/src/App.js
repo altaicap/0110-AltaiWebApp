@@ -5724,7 +5724,7 @@ const ChatInterface = ({
         {/* Composer Area - Bottom of Panel - OUTSIDE messages container so sidebar doesn't affect it */}
         <div className="llm-composer-divider"></div>
         <div className="llm-composer">
-              <div className="composer-input-row">
+          <div className="composer-input-row">
                 <Button
                   variant="ghost"
                   size="sm"
