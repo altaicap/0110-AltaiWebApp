@@ -423,6 +423,9 @@ function App() {
         if (data.session_id) {
           setChatSessionId(data.session_id);
         }
+        
+        // Auto-save conversation after AI response
+        setTimeout(() => saveCurrentConversation(), 100);
       } else {
         const errorData = await response.json().catch(() => ({}));
         console.error('Chat API Error:', errorData);
