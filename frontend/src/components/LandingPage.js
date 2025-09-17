@@ -60,8 +60,8 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
   // Hover states for preview images
   const [hoveredPreview, setHoveredPreview] = useState(null);
   
-  // Feature cards expand/collapse state
-  const [expandedCard, setExpandedCard] = useState(null);
+  // Feature cards expand/collapse state - Default to "Backtest with confidence" expanded
+  const [expandedCard, setExpandedCard] = useState(1); // Card 2: "Backtest with confidence"
   const [isAnimating, setIsAnimating] = useState(false);
   
   // Email subscription state
