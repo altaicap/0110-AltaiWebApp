@@ -1560,29 +1560,19 @@
   gap: 0.5rem;
 }
 
-/* IMPROVED LOGO SIZING - Keep saturated colors on hover */
+/* IMPROVED LOGO SIZING - Light theme shows colors by default */
 .logo-image {
   height: 4.2rem;
   width: auto;
   max-width: 11.2rem;
   object-fit: contain;
-  opacity: 0.7;
-  transition: all 0.2s ease;
-  filter: grayscale(100%);
+  opacity: 1; /* Full opacity in light theme to show colors */
+  filter: none; /* No filters in light theme - show original colors */
+  transition: all 0.3s ease;
 }
 
-/* Enhanced logo sizing for consistent visual heights */
-.logo-newsware {
-  height: 4.2rem !important;
-  padding: 0.42rem 0;
-}
-
+/* TradeXchange logo - specific sizing */
 .logo-tradexchange {
-  height: 4.2rem !important;
-  padding: 0.28rem 0;
-}
-
-.logo-polygon {
   height: 4.2rem !important;
   padding: 0.14rem 0;
 }
@@ -1598,19 +1588,22 @@
   opacity: 0.7;
 }
 
-/* Hover effects - show colors in BOTH light and dark themes - KEEP SATURATED */
-.logo-image:hover {
+/* Light theme hover effects - slight enhancement */
+.landing-page-container:not(.dark) .logo-image:hover {
   opacity: 1;
-  filter: none; /* Remove all filters to show original colors */
+  transform: translateY(-2px);
+  filter: brightness(1.1) saturate(1.1); /* Slight enhancement on hover */
 }
 
+/* Dark theme hover effects - show colors */
 .landing-page-container.dark .logo-image:hover {
-  filter: none; /* Remove all filters in dark theme too */
+  filter: none; /* Remove all filters in dark theme on hover to show colors */
   opacity: 1;
+  transform: translateY(-2px);
 }
 
 .landing-page-container.dark .logo-polygon:hover {
-  filter: none; /* Remove all filters for colored display */
+  filter: none; /* Remove filters to show original colors on hover in dark theme */
   opacity: 1;
 }
 
