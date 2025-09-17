@@ -664,6 +664,18 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
   test_sequence: 1
   run_ui: false
 
+  - task: "Sidebar Layout Fix Testing"
+    implemented: true
+    working: false
+    file: "frontend/src/App.js"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL ISSUE: Sidebar layout fix not working correctly. Comprehensive testing revealed sidebar extends into composer area by 61px across all split screen ratios (20%, 40%, 60%, 80%). Sidebar bottom at y=996 overlaps composer area starting at y=935. While sidebar functionality works (menu button toggles correctly, text input maintains full width, send/attach buttons accessible), the core issue remains: sidebar should terminate just above the horizontal divider line separating messages area from composer area, but currently extends to the bottom of the chat panel. The fix needs to ensure sidebar height is constrained to only the messages display area."
+
   - task: "Laravel-Inspired Landing Page Implementation"
     implemented: true
     working: true
