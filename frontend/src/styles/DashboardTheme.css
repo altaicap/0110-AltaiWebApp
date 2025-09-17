@@ -834,6 +834,132 @@
   margin-top: 0.5rem;
 }
 
+/* Sidebar styling */
+[data-theme="dark"] .llm-sidebar {
+  width: 280px;
+  background: var(--dashboard-bg-main);
+  border-right: 1px solid var(--dashboard-border);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+[data-theme="dark"] .llm-sidebar-header {
+  padding: 1rem;
+  border-bottom: 1px solid var(--dashboard-border);
+}
+
+[data-theme="dark"] .llm-new-chat-btn {
+  background: var(--dashboard-accent) !important;
+  color: var(--dashboard-accent-on) !important;
+  border: 1px solid var(--dashboard-accent) !important;
+  justify-content: flex-start;
+}
+
+[data-theme="dark"] .llm-new-chat-btn:hover {
+  background: #00d18a !important;
+}
+
+[data-theme="dark"] .llm-sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+[data-theme="dark"] .llm-sidebar-section-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--dashboard-muted);
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+[data-theme="dark"] .llm-conversation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+[data-theme="dark"] .llm-conversation-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+  border: 1px solid transparent;
+}
+
+[data-theme="dark"] .llm-conversation-item:hover {
+  background: var(--dashboard-hover);
+  border-color: var(--dashboard-border);
+}
+
+[data-theme="dark"] .llm-conversation-item.active {
+  background: var(--dashboard-accent);
+  color: var(--dashboard-accent-on);
+}
+
+[data-theme="dark"] .conversation-title {
+  flex: 1;
+  font-size: 0.875rem;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 0.5rem;
+}
+
+[data-theme="dark"] .conversation-date {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  margin-right: 0.5rem;
+}
+
+[data-theme="dark"] .conversation-delete {
+  opacity: 0;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  transition: opacity 0.15s ease;
+}
+
+[data-theme="dark"] .llm-conversation-item:hover .conversation-delete {
+  opacity: 1;
+}
+
+[data-theme="dark"] .llm-no-conversations {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--dashboard-muted);
+  font-size: 0.875rem;
+}
+
+[data-theme="dark"] .llm-sidebar-btn {
+  background: transparent !important;
+  border: 1px solid var(--dashboard-border) !important;
+  color: var(--dashboard-muted) !important;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+  min-width: 2.75rem;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.5rem;
+}
+
+[data-theme="dark"] .llm-sidebar-btn:hover {
+  background: var(--dashboard-hover) !important;
+  color: var(--dashboard-fg) !important;
+  border-color: var(--dashboard-accent) !important;
+}
+
 /* EXISTING DASHBOARD STYLES CONTINUE... */
 
 /* Generic UI icon theming - GREEN ACCENT */
