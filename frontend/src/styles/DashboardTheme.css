@@ -233,6 +233,50 @@
   scrollbar-color: rgba(107, 117, 125, 0.35) transparent;
 }
 
+/* Chat message layout - user on left, AI on right */
+[data-theme="dark"] .llm-message {
+  margin-bottom: 1rem;
+  display: flex;
+}
+
+[data-theme="dark"] .llm-message.user-message {
+  justify-content: flex-start; /* User messages on left */
+}
+
+[data-theme="dark"] .llm-message.ai-message {
+  justify-content: flex-end; /* AI messages on right */
+}
+
+[data-theme="dark"] .message-bubble {
+  max-width: 70%;
+  padding: 0.875rem 1rem;
+  border-radius: 1rem;
+  position: relative;
+}
+
+[data-theme="dark"] .message-bubble.user-bubble {
+  background: #374151; /* Dark gray for user messages */
+  color: var(--dashboard-fg);
+  border: 1px solid var(--dashboard-border);
+}
+
+[data-theme="dark"] .message-bubble.ai-bubble {
+  background: var(--dashboard-accent); /* Green for AI messages */
+  color: var(--dashboard-accent-on);
+}
+
+[data-theme="dark"] .message-content {
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+[data-theme="dark"] .message-timestamp {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  margin-top: 0.5rem;
+}
+
 [data-theme="dark"] .llm-messages-area::-webkit-scrollbar {
   width: 6px;
 }
