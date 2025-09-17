@@ -267,15 +267,12 @@
   transition: all 0.15s ease;
 }
 
-/* Light theme generic UI icons */
-.light .icon:not(.theme-toggle svg):not(.lucide-sun),
-.light .btn-icon:not(.theme-toggle) > svg,
-.light button:not(.theme-toggle):not([aria-label*="theme"]) svg,
-.light .action-icon,
-.light .nav-icon,
-.light .profile-icon,
-.light .user-icon,
-.light .lucide-user {
+/* Generic UI icons (excluding profile icon which has its own specific styling) */
+.light .icon:not(.theme-toggle svg):not(.lucide-sun):not(.profile-dropdown-trigger svg),
+.light .btn-icon:not(.theme-toggle) > svg:not(.profile-dropdown-trigger svg),
+.light button:not(.theme-toggle):not([aria-label*="theme"]):not(.profile-dropdown-trigger) svg,
+.light .action-icon:not(.profile-dropdown-trigger svg),
+.light .nav-icon:not(.profile-dropdown-trigger svg) {
   color: var(--accent-ui) !important;
   opacity: 0.82;
   transition: all 0.15s ease;
