@@ -505,7 +505,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
             <div className="stats-grid mb-12">
               <div className="stat-item">
                 <div className="stat-number">5+</div>
-                <div className="stat-label">Connected Brokers</div>
+                <div className="stat-label">Integrated Brokers</div>
               </div>
               <div className="stat-item">
                 <div className="stat-number">$2M+</div>
