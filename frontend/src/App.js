@@ -5017,10 +5017,15 @@ metadata = {
         {/* Authentication Modal - Available on landing page */}
         {showAuthModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => setShowAuthModal(false)}>
-            <Card className="w-full max-w-md mx-4" onClick={(e) => e.stopPropagation()}>
+            <Card 
+              className={`w-full max-w-md mx-4 ${isDarkTheme ? 'bg-gray-800 border-gray-600' : 'bg-white'}`} 
+              onClick={(e) => e.stopPropagation()}
+            >
               <CardHeader>
-                <CardTitle>{authMode === 'login' ? 'Sign In to Altai Trader' : 'Create Your Account'}</CardTitle>
-                <CardDescription>
+                <CardTitle className={isDarkTheme ? 'text-white' : 'text-gray-900'}>
+                  {authMode === 'login' ? 'Sign In to Altai Trader' : 'Create Your Account'}
+                </CardTitle>
+                <CardDescription className={isDarkTheme ? 'text-gray-300' : 'text-gray-600'}>
                   {authMode === 'login' 
                     ? 'Enter your credentials to access your trading dashboard' 
                     : 'Join thousands of traders using Altai Trader'
