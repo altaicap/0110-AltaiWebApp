@@ -95,7 +95,7 @@
 
 /* Active pill containment with proper insets */
 [data-theme="dark"] [role="tablist"] {
-  background-color: var(--dashboard-glass);
+  background-color: transparent;
   border: 1px solid var(--dashboard-border);
   border-radius: 0.75rem;
   padding: 0.375rem;
