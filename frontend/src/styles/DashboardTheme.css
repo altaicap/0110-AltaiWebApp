@@ -964,6 +964,8 @@
   line-height: 1.25;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: var(--dashboard-fg); /* Match AI pane text color */
+}
   white-space: nowrap;
   margin-right: 0.5rem;
 }
