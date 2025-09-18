@@ -97,16 +97,37 @@
 /* Target any background classes that might create the grey container */
 [data-theme="dark"] .bg-background,
 [data-theme="dark"] .bg-card,
-[data-theme="dark"] .bg-popover,
-[data-theme="dark"] .bg-muted {
+[data-theme="dark"] .bg-popover {
+  background-color: transparent !important;
+}
+
+/* Specifically target tab content and dashboard areas */
+[data-theme="dark"] [role="tabpanel"],
+[data-theme="dark"] .space-y-6,
+[data-theme="dark"] [data-orientation="horizontal"] > [data-state="active"] {
   background-color: transparent !important;
 }
 
 [data-theme="light"] .bg-background,
 [data-theme="light"] .bg-card,
-[data-theme="light"] .bg-popover,
-[data-theme="light"] .bg-muted {
+[data-theme="light"] .bg-popover {
   background-color: transparent !important;
+}
+
+[data-theme="light"] [role="tabpanel"],
+[data-theme="light"] .space-y-6,
+[data-theme="light"] [data-orientation="horizontal"] > [data-state="active"] {
+  background-color: transparent !important;
+}
+
+/* BUT preserve the tab buttons background */
+[data-theme="dark"] [role="tablist"],
+[data-theme="dark"] .bg-muted[role="tablist"] {
+  background-color: var(--dashboard-glass) !important;
+}
+
+[data-theme="light"] [role="tablist"] {
+  background-color: #f3f4f6 !important;
 }
 
 /* Main Dashboard Shimmer Background */
