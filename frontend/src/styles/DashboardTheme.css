@@ -1319,7 +1319,7 @@
 [data-theme="dark"] .panel,
 [data-theme="dark"] .widget,
 [data-theme="dark"] [class*="Card"] {
-  background: var(--dashboard-panel-gradient);
+  background: transparent;
   border: 1px solid var(--dashboard-border);
   border-radius: 0.875rem; /* 14px consistent radius */
 }
