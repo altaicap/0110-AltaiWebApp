@@ -1412,7 +1412,8 @@
 
 /* Target the specific Card components in Dashboard */
 [data-theme="dark"] [class*="Card"],
-[data-theme="dark"] div.relative.pane-enhanced {
+[data-theme="dark"] div.relative.pane-enhanced,
+[data-theme="dark"] div.relative.fullscreen-enhanced {
   background: linear-gradient(180deg, rgba(23, 23, 23, 0.85), rgba(9, 13, 13, 0.85)) !important;
   border: 1px solid var(--dashboard-border) !important;
   border-radius: 0.875rem !important;
@@ -1420,7 +1421,8 @@
 }
 
 [data-theme="light"] [class*="Card"],
-[data-theme="light"] div.relative.pane-enhanced {
+[data-theme="light"] div.relative.pane-enhanced,
+[data-theme="light"] div.relative.fullscreen-enhanced {
   background: linear-gradient(180deg, #FBFCFC 0%, #F3F5F7 100%) !important;
   border: 1px solid #e5e7eb !important;
   border-radius: 0.875rem !important;
