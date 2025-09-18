@@ -94,6 +94,21 @@
   background-color: transparent !important;
 }
 
+/* Target any background classes that might create the grey container */
+[data-theme="dark"] .bg-background,
+[data-theme="dark"] .bg-card,
+[data-theme="dark"] .bg-popover,
+[data-theme="dark"] .bg-muted {
+  background-color: transparent !important;
+}
+
+[data-theme="light"] .bg-background,
+[data-theme="light"] .bg-card,
+[data-theme="light"] .bg-popover,
+[data-theme="light"] .bg-muted {
+  background-color: transparent !important;
+}
+
 /* Main Dashboard Shimmer Background */
 [data-theme="dark"] .dashboard-main {
   background: var(--dashboard-bg-main);
