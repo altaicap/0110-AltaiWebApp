@@ -224,6 +224,30 @@
   fill: white !important;
 }
 
+/* Light theme active tab styling */
+[data-theme="light"] [role="tab"][data-state="active"],
+[data-theme="light"] [role="tab"][aria-selected="true"] {
+  background: #0E6D73 !important; /* Opaque signature green for light theme */
+  color: white !important; /* High contrast white text on green background */
+  border: 1px solid #0E6D73 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  margin: 0 !important;
+  height: 2rem;
+  z-index: 1;
+  inset: 4px;
+  max-width: calc(100% - 8px);
+  max-height: calc(100% - 8px);
+  border-radius: 0.5rem;
+}
+
+/* Active tab icons in light theme - white for contrast on green background */
+[data-theme="light"] [role="tab"][data-state="active"] svg,
+[data-theme="light"] [role="tab"][aria-selected="true"] svg {
+  color: white !important;
+  fill: white !important;
+}
+
 [data-theme="dark"] [role="tab"]:hover:not([data-state="active"]):not([aria-selected="true"]) {
   background-color: var(--dashboard-hover);
   color: var(--dashboard-fg);
