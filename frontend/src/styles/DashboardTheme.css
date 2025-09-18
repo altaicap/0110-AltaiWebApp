@@ -973,7 +973,7 @@
   font-size: 0.75rem;
   opacity: 0.7;
   margin-right: 0.5rem;
-  color: var(--dashboard-muted); /* Light gray for dark theme */
+  color: var(--dashboard-muted) !important; /* Light gray for dark theme */
 }
 
 [data-theme="dark"] .conversation-delete {
