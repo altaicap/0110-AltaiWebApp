@@ -446,15 +446,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 0.5rem;
+  width: auto; /* Remove fixed container width */
+  height: auto; /* Remove fixed container height */
+  border-radius: 0; /* Remove rounded corners */
   background-color: transparent; /* Remove green background border */
   border: none;
   outline: none;
   cursor: pointer;
   transition: all 0.2s ease;
-  padding: 0.5rem;
+  padding: 0.25rem; /* Reduce padding for minimal touch area */
 }
 
 /* Profile icon - signature green in both themes - STRONGER OVERRIDE */
