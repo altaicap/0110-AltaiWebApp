@@ -60,12 +60,20 @@
   --dashboard-secondary-border: rgba(107, 117, 125, 0.6);
 }
 
-/* Remove grey background from tabs content area */
-[data-theme="dark"] .bg-muted {
+/* Remove grey background from tabs content area - target tabs root and content */
+[data-theme="dark"] [data-radix-tabs-root] {
   background-color: transparent !important;
 }
 
-[data-theme="light"] .bg-muted {
+[data-theme="dark"] [data-radix-tabs-content] {
+  background-color: transparent !important;
+}
+
+[data-theme="light"] [data-radix-tabs-root] {
+  background-color: transparent !important;
+}
+
+[data-theme="light"] [data-radix-tabs-content] {
   background-color: transparent !important;
 }
 
