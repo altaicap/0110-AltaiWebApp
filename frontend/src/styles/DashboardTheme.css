@@ -216,8 +216,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  /* Align top edge with right-hand panels tab box */
-  margin-top: -1.5rem;
+  /* Align top edge with tabs bar (DASHBOARD, STRATEGIES, etc.) */
+  margin-top: -2.5rem;
   /* Ensure top edge aligns with right-hand panels */
   min-height: 0;
 }
