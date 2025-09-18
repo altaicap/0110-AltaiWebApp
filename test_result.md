@@ -1106,3 +1106,18 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
       - working: true
         agent: "testing"
         comment: "✅ VERIFIED: Dashboard Tab Cleanup Testing complete with excellent results. SUCCESS RATE: 100% (3/3 fixes working perfectly). ✅ FIX 1 - ENHANCED CARD STYLING: Successfully verified gradient styling across all tabs. Found Quartile Trade Curves and Backtest Trade Log panes in BACKTEST tab with proper styling. Comprehensive verification shows consistent gradient styling: DASHBOARD (1/1 panes), STRATEGIES (4/4 panes), BACKTEST (8/8 panes), NEWS (3/3 panes), SETTINGS (3/3 panes) all using expected linear-gradient(180deg, rgba(23, 23, 23, 0.85), rgba(9, 13, 13, 0.85)) background. ✅ FIX 2 - REMOVED TAB TITLES & DESCRIPTIONS: Successfully verified complete removal of all tab titles and descriptions. Found only 1 instance of 'DASHBOARD' text (in tab button only), confirmed removal of all descriptive text including 'Trading performance overview and recent activity', 'Manage your configured, uploaded, and archived trading strategies', etc. Clean interface with no titles under tab selection tray. ✅ FIX 3 - REMOVED STRATEGY COUNTERS: Successfully verified complete removal of strategy counters from STRATEGIES tab. No instances found of 'Configured:', 'Uploaded:', 'Archived:', or 'Live:' counter text. STRATEGIES tab displays clean interface without counter clutter. All three dashboard tab cleanup fixes are working correctly and ready for production use."
+
+  - task: "Tab Selection Tray Styling Fixes for Dark and Light Themes"
+    implemented: true
+    working: false
+    file: "frontend/src/styles/DashboardTheme.css, frontend/src/App.css"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Review request testing: Tab selection tray fixes for both dark and light themes - testing centering, contrast, and opaque backgrounds as specified in review request"
+      - working: false
+        agent: "testing"
+        comment: "🎯 TAB SELECTION TRAY FIXES TESTING COMPLETE: Comprehensive testing performed with mixed results. SUCCESS RATE: 83% (5/6 major criteria met). ✅ DARK THEME EXCELLENT: All 5 tabs (DASHBOARD, STRATEGIES, BACKTEST, NEWS, SETTINGS) working perfectly with rgb(0, 189, 125) green background, rgb(255, 255, 255) white text for high contrast, 4px inset for proper centering, and white SVG icons. Dark theme implementation is flawless and meets all review requirements. ❌ LIGHT THEME ISSUES FOUND: Critical styling problems detected - active tab shows rgba(14, 109, 115, 0.16) transparent background instead of required opaque #0E6D73, text color is rgb(17, 24, 39) dark instead of white for contrast. Light theme active tab styling not implementing the specified opaque green background and white text requirements. ✅ POSITIONING & CENTERING: 4px inset confirmed working correctly in both themes for proper tab indicator centering. ✅ TAB SWITCHING: All tab switching functionality working smoothly with proper visual feedback. ✅ AUTHENTICATION: Successfully accessed dashboard using localStorage bypass method. CRITICAL ISSUE: Light theme active tab styling needs to be updated to use opaque #0E6D73 background and white text as specified in the review request, currently using transparent background with dark text."
