@@ -1389,7 +1389,8 @@
 [data-theme="dark"] .panel,
 [data-theme="dark"] .widget,
 [data-theme="dark"] [class*="Card"],
-[data-theme="dark"] .pane-enhanced {
+[data-theme="dark"] .pane-enhanced,
+[data-theme="dark"] .fullscreen-enhanced {
   background: linear-gradient(180deg, rgba(23, 23, 23, 0.85), rgba(9, 13, 13, 0.85)) !important; /* Same as landing page feature cards */
   border: 1px solid var(--dashboard-border) !important;
   border-radius: 0.875rem !important; /* 14px consistent radius */
