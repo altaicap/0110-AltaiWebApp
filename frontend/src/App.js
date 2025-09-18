@@ -2377,36 +2377,11 @@ metadata = {
         <div className="tab-header-enhanced">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold">STRATEGIES</h2>
-              <p className="text-gray-600 mb-4">Manage your configured, uploaded, and archived trading strategies</p>
+              {/* Removed STRATEGIES title and description */}
             </div>
             
-            <div className="flex gap-4 text-sm">
-              <div className="flex items-center gap-2">
-                <span className="text-gray-600">Configured:</span>
-                <Badge variant="secondary" className="bg-yellow-100 text-yellow-700 px-2 py-1 text-xs font-semibold">
-                  {tradingConfigurations.length}
-                </Badge>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-gray-600">Uploaded:</span>
-                <Badge variant="secondary" className="bg-blue-100 text-blue-700 px-2 py-1 text-xs font-semibold">
-                  {strategies.length}
-                </Badge>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-gray-600">Archived:</span>
-                <Badge variant="secondary" className="bg-gray-100 text-gray-700 px-2 py-1 text-xs font-semibold">
-                  {archivedStrategies.length}
-                </Badge>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-gray-600">Live:</span>
-                <Badge variant="secondary" className="bg-green-100 text-green-700 px-2 py-1 text-xs font-semibold">
-                  {liveStrategies.length}
-                </Badge>
-              </div>
-            </div>
+            {/* Removed strategy counters */}
+            
           </div>
         </div>
 
