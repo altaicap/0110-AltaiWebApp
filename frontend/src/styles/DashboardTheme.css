@@ -204,16 +204,24 @@
 [data-theme="dark"] [role="tab"][data-state="active"],
 [data-theme="dark"] [role="tab"][aria-selected="true"] {
   background: var(--dashboard-accent) !important;
-  color: var(--dashboard-accent-on, #07110F) !important;
+  color: white !important; /* High contrast white text on dark theme */
   border: 1px solid var(--dashboard-accent) !important;
   box-shadow: none !important;
   transform: none !important;
   margin: 0 !important;
   height: 2rem;
   z-index: 1;
-  /* Keep active pill contained with inset */
-  max-width: calc(100% - 12px);
-  max-height: calc(100% - 12px);
+  /* Better positioning - reduce inset for proper centering */
+  inset: 4px;
+  max-width: calc(100% - 8px);
+  max-height: calc(100% - 8px);
+}
+
+/* Active tab icons in dark theme - white for contrast */
+[data-theme="dark"] [role="tab"][data-state="active"] svg,
+[data-theme="dark"] [role="tab"][aria-selected="true"] svg {
+  color: white !important;
+  fill: white !important;
 }
 
 [data-theme="dark"] [role="tab"]:hover:not([data-state="active"]):not([aria-selected="true"]) {
