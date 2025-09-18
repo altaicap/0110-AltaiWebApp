@@ -479,6 +479,18 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
         comment: "✅ VERIFIED: IBKR Integration working correctly. OAuth service with private_key_jwt authentication properly implemented. RSA key pair management working (generates keys if not present). Authorization URL generation working with proper public key exposure. API client structure properly implemented with contract search, account management, and order placement capabilities."
 
 ## frontend:
+  - task: "Profile Icon Border Removal from Landing Page Header"
+    implemented: true
+    working: true
+    file: "frontend/src/styles/LandingPage.css"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "🎯 PROFILE ICON BORDER REMOVAL TEST COMPLETE: Successfully verified the removal of green background/border from profile icon in landing page header with 100% success rate across all test criteria. ✅ DARK THEME VERIFICATION: Profile icon background confirmed as rgba(0, 0, 0, 0) (transparent), no green border/background detected. Icon color properly maintained as rgb(0, 189, 125) (green accent) for visibility. Hover effects working correctly with translateY(-2px) transform while maintaining transparent background. ✅ LIGHT THEME VERIFICATION: Profile icon background confirmed as rgba(0, 0, 0, 0) (transparent) in light theme. Icon color properly maintained as rgb(14, 109, 115) (teal accent) for visibility. Hover state maintains transparent background without creating unwanted borders. ✅ FUNCTIONALITY PRESERVED: Profile dropdown opens correctly showing Sign In and Register buttons. All interactive elements remain functional. Click and hover interactions work as expected. ✅ VISUAL TARGET ACHIEVED: Profile icon appears as clean user icon without any background color or border, matching the expected clean header appearance. Screenshots confirm borderless profile icon in both themes with proper accent coloring. ✅ CSS IMPLEMENTATION VERIFIED: .profile-dropdown-trigger class successfully changed from var(--accent-primary) to transparent background-color, eliminating the green background/border effect while preserving icon visibility and functionality."
+
   - task: "LLM Chat Interface Sidebar Fixes Testing"
     implemented: true
     working: true
