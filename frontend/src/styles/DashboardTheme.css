@@ -1389,9 +1389,10 @@
 [data-theme="dark"] .panel,
 [data-theme="dark"] .widget,
 [data-theme="dark"] [class*="Card"] {
-  background: var(--dashboard-panel-gradient);
+  background: linear-gradient(180deg, rgba(23, 23, 23, 0.85), rgba(9, 13, 13, 0.85)); /* Same as landing page feature cards */
   border: 1px solid var(--dashboard-border);
   border-radius: 0.875rem; /* 14px consistent radius */
+  box-shadow: var(--dashboard-shadow);
 }
 
 [data-theme="dark"] .card-header,
