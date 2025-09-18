@@ -1118,6 +1118,7 @@
   font-size: 0.75rem;
   opacity: 0.7;
   margin-right: 0.5rem;
+  color: #6b7280; /* Muted gray for light theme */
 }
 
 [data-theme="light"] .conversation-delete {
