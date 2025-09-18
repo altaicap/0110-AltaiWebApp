@@ -777,8 +777,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  /* Move DOWN further to match tabs bar gap from header */
-  margin-top: 1rem;
+  /* Create equal 16px gap from header to match tabs bar */
+  margin-top: 2rem;
   min-height: 0;
 }
 
