@@ -3330,8 +3330,7 @@ metadata = {
         <div className="tab-header-enhanced">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold mb-4">DASHBOARD</h2>
-              <p className="text-gray-600 mb-6">Trading performance overview and recent activity</p>
+              {/* Removed DASHBOARD title and description */}
             </div>
             <div className="flex items-center gap-4">
               <Label htmlFor="dashboard-account">Account:</Label>
