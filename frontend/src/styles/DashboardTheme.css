@@ -1109,7 +1109,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   color: #374151; /* Dark gray for light theme */
-}
   white-space: nowrap;
   margin-right: 0.5rem;
 }
