@@ -249,11 +249,15 @@
   border-radius: 0.5rem;
 }
 
-/* Active tab icons in light theme - white for contrast on green background with higher specificity */
+/* Active tab icons in light theme - use stroke for better visibility of complex icons */
 [data-theme="light"] [role="tablist"] [role="tab"][data-state="active"] svg,
 [data-theme="light"] [role="tablist"] [role="tab"][aria-selected="true"] svg {
   color: white !important;
-  fill: white !important;
+  fill: none !important; /* Remove fill to show internal structure */
+  stroke: white !important; /* Use stroke instead for better icon definition */
+  stroke-width: 1.5px !important; /* Ensure stroke is visible */
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
 }
 
 [data-theme="dark"] [role="tab"]:hover:not([data-state="active"]):not([aria-selected="true"]) {
