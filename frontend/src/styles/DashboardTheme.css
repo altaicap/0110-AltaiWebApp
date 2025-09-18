@@ -197,8 +197,8 @@
   flex-shrink: 0;
   flex-grow: 1;
   flex-basis: 0;
-  /* Ensure pill stays within bounds with 6-8px inset */
-  inset: 6px;
+  /* Better positioning for proper centering */
+  inset: 4px;
 }
 
 [data-theme="dark"] [role="tab"][data-state="active"],
