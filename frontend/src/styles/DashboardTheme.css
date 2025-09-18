@@ -232,9 +232,9 @@
   fill: white !important;
 }
 
-/* Light theme active tab styling */
-[data-theme="light"] [role="tab"][data-state="active"],
-[data-theme="light"] [role="tab"][aria-selected="true"] {
+/* Light theme active tab styling with higher specificity */
+[data-theme="light"] [role="tablist"] [role="tab"][data-state="active"],
+[data-theme="light"] [role="tablist"] [role="tab"][aria-selected="true"] {
   background: #0E6D73 !important; /* Opaque signature green for light theme */
   color: white !important; /* High contrast white text on green background */
   border: 1px solid #0E6D73 !important;
@@ -249,9 +249,9 @@
   border-radius: 0.5rem;
 }
 
-/* Active tab icons in light theme - white for contrast on green background */
-[data-theme="light"] [role="tab"][data-state="active"] svg,
-[data-theme="light"] [role="tab"][aria-selected="true"] svg {
+/* Active tab icons in light theme - white for contrast on green background with higher specificity */
+[data-theme="light"] [role="tablist"] [role="tab"][data-state="active"] svg,
+[data-theme="light"] [role="tablist"] [role="tab"][aria-selected="true"] svg {
   color: white !important;
   fill: white !important;
 }
