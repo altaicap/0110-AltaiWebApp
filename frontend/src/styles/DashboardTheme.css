@@ -724,7 +724,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin-top: -0.5rem;
+  /* Align top edge with right-hand panels tab box */
+  margin-top: -1.5rem;
   min-height: 0;
 }
 
