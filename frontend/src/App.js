@@ -5583,21 +5583,6 @@ const ChatInterface = ({
 
   return (
     <div className="h-full flex flex-col ai-assistant-pane">
-      {/* Title Block - TRANSPARENT TO SHOW SHIMMER */}
-      <div className="llm-header-transparent">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-bold">AI ASSISTANT</h2>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={clearChatHistory}
-            className="llm-clear-button"
-          >
-            <RotateCcw className="w-4 h-4" />
-          </Button>
-        </div>
-      </div>
-
       {/* Chat Panel - BORDERED CONTAINER */}
       <div className="llm-chat-panel flex-1 flex flex-col">
         {/* Messages Area with Sidebar */}
