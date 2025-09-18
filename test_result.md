@@ -792,6 +792,18 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
         agent: "testing"
         comment: "🎉 LIGHT THEME TAB SELECTION STYLING FIX VERIFIED SUCCESSFUL: Comprehensive testing completed with excellent results. ✅ OPAQUE GREEN BACKGROUND: Active tab (DASHBOARD) correctly displays opaque green background rgb(14, 109, 115) instead of the previous transparent rgba(14, 109, 115, 0.16). ✅ WHITE TEXT & ICONS: Active tab shows proper white text rgb(255, 255, 255) and white SVG icons for high contrast on green background. ✅ HIGHER CSS SPECIFICITY: The CSS fix using '[data-theme=\"light\"] [role=\"tablist\"] [role=\"tab\"][data-state=\"active\"]' selector with !important declarations is working correctly. ✅ PROFESSIONAL APPEARANCE: Light theme now matches the visual quality of dark theme with proper contrast and opaque styling. ✅ CONSISTENCY: Tab switching maintains correct styling across all tabs (DASHBOARD, STRATEGIES, BACKTEST, NEWS, SETTINGS). The fix successfully addresses the core issue mentioned in review request where light theme was showing transparent background instead of opaque green."
 
+  - task: "Tab Icon Visibility Fix for Complex Icons in Light Theme"
+    implemented: true
+    working: true
+    file: "frontend/src/styles/DashboardTheme.css"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "🎉 TAB ICON VISIBILITY FIX TESTING COMPLETE: Successfully verified the tab icon visibility fix for complex icons in light theme with 100% success rate (5/5 tabs). ✅ AUTHENTICATION & LIGHT THEME: Successfully accessed dashboard interface and confirmed light theme activation (data-theme='light'). ✅ CRITICAL ICONS VERIFIED: Settings wheel icon and Backtest play button both showing proper internal structure with stroke: rgb(255, 255, 255), fill: none, strokeWidth: 1.5px. Settings icon confirmed with multiple paths (pathCount: 2) preserving gear wheel internal details. Backtest play icon confirmed with proper triangle-in-circle structure visible. ✅ CSS FIX IMPLEMENTATION CONFIRMED: The CSS fix is working perfectly - all active tab icons in light theme now use 'stroke: white' with 'fill: none' instead of previous 'fill: white' approach. This preserves internal icon structure and prevents white blob appearance. ✅ ALL TABS TESTED: Comprehensive testing of all 5 tabs (DASHBOARD, STRATEGIES, BACKTEST, NEWS, SETTINGS) - all icons show proper stroke-based rendering with white outline and transparent fill. ✅ VISUAL TARGET ACHIEVED: Complex icons now display their internal details properly instead of appearing as white blobs. Settings gear wheel shows internal spokes/details, Backtest play button shows triangle inside circle, all maintaining high visibility against green selected tab background. ✅ NO REGRESSION: All tab icons maintain proper visibility and recognizability while showing enhanced internal structure detail. The stroke-based approach provides excellent contrast against the green active tab background (#0E6D73). SUCCESS: Complex icons (settings wheel, backtest play button) now show their internal details properly in light theme instead of appearing as white blobs. The fix successfully uses stroke: white with fill: none to preserve internal icon structure."
+
   - task: "Landing Page Feature Card Styling Application to Dashboard Panes"
     implemented: true
     working: true
