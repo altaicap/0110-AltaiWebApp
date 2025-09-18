@@ -777,8 +777,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  /* Move DOWN to align with tabs bar (DASHBOARD, STRATEGIES, etc.) */
-  margin-top: 0.5rem;
+  /* Move DOWN further to match tabs bar gap from header */
+  margin-top: 1rem;
   min-height: 0;
 }
 
