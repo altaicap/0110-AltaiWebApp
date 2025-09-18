@@ -60,6 +60,15 @@
   --dashboard-secondary-border: rgba(107, 117, 125, 0.6);
 }
 
+/* Remove grey background from tabs content area */
+[data-theme="dark"] .bg-muted {
+  background-color: transparent !important;
+}
+
+[data-theme="light"] .bg-muted {
+  background-color: transparent !important;
+}
+
 /* Main Dashboard Shimmer Background */
 [data-theme="dark"] .dashboard-main {
   background: var(--dashboard-bg-main);
