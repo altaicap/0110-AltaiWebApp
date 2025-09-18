@@ -780,6 +780,18 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
         agent: "testing"
         comment: "🎉 COMPREHENSIVE BACKGROUND REMOVAL TESTING COMPLETE: Successfully verified the corrected removal of large grey background container behind dashboard panes with 100% success rate (4/4 criteria met). ✅ AUTHENTICATION & DASHBOARD ACCESS: Successfully accessed split-screen dashboard interface using localStorage authentication bypass with alex@altaitrader.com credentials. Dashboard loads with AI Assistant pane on left (~40% width) and Dashboard tabs on right (~60% width). ✅ INDIVIDUAL PANES PRESERVED: All 4 expected individual panes found and preserved with their backgrounds: 'Daily Net Cumulative P&L', 'Net Daily P&L', 'September 2025', 'Recent Trades'. Each pane maintains its dark background styling as intended. ✅ TAB CONTAINER STYLING PRESERVED: Tab container with dark background properly preserved - found 1 tab container element with proper styling. Tab buttons (DASHBOARD, STRATEGIES, BACKTEST, NEWS, SETTINGS) maintain their dark background appearance. ✅ LARGE GREY BACKGROUND CONTAINER ELIMINATED: Comprehensive analysis confirmed 0 large grey containers (>500x300px) detected, indicating successful removal of the problematic grey background that was sitting behind all panes. ✅ DASHBOARD SHIMMER BACKGROUND VISIBLE: Background shimmer elements visible through the interface where the large grey container was removed. ✅ CROSS-TAB CONSISTENCY: Tested all tabs (STRATEGIES, BACKTEST, NEWS, SETTINGS) - all accessible with consistent background removal pattern. ✅ VISUAL VERIFICATION: Screenshots confirm split-screen layout working correctly, individual panes have dark backgrounds, tab container has dark background, no large grey background container visible behind panes, dashboard shimmer background visible through interface. The corrected background removal implementation successfully eliminates the large grey container while preserving all other styling elements as requested."
 
+  - task: "Light Theme Tab Selection Styling Fix"
+    implemented: true
+    working: true
+    file: "frontend/src/styles/DashboardTheme.css, frontend/src/App.css"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "🎉 LIGHT THEME TAB SELECTION STYLING FIX VERIFIED SUCCESSFUL: Comprehensive testing completed with excellent results. ✅ OPAQUE GREEN BACKGROUND: Active tab (DASHBOARD) correctly displays opaque green background rgb(14, 109, 115) instead of the previous transparent rgba(14, 109, 115, 0.16). ✅ WHITE TEXT & ICONS: Active tab shows proper white text rgb(255, 255, 255) and white SVG icons for high contrast on green background. ✅ HIGHER CSS SPECIFICITY: The CSS fix using '[data-theme=\"light\"] [role=\"tablist\"] [role=\"tab\"][data-state=\"active\"]' selector with !important declarations is working correctly. ✅ PROFESSIONAL APPEARANCE: Light theme now matches the visual quality of dark theme with proper contrast and opaque styling. ✅ CONSISTENCY: Tab switching maintains correct styling across all tabs (DASHBOARD, STRATEGIES, BACKTEST, NEWS, SETTINGS). The fix successfully addresses the core issue mentioned in review request where light theme was showing transparent background instead of opaque green."
+
   - task: "Landing Page Feature Card Styling Application to Dashboard Panes"
     implemented: true
     working: true
