@@ -1395,6 +1395,17 @@
   box-shadow: var(--dashboard-shadow);
 }
 
+/* Light theme cards with same styling as landing page */
+[data-theme="light"] .card,
+[data-theme="light"] .panel,
+[data-theme="light"] .widget,
+[data-theme="light"] [class*="Card"] {
+  background: linear-gradient(180deg, #FBFCFC 0%, #F3F5F7 100%); /* Same as landing page feature cards */
+  border: 1px solid #e5e7eb;
+  border-radius: 0.875rem; /* 14px consistent radius */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
 [data-theme="dark"] .card-header,
 [data-theme="dark"] .panel-header {
   background-color: var(--dashboard-bg-2);
