@@ -3425,7 +3425,7 @@ metadata = {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <CardTitle className="text-lg">
-                    {pnlViewMode === 'cumulative' ? 'Daily Net Cumulative P&L' : 'Net Daily P&L'}
+                    {pnlViewMode === 'cumulative' ? 'Daily Net Cumulative PnL' : 'Net Daily PnL'}
                   </CardTitle>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
