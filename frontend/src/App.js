@@ -4993,8 +4993,8 @@ metadata = {
                     <ChevronDown className="h-3 w-3 ml-1" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem className="cursor-default">
+                <DropdownMenuContent align="end" className="dropdown-menu-content">
+                  <DropdownMenuItem className="cursor-default dropdown-menu-item">
                     <div className="flex items-center gap-2 w-full">
                       <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.polygon)}`} />
                       <span className="flex-1">Polygon API</span>
