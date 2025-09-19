@@ -475,7 +475,8 @@ function App() {
     winRateDays: 72.3,    // Win rate percentage for days  
     profitFactor: 2.14,   // Profit factor (gross profit / gross loss)
     avgWin: 150,          // Average win in USD
-    avgLoss: 70           // Average loss in USD
+    avgLoss: 70,          // Average loss in USD
+    currentAccountValue: 125750.00  // Current account value
   });
   const [integrationStatus, setIntegrationStatus] = useState({
     polygon: 'connected',
