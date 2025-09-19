@@ -783,15 +783,18 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
 
   - task: "Chart Display Updates"
     implemented: true
-    working: "NA"
+    working: true
     file: "frontend/src/App.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Updated Daily Net PnL chart panes to reduce prominence of large numbers. Added $/R-Units toggle functionality in chart panes allowing users to switch between dollar and R-unit views. Improved chart display for better visual hierarchy and user experience."
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Chart display updates working correctly. Visual analysis confirmed Daily Net PnL chart areas show less prominent large numbers with improved visual hierarchy. Chart toggle functionality detected with R-unit buttons present (7 R-unit buttons found). Chart areas properly displaying with reduced emphasis on large numerical values, creating better user experience and visual balance as requested."
 
   - task: "Calendar Layout Enhancement"
     implemented: true
