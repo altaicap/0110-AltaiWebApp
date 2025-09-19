@@ -3653,7 +3653,7 @@ metadata = {
             </CardHeader>
             {!minimizedPanes.has('positions') && (
               <CardContent className="pt-0">
-                <div className="h-48 overflow-y-auto">
+                <div className="h-80 overflow-y-auto">
                   <table className="w-full text-xs">
                     <thead className="border-b border-gray-200 dark:border-gray-700">
                       <tr className="text-left">
