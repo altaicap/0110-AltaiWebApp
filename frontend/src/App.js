@@ -3306,8 +3306,7 @@ metadata = {
           <CardHeader className="pb-4">
             <CardTitle className="text-lg">Trading Performance Highlights</CardTitle>
           </CardHeader>
-          {!minimizedPanes.has('trading-highlights') && (
-            <CardContent className="pt-0">
+          <CardContent className="pt-0">
               <div className="grid grid-cols-5 gap-6 trading-highlights-grid">
                 
                 {/* Win Rate % (Trades) */}
