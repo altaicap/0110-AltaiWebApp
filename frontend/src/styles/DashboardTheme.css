@@ -165,6 +165,38 @@
   background: transparent !important;
 }
 
+/* Connection Statuses button and dropdown styling */
+[data-theme="dark"] .connection-status-button {
+  background-color: transparent !important;
+  border-color: var(--dashboard-border) !important;
+  color: var(--dashboard-fg) !important;
+}
+
+[data-theme="dark"] .connection-status-button:hover {
+  background-color: var(--dashboard-accent) !important; /* Signature green hover */
+  border-color: var(--dashboard-accent) !important;
+  color: white !important;
+}
+
+/* Connection dropdown content */
+[data-theme="dark"] [role="menu"],
+[data-theme="dark"] .dropdown-menu-content {
+  background-color: var(--dashboard-bg) !important;
+  border-color: var(--dashboard-border) !important;
+  color: var(--dashboard-fg) !important;
+}
+
+[data-theme="dark"] [role="menuitem"],
+[data-theme="dark"] .dropdown-menu-item {
+  color: var(--dashboard-fg) !important;
+}
+
+[data-theme="dark"] [role="menuitem"]:hover,
+[data-theme="dark"] .dropdown-menu-item:hover {
+  background-color: var(--dashboard-accent) !important;
+  color: white !important;
+}
+
 /* Main Dashboard Shimmer Background */
 [data-theme="dark"] .dashboard-main {
   background: var(--dashboard-bg-main);
