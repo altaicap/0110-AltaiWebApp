@@ -3372,9 +3372,9 @@ metadata = {
                 {/* Average Win */}
                 <div className="text-center space-y-2">
                   <div className="flex items-center justify-center gap-1">
-                    <div className="text-2xl font-bold text-green-600">
+                    <div className="text-2xl font-bold text-green-500">
                       {selectedDashboardAccount === 'paper' || showInRupees ? 
-                        `₹${(dashboardData.avgWin || 1250).toLocaleString('en-IN')}` :
+                        `${(dashboardData.avgWin || 1.25).toFixed(2)}R` :
                         `$${(dashboardData.avgWin || 150).toLocaleString('en-US')}`
                       }
                     </div>
@@ -3386,7 +3386,7 @@ metadata = {
                     onClick={() => setShowInRupees(!showInRupees)}
                     className="text-xs text-blue-500 hover:text-blue-700 transition-colors"
                   >
-                    {showInRupees ? 'Show in $' : 'Show in ₹'}
+                    {showInRupees ? 'Show in $' : 'Show in Rs'}
                   </button>
                 </div>
 
