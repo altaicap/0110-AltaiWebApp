@@ -1450,6 +1450,46 @@ metadata = {
     setAppSettings(prev => ({ ...prev, [key]: value }));
   };
 
+  // Positions sorting functions
+  const handleSort = (field) => {
+    if (positionsSortField === field) {
+      setPositionsSortDirection(positionsSortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setPositionsSortField(field);
+      setPositionsSortDirection('asc');
+    }
+  };
+
+  const getSortIcon = (field) => {
+    if (positionsSortField !== field) return null;
+    return positionsSortDirection === 'asc' ? '↑' : '↓';
+  };
+
+  // Mock positions data for sorting
+  const mockPositions = [
+    { ticker: 'AAPL', pnlPercent: 1.57, pnlDollar: 275, strategy: 'Prior Bar Break Algo' },
+    { ticker: 'MSFT', pnlPercent: -0.45, pnlDollar: -95, strategy: 'Prior Bar Break Algo' },
+    { ticker: 'TSLA', pnlPercent: 1.28, pnlDollar: 180, strategy: 'Prior Bar Break Algo' },
+    { ticker: 'GOOGL', pnlPercent: -0.32, pnlDollar: -65, strategy: 'Prior Bar Break Algo' },
+    { ticker: 'NVDA', pnlPercent: 2.15, pnlDollar: 420, strategy: 'Prior Bar Break Algo' }
+  ];
+
+  const sortedPositions = [...mockPositions].sort((a, b) => {
+    let aValue = a[positionsSortField];
+    let bValue = b[positionsSortField];
+    
+    if (typeof aValue === 'string') {
+      aValue = aValue.toLowerCase();
+      bValue = bValue.toLowerCase();
+    }
+    
+    if (positionsSortDirection === 'asc') {
+      return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+    } else {
+      return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
+    }
+  });
+
   const validateStrategyCode = (code) => {
     const errors = [];
     
