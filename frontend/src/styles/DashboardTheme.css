@@ -1453,7 +1453,9 @@
 
 /* Remove blue hover background from theme toggle buttons */
 [data-theme="dark"] .theme-toggle button:hover,
-[data-theme="dark"] button:has(.sun-icon):hover {
+[data-theme="dark"] button:has(.sun-icon):hover,
+[data-theme="dark"] button:has(svg[data-icon="sun"]):hover,
+[data-theme="dark"] [aria-label*="theme"]:hover {
   background-color: transparent !important;
   background: transparent !important;
   transform: translateY(-2px) !important; /* Same hover effect as landing page */
