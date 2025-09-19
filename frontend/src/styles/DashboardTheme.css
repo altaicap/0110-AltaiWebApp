@@ -245,6 +245,23 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
 }
 
+/* Light theme dropdown menu items - remove individual panes */
+[data-theme="light"] [role="menuitem"],
+[data-theme="light"] .dropdown-menu-item,
+[data-theme="light"] .user-dropdown-content [role="menuitem"] {
+  background: transparent !important; /* Remove individual item backgrounds */
+  border: none !important; /* Remove individual item borders */
+  border-radius: 0 !important; /* Remove individual item rounded corners */
+  box-shadow: none !important; /* Remove individual item shadows */
+}
+
+[data-theme="light"] [role="menuitem"]:hover,
+[data-theme="light"] .dropdown-menu-item:hover,
+[data-theme="light"] .user-dropdown-content [role="menuitem"]:hover {
+  background-color: #0E6D73 !important; /* Signature green hover for light theme */
+  color: white !important;
+}
+
 [data-theme="light"] .connection-status-button:hover,
 [data-theme="light"] .user-dropdown-trigger:hover {
   background-color: #0E6D73 !important; /* Signature green hover for light theme */
