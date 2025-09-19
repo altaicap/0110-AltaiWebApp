@@ -437,6 +437,7 @@ function App() {
   const [showInRupees, setShowInRupees] = useState(false);
   const [pnlViewMode, setPnlViewMode] = useState('cumulative');
   const [equityBenchmark, setEquityBenchmark] = useState('SPY');
+  const [realizedPnlViewMode, setRealizedPnlViewMode] = useState('dollar');
   
   // Date range filter state - Load from localStorage if available
   const [dateRangeFilter, setDateRangeFilter] = useState(() => {
