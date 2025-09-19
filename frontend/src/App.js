@@ -450,6 +450,14 @@ function App() {
   // Chart unit toggle state ($ or R-Unit)
   const [chartUnits, setChartUnits] = useState('dollar'); // 'dollar' or 'runit'
   
+  // Equity benchmark input state
+  const [equityBenchmarkInput, setEquityBenchmarkInput] = useState('SPY');
+  const [showBenchmarkSuggestions, setShowBenchmarkSuggestions] = useState(false);
+  const [benchmarkSuggestions, setBenchmarkSuggestions] = useState([]);
+  
+  // Common ticker suggestions
+  const tickerSuggestions = ['SPY', 'QQQ', 'IWM', 'DIA', 'VTI', 'AAPL', 'MSFT', 'TSLA', 'GOOGL', 'AMZN', 'NVDA', 'META', 'NFLX', 'AMD', 'INTC'];
+  
   // Positions column settings
   const [positionsColumns, setPositionsColumns] = useState([
     { id: 'ticker', label: 'Ticker', visible: true, order: 0 },
