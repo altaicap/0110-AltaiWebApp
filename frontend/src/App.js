@@ -3459,179 +3459,13 @@ metadata = {
             </CardContent>
         </Card>
 
-        {/* Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Reorganized Dashboard Grid - 2x3 Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           
-          {/* Combined P&L Analysis Pane */}
-          <Card className="relative pane-enhanced">
-            <PaneControls paneId="combined-pnl" />
-            <CardHeader className="pb-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <CardTitle className="text-lg">
-                    {pnlViewMode === 'cumulative' ? 'Daily Net Cumulative PnL' : 'Net Daily PnL'}
-                  </CardTitle>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm" className="p-1">
-                        <ChevronDown className="h-4 w-4 text-green-500" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="dropdown-menu-content">
-                      <DropdownMenuItem 
-                        className="cursor-pointer dropdown-menu-item"
-                        onClick={() => setPnlViewMode('cumulative')}
-                      >
-                        <div className="flex items-center gap-2 w-full">
-                          <span className="flex-1">Daily Net Cumulative PnL</span>
-                          {pnlViewMode === 'cumulative' && <CheckCircle className="h-3 w-3" />}
-                        </div>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem 
-                        className="cursor-pointer dropdown-menu-item"
-                        onClick={() => setPnlViewMode('daily')}
-                      >
-                        <div className="flex items-center gap-2 w-full">
-                          <span className="flex-1">Net Daily PnL</span>
-                          {pnlViewMode === 'daily' && <CheckCircle className="h-3 w-3" />}
-                        </div>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              </div>
-            </CardHeader>
-            {!minimizedPanes.has('combined-pnl') && (
-              <CardContent className="pt-0">
-                {pnlViewMode === 'cumulative' ? (
-                  <div className="h-64 w-full flex items-center justify-center">
-                    <div className="text-3xl font-bold text-green-600">
-                      {(dashboardData.totalCumulativePL || 23750.50).toLocaleString('en-US', {
-                        style: 'currency',
-                        currency: 'USD'
-                      })}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="h-64 w-full">
-                    <div className="flex items-center justify-center h-40">
-                      <div className="text-3xl font-bold text-green-600">
-                        +{(dashboardData.dailyPL || 1250.00).toLocaleString('en-US', {
-                          style: 'currency',
-                          currency: 'USD'
-                        })}
-                        <div className="text-sm text-gray-500 mt-2">Today's net PnL</div>
-                      </div>
-                    </div>
-
-                    {/* Mini P&L Chart */}
-                    <div className="mt-4">
-                      <div className="text-xs text-gray-500 mb-2">Last 7 days</div>
-                      <div className="flex gap-1">
-                        {[+250, -125, +380, -90, +420, +180, +1250].map((value, index) => (
-                          <div key={index} className="flex-1 flex flex-col items-center">
-                            <div 
-                              className={`w-full rounded-t ${value > 0 ? 'bg-green-500' : 'bg-red-500'}`}
-                              style={{ height: `${Math.abs(value) / 15}px`, minHeight: '4px' }}
-                            ></div>
-                            <div className="text-xs text-gray-400 mt-1">
-                              {value > 0 ? '+' : ''}{value}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </CardContent>
-            )}
-          </Card>
-
-          {/* Calendar */}
-          <Card className="relative pane-enhanced">
-            <PaneControls paneId="dashboard-calendar" />
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle>{monthNames[dashboardMonth.getMonth()]} {dashboardMonth.getFullYear()}</CardTitle>
-                  <CardDescription>Trading calendar and activity</CardDescription>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    onClick={() => navigateMonth(-1)}
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    onClick={() => navigateMonth(1)}
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
-            </CardHeader>
-            {!minimizedPanes.has('dashboard-calendar') && (
-              <CardContent>
-                <div className="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
-                  <div className="text-center text-gray-500">
-                    <CalendarIcon className="w-8 h-8 mx-auto mb-2" />
-                    <p>Trading Calendar</p>
-                    <p className="text-sm">Monthly view with P&L indicators</p>
-                  </div>
-                </div>
-              </CardContent>
-            )}
-          </Card>
-
-          {/* Recent Trades */}
-          <Card className="relative pane-enhanced">
-            <PaneControls paneId="recent-trades" />
-            <CardHeader>
-              <CardTitle>Recent Trades</CardTitle>
-              <CardDescription>Latest trading activity and performance</CardDescription>
-            </CardHeader>
-            {!minimizedPanes.has('recent-trades') && (
-              <CardContent>
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Close Date</TableHead>
-                        <TableHead>Ticker</TableHead>
-                        <TableHead>Net P&L</TableHead>
-                        <TableHead>R-Units Return</TableHead>
-                        <TableHead>Strategy</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {dashboardData.recentTrades.map((trade) => (
-                        <TableRow key={trade.id}>
-                          <TableCell>{trade.closeDate}</TableCell>
-                          <TableCell className="font-semibold">{trade.ticker}</TableCell>
-                          <TableCell className={trade.netPL.startsWith('+') ? 'text-green-600' : 'text-red-600'}>
-                            {trade.netPL}
-                          </TableCell>
-                          <TableCell className={trade.rUnits.startsWith('+') ? 'text-green-600' : 'text-red-600'}>
-                            {trade.rUnits}
-                          </TableCell>
-                          <TableCell className="text-sm text-gray-600">{trade.strategy}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              </CardContent>
-            )}
-          </Card>
-
-          {/* Equity Curve Pane */}
+          {/* Top Left: Equity Curve */}
           <Card className="relative pane-enhanced">
             <PaneControls paneId="equity-curve" />
-            <CardHeader className="pb-4">
+            <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-lg">Equity Curve</CardTitle>
                 <DropdownMenu>
@@ -3642,46 +3476,19 @@ metadata = {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="dropdown-menu-content">
-                    <DropdownMenuItem 
-                      className="cursor-pointer dropdown-menu-item"
-                      onClick={() => setEquityBenchmark('SPY')}
-                    >
+                    <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setEquityBenchmark('SPY')}>
                       <div className="flex items-center gap-2 w-full">
                         <span className="flex-1">vs SPY</span>
                         {equityBenchmark === 'SPY' && <CheckCircle className="h-3 w-3" />}
                       </div>
                     </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      className="cursor-pointer dropdown-menu-item"
-                      onClick={() => setEquityBenchmark('QQQ')}
-                    >
+                    <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setEquityBenchmark('QQQ')}>
                       <div className="flex items-center gap-2 w-full">
                         <span className="flex-1">vs QQQ</span>
                         {equityBenchmark === 'QQQ' && <CheckCircle className="h-3 w-3" />}
                       </div>
                     </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      className="cursor-pointer dropdown-menu-item"
-                      onClick={() => setEquityBenchmark('VTI')}
-                    >
-                      <div className="flex items-center gap-2 w-full">
-                        <span className="flex-1">vs VTI</span>
-                        {equityBenchmark === 'VTI' && <CheckCircle className="h-3 w-3" />}
-                      </div>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      className="cursor-pointer dropdown-menu-item"
-                      onClick={() => setEquityBenchmark('IWM')}
-                    >
-                      <div className="flex items-center gap-2 w-full">
-                        <span className="flex-1">vs IWM</span>
-                        {equityBenchmark === 'IWM' && <CheckCircle className="h-3 w-3" />}
-                      </div>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      className="cursor-pointer dropdown-menu-item"
-                      onClick={() => setEquityBenchmark('None')}
-                    >
+                    <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setEquityBenchmark('None')}>
                       <div className="flex items-center gap-2 w-full">
                         <span className="flex-1">No Benchmark</span>
                         {equityBenchmark === 'None' && <CheckCircle className="h-3 w-3" />}
@@ -3693,8 +3500,8 @@ metadata = {
             </CardHeader>
             {!minimizedPanes.has('equity-curve') && (
               <CardContent className="pt-0">
-                <div className="h-64 w-full">
-                  <div className="mb-4 flex items-center justify-between text-sm">
+                <div className="h-48 w-full">
+                  <div className="mb-2 flex items-center justify-between text-sm">
                     <div className="text-green-600 font-medium">
                       Portfolio: {(dashboardData.currentAccountValue || 125750.00).toLocaleString('en-US', {
                         style: 'currency',
@@ -3707,15 +3514,11 @@ metadata = {
                       </div>
                     )}
                   </div>
-                  
-                  <div className="h-48 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg flex items-center justify-center border">
-                    <div className="text-center text-gray-600">
-                      <TrendingUp className="w-8 h-8 mx-auto mb-2 text-green-500" />
-                      <p className="font-medium">Equity Curve Chart</p>
-                      <p className="text-sm">Portfolio balance over time</p>
-                      {equityBenchmark !== 'None' && (
-                        <p className="text-xs text-blue-500 mt-1">vs {equityBenchmark} overlay</p>
-                      )}
+                  <div className="h-36 bg-transparent rounded-lg flex items-center justify-center border border-gray-200 dark:border-gray-700">
+                    <div className="text-center text-gray-600 dark:text-gray-400">
+                      <TrendingUp className="w-6 h-6 mx-auto mb-1 text-green-500" />
+                      <p className="text-sm font-medium">Equity Curve Chart</p>
+                      <p className="text-xs">Portfolio balance over time</p>
                     </div>
                   </div>
                 </div>
@@ -3723,7 +3526,251 @@ metadata = {
             )}
           </Card>
 
+          {/* Top Right: Positions */}
+          <Card className="relative pane-enhanced">
+            <PaneControls paneId="positions" />
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg">Positions</CardTitle>
+              <CardDescription className="text-xs">Current open positions</CardDescription>
+            </CardHeader>
+            {!minimizedPanes.has('positions') && (
+              <CardContent className="pt-0">
+                <div className="h-48 overflow-y-auto">
+                  <table className="w-full text-xs">
+                    <thead className="border-b border-gray-200 dark:border-gray-700">
+                      <tr className="text-left">
+                        <th className="pb-1 cursor-pointer hover:text-green-500" onClick={() => handleSort('ticker')}>
+                          Ticker {getSortIcon('ticker')}
+                        </th>
+                        <th className="pb-1 cursor-pointer hover:text-green-500" onClick={() => handleSort('pnlPercent')}>
+                          % PnL {getSortIcon('pnlPercent')}
+                        </th>
+                        <th className="pb-1 cursor-pointer hover:text-green-500" onClick={() => handleSort('pnlDollar')}>
+                          $ PnL {getSortIcon('pnlDollar')}
+                        </th>
+                        <th className="pb-1 cursor-pointer hover:text-green-500" onClick={() => handleSort('strategy')}>
+                          Strategy {getSortIcon('strategy')}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-xs">
+                      {sortedPositions.map((position, index) => (
+                        <tr key={index} className="border-b border-gray-100 dark:border-gray-800">
+                          <td className="py-1 font-medium">{position.ticker}</td>
+                          <td className={`py-1 ${position.pnlPercent >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                            {position.pnlPercent >= 0 ? '+' : ''}{position.pnlPercent.toFixed(2)}%
+                          </td>
+                          <td className={`py-1 ${position.pnlDollar >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                            {position.pnlDollar >= 0 ? '+' : ''}${position.pnlDollar.toFixed(2)}
+                          </td>
+                          <td className="py-1 text-gray-500 text-xs">{position.strategy}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            )}
+          </Card>
+
+          {/* Middle Left: Realised PnL */}
+          <Card className="relative pane-enhanced">
+            <PaneControls paneId="realised-pnl" />
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-lg">Realised PnL</CardTitle>
+                  <CardDescription className="text-xs">Cumulative realized gains and losses over time</CardDescription>
+                </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className="text-xs">
+                      {realizedPnlViewMode === 'dollar' ? '$' : 'R-Returns'}
+                      <ChevronDown className="h-3 w-3 ml-1" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="dropdown-menu-content">
+                    <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setRealizedPnlViewMode('dollar')}>
+                      <div className="flex items-center gap-2 w-full">
+                        <span className="flex-1">Dollar Values ($)</span>
+                        {realizedPnlViewMode === 'dollar' && <CheckCircle className="h-3 w-3" />}
+                      </div>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setRealizedPnlViewMode('r-returns')}>
+                      <div className="flex items-center gap-2 w-full">
+                        <span className="flex-1">R-Returns</span>
+                        {realizedPnlViewMode === 'r-returns' && <CheckCircle className="h-3 w-3" />}
+                      </div>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </CardHeader>
+            {!minimizedPanes.has('realised-pnl') && (
+              <CardContent className="pt-0">
+                <div className="h-48 w-full">
+                  <div className="h-24 bg-transparent rounded border border-gray-200 dark:border-gray-700 flex items-center justify-center mb-2">
+                    <div className="text-center text-gray-600 dark:text-gray-400">
+                      <div className="text-sm font-medium">Cumulative PnL Chart</div>
+                      <div className="text-xs">
+                        Total: {realizedPnlViewMode === 'dollar' ? '$23,750.50' : '+15.2R'}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="h-20 overflow-y-auto">
+                    <div className="text-xs text-gray-500 mb-1">Recent Closed Positions</div>
+                    <div className="space-y-1">
+                      {[
+                        { ticker: 'AAPL', pnl: 275, date: '2024-09-18' },
+                        { ticker: 'MSFT', pnl: -95, date: '2024-09-17' },
+                        { ticker: 'TSLA', pnl: 180, date: '2024-09-16' }
+                      ].map((trade, index) => (
+                        <div key={index} className="flex justify-between items-center text-xs">
+                          <span>{trade.ticker}</span>
+                          <span className={trade.pnl >= 0 ? 'text-green-500' : 'text-red-500'}>
+                            {trade.pnl >= 0 ? '+' : ''}${trade.pnl}
+                          </span>
+                          <span className="text-gray-400">{trade.date}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            )}
+          </Card>
+
+          {/* Middle Right: Recent Trades */}
+          <Card className="relative pane-enhanced">
+            <PaneControls paneId="recent-trades" />
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg">Recent Trades</CardTitle>
+              <CardDescription className="text-xs">Latest completed trades</CardDescription>
+            </CardHeader>
+            {!minimizedPanes.has('recent-trades') && (
+              <CardContent className="pt-0">
+                <div className="h-48 overflow-y-auto">
+                  <div className="space-y-2">
+                    {dashboardData.recentTrades.slice(0, 6).map((trade) => (
+                      <div key={trade.id} className="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-800 rounded text-xs">
+                        <div className="flex flex-col">
+                          <span className="font-medium">{trade.ticker}</span>
+                          <span className="text-gray-500">{trade.closeDate}</span>
+                        </div>
+                        <div className="flex flex-col items-end">
+                          <span className={`font-medium ${trade.netPL.startsWith('+') ? 'text-green-500' : 'text-red-500'}`}>
+                            {trade.netPL}
+                          </span>
+                          <span className="text-gray-500">{trade.rUnits}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            )}
+          </Card>
+
+          {/* Bottom Left: Calendar */}
+          <Card className="relative pane-enhanced">
+            <PaneControls paneId="calendar" />
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg">September 2025</CardTitle>
+              <CardDescription className="text-xs">Trading calendar overview</CardDescription>
+            </CardHeader>
+            {!minimizedPanes.has('calendar') && (
+              <CardContent className="pt-0">
+                <div className="h-48 bg-transparent rounded border border-gray-200 dark:border-gray-700 flex items-center justify-center">
+                  <div className="text-center text-gray-600 dark:text-gray-400">
+                    <div className="text-sm font-medium">Calendar View</div>
+                    <div className="text-xs">September 2025 trading days</div>
+                  </div>
+                </div>
+              </CardContent>
+            )}
+          </Card>
+
+          {/* Bottom Right: Daily Net Cumulative PnL */}
+          <Card className="relative pane-enhanced">
+            <PaneControls paneId="daily-cumulative-pnl" />
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <CardTitle className="text-lg">
+                    {pnlViewMode === 'cumulative' ? 'Daily Net Cumulative PnL' : 'Net Daily PnL'}
+                  </CardTitle>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="sm" className="p-1">
+                        <ChevronDown className="h-4 w-4 text-green-500" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="dropdown-menu-content">
+                      <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setPnlViewMode('cumulative')}>
+                        <div className="flex items-center gap-2 w-full">
+                          <span className="flex-1">Daily Net Cumulative PnL</span>
+                          {pnlViewMode === 'cumulative' && <CheckCircle className="h-3 w-3" />}
+                        </div>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setPnlViewMode('daily')}>
+                        <div className="flex items-center gap-2 w-full">
+                          <span className="flex-1">Net Daily PnL</span>
+                          {pnlViewMode === 'daily' && <CheckCircle className="h-3 w-3" />}
+                        </div>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </div>
+            </CardHeader>
+            {!minimizedPanes.has('daily-cumulative-pnl') && (
+              <CardContent className="pt-0">
+                {pnlViewMode === 'cumulative' ? (
+                  <div className="h-48 w-full flex items-center justify-center">
+                    <div className="text-2xl font-bold text-green-600">
+                      {(dashboardData.totalCumulativePL || 23750.50).toLocaleString('en-US', {
+                        style: 'currency',
+                        currency: 'USD'
+                      })}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="h-48 w-full">
+                    <div className="flex items-center justify-center h-24">
+                      <div className="text-2xl font-bold text-green-600">
+                        +{(dashboardData.dailyPL || 1250.00).toLocaleString('en-US', {
+                          style: 'currency',
+                          currency: 'USD'
+                        })}
+                        <div className="text-xs text-gray-500 mt-1">Today's net PnL</div>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <div className="text-xs text-gray-500 mb-1">Last 7 days</div>
+                      <div className="flex gap-1">
+                        {[+250, -125, +380, -90, +420, +180, +1250].map((value, index) => (
+                          <div key={index} className="flex-1 flex flex-col items-center">
+                            <div 
+                              className={`w-full rounded-t ${value > 0 ? 'bg-green-500' : 'bg-red-500'}`}
+                              style={{ height: `${Math.abs(value) / 20}px`, minHeight: '3px' }}
+                            ></div>
+                            <div className="text-xs text-gray-400 mt-1">
+                              {value > 0 ? '+' : ''}{Math.abs(value) > 1000 ? `${(value/1000).toFixed(1)}k` : value}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            )}
+          </Card>
+
         </div>
+
+        {/* Legacy grid maintained for any additional panes */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4" style={{display: 'none'}}>
         {/* Positions and Realised PnL Row */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
           
