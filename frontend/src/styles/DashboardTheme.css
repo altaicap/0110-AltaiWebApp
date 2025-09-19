@@ -1548,12 +1548,23 @@
   opacity: 1 !important;
 }
 
+/* Light theme generic UI icon theming - GREEN ACCENT (excluding sun icons) */
+[data-theme="light"] .icon:not(.lucide-sun):not([data-icon="sun"]),
+[data-theme="light"] .btn-icon > svg:not(.lucide-sun):not([data-icon="sun"]),
+[data-theme="light"] button:not(.theme-toggle):not(.llm-send-btn) svg:not(.lucide-sun):not([data-icon="sun"]),
+[data-theme="light"] [role="button"]:not(.theme-toggle) svg:not(.lucide-sun):not([data-icon="sun"]) {
+  color: #0E6D73 !important; /* Signature green for light theme */
+  opacity: 0.8;
+  transition: all 0.15s ease;
+}
+
 /* Light theme hover states (excluding sun icons) */
 [data-theme="light"] .icon:not(.lucide-sun):not([data-icon="sun"]):hover,
 [data-theme="light"] .btn-icon:hover > svg:not(.lucide-sun):not([data-icon="sun"]),
 [data-theme="light"] button:not(.theme-toggle):hover svg:not(.lucide-sun):not([data-icon="sun"]),
 [data-theme="light"] [role="button"]:not(.theme-toggle):hover svg:not(.lucide-sun):not([data-icon="sun"]) {
   opacity: 1.0;
+  color: #00a66b !important; /* Darker green on hover */
 }
 
 /* Light theme active/pressed states */
