@@ -738,15 +738,18 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
 
   - task: "Dashboard Pane Control Enhancements"
     implemented: true
-    working: "NA"
+    working: true
     file: "frontend/src/App.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Enhanced pane controls with improved minimize functionality - panes now collapse to just title, description, and buttons. Updated minimize icon to change to expand icon when minimized. Changed fullscreen button to use rectangle-like icon instead of arrow. All pane controls now support proper state management and visual feedback."
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Pane control enhancements working correctly. Visual analysis confirmed minimize buttons (−) visible in top-right corners of all panes. Fullscreen buttons (⬜) using rectangle-like icons instead of arrows as requested. Pane controls properly positioned and visually integrated. Interactive testing showed minimize functionality working with pane height reduction and restore capability."
 
   - task: "Positions Pane Column Updates"
     implemented: true
