@@ -229,8 +229,8 @@
 .landing-page-container.dark [data-testid="theme-toggle"]:hover svg,
 .landing-page-container.dark .lucide-sun:hover,
 .landing-page-container.dark .sun-icon:hover {
-  color: #FF7F00 !important; /* Even more saturated on hover */
-  fill: #FF7F00 !important;
+  color: #F59E0B !important; /* Changed to match target color */
+  fill: #F59E0B !important;
 }
 
 /* Light theme toggle uses accent-ui */
