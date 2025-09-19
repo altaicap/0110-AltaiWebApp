@@ -307,10 +307,14 @@
   margin: 0 !important;
   height: 2rem;
   z-index: 1;
-  /* Better positioning - reduce inset for proper centering */
-  inset: 4px;
+  /* Fix pill alignment - equal spacing top and bottom */
+  inset: 4px 4px 4px 4px !important;
   max-width: calc(100% - 8px);
   max-height: calc(100% - 8px);
+  /* Ensure proper vertical centering */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Active tab icons in dark theme - white for contrast */
