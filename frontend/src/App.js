@@ -457,6 +457,13 @@ function App() {
       { id: 3, closeDate: '2024-09-03', ticker: 'GOOGL', netPL: '-$225.25', rUnits: '-0.5R', strategy: 'Prior Bar Break Algo' },
       { id: 4, closeDate: '2024-09-02', ticker: 'TSLA', netPL: '+$430.50', rUnits: '+1.1R', strategy: 'Prior Bar Break Algo' },
       { id: 5, closeDate: '2024-09-01', ticker: 'NVDA', netPL: '+$1250.00', rUnits: '+2.5R', strategy: 'Prior Bar Break Algo' }
+    ],
+    // Trading performance highlights
+    winRateTrades: 67.8,  // Win rate percentage for trades
+    winRateDays: 72.3,    // Win rate percentage for days  
+    profitFactor: 2.14,   // Profit factor (gross profit / gross loss)
+    avgWin: 150,          // Average win in USD
+    avgLoss: 70           // Average loss in USD
     ]
   });
   const [integrationStatus, setIntegrationStatus] = useState({
