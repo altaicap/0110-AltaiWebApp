@@ -1874,9 +1874,10 @@ metadata = {
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
   };
 
-  // Full Screen Pane Component
-  const PaneControls = ({ paneId }) => (
-    <div className="absolute top-2 right-2 flex gap-1">
+  // Full Screen Pane Component with support for additional controls
+  const PaneControls = ({ paneId, children }) => (
+    <div className="absolute top-2 right-2 flex gap-1 items-center">
+      {children && <div className="flex gap-1 mr-1">{children}</div>}
       <Button
         size="sm"
         variant="ghost"
