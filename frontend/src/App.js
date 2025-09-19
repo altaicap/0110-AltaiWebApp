@@ -3342,7 +3342,7 @@ metadata = {
 
                 {/* Win Rate % (Days) */}
                 <div className="text-center space-y-2">
-                  <div className="text-2xl font-bold text-blue-500">
+                  <div className="text-2xl font-bold text-green-500">
                     {(dashboardData.winRateDays || 72.3).toFixed(1)}%
                   </div>
                   <div className="text-sm text-gray-500 font-medium">
@@ -3350,7 +3350,7 @@ metadata = {
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div 
-                      className="bg-blue-500 h-2 rounded-full transition-all duration-300" 
+                      className="bg-green-500 h-2 rounded-full transition-all duration-300" 
                       style={{ width: `${(dashboardData.winRateDays || 72.3)}%` }}
                     ></div>
                   </div>
