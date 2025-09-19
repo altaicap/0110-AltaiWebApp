@@ -1797,7 +1797,7 @@
 
 [data-theme="dark"] .dropdown-content,
 [data-theme="dark"] .select-content {
-  background-color: var(--dashboard-bg-2);
+  background-color: var(--dashboard-bg-1) !important; /* More opaque background */
   border: 1px solid var(--dashboard-border);
   border-radius: 0.5rem;
 }
