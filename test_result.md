@@ -736,6 +736,66 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
         agent: "testing"
         comment: "✅ VERIFIED: Backtest Reset Fix working correctly. Form persistence tested by navigating between tabs - strategy selection and form data maintained across navigation. Backtest form shows proper structure with Configuration panel, symbol management (AAPL symbol present), date pickers, and Run Backtest/Live Trade buttons. State management moved to App level successfully prevents form resets."
 
+  - task: "Dashboard Pane Control Enhancements"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Enhanced pane controls with improved minimize functionality - panes now collapse to just title, description, and buttons. Updated minimize icon to change to expand icon when minimized. Changed fullscreen button to use rectangle-like icon instead of arrow. All pane controls now support proper state management and visual feedback."
+
+  - task: "Positions Pane Column Updates"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Updated Positions pane with new column structure: Ticker, Cost Basis, Quantity, Current Price, % PnL Today, $ PnL Today, % PnL, $ PnL, Strategy. Added conditional formatting for PnL columns (green for positive, red for negative values). Implemented Columns settings button with modal containing checkboxes and up/down arrows for column management. Added Save/Cancel functionality for column visibility settings."
+
+  - task: "Dashboard Pane Renames"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Renamed dashboard panes: 'Realised PnL' → 'Recently Closed', 'Recent Trades' → 'Recent Entries'. Updated Recently Closed pane to remove chart display and show only list of closed positions. Modified Recent Entries pane to display entry data instead of trade completion data."
+
+  - task: "Chart Display Updates"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Updated Daily Net PnL chart panes to reduce prominence of large numbers. Added $/R-Units toggle functionality in chart panes allowing users to switch between dollar and R-unit views. Improved chart display for better visual hierarchy and user experience."
+
+  - task: "Calendar Layout Enhancement"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Enhanced calendar to display traditional monthly grid layout. Added daily P&L amounts and trade counts to each calendar day. Implemented color-coding system: green for positive days, red for negative days, blue for zero P&L days. Added month navigation with previous/next buttons for easy browsing."
+
 ## metadata:
   created_by: "main_agent"
   version: "1.0"
