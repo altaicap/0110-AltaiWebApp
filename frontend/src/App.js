@@ -3639,23 +3639,20 @@ metadata = {
 
           {/* Top Right: Positions */}
           <Card className="relative pane-enhanced">
-            <PaneControls paneId="positions" />
+            <PaneControls paneId="positions">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="text-xs"
+                onClick={() => setShowPositionsColumnSettings(true)}
+              >
+                <Settings2 className="h-3 w-3 mr-1" />
+                Columns
+              </Button>
+            </PaneControls>
             <CardHeader className="pb-2">
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-lg">Positions</CardTitle>
-                  <CardDescription className="text-xs">Current open positions</CardDescription>
-                </div>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="text-xs"
-                  onClick={() => setShowPositionsColumnSettings(true)}
-                >
-                  <Settings2 className="h-3 w-3 mr-1" />
-                  Columns
-                </Button>
-              </div>
+              <CardTitle className="text-lg">Positions</CardTitle>
+              <CardDescription className="text-xs">Current open positions</CardDescription>
             </CardHeader>
             {!minimizedPanes.has('positions') && (
               <CardContent className="pt-0">
