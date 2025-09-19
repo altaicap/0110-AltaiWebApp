@@ -6229,6 +6229,14 @@ metadata = {
             </Card>
           </div>
         )}
+        
+        {/* Positions Column Settings Modal */}
+        <PositionsColumnSettings
+          isOpen={showPositionsColumnSettings}
+          onClose={() => setShowPositionsColumnSettings(false)}
+          columns={positionsColumns}
+          setColumns={setPositionsColumns}
+        />
       </div>
     </div>
   );
