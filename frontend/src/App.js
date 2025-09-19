@@ -435,6 +435,13 @@ function App() {
   const [selectedDashboardAccount, setSelectedDashboardAccount] = useState('all');
   const [dashboardMonth, setDashboardMonth] = useState(new Date());
   const [showInRupees, setShowInRupees] = useState(false);
+  
+  // Date range filter state
+  const [dateRangeFilter, setDateRangeFilter] = useState({
+    startDate: '2024-09-01',
+    endDate: '2024-09-19',
+    isCustomRange: true
+  });
   const [dashboardData, setDashboardData] = useState({
     dailyNetPL: 2450.75,
     cumulativePLHistory: [
