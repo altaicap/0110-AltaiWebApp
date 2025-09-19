@@ -56,6 +56,7 @@ import {
   EyeOff,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
   Send,
   MessageSquare,
   RotateCcw,
