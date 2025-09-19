@@ -350,10 +350,10 @@
   font-weight: 500;
   transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 2rem;
+  display: flex !important; /* Ensure flexbox */
+  align-items: center !important; /* Vertical centering */
+  justify-content: center !important; /* Horizontal centering */
+  height: 2.5rem; /* Increased height for better proportion */
   box-sizing: border-box;
   margin: 0 !important;
   outline: none;
@@ -361,6 +361,7 @@
   flex-shrink: 0;
   flex-grow: 1;
   flex-basis: 0;
+  line-height: 1 !important; /* Reset line height for precise centering */
   /* Better positioning for proper centering */
   inset: 4px;
 }
