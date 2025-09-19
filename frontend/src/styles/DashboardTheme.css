@@ -1550,28 +1550,13 @@ html[data-theme="light"] .theme-toggle:hover svg {
   transition: all 0.15s ease;
 }
 
-/* Specific semantic overrides - SATURATED COLORS */
-[data-theme="dark"] .sun-icon,
-[data-theme="dark"] .theme-toggle svg,
-[data-theme="dark"] button svg[data-icon="sun"],
-[data-theme="dark"] [role="button"] svg[data-icon="sun"],
-[data-theme="dark"] .theme-toggle button svg {
-  color: #F59E0B !important; /* Saturated orange/yellow for sun icon */
+/* VERY SPECIFIC sun icon targeting - ONLY sun icons should be orange */
+[data-theme="dark"] svg[data-icon="sun"],
+[data-theme="dark"] .lucide-sun {
+  color: #F59E0B !important; /* Saturated orange/yellow for sun icon ONLY */
   fill: #F59E0B !important; /* Ensure fill is also orange */
   stroke: #F59E0B !important; /* Ensure stroke is also orange */
   opacity: 1 !important;
-}
-
-/* Additional sun icon targeting for better specificity */
-[data-theme="dark"] button:has(svg[data-icon="sun"]) svg,
-[data-theme="dark"] [aria-label*="theme"] svg,
-[data-theme="dark"] [title*="theme"] svg,
-[data-theme="dark"] svg[data-icon="sun"],
-[data-theme="dark"] button svg[stroke="currentColor"],
-[data-theme="dark"] svg[fill="currentColor"] {
-  color: #F59E0B !important;
-  fill: #F59E0B !important;
-  stroke: #F59E0B !important;
 }
 
 /* Remove blue hover background from theme toggle buttons */
