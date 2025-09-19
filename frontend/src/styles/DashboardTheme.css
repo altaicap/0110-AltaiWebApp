@@ -226,6 +226,23 @@
   color: white !important;
 }
 
+/* Light theme dropdown content fixes */
+[data-theme="light"] [role="menu"],
+[data-theme="light"] .dropdown-menu-content,
+[data-theme="light"] .user-dropdown-content,
+[data-theme="light"] .dropdown-content,
+[data-theme="light"] .select-content {
+  background-color: rgba(255, 255, 255, 0.95) !important; /* More opaque white background for light theme */
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .connection-status-button:hover,
+[data-theme="light"] .user-dropdown-trigger:hover {
+  background-color: #0E6D73 !important; /* Signature green hover for light theme */
+  color: white !important;
+}
+
 /* Main Dashboard Shimmer Background */
 [data-theme="dark"] .dashboard-main {
   background: var(--dashboard-bg-main);
