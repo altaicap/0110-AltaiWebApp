@@ -2377,12 +2377,6 @@ metadata = {
         </Alert>
       )}
 
-      {success && (
-        <Alert>
-          <CheckCircle className="h-4 w-4" />
-          <AlertDescription>{success}</AlertDescription>
-        </Alert>
-      )}
     </div>
   );
 
