@@ -3579,6 +3579,102 @@ metadata = {
               </CardContent>
             )}
           </Card>
+
+          {/* Equity Curve Pane */}
+          <Card className="relative pane-enhanced">
+            <PaneControls paneId="equity-curve" />
+            <CardHeader className="pb-4">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg">Equity Curve</CardTitle>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className="text-xs">
+                      vs {equityBenchmark}
+                      <ChevronDown className="h-3 w-3 ml-1" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="dropdown-menu-content">
+                    <DropdownMenuItem 
+                      className="cursor-pointer dropdown-menu-item"
+                      onClick={() => setEquityBenchmark('SPY')}
+                    >
+                      <div className="flex items-center gap-2 w-full">
+                        <span className="flex-1">vs SPY</span>
+                        {equityBenchmark === 'SPY' && <CheckCircle className="h-3 w-3" />}
+                      </div>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      className="cursor-pointer dropdown-menu-item"
+                      onClick={() => setEquityBenchmark('QQQ')}
+                    >
+                      <div className="flex items-center gap-2 w-full">
+                        <span className="flex-1">vs QQQ</span>
+                        {equityBenchmark === 'QQQ' && <CheckCircle className="h-3 w-3" />}
+                      </div>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      className="cursor-pointer dropdown-menu-item"
+                      onClick={() => setEquityBenchmark('VTI')}
+                    >
+                      <div className="flex items-center gap-2 w-full">
+                        <span className="flex-1">vs VTI</span>
+                        {equityBenchmark === 'VTI' && <CheckCircle className="h-3 w-3" />}
+                      </div>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      className="cursor-pointer dropdown-menu-item"
+                      onClick={() => setEquityBenchmark('IWM')}
+                    >
+                      <div className="flex items-center gap-2 w-full">
+                        <span className="flex-1">vs IWM</span>
+                        {equityBenchmark === 'IWM' && <CheckCircle className="h-3 w-3" />}
+                      </div>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      className="cursor-pointer dropdown-menu-item"
+                      onClick={() => setEquityBenchmark('None')}
+                    >
+                      <div className="flex items-center gap-2 w-full">
+                        <span className="flex-1">No Benchmark</span>
+                        {equityBenchmark === 'None' && <CheckCircle className="h-3 w-3" />}
+                      </div>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </CardHeader>
+            {!minimizedPanes.has('equity-curve') && (
+              <CardContent className="pt-0">
+                <div className="h-64 w-full">
+                  <div className="mb-4 flex items-center justify-between text-sm">
+                    <div className="text-green-600 font-medium">
+                      Portfolio: {(dashboardData.currentAccountValue || 125750.00).toLocaleString('en-US', {
+                        style: 'currency',
+                        currency: 'USD'
+                      })}
+                    </div>
+                    {equityBenchmark !== 'None' && (
+                      <div className="text-blue-500 font-medium">
+                        {equityBenchmark}: +12.4% YTD
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="h-48 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg flex items-center justify-center border">
+                    <div className="text-center text-gray-600">
+                      <TrendingUp className="w-8 h-8 mx-auto mb-2 text-green-500" />
+                      <p className="font-medium">Equity Curve Chart</p>
+                      <p className="text-sm">Portfolio balance over time</p>
+                      {equityBenchmark !== 'None' && (
+                        <p className="text-xs text-blue-500 mt-1">vs {equityBenchmark} overlay</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            )}
+          </Card>
+
         </div>
       </div>
     );
