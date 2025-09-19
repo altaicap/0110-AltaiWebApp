@@ -1496,7 +1496,10 @@
 /* Additional sun icon targeting for better specificity */
 [data-theme="dark"] button:has(svg[data-icon="sun"]) svg,
 [data-theme="dark"] [aria-label*="theme"] svg,
-[data-theme="dark"] [title*="theme"] svg {
+[data-theme="dark"] [title*="theme"] svg,
+[data-theme="dark"] svg[data-icon="sun"],
+[data-theme="dark"] button svg[stroke="currentColor"],
+[data-theme="dark"] svg[fill="currentColor"] {
   color: #F59E0B !important;
   fill: #F59E0B !important;
   stroke: #F59E0B !important;
