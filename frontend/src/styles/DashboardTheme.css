@@ -312,6 +312,31 @@ html[data-theme="light"] .sun-icon {
   stroke: rgb(245, 158, 11) !important;
 }
 
+/* Fix hover states specifically */
+.landing-page-container.dark .theme-toggle:hover svg,
+.landing-page-container.dark button[aria-label*="theme"]:hover svg,
+.landing-page-container.dark .theme-toggle:hover .lucide-sun,
+.landing-page-container.dark .theme-toggle:hover .sun-icon,
+[data-theme="dark"] .theme-toggle:hover svg,
+[data-theme="dark"] button[aria-label*="theme"]:hover svg,
+html[data-theme="dark"] .theme-toggle:hover svg {
+  color: rgb(245, 158, 11) !important;
+  fill: rgb(245, 158, 11) !important;
+  stroke: rgb(245, 158, 11) !important;
+}
+
+.landing-page-container.light .theme-toggle:hover svg,
+.landing-page-container.light button[aria-label*="theme"]:hover svg,
+.landing-page-container.light .theme-toggle:hover .lucide-sun,
+.landing-page-container.light .theme-toggle:hover .sun-icon,
+[data-theme="light"] .theme-toggle:hover svg,
+[data-theme="light"] button[aria-label*="theme"]:hover svg,
+html[data-theme="light"] .theme-toggle:hover svg {
+  color: rgb(245, 158, 11) !important;
+  fill: rgb(245, 158, 11) !important;
+  stroke: rgb(245, 158, 11) !important;
+}
+
 /* Main Dashboard Shimmer Background */
 [data-theme="dark"] .dashboard-main {
   background: var(--dashboard-bg-main);
