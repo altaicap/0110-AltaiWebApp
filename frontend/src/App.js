@@ -3941,58 +3941,55 @@ metadata = {
 
           {/* Bottom Right: Daily Net PnL Charts */}
           <Card className="relative pane-enhanced">
-            <PaneControls paneId="daily-pnl-charts" />
+            <PaneControls paneId="daily-pnl-charts">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className="text-xs">
+                    {chartUnits === 'dollar' ? '$' : 'R-Units'}
+                    <ChevronDown className="h-3 w-3 ml-1" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="dropdown-menu-content">
+                  <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setChartUnits('dollar')}>
+                    <div className="flex items-center gap-2 w-full">
+                      <span className="flex-1">Dollar Values ($)</span>
+                      {chartUnits === 'dollar' && <CheckCircle className="h-3 w-3" />}
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setChartUnits('runit')}>
+                    <div className="flex items-center gap-2 w-full">
+                      <span className="flex-1">R-Units</span>
+                      {chartUnits === 'runit' && <CheckCircle className="h-3 w-3" />}
+                    </div>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="p-1">
+                    <ChevronDown className="h-4 w-4 text-green-500" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="dropdown-menu-content">
+                  <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setPnlViewMode('cumulative')}>
+                    <div className="flex items-center gap-2 w-full">
+                      <span className="flex-1">Daily Net Cumulative PnL</span>
+                      {pnlViewMode === 'cumulative' && <CheckCircle className="h-3 w-3" />}
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setPnlViewMode('daily')}>
+                    <div className="flex items-center gap-2 w-full">
+                      <span className="flex-1">Net Daily PnL</span>
+                      {pnlViewMode === 'daily' && <CheckCircle className="h-3 w-3" />}
+                    </div>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </PaneControls>
             <CardHeader className="pb-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <CardTitle className="text-lg">
-                    {pnlViewMode === 'cumulative' ? 'Daily Net Cumulative PnL' : 'Net Daily PnL'}
-                  </CardTitle>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm" className="p-1">
-                        <ChevronDown className="h-4 w-4 text-green-500" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="dropdown-menu-content">
-                      <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setPnlViewMode('cumulative')}>
-                        <div className="flex items-center gap-2 w-full">
-                          <span className="flex-1">Daily Net Cumulative PnL</span>
-                          {pnlViewMode === 'cumulative' && <CheckCircle className="h-3 w-3" />}
-                        </div>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setPnlViewMode('daily')}>
-                        <div className="flex items-center gap-2 w-full">
-                          <span className="flex-1">Net Daily PnL</span>
-                          {pnlViewMode === 'daily' && <CheckCircle className="h-3 w-3" />}
-                        </div>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm" className="text-xs">
-                      {chartUnits === 'dollar' ? '$' : 'R-Units'}
-                      <ChevronDown className="h-3 w-3 ml-1" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="dropdown-menu-content">
-                    <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setChartUnits('dollar')}>
-                      <div className="flex items-center gap-2 w-full">
-                        <span className="flex-1">Dollar Values ($)</span>
-                        {chartUnits === 'dollar' && <CheckCircle className="h-3 w-3" />}
-                      </div>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setChartUnits('runit')}>
-                      <div className="flex items-center gap-2 w-full">
-                        <span className="flex-1">R-Units</span>
-                        {chartUnits === 'runit' && <CheckCircle className="h-3 w-3" />}
-                      </div>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
+              <CardTitle className="text-lg">
+                {pnlViewMode === 'cumulative' ? 'Daily Net Cumulative PnL' : 'Net Daily PnL'}
+              </CardTitle>
             </CardHeader>
             {!minimizedPanes.has('daily-pnl-charts') && (
               <CardContent className="pt-0">
