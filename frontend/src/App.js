@@ -1881,21 +1881,25 @@ metadata = {
         variant="ghost"
         className="w-8 h-8 p-0 rounded-full hover:bg-gray-100"
         onClick={() => toggleMinimize(paneId)}
-        title="Minimize pane"
+        title={minimizedPanes.has(paneId) ? "Expand pane" : "Minimize pane"}
       >
-        <Minus className="w-4 h-4" />
+        {minimizedPanes.has(paneId) ? (
+          <Expand className="w-4 h-4" />
+        ) : (
+          <Minus className="w-4 h-4" />
+        )}
       </Button>
       <Button
         size="sm"
         variant="ghost"
         className="w-8 h-8 p-0 rounded-full hover:bg-gray-100"
         onClick={() => toggleFullScreen(paneId)}
-        title={fullScreenPane === paneId ? "Restore pane" : "Maximize pane"}
+        title={fullScreenPane === paneId ? "Restore pane" : "Fullscreen pane"}
       >
         {fullScreenPane === paneId ? (
-          <Minimize className="w-4 h-4" />
+          <Shrink className="w-4 h-4" />
         ) : (
-          <ArrowUpRight className="w-4 h-4" />
+          <RectangleHorizontal className="w-4 h-4" />
         )}
       </Button>
     </div>
