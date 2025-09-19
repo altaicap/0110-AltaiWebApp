@@ -703,6 +703,19 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
   test_sequence: 1
   run_ui: false
 
+## frontend:
+  - task: "Dashboard Header Menu UI Issues Fix"
+    implemented: true
+    working: false
+    file: "frontend/src/styles/DashboardTheme.css"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed three specific UI issues in dashboard header menu: 1) Sun icon color - enhanced CSS selectors to ensure #F59E0B color on all properties (color, fill, stroke) with additional targeting for better specificity. 2) Dropdown transparency - made Connection Statuses and Alex Thompson dropdown backgrounds more opaque by changing from var(--dashboard-bg) to var(--dashboard-bg-1) and added light theme equivalents with rgba(255,255,255,0.95). 3) Tab selection pill alignment - added display:flex, align-items:center, justify-content:center and explicit inset:4px properties to ensure proper vertical centering in both themes. All fixes implemented for both dark and light themes."
+
   - task: "Sidebar Layout Fix Testing"
     implemented: true
     working: true
