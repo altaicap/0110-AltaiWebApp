@@ -213,8 +213,8 @@
 .landing-page-container.dark [data-testid="theme-toggle"] svg,
 .landing-page-container.dark .lucide-sun,
 .landing-page-container.dark .sun-icon {
-  color: #FF8C00 !important; /* Saturated orange - more visible */
-  fill: #FF8C00 !important;
+  color: #F59E0B !important; /* Changed to match dashboard - exact orange color */
+  fill: #F59E0B !important;
 }
 
 .dark .theme-toggle:hover svg,
