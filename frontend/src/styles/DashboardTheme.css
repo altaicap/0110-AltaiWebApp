@@ -1641,6 +1641,31 @@
   color: #00a66b !important; /* Darker green on hover */
 }
 
+/* Trading Highlights Pane Theme-Specific Styling */
+[data-theme="dark"] .trading-highlights-grid .text-gray-500 {
+  color: var(--dashboard-muted) !important;
+}
+
+[data-theme="dark"] .trading-highlights-grid .text-gray-400 {
+  color: var(--dashboard-muted-dark) !important;
+}
+
+[data-theme="dark"] .trading-highlights-grid .bg-gray-200 {
+  background-color: var(--dashboard-border) !important;
+}
+
+[data-theme="light"] .trading-highlights-grid .text-gray-500 {
+  color: #6b7280 !important;
+}
+
+[data-theme="light"] .trading-highlights-grid .text-gray-400 {
+  color: #9ca3af !important;
+}
+
+[data-theme="light"] .trading-highlights-grid .bg-gray-200 {
+  background-color: #e5e7eb !important;
+}
+
 /* Light theme active/pressed states */
 [data-theme="light"] .icon:active,
 [data-theme="light"] .btn-icon:active > svg,
