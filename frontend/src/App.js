@@ -2227,7 +2227,7 @@ metadata = {
                 className="flex items-center gap-2 p-0 h-auto font-semibold text-left w-full justify-start"
               >
                 <ChevronDown className={`h-4 w-4 transition-transform ${connectivityCollapsed.brokers ? '-rotate-90' : ''}`} />
-                Brokers
+                <span className="text-base font-semibold">Brokers</span>
               </Button>
               
               {!connectivityCollapsed.brokers && (
