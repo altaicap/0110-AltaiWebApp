@@ -808,6 +808,16 @@ body {
   position: relative;
 }
 
+/* Trading Highlights Pane Styling */
+.trading-highlights-pane {
+  height: auto !important;
+  min-height: 140px !important;
+}
+
+.trading-highlights-pane .grid {
+  min-height: 100px;
+}
+
 .pane-enhanced .absolute {
   top: 1.25rem !important;
   right: 1.25rem !important;
