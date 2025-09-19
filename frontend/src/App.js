@@ -3439,7 +3439,7 @@ metadata = {
                         onClick={() => setPnlViewMode('cumulative')}
                       >
                         <div className="flex items-center gap-2 w-full">
-                          <span className="flex-1">Daily Net Cumulative P&L</span>
+                          <span className="flex-1">Daily Net Cumulative PnL</span>
                           {pnlViewMode === 'cumulative' && <CheckCircle className="h-3 w-3" />}
                         </div>
                       </DropdownMenuItem>
