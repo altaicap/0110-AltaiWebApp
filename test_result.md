@@ -804,7 +804,11 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
 
 ## test_plan:
   current_focus:
-    - "Dashboard Header Menu UI Issues Fix"
+    - "Dashboard Pane Control Enhancements"
+    - "Positions Pane Column Updates"
+    - "Dashboard Pane Renames"
+    - "Chart Display Updates"
+    - "Calendar Layout Enhancement"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
