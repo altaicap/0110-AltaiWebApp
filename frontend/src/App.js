@@ -3756,8 +3756,40 @@ metadata = {
           <Card className="relative pane-enhanced">
             <PaneControls paneId="realised-pnl" />
             <CardHeader>
-              <CardTitle>Realised PnL</CardTitle>
-              <CardDescription>Closed positions and realized profits/losses</CardDescription>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle>Realised PnL</CardTitle>
+                  <CardDescription>Closed positions and realized profits/losses</CardDescription>
+                </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className="text-xs">
+                      {realizedPnlViewMode === 'dollar' ? '$' : 'R-Returns'}
+                      <ChevronDown className="h-3 w-3 ml-1" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="dropdown-menu-content">
+                    <DropdownMenuItem 
+                      className="cursor-pointer dropdown-menu-item"
+                      onClick={() => setRealizedPnlViewMode('dollar')}
+                    >
+                      <div className="flex items-center gap-2 w-full">
+                        <span className="flex-1">Dollar Values ($)</span>
+                        {realizedPnlViewMode === 'dollar' && <CheckCircle className="h-3 w-3" />}
+                      </div>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      className="cursor-pointer dropdown-menu-item"
+                      onClick={() => setRealizedPnlViewMode('r-returns')}
+                    >
+                      <div className="flex items-center gap-2 w-full">
+                        <span className="flex-1">R-Returns</span>
+                        {realizedPnlViewMode === 'r-returns' && <CheckCircle className="h-3 w-3" />}
+                      </div>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </CardHeader>
             {!minimizedPanes.has('realised-pnl') && (
               <CardContent>
