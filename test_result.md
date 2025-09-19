@@ -768,15 +768,18 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
 
   - task: "Dashboard Pane Renames"
     implemented: true
-    working: "NA"
+    working: true
     file: "frontend/src/App.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Renamed dashboard panes: 'Realised PnL' → 'Recently Closed', 'Recent Trades' → 'Recent Entries'. Updated Recently Closed pane to remove chart display and show only list of closed positions. Modified Recent Entries pane to display entry data instead of trade completion data."
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Dashboard pane renames implemented perfectly. 'Recently Closed' pane clearly visible (bottom left) - successfully renamed from 'Realised PnL'. 'Recent Entries' pane clearly visible (bottom right) - successfully renamed from 'Recent Trades'. Content verification confirmed: Recently Closed shows list of closed positions (AAPL, MSFT, TSLA, GOOGL) with P&L values and no chart display. Recent Entries shows entry-focused data with tickers and entry information rather than trade completion data. Both panes functioning as specified."
 
   - task: "Chart Display Updates"
     implemented: true
