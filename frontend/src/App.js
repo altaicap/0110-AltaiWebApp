@@ -3992,7 +3992,7 @@ metadata = {
             </CardHeader>
             {!minimizedPanes.has('daily-pnl-charts') && (
               <CardContent className="pt-0">
-                <div className="h-48 w-full">
+                <div className="h-80 w-full">
                   {pnlViewMode === 'cumulative' ? (
                     <div className="h-full bg-transparent rounded border border-gray-200 dark:border-gray-700 flex items-center justify-center">
                       <div className="text-center text-gray-600 dark:text-gray-400">
