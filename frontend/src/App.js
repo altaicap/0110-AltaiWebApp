@@ -439,6 +439,10 @@ function App() {
   const [equityBenchmark, setEquityBenchmark] = useState('SPY');
   const [realizedPnlViewMode, setRealizedPnlViewMode] = useState('dollar');
   
+  // Positions sorting state
+  const [positionsSortField, setPositionsSortField] = useState('ticker');
+  const [positionsSortDirection, setPositionsSortDirection] = useState('asc');
+  
   // Date range filter state - Load from localStorage if available
   const [dateRangeFilter, setDateRangeFilter] = useState(() => {
     const saved = localStorage.getItem('altai_date_range_filter');
