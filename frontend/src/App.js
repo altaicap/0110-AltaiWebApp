@@ -3720,36 +3720,33 @@ metadata = {
 
           {/* Middle Left: Recently Closed */}
           <Card className="relative pane-enhanced">
-            <PaneControls paneId="recently-closed" />
+            <PaneControls paneId="recently-closed">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className="text-xs">
+                    {realizedPnlViewMode === 'dollar' ? '$' : 'R-Returns'}
+                    <ChevronDown className="h-3 w-3 ml-1" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="dropdown-menu-content">
+                  <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setRealizedPnlViewMode('dollar')}>
+                    <div className="flex items-center gap-2 w-full">
+                      <span className="flex-1">Dollar Values ($)</span>
+                      {realizedPnlViewMode === 'dollar' && <CheckCircle className="h-3 w-3" />}
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setRealizedPnlViewMode('r-returns')}>
+                    <div className="flex items-center gap-2 w-full">
+                      <span className="flex-1">R-Returns</span>
+                      {realizedPnlViewMode === 'r-returns' && <CheckCircle className="h-3 w-3" />}
+                    </div>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </PaneControls>
             <CardHeader className="pb-2">
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-lg">Recently Closed</CardTitle>
-                  <CardDescription className="text-xs">Recent closed positions</CardDescription>
-                </div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm" className="text-xs">
-                      {realizedPnlViewMode === 'dollar' ? '$' : 'R-Returns'}
-                      <ChevronDown className="h-3 w-3 ml-1" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="dropdown-menu-content">
-                    <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setRealizedPnlViewMode('dollar')}>
-                      <div className="flex items-center gap-2 w-full">
-                        <span className="flex-1">Dollar Values ($)</span>
-                        {realizedPnlViewMode === 'dollar' && <CheckCircle className="h-3 w-3" />}
-                      </div>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setRealizedPnlViewMode('r-returns')}>
-                      <div className="flex items-center gap-2 w-full">
-                        <span className="flex-1">R-Returns</span>
-                        {realizedPnlViewMode === 'r-returns' && <CheckCircle className="h-3 w-3" />}
-                      </div>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
+              <CardTitle className="text-lg">Recently Closed</CardTitle>
+              <CardDescription className="text-xs">Recent closed positions</CardDescription>
             </CardHeader>
             {!minimizedPanes.has('recently-closed') && (
               <CardContent className="pt-0">
