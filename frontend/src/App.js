@@ -3301,28 +3301,7 @@ metadata = {
 
     return (
       <div className="space-y-6">
-        {/* Dashboard Header */}
-        <div className="tab-header-enhanced">
-          <div className="flex items-center justify-between">
-            <div>
-              {/* Removed DASHBOARD title and description */}
-            </div>
-            <div className="flex items-center gap-4">
-              <Label htmlFor="dashboard-account">Account:</Label>
-              <Select value={selectedDashboardAccount} onValueChange={setSelectedDashboardAccount}>
-                <SelectTrigger className="w-48" id="dashboard-account">
-                  <SelectValue placeholder="Select account" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Accounts Combined</SelectItem>
-                  <SelectItem value="tradestation">TradeStation Account</SelectItem>
-                  <SelectItem value="ibkr">Interactive Brokers</SelectItem>
-                  <SelectItem value="paper">Paper Trading Account</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </div>
+        {/* Dashboard Header - Account selector moved to header menu */}
 
         {/* Dashboard Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
