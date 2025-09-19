@@ -197,6 +197,35 @@
   color: white !important;
 }
 
+/* User dropdown (Alex Thompson) styling */
+[data-theme="dark"] .user-dropdown-trigger {
+  background-color: transparent !important;
+  border-color: var(--dashboard-border) !important;
+  color: var(--dashboard-fg) !important;
+}
+
+[data-theme="dark"] .user-dropdown-trigger:hover {
+  background-color: var(--dashboard-accent) !important; /* Signature green hover */  
+  border-color: var(--dashboard-accent) !important;
+  color: white !important;
+}
+
+/* User dropdown content */
+[data-theme="dark"] .user-dropdown-content {
+  background-color: var(--dashboard-bg) !important;
+  border-color: var(--dashboard-border) !important;
+  color: var(--dashboard-fg) !important;
+}
+
+[data-theme="dark"] .user-dropdown-content [role="menuitem"] {
+  color: var(--dashboard-fg) !important;
+}
+
+[data-theme="dark"] .user-dropdown-content [role="menuitem"]:hover {
+  background-color: var(--dashboard-accent) !important;
+  color: white !important;
+}
+
 /* Main Dashboard Shimmer Background */
 [data-theme="dark"] .dashboard-main {
   background: var(--dashboard-bg-main);
