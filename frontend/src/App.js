@@ -3301,7 +3301,9 @@ metadata = {
 
     return (
       <div className="space-y-6">
-        {/* Dashboard Header - Account selector moved to header menu */}
+        <div className="tab-header-enhanced">
+          {/* Removed DASHBOARD title and description - Account selector moved to header menu */}
+        </div>
 
         {/* Dashboard Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
