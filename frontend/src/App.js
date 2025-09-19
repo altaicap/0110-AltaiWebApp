@@ -3687,14 +3687,14 @@ metadata = {
             )}
           </Card>
 
-          {/* Middle Left: Realised PnL */}
+          {/* Middle Left: Recently Closed */}
           <Card className="relative pane-enhanced">
-            <PaneControls paneId="realised-pnl" />
+            <PaneControls paneId="recently-closed" />
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle className="text-lg">Realised PnL</CardTitle>
-                  <CardDescription className="text-xs">Cumulative realized gains and losses over time</CardDescription>
+                  <CardTitle className="text-lg">Recently Closed</CardTitle>
+                  <CardDescription className="text-xs">Recent closed positions</CardDescription>
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -3720,34 +3720,34 @@ metadata = {
                 </DropdownMenu>
               </div>
             </CardHeader>
-            {!minimizedPanes.has('realised-pnl') && (
+            {!minimizedPanes.has('recently-closed') && (
               <CardContent className="pt-0">
-                <div className="h-48 w-full">
-                  <div className="h-24 bg-transparent rounded border border-gray-200 dark:border-gray-700 flex items-center justify-center mb-2">
-                    <div className="text-center text-gray-600 dark:text-gray-400">
-                      <div className="text-sm font-medium">Cumulative PnL Chart</div>
-                      <div className="text-xs">
-                        Total: {realizedPnlViewMode === 'dollar' ? '$23,750.50' : '+15.2R'}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="h-20 overflow-y-auto">
-                    <div className="text-xs text-gray-500 mb-1">Recent Closed Positions</div>
-                    <div className="space-y-1">
-                      {[
-                        { ticker: 'AAPL', pnl: 275, date: '2024-09-18' },
-                        { ticker: 'MSFT', pnl: -95, date: '2024-09-17' },
-                        { ticker: 'TSLA', pnl: 180, date: '2024-09-16' }
-                      ].map((trade, index) => (
-                        <div key={index} className="flex justify-between items-center text-xs">
-                          <span>{trade.ticker}</span>
-                          <span className={trade.pnl >= 0 ? 'text-green-500' : 'text-red-500'}>
-                            {trade.pnl >= 0 ? '+' : ''}${trade.pnl}
-                          </span>
-                          <span className="text-gray-400">{trade.date}</span>
+                <div className="h-48 overflow-y-auto">
+                  <div className="space-y-2">
+                    {[
+                      { ticker: 'AAPL', pnl: 275, rUnits: '+1.2R', date: '2024-09-18', strategy: 'Prior Bar Break Algo' },
+                      { ticker: 'MSFT', pnl: -95, rUnits: '-0.4R', date: '2024-09-17', strategy: 'Prior Bar Break Algo' },
+                      { ticker: 'TSLA', pnl: 180, rUnits: '+0.8R', date: '2024-09-16', strategy: 'Prior Bar Break Algo' },
+                      { ticker: 'GOOGL', pnl: -125, rUnits: '-0.5R', date: '2024-09-15', strategy: 'Prior Bar Break Algo' },
+                      { ticker: 'NVDA', pnl: 450, rUnits: '+2.1R', date: '2024-09-14', strategy: 'Prior Bar Break Algo' },
+                      { ticker: 'AMD', pnl: 85, rUnits: '+0.3R', date: '2024-09-13', strategy: 'Prior Bar Break Algo' }
+                    ].map((trade, index) => (
+                      <div key={index} className="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-800 rounded text-xs">
+                        <div className="flex flex-col">
+                          <span className="font-medium">{trade.ticker}</span>
+                          <span className="text-gray-500">{trade.date}</span>
                         </div>
-                      ))}
-                    </div>
+                        <div className="flex flex-col items-end">
+                          <span className={`font-medium ${trade.pnl >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                            {realizedPnlViewMode === 'dollar' ? 
+                              `${trade.pnl >= 0 ? '+' : ''}$${Math.abs(trade.pnl)}` : 
+                              trade.rUnits
+                            }
+                          </span>
+                          <span className="text-gray-500 text-xs">{trade.strategy}</span>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </CardContent>
