@@ -268,45 +268,9 @@
   transform: translateY(-2px) !important; /* Same hover effect as landing page */
 }
 
-/* Ultra-specific sun icon targeting to override any conflicting styles including landing page */
-[data-theme="dark"] *[data-icon="sun"],
-[data-theme="dark"] *[stroke="currentColor"][data-icon="sun"],
-[data-theme="dark"] *[fill="currentColor"][data-icon="sun"],
-html[data-theme="dark"] .theme-toggle svg,
-html[data-theme="dark"] button[aria-label*="theme"] svg,
-html[data-theme="dark"] .lucide-sun,
-html[data-theme="dark"] .sun-icon {
-  color: rgb(245, 158, 11) !important;
-  fill: rgb(245, 158, 11) !important;
-  stroke: rgb(245, 158, 11) !important;
-}
-
-[data-theme="light"] *[data-icon="sun"],
-[data-theme="light"] *[stroke="currentColor"][data-icon="sun"],
-[data-theme="light"] *[fill="currentColor"][data-icon="sun"],
-html[data-theme="light"] .theme-toggle svg,
-html[data-theme="light"] button[aria-label*="theme"] svg,
-html[data-theme="light"] .lucide-sun,
-html[data-theme="light"] .sun-icon {
-  color: rgb(245, 158, 11) !important;
-  fill: rgb(245, 158, 11) !important;
-  stroke: rgb(245, 158, 11) !important;
-}
-
-/* Override landing page styles with even higher specificity */
-.landing-page-container.dark .theme-toggle svg,
-.landing-page-container.dark button[aria-label*="theme"] svg,
-.landing-page-container.dark .lucide-sun,
-.landing-page-container.dark .sun-icon {
-  color: rgb(245, 158, 11) !important;
-  fill: rgb(245, 158, 11) !important;
-  stroke: rgb(245, 158, 11) !important;
-}
-
-.landing-page-container.light .theme-toggle svg,
-.landing-page-container.light button[aria-label*="theme"] svg,
-.landing-page-container.light .lucide-sun,
-.landing-page-container.light .sun-icon {
+/* VERY SPECIFIC targeting for light theme sun icons */
+[data-theme="light"] svg[data-icon="sun"],
+[data-theme="light"] .lucide-sun {
   color: rgb(245, 158, 11) !important;
   fill: rgb(245, 158, 11) !important;
   stroke: rgb(245, 158, 11) !important;
