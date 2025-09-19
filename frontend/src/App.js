@@ -4300,6 +4300,7 @@ metadata = {
                 </div>
               </div>
             </CardContent>
+            )}
         </Card>
 
         {/* Backtest Trade Log */}
