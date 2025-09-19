@@ -5066,6 +5066,144 @@ metadata = {
                 </Button>
               </div>
 
+              {/* Date Range Filter Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className={`text-xs connection-status-button ${isDarkTheme ? 'text-gray-300 border-gray-600 hover:bg-gray-700' : ''}`}>
+                    {dateRangeFilter.isCustomRange ? 
+                      `${dateRangeFilter.startDate} to ${dateRangeFilter.endDate}` :
+                      'Date Range Filter'}
+                    <ChevronDown className="h-3 w-3 ml-1" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="dropdown-menu-content w-80">
+                  <div className="p-4 space-y-4">
+                    <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Filter Dashboard Data by Date Range
+                    </div>
+                    
+                    {/* Quick Date Range Options */}
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="text-xs"
+                        onClick={() => {
+                          const today = new Date();
+                          const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+                          const lastMonthEnd = new Date(today.getFullYear(), today.getMonth(), 0);
+                          setDateRangeFilter({
+                            startDate: lastMonth.toISOString().split('T')[0],
+                            endDate: lastMonthEnd.toISOString().split('T')[0],
+                            isCustomRange: true
+                          });
+                        }}
+                      >
+                        Last Month
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="text-xs"
+                        onClick={() => {
+                          const today = new Date();
+                          const yearStart = new Date(today.getFullYear(), 0, 1);
+                          setDateRangeFilter({
+                            startDate: yearStart.toISOString().split('T')[0],
+                            endDate: today.toISOString().split('T')[0],
+                            isCustomRange: true
+                          });
+                        }}
+                      >
+                        This Year
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="text-xs"
+                        onClick={() => {
+                          const today = new Date();
+                          const lastYear = new Date(today.getFullYear() - 1, 0, 1);
+                          const lastYearEnd = new Date(today.getFullYear() - 1, 11, 31);
+                          setDateRangeFilter({
+                            startDate: lastYear.toISOString().split('T')[0],
+                            endDate: lastYearEnd.toISOString().split('T')[0],
+                            isCustomRange: true
+                          });
+                        }}
+                      >
+                        Last Year
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="text-xs"
+                        onClick={() => {
+                          const today = new Date();
+                          const last30Days = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
+                          setDateRangeFilter({
+                            startDate: last30Days.toISOString().split('T')[0],
+                            endDate: today.toISOString().split('T')[0],
+                            isCustomRange: true
+                          });
+                        }}
+                      >
+                        Last 30 Days
+                      </Button>
+                    </div>
+
+                    {/* Custom Date Range Inputs */}
+                    <div className="space-y-3 border-t pt-3">
+                      <div className="text-xs font-medium text-gray-600 dark:text-gray-400">
+                        Custom Date Range
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="text-xs text-gray-500 dark:text-gray-400">Start Date</label>
+                          <input
+                            type="date"
+                            value={dateRangeFilter.startDate}
+                            onChange={(e) => setDateRangeFilter(prev => ({
+                              ...prev,
+                              startDate: e.target.value,
+                              isCustomRange: true
+                            }))}
+                            className="w-full mt-1 px-2 py-1 text-xs border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-xs text-gray-500 dark:text-gray-400">End Date</label>
+                          <input
+                            type="date"
+                            value={dateRangeFilter.endDate}
+                            onChange={(e) => setDateRangeFilter(prev => ({
+                              ...prev,
+                              endDate: e.target.value,
+                              isCustomRange: true
+                            }))}
+                            className="w-full mt-1 px-2 py-1 text-xs border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Apply Filter Button */}
+                    <Button 
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                      size="sm"
+                      onClick={() => {
+                        // Here you would typically call an API to fetch filtered data
+                        console.log('Applying date range filter:', dateRangeFilter);
+                        // For now, we'll just close the dropdown
+                        // In a real implementation, this would trigger data refresh
+                      }}
+                    >
+                      Apply Date Filter
+                    </Button>
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
               {/* Account Selector Dropdown */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
