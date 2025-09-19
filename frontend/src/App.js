@@ -5859,13 +5859,6 @@ metadata = {
                       <span className="text-xs text-muted-foreground">Connected</span>
                     </div>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-default">
-                    <div className="flex items-center gap-2 w-full">
-                      <div className="w-3 h-3 rounded-full bg-green-500" />
-                      <span className="flex-1">ChatGPT</span>
-                      <span className="text-xs text-muted-foreground">Connected</span>
-                    </div>
-                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
 
