@@ -790,16 +790,16 @@ body {
 
 /* Feedback 7.0 Enhancements */
 
-/* Enhanced Tab Header Padding - Reduced by 50% for tighter spacing */
+/* Enhanced Tab Header Padding - Reduced by additional 50% for tighter spacing */
 .tab-header-enhanced {
-  padding: 0.75rem !important;
-  margin-bottom: 0.5rem !important;
+  padding: 0.375rem !important;
+  margin-bottom: 0.25rem !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
 }
 
 [data-theme="dark"] .tab-header-enhanced {
-  padding: 1rem 0.75rem !important;
+  padding: 0.5rem 0.375rem !important;
 }
 
 /* Enhanced Pane Corner Padding - Reduced by 50% for more chart/table space */
