@@ -1666,6 +1666,26 @@
   background-color: #e5e7eb !important;
 }
 
+/* Date Range Filter Dropdown Styling */
+[data-theme="dark"] .date-range-dropdown button:hover {
+  background-color: var(--dashboard-accent) !important;
+  color: white !important;
+}
+
+[data-theme="light"] .date-range-dropdown button:hover {
+  background-color: #0E6D73 !important;
+  color: white !important;
+}
+
+/* Fix for date range quick buttons hover state */
+.date-range-dropdown .grid button {
+  transition: all 0.15s ease !important;
+}
+
+.date-range-dropdown .grid button:hover {
+  color: white !important;
+}
+
 /* Light theme active/pressed states */
 [data-theme="light"] .icon:active,
 [data-theme="light"] .btn-icon:active > svg,
