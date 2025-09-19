@@ -3303,7 +3303,6 @@ metadata = {
 
         {/* Trading Highlights Pane */}
         <Card className="relative pane-enhanced w-full trading-highlights-pane">
-          <PaneControls paneId="trading-highlights" />
           <CardHeader className="pb-4">
             <CardTitle className="text-lg">Trading Performance Highlights</CardTitle>
           </CardHeader>
