@@ -401,18 +401,19 @@
   border: 1px solid #0E6D73 !important;
   box-shadow: none !important;
   transform: none !important;
-  margin: 0 !important;
-  height: 2rem;
+  margin: 2px !important; /* Equal margin on all sides for proper centering */
+  height: calc(100% - 4px) !important; /* Full height minus margins */
   z-index: 1;
-  /* Fix pill alignment - equal spacing top and bottom */
-  inset: 4px 4px 4px 4px !important;
-  max-width: calc(100% - 8px);
-  max-height: calc(100% - 8px);
   border-radius: 0.5rem;
+  /* Use margin instead of inset for better control */
+  inset: unset !important;
+  position: relative !important;
   /* Ensure proper vertical centering */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important; /* Reset line height */
+  padding: 0 12px !important; /* Consistent horizontal padding */
 }
 
 /* Active tab icons in light theme - use stroke for better visibility of complex icons */
