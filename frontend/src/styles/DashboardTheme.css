@@ -250,7 +250,9 @@
 /* Light theme dropdown menu items - remove individual panes */
 [data-theme="light"] [role="menuitem"],
 [data-theme="light"] .dropdown-menu-item,
-[data-theme="light"] .user-dropdown-content [role="menuitem"] {
+[data-theme="light"] .user-dropdown-content [role="menuitem"],
+[data-theme="light"] .dropdown-menu-content .relative.flex.select-none,
+[data-theme="light"] .dropdown-menu-content div[class*="relative"][class*="flex"][class*="select-none"] {
   background: transparent !important; /* Remove individual item backgrounds */
   border: none !important; /* Remove individual item borders */
   border-radius: 0 !important; /* Remove individual item rounded corners */
