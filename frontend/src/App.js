@@ -3842,7 +3842,7 @@ metadata = {
             </CardHeader>
             {!minimizedPanes.has('calendar') && (
               <CardContent className="pt-0">
-                <div className="h-48 w-full">
+                <div className="h-80 w-full">
                   {/* Calendar Grid */}
                   <div className="grid grid-cols-7 gap-1 text-xs">
                     {/* Header row - Monday to Sunday */}
