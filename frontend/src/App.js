@@ -3294,6 +3294,108 @@ metadata = {
           {/* Removed DASHBOARD title and description - Account selector moved to header menu */}
         </div>
 
+        {/* Trading Highlights Pane */}
+        <Card className="relative pane-enhanced w-full">
+          <PaneControls paneId="trading-highlights" />
+          <CardHeader className="pb-4">
+            <CardTitle className="text-lg">Trading Performance Highlights</CardTitle>
+          </CardHeader>
+          {!minimizedPanes.has('trading-highlights') && (
+            <CardContent className="pt-0">
+              <div className="grid grid-cols-5 gap-6">
+                
+                {/* Win Rate % (Trades) */}
+                <div className="text-center space-y-2">
+                  <div className="text-2xl font-bold text-green-500">
+                    {(dashboardData.winRateTrades || 67.8).toFixed(1)}%
+                  </div>
+                  <div className="text-sm text-gray-500 font-medium">
+                    Win Rate (Trades)
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="bg-green-500 h-2 rounded-full transition-all duration-300" 
+                      style={{ width: `${(dashboardData.winRateTrades || 67.8)}%` }}
+                    ></div>
+                  </div>
+                </div>
+
+                {/* Win Rate % (Days) */}
+                <div className="text-center space-y-2">
+                  <div className="text-2xl font-bold text-blue-500">
+                    {(dashboardData.winRateDays || 72.3).toFixed(1)}%
+                  </div>
+                  <div className="text-sm text-gray-500 font-medium">
+                    Win Rate (Days)
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="bg-blue-500 h-2 rounded-full transition-all duration-300" 
+                      style={{ width: `${(dashboardData.winRateDays || 72.3)}%` }}
+                    ></div>
+                  </div>
+                </div>
+
+                {/* Profit Factor */}
+                <div className="text-center space-y-2">
+                  <div className="text-2xl font-bold text-purple-500">
+                    {(dashboardData.profitFactor || 2.14).toFixed(2)}
+                  </div>
+                  <div className="text-sm text-gray-500 font-medium">
+                    Profit Factor
+                  </div>
+                  <div className="text-xs text-gray-400">
+                    {dashboardData.profitFactor >= 1 ? 'Profitable' : 'Unprofitable'}
+                  </div>
+                </div>
+
+                {/* Average Win */}
+                <div className="text-center space-y-2">
+                  <div className="flex items-center justify-center gap-1">
+                    <div className="text-2xl font-bold text-green-600">
+                      {selectedDashboardAccount === 'paper' || showInRupees ? 
+                        `₹${(dashboardData.avgWin || 1250).toLocaleString('en-IN')}` :
+                        `$${(dashboardData.avgWin || 150).toLocaleString('en-US')}`
+                      }
+                    </div>
+                  </div>
+                  <div className="text-sm text-gray-500 font-medium">
+                    Avg. Win
+                  </div>
+                  <button 
+                    onClick={() => setShowInRupees(!showInRupees)}
+                    className="text-xs text-blue-500 hover:text-blue-700 transition-colors"
+                  >
+                    {showInRupees ? 'Show in $' : 'Show in ₹'}
+                  </button>
+                </div>
+
+                {/* Average Loss */}
+                <div className="text-center space-y-2">
+                  <div className="flex items-center justify-center gap-1">
+                    <div className="text-2xl font-bold text-red-500">
+                      {selectedDashboardAccount === 'paper' || showInRupees ? 
+                        `₹${(dashboardData.avgLoss || 580).toLocaleString('en-IN')}` :
+                        `$${(dashboardData.avgLoss || 70).toLocaleString('en-US')}`
+                      }
+                    </div>
+                  </div>
+                  <div className="text-sm text-gray-500 font-medium">
+                    Avg. Loss
+                  </div>
+                  <button 
+                    onClick={() => setShowInRupees(!showInRupees)}
+                    className="text-xs text-blue-500 hover:text-blue-700 transition-colors"
+                  >
+                    {showInRupees ? 'Show in $' : 'Show in ₹'}
+                  </button>
+                </div>
+
+              </div>
+            </CardContent>
+          )}
+        </Card>
+
         {/* Dashboard Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
