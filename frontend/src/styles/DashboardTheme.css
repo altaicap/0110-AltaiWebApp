@@ -243,26 +243,9 @@
   color: white !important;
 }
 
-/* Light theme sun icon fixes */
-[data-theme="light"] .sun-icon,
-[data-theme="light"] .theme-toggle svg,
-[data-theme="light"] button svg[data-icon="sun"],
-[data-theme="light"] [role="button"] svg[data-icon="sun"],
-[data-theme="light"] .theme-toggle button svg,
-[data-theme="light"] button:has(svg[data-icon="sun"]) svg,
-[data-theme="light"] [aria-label*="theme"] svg,
-[data-theme="light"] [title*="theme"] svg {
-  color: #F59E0B !important; /* Same orange color for light theme */
-  fill: #F59E0B !important;
-  stroke: #F59E0B !important;
-  opacity: 1 !important;
-}
-
 /* Remove blue hover background from theme toggle buttons in light theme */
-[data-theme="light"] .theme-toggle button:hover,
-[data-theme="light"] button:has(.sun-icon):hover,
 [data-theme="light"] button:has(svg[data-icon="sun"]):hover,
-[data-theme="light"] [aria-label*="theme"]:hover {
+[data-theme="light"] button:has(.lucide-sun):hover {
   background-color: transparent !important;
   background: transparent !important;
   transform: translateY(-2px) !important; /* Same hover effect as landing page */
