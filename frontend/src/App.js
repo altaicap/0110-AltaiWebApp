@@ -3869,24 +3869,26 @@ metadata = {
                       const firstDay = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
                       const daysInMonth = new Date(year, month + 1, 0).getDate();
                       
-                      // Mock trading data for calendar
+                      // Mock trading data for calendar - weekdays only (Monday-Friday)
                       const tradingData = {
                         1: { pnl: 1250, trades: 13, color: 'green' },
-                        4: { pnl: 3290, trades: 6, color: 'green' },
-                        5: { pnl: 265, trades: 6, color: 'green' },
+                        2: { pnl: 3290, trades: 6, color: 'green' },
+                        3: { pnl: 265, trades: 6, color: 'green' },
                         6: { pnl: 63.4, trades: 8, color: 'green' },
-                        7: { pnl: -833, trades: 10, color: 'red' },
-                        8: { pnl: -298, trades: 10, color: 'red' },
-                        11: { pnl: 0, trades: 1, color: 'blue' },
-                        12: { pnl: 0, trades: 1, color: 'blue' },
-                        13: { pnl: 0, trades: 4, color: 'blue' },
-                        14: { pnl: -194, trades: 8, color: 'red' },
-                        15: { pnl: -151, trades: 3, color: 'red' },
-                        18: { pnl: 0, trades: 5, color: 'blue' },
-                        19: { pnl: -1510, trades: 4, color: 'red' },
-                        20: { pnl: 2290, trades: 13, color: 'green' },
-                        21: { pnl: -2070, trades: 9, color: 'red' },
-                        22: { pnl: -57, trades: 11, color: 'red' }
+                        9: { pnl: -833, trades: 10, color: 'red' },
+                        10: { pnl: -298, trades: 10, color: 'red' },
+                        13: { pnl: 0, trades: 1, color: 'blue' },
+                        16: { pnl: 0, trades: 1, color: 'blue' },
+                        17: { pnl: 0, trades: 4, color: 'blue' },
+                        18: { pnl: -194, trades: 8, color: 'red' },
+                        19: { pnl: -151, trades: 3, color: 'red' },
+                        20: { pnl: 0, trades: 5, color: 'blue' },
+                        23: { pnl: -1510, trades: 4, color: 'red' },
+                        24: { pnl: 2290, trades: 13, color: 'green' },
+                        25: { pnl: -2070, trades: 9, color: 'red' },
+                        26: { pnl: -57, trades: 11, color: 'red' },
+                        27: { pnl: 1450, trades: 8, color: 'green' },
+                        30: { pnl: 890, trades: 5, color: 'green' }
                       };
                       
                       // Empty cells for days before month start
