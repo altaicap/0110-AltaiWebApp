@@ -138,6 +138,20 @@
   min-height: 2.75rem;
 }
 
+/* Remove any unwanted borders from notification button */
+[data-theme="dark"] [data-notification-button],
+[data-theme="light"] [data-notification-button] {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+[data-theme="dark"] [data-notification-button]:hover,
+[data-theme="light"] [data-notification-button]:hover {
+  border: none !important;
+  box-shadow: none !important;
+}
+
 /* Main Dashboard Shimmer Background */
 [data-theme="dark"] .dashboard-main {
   background: var(--dashboard-bg-main);
