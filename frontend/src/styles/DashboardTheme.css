@@ -189,6 +189,10 @@
 [data-theme="dark"] [role="menuitem"],
 [data-theme="dark"] .dropdown-menu-item {
   color: var(--dashboard-fg) !important;
+  background: transparent !important; /* Remove individual item backgrounds */
+  border: none !important; /* Remove individual item borders */
+  border-radius: 0 !important; /* Remove individual item rounded corners */
+  box-shadow: none !important; /* Remove individual item shadows */
 }
 
 [data-theme="dark"] [role="menuitem"]:hover,
