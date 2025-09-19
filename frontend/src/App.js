@@ -2544,7 +2544,7 @@ metadata = {
                 )}
               </div>
             </CardContent>
-        </Card>
+          </Card>
 
           {/* Row 2: Uploaded Strategies */}
           <Card className={`relative pane-enhanced ${fullScreenPane === 'uploaded-strategies' ? 'fullscreen-enhanced' : ''}`}>
