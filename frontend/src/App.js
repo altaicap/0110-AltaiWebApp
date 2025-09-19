@@ -3796,15 +3796,111 @@ metadata = {
           <Card className="relative pane-enhanced">
             <PaneControls paneId="calendar" />
             <CardHeader className="pb-2">
-              <CardTitle className="text-lg">September 2025</CardTitle>
-              <CardDescription className="text-xs">Trading calendar overview</CardDescription>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Button variant="ghost" size="sm" onClick={() => navigateMonth(-1)}>
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  <CardTitle className="text-lg">
+                    {monthNames[dashboardMonth.getMonth()]} {dashboardMonth.getFullYear()}
+                  </CardTitle>
+                  <Button variant="ghost" size="sm" onClick={() => navigateMonth(1)}>
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </div>
+                <Button variant="outline" size="sm" className="text-xs">
+                  This month
+                </Button>
+              </div>
             </CardHeader>
             {!minimizedPanes.has('calendar') && (
               <CardContent className="pt-0">
-                <div className="h-48 bg-transparent rounded border border-gray-200 dark:border-gray-700 flex items-center justify-center">
-                  <div className="text-center text-gray-600 dark:text-gray-400">
-                    <div className="text-sm font-medium">Calendar View</div>
-                    <div className="text-xs">September 2025 trading days</div>
+                <div className="h-48 w-full">
+                  {/* Calendar Grid */}
+                  <div className="grid grid-cols-7 gap-1 text-xs">
+                    {/* Header row */}
+                    {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                      <div key={day} className="text-center font-medium text-gray-500 py-1">
+                        {day}
+                      </div>
+                    ))}
+                    
+                    {/* Calendar days */}
+                    {(() => {
+                      const calendar = [];
+                      const year = dashboardMonth.getFullYear();
+                      const month = dashboardMonth.getMonth();
+                      const firstDay = new Date(year, month, 1).getDay();
+                      const daysInMonth = new Date(year, month + 1, 0).getDate();
+                      
+                      // Mock trading data for calendar
+                      const tradingData = {
+                        1: { pnl: 1250, trades: 13, color: 'green' },
+                        4: { pnl: 3290, trades: 6, color: 'green' },
+                        5: { pnl: 265, trades: 6, color: 'green' },
+                        6: { pnl: 63.4, trades: 8, color: 'green' },
+                        7: { pnl: -833, trades: 10, color: 'red' },
+                        8: { pnl: -298, trades: 10, color: 'red' },
+                        11: { pnl: 0, trades: 1, color: 'blue' },
+                        12: { pnl: 0, trades: 1, color: 'blue' },
+                        13: { pnl: 0, trades: 4, color: 'blue' },
+                        14: { pnl: -194, trades: 8, color: 'red' },
+                        15: { pnl: -151, trades: 3, color: 'red' },
+                        18: { pnl: 0, trades: 5, color: 'blue' },
+                        19: { pnl: -1510, trades: 4, color: 'red' },
+                        20: { pnl: 2290, trades: 13, color: 'green' },
+                        21: { pnl: -2070, trades: 9, color: 'red' },
+                        22: { pnl: -57, trades: 11, color: 'red' }
+                      };
+                      
+                      // Empty cells for days before month start
+                      for (let i = 0; i < firstDay; i++) {
+                        calendar.push(
+                          <div key={`empty-${i}`} className="h-12 border border-gray-200 dark:border-gray-700 rounded"></div>
+                        );
+                      }
+                      
+                      // Days of the month
+                      for (let day = 1; day <= daysInMonth; day++) {
+                        const dayData = tradingData[day];
+                        let bgColor = 'border-gray-200 dark:border-gray-700';
+                        let textColor = 'text-gray-800 dark:text-gray-200';
+                        
+                        if (dayData) {
+                          if (dayData.color === 'green') {
+                            bgColor = 'bg-green-600 border-green-600';
+                            textColor = 'text-white';
+                          } else if (dayData.color === 'red') {
+                            bgColor = 'bg-red-600 border-red-600';
+                            textColor = 'text-white';
+                          } else if (dayData.color === 'blue') {
+                            bgColor = 'bg-blue-600 border-blue-600';
+                            textColor = 'text-white';
+                          }
+                        }
+                        
+                        calendar.push(
+                          <div key={day} className={`h-12 border rounded p-1 ${bgColor} ${textColor} flex flex-col justify-between text-xs`}>
+                            <div className="font-medium">{day}</div>
+                            {dayData && (
+                              <div className="flex flex-col items-center">
+                                <div className="font-bold text-xs">
+                                  {chartUnits === 'dollar' ? 
+                                    (dayData.pnl === 0 ? '$0' : `${dayData.pnl > 0 ? '+' : ''}$${Math.abs(dayData.pnl) >= 1000 ? `${(dayData.pnl/1000).toFixed(1)}K` : dayData.pnl}`) :
+                                    (dayData.pnl === 0 ? '0R' : `${dayData.pnl > 0 ? '+' : ''}${(dayData.pnl/100).toFixed(1)}R`)
+                                  }
+                                </div>
+                                <div className="text-xs opacity-75">
+                                  {dayData.trades} trades
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      }
+                      
+                      return calendar;
+                    })()}
                   </div>
                 </div>
               </CardContent>
