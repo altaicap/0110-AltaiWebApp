@@ -3811,9 +3811,9 @@ metadata = {
             )}
           </Card>
 
-          {/* Bottom Right: Daily Net Cumulative PnL */}
+          {/* Bottom Right: Daily Net PnL Charts */}
           <Card className="relative pane-enhanced">
-            <PaneControls paneId="daily-cumulative-pnl" />
+            <PaneControls paneId="daily-pnl-charts" />
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -3842,48 +3842,61 @@ metadata = {
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className="text-xs">
+                      {chartUnits === 'dollar' ? '$' : 'R-Units'}
+                      <ChevronDown className="h-3 w-3 ml-1" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="dropdown-menu-content">
+                    <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setChartUnits('dollar')}>
+                      <div className="flex items-center gap-2 w-full">
+                        <span className="flex-1">Dollar Values ($)</span>
+                        {chartUnits === 'dollar' && <CheckCircle className="h-3 w-3" />}
+                      </div>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setChartUnits('runit')}>
+                      <div className="flex items-center gap-2 w-full">
+                        <span className="flex-1">R-Units</span>
+                        {chartUnits === 'runit' && <CheckCircle className="h-3 w-3" />}
+                      </div>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </CardHeader>
-            {!minimizedPanes.has('daily-cumulative-pnl') && (
+            {!minimizedPanes.has('daily-pnl-charts') && (
               <CardContent className="pt-0">
-                {pnlViewMode === 'cumulative' ? (
-                  <div className="h-48 w-full flex items-center justify-center">
-                    <div className="text-2xl font-bold text-green-600">
-                      {(dashboardData.totalCumulativePL || 23750.50).toLocaleString('en-US', {
-                        style: 'currency',
-                        currency: 'USD'
-                      })}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="h-48 w-full">
-                    <div className="flex items-center justify-center h-24">
-                      <div className="text-2xl font-bold text-green-600">
-                        +{(dashboardData.dailyPL || 1250.00).toLocaleString('en-US', {
-                          style: 'currency',
-                          currency: 'USD'
-                        })}
-                        <div className="text-xs text-gray-500 mt-1">Today's net PnL</div>
+                <div className="h-48 w-full">
+                  {pnlViewMode === 'cumulative' ? (
+                    <div className="h-full bg-transparent rounded border border-gray-200 dark:border-gray-700 flex items-center justify-center">
+                      <div className="text-center text-gray-600 dark:text-gray-400">
+                        <TrendingUp className="w-6 h-6 mx-auto mb-1 text-green-500" />
+                        <div className="text-sm font-medium">Cumulative PnL Chart</div>
+                        <div className="text-xs">
+                          Y-axis: {chartUnits === 'dollar' ? 'Dollar Values ($)' : 'R-Unit Values'}
+                        </div>
+                        <div className="text-xs text-green-500 mt-1">
+                          Similar to Tradezella example - Area chart with gradient fill
+                        </div>
                       </div>
                     </div>
-                    <div className="mt-2">
-                      <div className="text-xs text-gray-500 mb-1">Last 7 days</div>
-                      <div className="flex gap-1">
-                        {[+250, -125, +380, -90, +420, +180, +1250].map((value, index) => (
-                          <div key={index} className="flex-1 flex flex-col items-center">
-                            <div 
-                              className={`w-full rounded-t ${value > 0 ? 'bg-green-500' : 'bg-red-500'}`}
-                              style={{ height: `${Math.abs(value) / 20}px`, minHeight: '3px' }}
-                            ></div>
-                            <div className="text-xs text-gray-400 mt-1">
-                              {value > 0 ? '+' : ''}{Math.abs(value) > 1000 ? `${(value/1000).toFixed(1)}k` : value}
-                            </div>
-                          </div>
-                        ))}
+                  ) : (
+                    <div className="h-full bg-transparent rounded border border-gray-200 dark:border-gray-700 flex items-center justify-center">
+                      <div className="text-center text-gray-600 dark:text-gray-400">
+                        <BarChart3 className="w-6 h-6 mx-auto mb-1 text-blue-500" />
+                        <div className="text-sm font-medium">Daily PnL Chart</div>
+                        <div className="text-xs">
+                          Y-axis: {chartUnits === 'dollar' ? 'Dollar Values ($)' : 'R-Unit Values'}
+                        </div>
+                        <div className="text-xs text-blue-500 mt-1">
+                          Similar to Tradezella example - Bar chart with green/red bars
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </CardContent>
             )}
           </Card>
