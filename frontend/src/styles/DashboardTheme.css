@@ -1516,11 +1516,11 @@
   color: var(--dashboard-danger) !important;
 }
 
-/* Hover states for generic UI icons */
-[data-theme="dark"] .icon:hover,
-[data-theme="dark"] .btn-icon:hover > svg,
-[data-theme="dark"] button:not(.theme-toggle):hover svg,
-[data-theme="dark"] [role="button"]:not(.theme-toggle):hover svg {
+/* Hover states for generic UI icons (excluding sun icons) */
+[data-theme="dark"] .icon:not(.lucide-sun):not([data-icon="sun"]):hover,
+[data-theme="dark"] .btn-icon:hover > svg:not(.lucide-sun):not([data-icon="sun"]),
+[data-theme="dark"] button:not(.theme-toggle):hover svg:not(.lucide-sun):not([data-icon="sun"]),
+[data-theme="dark"] [role="button"]:not(.theme-toggle):hover svg:not(.lucide-sun):not([data-icon="sun"]) {
   opacity: 1.0;
   color: #00d18a !important; /* ~8% lighter green */
 }
