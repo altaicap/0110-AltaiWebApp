@@ -1358,8 +1358,11 @@
 
 /* Specific semantic overrides - SATURATED COLORS */
 [data-theme="dark"] .sun-icon,
-[data-theme="dark"] .theme-toggle svg {
+[data-theme="dark"] .theme-toggle svg,
+[data-theme="dark"] button svg[data-icon="sun"],
+[data-theme="dark"] [role="button"] svg[data-icon="sun"] {
   color: #F59E0B !important; /* Saturated orange/yellow for sun icon */
+  fill: #F59E0B !important; /* Ensure fill is also orange */
   opacity: 1 !important;
 }
 
