@@ -212,7 +212,7 @@
 
 /* User dropdown content */
 [data-theme="dark"] .user-dropdown-content {
-  background-color: var(--dashboard-bg) !important;
+  background-color: var(--dashboard-bg-1) !important; /* More opaque background */
   border-color: var(--dashboard-border) !important;
   color: var(--dashboard-fg) !important;
 }
