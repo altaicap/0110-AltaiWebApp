@@ -2009,7 +2009,7 @@ metadata = {
                 className="flex items-center gap-2 p-0 h-auto font-semibold text-left w-full justify-start"
               >
                 <ChevronDown className={`h-4 w-4 transition-transform ${connectivityCollapsed.dataConnectivity ? '-rotate-90' : ''}`} />
-                Data Connectivity
+                <span className="text-base font-semibold">Data Connectivity</span>
               </Button>
               
               {!connectivityCollapsed.dataConnectivity && (
