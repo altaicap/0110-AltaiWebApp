@@ -479,6 +479,18 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
         comment: "✅ VERIFIED: IBKR Integration working correctly. OAuth service with private_key_jwt authentication properly implemented. RSA key pair management working (generates keys if not present). Authorization URL generation working with proper public key exposure. API client structure properly implemented with contract search, account management, and order placement capabilities."
 
 ## frontend:
+  - task: "Dashboard Header Menu Fixes Testing"
+    implemented: true
+    working: false
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ DASHBOARD HEADER MENU FIXES TESTING RESULTS: Comprehensive testing completed with mixed results (2/4 fixes working). ✅ FIX 2 SUCCESS: Sun toggle has orange color (rgb(255, 140, 0)) - close to target #F59E0B but slightly different shade. ❌ FIX 1 FAILED: Home button still present in header (found 1 Home button) - removal not implemented. ❌ FIX 3 CANNOT TEST: No notification icon found (0 notification icons detected) - either not implemented or not visible on current page. ❌ FIX 4 CANNOT TEST: 'Connection Statuses' text not found (0 elements detected) - either not implemented or not accessible on current page. ⚠️ AUTHENTICATION ISSUE: Unable to fully access dashboard interface - remained on landing/connections page after login attempt, limiting ability to test dashboard-specific elements. Backend errors detected (500 status on multiple API endpoints). RECOMMENDATION: Main agent should verify authentication flow, ensure dashboard routing works correctly, implement missing notification icon and Connection Statuses text, and complete Home button removal."
+
   - task: "Profile Icon Square Border Container Removal from Landing Page Header"
     implemented: true
     working: true
