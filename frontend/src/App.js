@@ -5095,13 +5095,13 @@ metadata = {
               {isAuthenticated ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm" className={`flex items-center gap-2 ${isDarkTheme ? 'text-white border-gray-600 hover:bg-gray-700' : ''}`}>
+                    <Button variant="outline" size="sm" className={`flex items-center gap-2 user-dropdown-trigger ${isDarkTheme ? 'text-white border-gray-600 hover:bg-gray-700' : ''}`}>
                       <User className={`w-4 h-4 ${isDarkTheme ? 'text-white' : ''}`} />
                       {currentAuthUser?.full_name || currentAuthUser?.email || 'Alex Thompson'}
                       <ChevronDown className={`w-4 h-4 ${isDarkTheme ? 'text-white' : ''}`} />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className={`w-48 ${isDarkTheme ? 'bg-gray-800 border-gray-600' : ''}`}>
+                  <DropdownMenuContent align="end" className={`w-48 user-dropdown-content ${isDarkTheme ? 'bg-gray-800 border-gray-600' : ''}`}>
                     <DropdownMenuItem onClick={() => setShowAccountSettings(true)} className={isDarkTheme ? 'text-white hover:bg-gray-700' : ''}>
                       <Settings2 className="w-4 h-4 mr-2" />
                       My Account
