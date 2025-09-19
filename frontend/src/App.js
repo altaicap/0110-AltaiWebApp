@@ -774,6 +774,7 @@ function App() {
     localStorage.removeItem('user_data');
     setIsAuthenticated(false);
     setCurrentAuthUser(null);
+    setShowLandingPage(true); // Redirect to landing page on sign out
     setApiKeys({
       polygon: '', newsware: '', tradexchange: '', tradestation: '', ibkr: ''
     });
