@@ -458,6 +458,27 @@ function App() {
   // Common ticker suggestions
   const tickerSuggestions = ['SPY', 'QQQ', 'IWM', 'DIA', 'VTI', 'AAPL', 'MSFT', 'TSLA', 'GOOGL', 'AMZN', 'NVDA', 'META', 'NFLX', 'AMD', 'INTC'];
   
+  // Handle benchmark ticker input changes with autocomplete
+  const handleBenchmarkInputChange = (value) => {
+    setEquityBenchmarkInput(value);
+    if (value.length > 0) {
+      const filtered = tickerSuggestions.filter(ticker => 
+        ticker.toLowerCase().startsWith(value.toLowerCase())
+      );
+      setBenchmarkSuggestions(filtered.slice(0, 5)); // Limit to 5 suggestions
+      setShowBenchmarkSuggestions(filtered.length > 0);
+    } else {
+      setShowBenchmarkSuggestions(false);
+      setBenchmarkSuggestions([]);
+    }
+  };
+
+  const selectBenchmarkSuggestion = (ticker) => {
+    setEquityBenchmarkInput(ticker);
+    setShowBenchmarkSuggestions(false);
+    setBenchmarkSuggestions([]);
+  };
+
   // Positions column settings
   const [positionsColumns, setPositionsColumns] = useState([
     { id: 'ticker', label: 'Ticker', visible: true, order: 0 },
