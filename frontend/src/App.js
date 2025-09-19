@@ -4950,14 +4950,7 @@ metadata = {
             
             {/* Right: Header items with minimal margin */}
             <div className="flex items-center space-x-4 flex-shrink-0">
-              {/* Home (renamed from Landing) */}
-              <Button 
-                variant="ghost"
-                onClick={() => setShowLandingPage(true)}
-                className={`text-gray-600 hover:text-gray-900 ${isDarkTheme ? 'text-gray-300 hover:text-white' : ''}`}
-              >
-                Home
-              </Button>
+              {/* Removed Home button - Sign Out will redirect to landing page */}
               
               {/* Theme Selector */}
               <Button
