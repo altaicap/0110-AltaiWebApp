@@ -3476,7 +3476,7 @@ metadata = {
                           style: 'currency',
                           currency: 'USD'
                         })}
-                        <div className="text-sm text-gray-500 mt-2">Today's net P&L</div>
+                        <div className="text-sm text-gray-500 mt-2">Today's net PnL</div>
                       </div>
                     </div>
 
