@@ -5191,11 +5191,13 @@ metadata = {
 
                     {/* Apply Filter Button */}
                     <Button 
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                      className="w-full bg-green-600 hover:bg-green-700 text-white"
                       size="sm"
                       onClick={() => {
                         // Here you would typically call an API to fetch filtered data
                         console.log('Applying date range filter:', dateRangeFilter);
+                        // Save settings to localStorage
+                        localStorage.setItem('altai_date_range_filter', JSON.stringify(dateRangeFilter));
                         // For now, we'll just close the dropdown
                         // In a real implementation, this would trigger data refresh
                       }}
