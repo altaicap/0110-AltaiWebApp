@@ -3569,39 +3569,45 @@ metadata = {
           
           {/* Top Left: Equity Curve */}
           <Card className="relative pane-enhanced">
-            <PaneControls paneId="equity-curve" />
-            <CardHeader className="pb-2">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-lg">Equity Curve</CardTitle>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm" className="text-xs">
-                      vs {equityBenchmark}
-                      <ChevronDown className="h-3 w-3 ml-1" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="dropdown-menu-content">
-                    <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setEquityBenchmark('SPY')}>
-                      <div className="flex items-center gap-2 w-full">
-                        <span className="flex-1">vs SPY</span>
-                        {equityBenchmark === 'SPY' && <CheckCircle className="h-3 w-3" />}
+            <PaneControls paneId="equity-curve">
+              <div className="relative">
+                <input
+                  type="text"
+                  value={equityBenchmarkInput}
+                  onChange={(e) => handleBenchmarkInputChange(e.target.value)}
+                  onFocus={() => {
+                    if (equityBenchmarkInput.length > 0) {
+                      const filtered = tickerSuggestions.filter(ticker => 
+                        ticker.toLowerCase().startsWith(equityBenchmarkInput.toLowerCase())
+                      );
+                      setBenchmarkSuggestions(filtered.slice(0, 5));
+                      setShowBenchmarkSuggestions(filtered.length > 0);
+                    }
+                  }}
+                  onBlur={() => {
+                    // Delay hiding to allow click on suggestions
+                    setTimeout(() => setShowBenchmarkSuggestions(false), 200);
+                  }}
+                  placeholder="vs SPY"
+                  className="w-16 px-2 py-1 text-xs border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-green-500 bg-white dark:bg-gray-800 dark:border-gray-600"
+                />
+                {showBenchmarkSuggestions && benchmarkSuggestions.length > 0 && (
+                  <div className="absolute top-8 left-0 w-24 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded shadow-lg z-50">
+                    {benchmarkSuggestions.map((ticker) => (
+                      <div
+                        key={ticker}
+                        className="px-2 py-1 text-xs cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+                        onClick={() => selectBenchmarkSuggestion(ticker)}
+                      >
+                        {ticker}
                       </div>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setEquityBenchmark('QQQ')}>
-                      <div className="flex items-center gap-2 w-full">
-                        <span className="flex-1">vs QQQ</span>
-                        {equityBenchmark === 'QQQ' && <CheckCircle className="h-3 w-3" />}
-                      </div>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setEquityBenchmark('None')}>
-                      <div className="flex items-center gap-2 w-full">
-                        <span className="flex-1">No Benchmark</span>
-                        {equityBenchmark === 'None' && <CheckCircle className="h-3 w-3" />}
-                      </div>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                    ))}
+                  </div>
+                )}
               </div>
+            </PaneControls>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg">Equity Curve</CardTitle>
             </CardHeader>
             {!minimizedPanes.has('equity-curve') && (
               <CardContent className="pt-0">
