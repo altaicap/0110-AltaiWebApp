@@ -3395,7 +3395,7 @@ metadata = {
                   <div className="flex items-center justify-center gap-1">
                     <div className="text-2xl font-bold text-red-500">
                       {selectedDashboardAccount === 'paper' || showInRupees ? 
-                        `₹${(dashboardData.avgLoss || 580).toLocaleString('en-IN')}` :
+                        `${(dashboardData.avgLoss || 0.70).toFixed(2)}R` :
                         `$${(dashboardData.avgLoss || 70).toLocaleString('en-US')}`
                       }
                     </div>
@@ -3407,7 +3407,7 @@ metadata = {
                     onClick={() => setShowInRupees(!showInRupees)}
                     className="text-xs text-blue-500 hover:text-blue-700 transition-colors"
                   >
-                    {showInRupees ? 'Show in $' : 'Show in ₹'}
+                    {showInRupees ? 'Show in $' : 'Show in Rs'}
                   </button>
                 </div>
 
