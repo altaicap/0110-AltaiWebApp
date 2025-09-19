@@ -3759,7 +3759,7 @@ metadata = {
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle>Realised PnL</CardTitle>
-                  <CardDescription>Closed positions and realized profits/losses</CardDescription>
+                  <CardDescription>Cumulative realized gains and losses over time</CardDescription>
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
