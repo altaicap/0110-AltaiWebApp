@@ -1525,10 +1525,10 @@
   color: #00d18a !important; /* ~8% lighter green */
 }
 
-/* Active/pressed states */
-[data-theme="dark"] .icon:active,
-[data-theme="dark"] .btn-icon:active > svg,
-[data-theme="dark"] button:not(.theme-toggle):active svg {
+/* Active/pressed states (excluding sun icons) */
+[data-theme="dark"] .icon:not(.lucide-sun):not([data-icon="sun"]):active,
+[data-theme="dark"] .btn-icon:active > svg:not(.lucide-sun):not([data-icon="sun"]),
+[data-theme="dark"] button:not(.theme-toggle):active svg:not(.lucide-sun):not([data-icon="sun"]) {
   color: #00a66b !important; /* ~8% darker green */
 }
 
