@@ -48,7 +48,6 @@ import {
   Minimize,
   Expand,
   Shrink,
-  Square,
   RectangleHorizontal,
   AlertCircle,
   PlayCircle,
