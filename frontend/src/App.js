@@ -3478,7 +3478,7 @@ metadata = {
 
                 {/* Profit Factor */}
                 <div className="text-center space-y-2">
-                  <div className="text-2xl font-bold text-purple-500">
+                  <div className="text-2xl font-bold text-orange-500">
                     {(dashboardData.profitFactor || 2.14).toFixed(2)}
                   </div>
                   <div className="text-sm text-gray-500 font-medium">
