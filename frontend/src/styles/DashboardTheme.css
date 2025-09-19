@@ -413,7 +413,8 @@
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
   font-weight: 500;
-  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Remove problematic transition that causes bounce */
+  transition: color 0.15s ease, opacity 0.15s ease !important;
   position: relative;
   display: flex !important; /* Ensure flexbox */
   align-items: center !important; /* Vertical centering */
@@ -427,8 +428,12 @@
   flex-grow: 1;
   flex-basis: 0;
   line-height: 1 !important; /* Reset line height for precise centering */
-  /* Better positioning for proper centering */
-  inset: 4px;
+  /* Remove inset positioning that causes shifts */
+  inset: unset !important;
+  left: unset !important;
+  right: unset !important;
+  top: unset !important;
+  bottom: unset !important;
 }
 /* Light theme active tab styling with higher specificity */
 [data-theme="light"] [role="tablist"] [role="tab"][data-state="active"],
