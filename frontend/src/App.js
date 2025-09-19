@@ -3754,28 +3754,35 @@ metadata = {
             )}
           </Card>
 
-          {/* Middle Right: Recent Trades */}
+          {/* Middle Right: Recent Entries */}
           <Card className="relative pane-enhanced">
-            <PaneControls paneId="recent-trades" />
+            <PaneControls paneId="recent-entries" />
             <CardHeader className="pb-2">
-              <CardTitle className="text-lg">Recent Trades</CardTitle>
-              <CardDescription className="text-xs">Latest completed trades</CardDescription>
+              <CardTitle className="text-lg">Recent Entries</CardTitle>
+              <CardDescription className="text-xs">Latest position entries</CardDescription>
             </CardHeader>
-            {!minimizedPanes.has('recent-trades') && (
+            {!minimizedPanes.has('recent-entries') && (
               <CardContent className="pt-0">
                 <div className="h-48 overflow-y-auto">
                   <div className="space-y-2">
-                    {dashboardData.recentTrades.slice(0, 6).map((trade) => (
-                      <div key={trade.id} className="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-800 rounded text-xs">
+                    {[
+                      { ticker: 'AAPL', entryPrice: 192.41, quantity: 100, entryDate: '2024-09-19', strategy: 'Prior Bar Break Algo' },
+                      { ticker: 'MSFT', entryPrice: 421.85, quantity: 50, entryDate: '2024-09-18', strategy: 'Prior Bar Break Algo' },
+                      { ticker: 'TSLA', entryPrice: 252.95, quantity: 75, entryDate: '2024-09-17', strategy: 'Prior Bar Break Algo' },
+                      { ticker: 'GOOGL', entryPrice: 165.20, quantity: 25, entryDate: '2024-09-16', strategy: 'Prior Bar Break Algo' },
+                      { ticker: 'NVDA', entryPrice: 125.20, quantity: 150, entryDate: '2024-09-15', strategy: 'Prior Bar Break Algo' },
+                      { ticker: 'AMD', entryPrice: 142.80, quantity: 80, entryDate: '2024-09-14', strategy: 'Prior Bar Break Algo' }
+                    ].map((entry, index) => (
+                      <div key={index} className="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-800 rounded text-xs">
                         <div className="flex flex-col">
-                          <span className="font-medium">{trade.ticker}</span>
-                          <span className="text-gray-500">{trade.closeDate}</span>
+                          <span className="font-medium">{entry.ticker}</span>
+                          <span className="text-gray-500">{entry.entryDate}</span>
                         </div>
                         <div className="flex flex-col items-end">
-                          <span className={`font-medium ${trade.netPL.startsWith('+') ? 'text-green-500' : 'text-red-500'}`}>
-                            {trade.netPL}
+                          <span className="font-medium text-blue-500">
+                            ${entry.entryPrice} x {entry.quantity}
                           </span>
-                          <span className="text-gray-500">{trade.rUnits}</span>
+                          <span className="text-gray-500 text-xs">{entry.strategy}</span>
                         </div>
                       </div>
                     ))}
