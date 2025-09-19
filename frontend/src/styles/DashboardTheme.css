@@ -144,12 +144,25 @@
   border: none !important;
   background: transparent !important;
   box-shadow: none !important;
+  outline: none !important;
 }
 
 [data-theme="dark"] [data-notification-button]:hover,
 [data-theme="light"] [data-notification-button]:hover {
   border: none !important;
   box-shadow: none !important;
+  outline: none !important;
+}
+
+/* More specific targeting for notification button */
+[data-theme="dark"] button[data-notification-button],
+[data-theme="light"] button[data-notification-button] {
+  border: 0 !important;
+  border-width: 0 !important;
+  border-style: none !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  background: transparent !important;
 }
 
 /* Main Dashboard Shimmer Background */
