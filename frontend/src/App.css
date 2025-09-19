@@ -808,14 +808,25 @@ body {
   position: relative;
 }
 
-/* Trading Highlights Pane Styling */
+/* Trading Highlights Pane Styling - Reduced spacing */
 .trading-highlights-pane {
   height: auto !important;
-  min-height: 140px !important;
+  min-height: 120px !important;
 }
 
 .trading-highlights-pane .grid {
-  min-height: 100px;
+  min-height: 80px;
+}
+
+/* Reduce CardHeader and CardContent padding globally */
+.pane-enhanced .card-header,
+.pane-enhanced .CardHeader {
+  padding: 0.75rem 0.75rem 0.375rem 0.75rem !important;
+}
+
+.pane-enhanced .card-content,
+.pane-enhanced .CardContent {
+  padding: 0.375rem 0.75rem 0.75rem 0.75rem !important;
 }
 
 .pane-enhanced .absolute {
