@@ -5081,7 +5081,7 @@ metadata = {
                 <DropdownMenuContent align="end" className="dropdown-menu-content w-80">
                   <div className="p-4 space-y-4">
                     <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Filter Dashboard Data by Date Range
+                      Filter Data by Date Range
                     </div>
                     
                     {/* Quick Date Range Options */}
