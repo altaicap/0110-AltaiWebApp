@@ -3604,8 +3604,21 @@ metadata = {
           <Card className="relative pane-enhanced">
             <PaneControls paneId="positions" />
             <CardHeader className="pb-2">
-              <CardTitle className="text-lg">Positions</CardTitle>
-              <CardDescription className="text-xs">Current open positions</CardDescription>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-lg">Positions</CardTitle>
+                  <CardDescription className="text-xs">Current open positions</CardDescription>
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="text-xs"
+                  onClick={() => setShowPositionsColumnSettings(true)}
+                >
+                  <Settings2 className="h-3 w-3 mr-1" />
+                  Columns
+                </Button>
+              </div>
             </CardHeader>
             {!minimizedPanes.has('positions') && (
               <CardContent className="pt-0">
@@ -3613,31 +3626,58 @@ metadata = {
                   <table className="w-full text-xs">
                     <thead className="border-b border-gray-200 dark:border-gray-700">
                       <tr className="text-left">
-                        <th className="pb-1 cursor-pointer hover:text-green-500" onClick={() => handleSort('ticker')}>
-                          Ticker {getSortIcon('ticker')}
-                        </th>
-                        <th className="pb-1 cursor-pointer hover:text-green-500" onClick={() => handleSort('pnlPercent')}>
-                          % PnL {getSortIcon('pnlPercent')}
-                        </th>
-                        <th className="pb-1 cursor-pointer hover:text-green-500" onClick={() => handleSort('pnlDollar')}>
-                          $ PnL {getSortIcon('pnlDollar')}
-                        </th>
-                        <th className="pb-1 cursor-pointer hover:text-green-500" onClick={() => handleSort('strategy')}>
-                          Strategy {getSortIcon('strategy')}
-                        </th>
+                        {positionsColumns
+                          .filter(col => col.visible)
+                          .sort((a, b) => a.order - b.order)
+                          .map(column => (
+                            <th 
+                              key={column.id}
+                              className="pb-1 cursor-pointer hover:text-green-500 px-1 text-xs font-medium" 
+                              onClick={() => handleSort(column.id)}
+                            >
+                              {column.label} {getSortIcon(column.id)}
+                            </th>
+                          ))
+                        }
                       </tr>
                     </thead>
-                    <tbody className="text-xs">
+                    <tbody>
                       {sortedPositions.map((position, index) => (
-                        <tr key={index} className="border-b border-gray-100 dark:border-gray-800">
-                          <td className="py-1 font-medium">{position.ticker}</td>
-                          <td className={`py-1 ${position.pnlPercent >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                            {position.pnlPercent >= 0 ? '+' : ''}{position.pnlPercent.toFixed(2)}%
-                          </td>
-                          <td className={`py-1 ${position.pnlDollar >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                            {position.pnlDollar >= 0 ? '+' : ''}${position.pnlDollar.toFixed(2)}
-                          </td>
-                          <td className="py-1 text-gray-500 text-xs">{position.strategy}</td>
+                        <tr key={index} className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                          {positionsColumns
+                            .filter(col => col.visible)
+                            .sort((a, b) => a.order - b.order)
+                            .map(column => {
+                              const value = position[column.id];
+                              let displayValue = value;
+                              let className = "py-2 px-1 text-xs";
+                              
+                              // Format values based on column type
+                              if (column.id === 'costBasis' || column.id === 'currentPrice') {
+                                displayValue = `$${value.toFixed(2)}`;
+                              } else if (column.id === 'quantity') {
+                                displayValue = value.toLocaleString();
+                              } else if (column.id.includes('pnlPercent')) {
+                                const isPositive = value >= 0;
+                                displayValue = `${isPositive ? '+' : ''}${value.toFixed(2)}%`;
+                                className += isPositive ? ' text-green-500' : ' text-red-500';
+                              } else if (column.id.includes('pnlDollar')) {
+                                const isPositive = value >= 0;
+                                displayValue = `${isPositive ? '+' : ''}$${Math.abs(value).toFixed(2)}`;
+                                className += isPositive ? ' text-green-500' : ' text-red-500';
+                              } else if (column.id === 'ticker') {
+                                className += ' font-medium';
+                              } else if (column.id === 'strategy') {
+                                className += ' text-gray-500';
+                              }
+                              
+                              return (
+                                <td key={column.id} className={className}>
+                                  {displayValue}
+                                </td>
+                              );
+                            })
+                          }
                         </tr>
                       ))}
                     </tbody>
