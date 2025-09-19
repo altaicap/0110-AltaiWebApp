@@ -3619,9 +3619,9 @@ metadata = {
                         currency: 'USD'
                       })}
                     </div>
-                    {equityBenchmark !== 'None' && (
+                    {equityBenchmarkInput && equityBenchmarkInput !== '' && (
                       <div className="text-blue-500 font-medium">
-                        {equityBenchmark}: +12.4% YTD
+                        {equityBenchmarkInput}: +12.4% YTD
                       </div>
                     )}
                   </div>
