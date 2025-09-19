@@ -434,6 +434,7 @@ function App() {
   // Dashboard state
   const [selectedDashboardAccount, setSelectedDashboardAccount] = useState('all');
   const [dashboardMonth, setDashboardMonth] = useState(new Date());
+  const [showInRupees, setShowInRupees] = useState(false);
   const [dashboardData, setDashboardData] = useState({
     dailyNetPL: 2450.75,
     cumulativePLHistory: [
