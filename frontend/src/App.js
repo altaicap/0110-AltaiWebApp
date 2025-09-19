@@ -2706,19 +2706,22 @@ metadata = {
 
           {/* Row 2: Uploaded Strategies */}
           <Card className={`relative pane-enhanced ${fullScreenPane === 'uploaded-strategies' ? 'fullscreen-enhanced' : ''}`}>
-            <FullScreenButton paneId="uploaded-strategies" />
+            <PaneControls paneId="uploaded-strategies">
+              <Button 
+                onClick={() => setShowNewStrategyModal(true)} 
+                className="bg-green-600 hover:bg-green-700 dark:bg-green-600 dark:hover:bg-green-700 text-white"
+                size="sm"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                New Strategy
+              </Button>
+            </PaneControls>
             <CardHeader>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <CardTitle className="text-lg">Uploaded Strategies</CardTitle>
-                  <Badge variant="secondary">
-                    {strategies.length}
-                  </Badge>
-                </div>
-                <Button onClick={() => setShowNewStrategyModal(true)} className="bg-blue-600 hover:bg-blue-700">
-                  <Plus className="w-4 h-4 mr-2" />
-                  New Strategy
-                </Button>
+              <div className="flex items-center gap-3">
+                <CardTitle className="text-lg">Uploaded Strategies</CardTitle>
+                <Badge variant="secondary">
+                  {strategies.length}
+                </Badge>
               </div>
               <CardDescription>
                 Base strategy templates available for configuration
