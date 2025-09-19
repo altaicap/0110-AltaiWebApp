@@ -1472,11 +1472,11 @@
 
 /* EXISTING DASHBOARD STYLES CONTINUE... */
 
-/* Generic UI icon theming - GREEN ACCENT */
-[data-theme="dark"] .icon,
-[data-theme="dark"] .btn-icon > svg,
-[data-theme="dark"] button:not(.theme-toggle):not(.llm-send-btn) svg,
-[data-theme="dark"] [role="button"]:not(.theme-toggle) svg {
+/* Generic UI icon theming - GREEN ACCENT (excluding sun icons) */
+[data-theme="dark"] .icon:not(.lucide-sun):not([data-icon="sun"]),
+[data-theme="dark"] .btn-icon > svg:not(.lucide-sun):not([data-icon="sun"]),
+[data-theme="dark"] button:not(.theme-toggle):not(.llm-send-btn) svg:not(.lucide-sun):not([data-icon="sun"]),
+[data-theme="dark"] [role="button"]:not(.theme-toggle) svg:not(.lucide-sun):not([data-icon="sun"]) {
   color: var(--dashboard-accent) !important; /* Green for generic UI */
   opacity: 0.8;
   transition: all 0.15s ease;
