@@ -6694,4 +6694,102 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
   );
 };
 
+// Positions Column Settings Modal
+const PositionsColumnSettings = ({ isOpen, onClose, columns, setColumns }) => {
+  const [tempColumns, setTempColumns] = useState([...columns]);
+  
+  const handleSave = () => {
+    setColumns(tempColumns);
+    onClose();
+  };
+  
+  const handleCancel = () => {
+    setTempColumns([...columns]);
+    onClose();
+  };
+  
+  const toggleColumnVisibility = (columnId) => {
+    setTempColumns(prev => 
+      prev.map(col => 
+        col.id === columnId ? { ...col, visible: !col.visible } : col
+      )
+    );
+  };
+  
+  const moveColumn = (columnId, direction) => {
+    const currentIndex = tempColumns.findIndex(col => col.id === columnId);
+    const newIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
+    
+    if (newIndex >= 0 && newIndex < tempColumns.length) {
+      const newColumns = [...tempColumns];
+      [newColumns[currentIndex], newColumns[newIndex]] = [newColumns[newIndex], newColumns[currentIndex]];
+      
+      // Update order values
+      newColumns.forEach((col, index) => {
+        col.order = index;
+      });
+      
+      setTempColumns(newColumns);
+    }
+  };
+  
+  if (!isOpen) return null;
+  
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md mx-4">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold">Column Settings</h2>
+          <Button variant="ghost" size="sm" onClick={handleCancel}>
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
+        
+        <div className="space-y-2 max-h-64 overflow-y-auto">
+          {tempColumns.map((column, index) => (
+            <div key={column.id} className="flex items-center justify-between p-2 border rounded">
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={column.visible}
+                  onChange={() => toggleColumnVisibility(column.id)}
+                  className="rounded"
+                />
+                <span className="text-sm">{column.label}</span>
+              </div>
+              <div className="flex gap-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => moveColumn(column.id, 'up')}
+                  disabled={index === 0}
+                >
+                  <ChevronUp className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => moveColumn(column.id, 'down')}
+                  disabled={index === tempColumns.length - 1}
+                >
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        <div className="flex gap-2 mt-4">
+          <Button onClick={handleSave} className="flex-1">
+            Save Changes
+          </Button>
+          <Button variant="outline" onClick={handleCancel}>
+            Cancel
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default App;
