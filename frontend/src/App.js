@@ -3398,7 +3398,6 @@ metadata = {
 
               </div>
             </CardContent>
-          )}
         </Card>
 
         {/* Dashboard Grid */}
@@ -4294,7 +4293,6 @@ metadata = {
                 </div>
               </div>
             </CardContent>
-          )}
         </Card>
 
         {/* Backtest Trade Log */}
