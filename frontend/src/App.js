@@ -3791,7 +3791,7 @@ metadata = {
             </CardHeader>
             {!minimizedPanes.has('recent-entries') && (
               <CardContent className="pt-0">
-                <div className="h-48 overflow-y-auto">
+                <div className="h-80 overflow-y-auto">
                   <div className="space-y-2">
                     {[
                       { ticker: 'AAPL', entryPrice: 192.41, quantity: 100, entryDate: '2024-09-19', strategy: 'Prior Bar Break Algo' },
