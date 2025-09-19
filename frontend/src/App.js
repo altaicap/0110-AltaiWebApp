@@ -6512,19 +6512,7 @@ const ChatInterface = ({
             </Button>
           </div>
           
-          {/* LLM Selector */}
-          <div className="composer-controls">
-            <Label htmlFor="llm-selector" className="text-sm">LLM:</Label>
-            <Select value={selectedLLM} onValueChange={setSelectedLLM}>
-              <SelectTrigger className="w-32" id="llm-selector">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="chatgpt">ChatGPT</SelectItem>
-                <SelectItem value="claude">Claude</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          {/* Remove LLM Selector - Extended text input area */}
           
           {/* Attached Files */}
           {attachedFiles.length > 0 && (
