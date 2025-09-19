@@ -1485,13 +1485,63 @@ metadata = {
     return positionsSortDirection === 'asc' ? '↑' : '↓';
   };
 
-  // Mock positions data for sorting
+  // Mock positions data with all required columns
   const mockPositions = [
-    { ticker: 'AAPL', pnlPercent: 1.57, pnlDollar: 275, strategy: 'Prior Bar Break Algo' },
-    { ticker: 'MSFT', pnlPercent: -0.45, pnlDollar: -95, strategy: 'Prior Bar Break Algo' },
-    { ticker: 'TSLA', pnlPercent: 1.28, pnlDollar: 180, strategy: 'Prior Bar Break Algo' },
-    { ticker: 'GOOGL', pnlPercent: -0.32, pnlDollar: -65, strategy: 'Prior Bar Break Algo' },
-    { ticker: 'NVDA', pnlPercent: 2.15, pnlDollar: 420, strategy: 'Prior Bar Break Algo' }
+    { 
+      ticker: 'AAPL', 
+      costBasis: 185.50, 
+      quantity: 100, 
+      currentPrice: 192.41, 
+      pnlPercentToday: 0.78, 
+      pnlDollarToday: 124.50, 
+      pnlPercent: 3.73, 
+      pnlDollar: 691.00, 
+      strategy: 'Prior Bar Break Algo' 
+    },
+    { 
+      ticker: 'MSFT', 
+      costBasis: 425.30, 
+      quantity: 50, 
+      currentPrice: 421.85, 
+      pnlPercentToday: -0.32, 
+      pnlDollarToday: -67.80, 
+      pnlPercent: -0.81, 
+      pnlDollar: -172.50, 
+      strategy: 'Prior Bar Break Algo' 
+    },
+    { 
+      ticker: 'TSLA', 
+      costBasis: 245.80, 
+      quantity: 75, 
+      currentPrice: 252.95, 
+      pnlPercentToday: 1.45, 
+      pnlDollarToday: 268.12, 
+      pnlPercent: 2.91, 
+      pnlDollar: 536.25, 
+      strategy: 'Prior Bar Break Algo' 
+    },
+    { 
+      ticker: 'GOOGL', 
+      costBasis: 168.75, 
+      quantity: 25, 
+      currentPrice: 165.20, 
+      pnlPercentToday: -0.68, 
+      pnlDollarToday: -28.75, 
+      pnlPercent: -2.10, 
+      pnlDollar: -88.75, 
+      strategy: 'Prior Bar Break Algo' 
+    },
+    { 
+      ticker: 'NVDA', 
+      costBasis: 118.45, 
+      quantity: 150, 
+      currentPrice: 125.20, 
+      pnlPercentToday: 2.14, 
+      pnlDollarToday: 320.50, 
+      pnlPercent: 5.70, 
+      pnlDollar: 1012.50, 
+      strategy: 'Prior Bar Break Algo' 
+    }
   ];
 
   const sortedPositions = [...mockPositions].sort((a, b) => {
