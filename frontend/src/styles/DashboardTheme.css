@@ -342,6 +342,8 @@
   box-sizing: border-box;
   height: 3.25rem; /* Increased to accommodate larger tabs */
   min-height: 3.25rem;
+  /* Remove transition that causes bounce effect */
+  transition: none !important;
 }
 
 [data-theme="dark"] [role="tab"] {
