@@ -4963,6 +4963,57 @@ metadata = {
                   )}
                 </Button>
               </div>
+
+              {/* Account Selector Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className={`text-xs connection-status-button ${isDarkTheme ? 'text-gray-300 border-gray-600 hover:bg-gray-700' : ''}`}>
+                    {selectedDashboardAccount === 'all' ? 'All Accounts Combined' : 
+                     selectedDashboardAccount === 'tradestation' ? 'TradeStation Account' :
+                     selectedDashboardAccount === 'ibkr' ? 'Interactive Brokers' :
+                     selectedDashboardAccount === 'paper' ? 'Paper Trading Account' : 'All Accounts Combined'}
+                    <ChevronDown className="h-3 w-3 ml-1" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="dropdown-menu-content">
+                  <DropdownMenuItem 
+                    className="cursor-pointer dropdown-menu-item"
+                    onClick={() => setSelectedDashboardAccount('all')}
+                  >
+                    <div className="flex items-center gap-2 w-full">
+                      <span className="flex-1">All Accounts Combined</span>
+                      {selectedDashboardAccount === 'all' && <CheckCircle className="h-3 w-3" />}
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    className="cursor-pointer dropdown-menu-item"
+                    onClick={() => setSelectedDashboardAccount('tradestation')}
+                  >
+                    <div className="flex items-center gap-2 w-full">
+                      <span className="flex-1">TradeStation Account</span>
+                      {selectedDashboardAccount === 'tradestation' && <CheckCircle className="h-3 w-3" />}
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    className="cursor-pointer dropdown-menu-item"
+                    onClick={() => setSelectedDashboardAccount('ibkr')}
+                  >
+                    <div className="flex items-center gap-2 w-full">
+                      <span className="flex-1">Interactive Brokers</span>
+                      {selectedDashboardAccount === 'ibkr' && <CheckCircle className="h-3 w-3" />}
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    className="cursor-pointer dropdown-menu-item"
+                    onClick={() => setSelectedDashboardAccount('paper')}
+                  >
+                    <div className="flex items-center gap-2 w-full">
+                      <span className="flex-1">Paper Trading Account</span>
+                      {selectedDashboardAccount === 'paper' && <CheckCircle className="h-3 w-3" />}
+                    </div>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               
               {/* Connection Status Dropdown */}
               <DropdownMenu>
