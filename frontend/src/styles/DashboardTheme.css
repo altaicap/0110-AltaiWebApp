@@ -1442,6 +1442,15 @@
   opacity: 1 !important;
 }
 
+/* Additional sun icon targeting for better specificity */
+[data-theme="dark"] button:has(svg[data-icon="sun"]) svg,
+[data-theme="dark"] [aria-label*="theme"] svg,
+[data-theme="dark"] [title*="theme"] svg {
+  color: #F59E0B !important;
+  fill: #F59E0B !important;
+  stroke: #F59E0B !important;
+}
+
 /* Remove blue hover background from theme toggle buttons */
 [data-theme="dark"] .theme-toggle button:hover,
 [data-theme="dark"] button:has(.sun-icon):hover {
