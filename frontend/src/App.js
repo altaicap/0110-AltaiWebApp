@@ -3678,6 +3678,137 @@ metadata = {
           </Card>
 
         </div>
+        {/* Positions and Realised PnL Row */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+          
+          {/* Positions Pane */}
+          <Card className="relative pane-enhanced">
+            <PaneControls paneId="positions" />
+            <CardHeader>
+              <CardTitle>Positions</CardTitle>
+              <CardDescription>Current open positions and exposure</CardDescription>
+            </CardHeader>
+            {!minimizedPanes.has('positions') && (
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Symbol</TableHead>
+                        <TableHead>Side</TableHead>
+                        <TableHead>Quantity</TableHead>
+                        <TableHead>Entry Price</TableHead>
+                        <TableHead>Current Price</TableHead>
+                        <TableHead>Unrealized P&L</TableHead>
+                        <TableHead>Strategy</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="font-semibold">AAPL</TableCell>
+                        <TableCell>
+                          <Badge variant="outline" className="text-green-600 border-green-600">Long</Badge>
+                        </TableCell>
+                        <TableCell>100</TableCell>
+                        <TableCell>$175.50</TableCell>
+                        <TableCell>$178.25</TableCell>
+                        <TableCell className="text-green-600">+$275.00</TableCell>
+                        <TableCell className="text-sm text-gray-600">Prior Bar Break Algo</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-semibold">MSFT</TableCell>
+                        <TableCell>
+                          <Badge variant="outline" className="text-green-600 border-green-600">Long</Badge>
+                        </TableCell>
+                        <TableCell>50</TableCell>
+                        <TableCell>$420.80</TableCell>
+                        <TableCell>$418.90</TableCell>
+                        <TableCell className="text-red-600">-$95.00</TableCell>
+                        <TableCell className="text-sm text-gray-600">Prior Bar Break Algo</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-semibold">TSLA</TableCell>
+                        <TableCell>
+                          <Badge variant="outline" className="text-red-600 border-red-600">Short</Badge>
+                        </TableCell>
+                        <TableCell>25</TableCell>
+                        <TableCell>$245.30</TableCell>
+                        <TableCell>$242.15</TableCell>
+                        <TableCell className="text-green-600">+$78.75</TableCell>
+                        <TableCell className="text-sm text-gray-600">Prior Bar Break Algo</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </div>
+                <div className="mt-4 pt-4 border-t">
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-gray-600">Total Unrealized P&L:</span>
+                    <span className="font-semibold text-green-600">+$258.75</span>
+                  </div>
+                </div>
+              </CardContent>
+            )}
+          </Card>
+
+          {/* Realised PnL Pane */}
+          <Card className="relative pane-enhanced">
+            <PaneControls paneId="realised-pnl" />
+            <CardHeader>
+              <CardTitle>Realised PnL</CardTitle>
+              <CardDescription>Closed positions and realized profits/losses</CardDescription>
+            </CardHeader>
+            {!minimizedPanes.has('realised-pnl') && (
+              <CardContent>
+                <div className="space-y-4">
+                  {/* Summary Stats */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="text-center p-3 bg-green-50 rounded-lg">
+                      <div className="text-2xl font-bold text-green-600">
+                        ${(dashboardData.totalRealizedPL || 23750.50).toLocaleString()}
+                      </div>
+                      <div className="text-sm text-gray-600">Total Realized</div>
+                    </div>
+                    <div className="text-center p-3 bg-blue-50 rounded-lg">
+                      <div className="text-2xl font-bold text-blue-600">
+                        {(dashboardData.winRateTrades || 67.8)}%
+                      </div>
+                      <div className="text-sm text-gray-600">Win Rate</div>
+                    </div>
+                  </div>
+
+                  {/* Recent Realized Trades */}
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Date</TableHead>
+                          <TableHead>Symbol</TableHead>
+                          <TableHead>P&L</TableHead>
+                          <TableHead>R-Return</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {dashboardData.recentTrades.slice(0, 5).map((trade) => (
+                          <TableRow key={trade.id}>
+                            <TableCell className="text-sm">{trade.closeDate}</TableCell>
+                            <TableCell className="font-semibold">{trade.ticker}</TableCell>
+                            <TableCell className={trade.netPL.startsWith('+') ? 'text-green-600' : 'text-red-600'}>
+                              {trade.netPL}
+                            </TableCell>
+                            <TableCell className={trade.rUnits.startsWith('+') ? 'text-green-600' : 'text-red-600'}>
+                              {trade.rUnits}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </div>
+              </CardContent>
+            )}
+          </Card>
+
+        </div>
       </div>
     );
   };
