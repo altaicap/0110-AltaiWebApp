@@ -5078,7 +5078,7 @@ metadata = {
                     <ChevronDown className="h-3 w-3 ml-1" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="dropdown-menu-content w-80">
+                <DropdownMenuContent align="end" className="dropdown-menu-content w-80 date-range-dropdown">
                   <div className="p-4 space-y-4">
                     <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
                       Filter Data by Date Range
