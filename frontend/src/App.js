@@ -436,11 +436,14 @@ function App() {
   const [dashboardMonth, setDashboardMonth] = useState(new Date());
   const [showInRupees, setShowInRupees] = useState(false);
   
-  // Date range filter state
-  const [dateRangeFilter, setDateRangeFilter] = useState({
-    startDate: '2024-09-01',
-    endDate: '2024-09-19',
-    isCustomRange: true
+  // Date range filter state - Load from localStorage if available
+  const [dateRangeFilter, setDateRangeFilter] = useState(() => {
+    const saved = localStorage.getItem('altai_date_range_filter');
+    return saved ? JSON.parse(saved) : {
+      startDate: '2024-09-01',
+      endDate: '2024-09-19',
+      isCustomRange: true
+    };
   });
   const [dashboardData, setDashboardData] = useState({
     dailyNetPL: 2450.75,
