@@ -802,9 +802,9 @@ body {
   padding: 1rem 0.75rem !important;
 }
 
-/* Enhanced Pane Corner Padding */
+/* Enhanced Pane Corner Padding - Reduced by 50% for more chart/table space */
 .pane-enhanced {
-  padding: 1.5rem !important;
+  padding: 0.75rem !important;
   position: relative;
 }
 
