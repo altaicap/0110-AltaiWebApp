@@ -2093,7 +2093,7 @@ metadata = {
                 className="flex items-center gap-2 p-0 h-auto font-semibold text-left w-full justify-start"
               >
                 <ChevronDown className={`h-4 w-4 transition-transform ${connectivityCollapsed.newsIntegrations ? '-rotate-90' : ''}`} />
-                News Integrations
+                <span className="text-base font-semibold">News Integrations</span>
               </Button>
               
               {!connectivityCollapsed.newsIntegrations && (
