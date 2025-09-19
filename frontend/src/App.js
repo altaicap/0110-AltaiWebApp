@@ -3852,8 +3852,8 @@ metadata = {
                 <div className="h-48 w-full">
                   {/* Calendar Grid */}
                   <div className="grid grid-cols-7 gap-1 text-xs">
-                    {/* Header row */}
-                    {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                    {/* Header row - Monday to Sunday */}
+                    {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
                       <div key={day} className="text-center font-medium text-gray-500 py-1">
                         {day}
                       </div>
@@ -3864,7 +3864,9 @@ metadata = {
                       const calendar = [];
                       const year = dashboardMonth.getFullYear();
                       const month = dashboardMonth.getMonth();
-                      const firstDay = new Date(year, month, 1).getDay();
+                      const firstDayOfMonth = new Date(year, month, 1).getDay();
+                      // Convert Sunday=0 to Monday=0 system (0=Monday, 6=Sunday)
+                      const firstDay = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
                       const daysInMonth = new Date(year, month + 1, 0).getDate();
                       
                       // Mock trading data for calendar
