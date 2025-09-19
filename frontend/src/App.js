@@ -3822,22 +3822,21 @@ metadata = {
 
           {/* Bottom Left: Calendar */}
           <Card className="relative pane-enhanced">
-            <PaneControls paneId="calendar" />
+            <PaneControls paneId="calendar">
+              <Button variant="outline" size="sm" className="text-xs">
+                This month
+              </Button>
+            </PaneControls>
             <CardHeader className="pb-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Button variant="ghost" size="sm" onClick={() => navigateMonth(-1)}>
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <CardTitle className="text-lg">
-                    {monthNames[dashboardMonth.getMonth()]} {dashboardMonth.getFullYear()}
-                  </CardTitle>
-                  <Button variant="ghost" size="sm" onClick={() => navigateMonth(1)}>
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                </div>
-                <Button variant="outline" size="sm" className="text-xs">
-                  This month
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="sm" onClick={() => navigateMonth(-1)}>
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <CardTitle className="text-lg">
+                  {monthNames[dashboardMonth.getMonth()]} {dashboardMonth.getFullYear()}
+                </CardTitle>
+                <Button variant="ghost" size="sm" onClick={() => navigateMonth(1)}>
+                  <ChevronRight className="h-4 w-4" />
                 </Button>
               </div>
             </CardHeader>
