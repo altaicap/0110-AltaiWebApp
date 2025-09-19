@@ -435,6 +435,7 @@ function App() {
   const [selectedDashboardAccount, setSelectedDashboardAccount] = useState('all');
   const [dashboardMonth, setDashboardMonth] = useState(new Date());
   const [showInRupees, setShowInRupees] = useState(false);
+  const [pnlViewMode, setPnlViewMode] = useState('cumulative');
   
   // Date range filter state - Load from localStorage if available
   const [dateRangeFilter, setDateRangeFilter] = useState(() => {
