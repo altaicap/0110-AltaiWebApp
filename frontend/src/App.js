@@ -3608,7 +3608,7 @@ metadata = {
             </CardHeader>
             {!minimizedPanes.has('equity-curve') && (
               <CardContent className="pt-0">
-                <div className="h-48 w-full">
+                <div className="h-80 w-full">
                   <div className="mb-2 flex items-center justify-between text-sm">
                     <div className="text-green-600 font-medium">
                       Portfolio: {(dashboardData.currentAccountValue || 125750.00).toLocaleString('en-US', {
