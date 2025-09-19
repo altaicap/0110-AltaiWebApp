@@ -1548,11 +1548,11 @@
   opacity: 1 !important;
 }
 
-/* Light theme hover states */
-[data-theme="light"] .icon:hover,
-[data-theme="light"] .btn-icon:hover > svg,
-[data-theme="light"] button:not(.theme-toggle):hover svg,
-[data-theme="light"] [role="button"]:not(.theme-toggle):hover svg {
+/* Light theme hover states (excluding sun icons) */
+[data-theme="light"] .icon:not(.lucide-sun):not([data-icon="sun"]):hover,
+[data-theme="light"] .btn-icon:hover > svg:not(.lucide-sun):not([data-icon="sun"]),
+[data-theme="light"] button:not(.theme-toggle):hover svg:not(.lucide-sun):not([data-icon="sun"]),
+[data-theme="light"] [role="button"]:not(.theme-toggle):hover svg:not(.lucide-sun):not([data-icon="sun"]) {
   opacity: 1.0;
 }
 
