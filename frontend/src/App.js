@@ -476,7 +476,8 @@ function App() {
     profitFactor: 2.14,   // Profit factor (gross profit / gross loss)
     avgWin: 150,          // Average win in USD
     avgLoss: 70,          // Average loss in USD
-    currentAccountValue: 125750.00  // Current account value
+    currentAccountValue: 125750.00,  // Current account value
+    totalRealizedPL: 23750.50       // Total realized P&L
   });
   const [integrationStatus, setIntegrationStatus] = useState({
     polygon: 'connected',
