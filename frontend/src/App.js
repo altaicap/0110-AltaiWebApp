@@ -3448,7 +3448,7 @@ metadata = {
                         onClick={() => setPnlViewMode('daily')}
                       >
                         <div className="flex items-center gap-2 w-full">
-                          <span className="flex-1">Net Daily P&L</span>
+                          <span className="flex-1">Net Daily PnL</span>
                           {pnlViewMode === 'daily' && <CheckCircle className="h-3 w-3" />}
                         </div>
                       </DropdownMenuItem>
