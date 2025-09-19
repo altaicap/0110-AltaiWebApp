@@ -2375,24 +2375,7 @@ metadata = {
     return (
       <div className="space-y-6">
         <div className="tab-header-enhanced">
-          <div className="flex items-center justify-between">
-            <div>
-              {/* Removed STRATEGIES title and description */}
-            </div>
-            
-            {/* Removed strategy counters */}
-            
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between mb-6">
-          <div className="text-sm text-gray-500">
-            Configure strategies in the Backtest tab by clicking "Save Configuration" to enable live trading.
-          </div>
-          <Button onClick={() => setShowNewStrategyModal(true)} className="bg-blue-600 hover:bg-blue-700">
-            <Plus className="w-4 h-4 mr-2" />
-            New Strategy
-          </Button>
+          {/* Removed STRATEGIES title and description - Instructional text removed and New Strategy button moved to Uploaded Strategies pane */}
         </div>
 
         {/* Three Row Layout - Configured, Uploaded, Archive */}
