@@ -187,7 +187,9 @@
 }
 
 [data-theme="dark"] [role="menuitem"],
-[data-theme="dark"] .dropdown-menu-item {
+[data-theme="dark"] .dropdown-menu-item,
+[data-theme="dark"] .dropdown-menu-content .relative.flex.select-none,
+[data-theme="dark"] .dropdown-menu-content div[class*="relative"][class*="flex"][class*="select-none"] {
   color: var(--dashboard-fg) !important;
   background: transparent !important; /* Remove individual item backgrounds */
   border: none !important; /* Remove individual item borders */
