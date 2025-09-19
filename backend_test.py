@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 from typing import Dict, Any
 
 class TradingIntegrationTester:
-    def __init__(self, base_url="https://ui-enhancement-39.preview.emergentagent.com"):
+    def __init__(self, base_url="https://altai-ux-revamp.preview.emergentagent.com"):
         self.base_url = base_url
         self.tests_run = 0
         self.tests_passed = 0
@@ -701,7 +701,7 @@ class TradingIntegrationTester:
 
 
 class Phase1AuthBillingTester:
-    def __init__(self, base_url="https://ui-enhancement-39.preview.emergentagent.com"):
+    def __init__(self, base_url="https://altai-ux-revamp.preview.emergentagent.com"):
         self.base_url = base_url
         self.tests_run = 0
         self.tests_passed = 0
@@ -1397,7 +1397,7 @@ class Phase1AuthBillingTester:
         return self.tests_passed == self.tests_run
 
 class Feedback80Tester:
-    def __init__(self, base_url="https://ui-enhancement-39.preview.emergentagent.com"):
+    def __init__(self, base_url="https://altai-ux-revamp.preview.emergentagent.com"):
         self.base_url = base_url
         self.tests_run = 0
         self.tests_passed = 0
@@ -1822,7 +1822,7 @@ class Feedback80Tester:
 
 
 class SupportEndpointTester:
-    def __init__(self, base_url="https://ui-enhancement-39.preview.emergentagent.com"):
+    def __init__(self, base_url="https://altai-ux-revamp.preview.emergentagent.com"):
         self.base_url = base_url
         self.tests_run = 0
         self.tests_passed = 0
@@ -2185,7 +2185,7 @@ class SupportEndpointTester:
 
 
 class LLMChatIntegrationTester:
-    def __init__(self, base_url="https://ui-enhancement-39.preview.emergentagent.com"):
+    def __init__(self, base_url="https://altai-ux-revamp.preview.emergentagent.com"):
         self.base_url = base_url
         self.tests_run = 0
         self.tests_passed = 0
@@ -2693,7 +2693,7 @@ class LLMChatIntegrationTester:
 
 class ReviewRequestTester:
     """Test suite for the specific review request areas"""
-    def __init__(self, base_url="https://ui-enhancement-39.preview.emergentagent.com"):
+    def __init__(self, base_url="https://altai-ux-revamp.preview.emergentagent.com"):
         self.base_url = base_url
         self.tests_run = 0
         self.tests_passed = 0

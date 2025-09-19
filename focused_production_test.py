@@ -11,7 +11,7 @@ import time
 from datetime import datetime, timedelta
 
 class FocusedProductionTester:
-    def __init__(self, base_url="https://ui-enhancement-39.preview.emergentagent.com"):
+    def __init__(self, base_url="https://altai-ux-revamp.preview.emergentagent.com"):
         self.base_url = base_url
         self.tests_run = 0
         self.tests_passed = 0
