@@ -446,6 +446,23 @@ function App() {
   const [positionsSortField, setPositionsSortField] = useState('ticker');
   const [positionsSortDirection, setPositionsSortDirection] = useState('asc');
   
+  // Chart unit toggle state ($ or R-Unit)
+  const [chartUnits, setChartUnits] = useState('dollar'); // 'dollar' or 'runit'
+  
+  // Positions column settings
+  const [positionsColumns, setPositionsColumns] = useState([
+    { id: 'ticker', label: 'Ticker', visible: true, order: 0 },
+    { id: 'costBasis', label: 'Cost Basis', visible: true, order: 1 },
+    { id: 'quantity', label: 'Quantity', visible: true, order: 2 },
+    { id: 'currentPrice', label: 'Current Price', visible: true, order: 3 },
+    { id: 'pnlPercentToday', label: '% PnL Today', visible: true, order: 4 },
+    { id: 'pnlDollarToday', label: '$ PnL Today', visible: true, order: 5 },
+    { id: 'pnlPercent', label: '% PnL', visible: true, order: 6 },
+    { id: 'pnlDollar', label: '$ PnL', visible: true, order: 7 },
+    { id: 'strategy', label: 'Strategy', visible: true, order: 8 }
+  ]);
+  const [showPositionsColumnSettings, setShowPositionsColumnSettings] = useState(false);
+  
   // Date range filter state - Load from localStorage if available
   const [dateRangeFilter, setDateRangeFilter] = useState(() => {
     const saved = localStorage.getItem('altai_date_range_filter');
