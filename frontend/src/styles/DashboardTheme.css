@@ -443,6 +443,11 @@
   justify-content: center !important;
   line-height: 1 !important; /* Reset line height */
   padding: 0 12px !important; /* Consistent horizontal padding */
+  /* Force override any conflicting inset values */
+  top: unset !important;
+  bottom: unset !important;
+  left: unset !important;
+  right: unset !important;
 }
 
 /* Active tab icons in light theme - use stroke for better visibility of complex icons */
