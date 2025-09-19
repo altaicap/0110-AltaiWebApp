@@ -336,8 +336,8 @@
   overflow: hidden !important;
   position: relative;
   box-sizing: border-box;
-  height: 2.75rem;
-  min-height: 2.75rem;
+  height: 3.25rem; /* Increased to accommodate larger tabs */
+  min-height: 3.25rem;
 }
 
 [data-theme="dark"] [role="tab"] {
