@@ -4969,7 +4969,11 @@ metadata = {
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  className={`relative ${isDarkTheme ? 'text-gray-300 hover:text-white hover:bg-gray-700' : ''}`} 
+                  onClick={() => {
+                    // Handle notification click - could open notification panel
+                    console.log('Notifications clicked');
+                  }}
+                  className={`relative p-2 hover:bg-opacity-10 ${isDarkTheme ? 'text-gray-300 hover:text-white hover:bg-gray-700' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'}`} 
                   data-notification-button
                 >
                   <Bell className="h-4 w-4" />
