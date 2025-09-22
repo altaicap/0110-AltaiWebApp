@@ -3644,10 +3644,7 @@ metadata = {
                 <div className="h-80 w-full">
                   <div className="mb-2 flex items-center justify-between text-sm">
                     <div className="text-green-600 font-medium">
-                      Portfolio: {(dashboardData.currentAccountValue || 125750.00).toLocaleString('en-US', {
-                        style: 'currency',
-                        currency: 'USD'
-                      })}
+                      Portfolio: +{(dashboardData.portfolioReturnPercent || 18.7).toFixed(1)}%
                     </div>
                     {equityBenchmarkInput && equityBenchmarkInput !== '' && (
                       <div className="text-blue-500 font-medium">
