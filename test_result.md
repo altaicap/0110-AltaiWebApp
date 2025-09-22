@@ -58,7 +58,7 @@
 ##
 ## agent_communication:
 ##     -agent: "main"
-##     -message: "Implemented fixes for three dashboard header menu UI issues: 1) Enhanced sun icon CSS selectors to ensure full #F59E0B orange color on all properties (color, fill, stroke) with better specificity targeting, 2) Made dropdown containers more opaque by using var(--dashboard-bg-1) instead of var(--dashboard-bg) for both Connection Statuses and Alex Thompson dropdowns, added light theme equivalents, 3) Fixed tab selection pill alignment by adding flexbox centering properties and explicit inset values for proper vertical centering in both themes. All changes applied to DashboardTheme.css. Ready for testing."
+##     -message: "PRIORITY 1 COMPLETED ✅ - Calendar Pane Light Theme Fix: Successfully resolved calendar background color and text visibility issues by replacing Tailwind's dark: prefixes with custom CSS classes (calendar-day-green, calendar-day-red, calendar-day-blue, calendar-day-default) and comprehensive theme rules in DashboardTheme.css. Calendar now displays properly in both dark and light themes with colored backgrounds (7 red, 7 green, 4 blue, 12 default cells) and visible text (18 text elements confirmed, proper colors applied). Dropdown functionality preserved, R-Returns mode working correctly. Ready to proceed with Priority 2: Strategies Tab improvements."
 
 # Protocol Guidelines for Main agent
 #
