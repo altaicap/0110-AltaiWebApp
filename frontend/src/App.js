@@ -4139,14 +4139,14 @@ metadata = {
                         
                         if (dayData) {
                           if (dayData.color === 'green') {
-                            bgColor = 'bg-green-600 border-green-600';
-                            textColor = 'text-white';
+                            bgColor = 'bg-green-100 border-green-300 dark:bg-green-600 dark:border-green-600';
+                            textColor = 'text-green-800 dark:text-white';
                           } else if (dayData.color === 'red') {
-                            bgColor = 'bg-red-600 border-red-600';
-                            textColor = 'text-white';
+                            bgColor = 'bg-red-100 border-red-300 dark:bg-red-600 dark:border-red-600';
+                            textColor = 'text-red-800 dark:text-white';
                           } else if (dayData.color === 'blue') {
-                            bgColor = 'bg-blue-600 border-blue-600';
-                            textColor = 'text-white';
+                            bgColor = 'bg-blue-100 border-blue-300 dark:bg-blue-600 dark:border-blue-600';
+                            textColor = 'text-blue-800 dark:text-white';
                           }
                         }
                         
@@ -4155,12 +4155,7 @@ metadata = {
                             <div className="absolute top-1 left-1 font-medium text-xs text-gray-500 dark:text-gray-400">{day}</div>
                             {dayData && (
                               <div className="flex flex-col items-center justify-center h-full">
-                                <div className={`font-bold text-xs leading-tight text-center ${
-                                  dayData.color === 'green' ? 'text-green-600 dark:text-white' :
-                                  dayData.color === 'red' ? 'text-red-600 dark:text-white' :
-                                  dayData.color === 'blue' ? 'text-blue-600 dark:text-white' :
-                                  'text-gray-900 dark:text-gray-100'
-                                }`}>
+                                <div className="font-bold text-xs leading-tight text-center">
                                   {calendarViewMode === 'dollar' ? 
                                     (dayData.pnl === 0 ? '$0' : `${dayData.pnl > 0 ? '+' : ''}$${Math.abs(dayData.pnl) >= 1000 ? `${(dayData.pnl/1000).toFixed(1)}K` : dayData.pnl}`) :
                                   calendarViewMode === 'runit' ?
