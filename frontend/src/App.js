@@ -5035,7 +5035,7 @@ metadata = {
                 <Button 
                   size="sm" 
                   variant="outline"
-                  onClick={() => setShowColumnSettings(!showColumnSettings)}
+                  onClick={() => setShowTradeLogColumnSettings(!showTradeLogColumnSettings)}
                   className="flex items-center gap-2"
                 >
                   <Settings className="w-4 h-4" />
