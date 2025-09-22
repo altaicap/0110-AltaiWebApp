@@ -5177,60 +5177,6 @@ metadata = {
                 </TableBody>
               </Table>
             </ScrollArea>
-            
-            {/* Export CSV Button - Relocated to prevent overlap */}
-            <div className="flex justify-end mt-4">
-              <Button 
-                size="sm" 
-                variant="outline" 
-                onClick={() => {
-                  // Export trade log as CSV with selected columns
-                  const visibleColumns = Object.entries(tradeLogColumns)
-                    .filter(([_, visible]) => visible)
-                    .map(([col, _]) => col);
-                  
-                  const csvData = [
-                    visibleColumns,
-                    // Add sample data - in real app this would come from backtest results
-                    visibleColumns.map(col => {
-                      switch(col) {
-                        case 'Date/Time': return '2024-01-15 09:30:00';
-                        case 'Symbol': return 'AAPL';
-                        case 'Signal': return 'LONG';
-                        case 'Entry': return '$150.00';
-                        case 'Stop': return '$145.00';
-                        case 'TP1': return '$155.00';
-                        case 'TP2': return '$160.00';
-                        case 'TP3': return '$165.00';
-                        case 'TP4': return '$170.00';
-                        case 'Avg Sell Price': return '$155.00';
-                        case 'PnL': return '$500.00';
-                        case 'R-Return': return '1.0';
-                        case 'Quantity': return '100';
-                        case 'Exposure at Cost %': return '15.0%';
-                        case 'RVOL': return '1.2';
-                        default: return '-';
-                      }
-                    })
-                  ];
-                  
-                  const csvContent = csvData.map(row => row.join(',')).join('\n');
-                  const blob = new Blob([csvContent], { type: 'text/csv' });
-                  const url = window.URL.createObjectURL(blob);
-                  const link = document.createElement('a');
-                  link.href = url;
-                  link.download = `backtest_trade_log_${new Date().toISOString().split('T')[0]}.csv`;
-                  link.click();
-                  window.URL.revokeObjectURL(url);
-                  
-                  setSuccess('Trade log exported successfully');
-                }}
-                className="flex items-center gap-2"
-              >
-                <Download className="w-4 h-4" />
-                Export CSV
-              </Button>
-            </div>
           </CardContent>
           )}
         </Card>
