@@ -4155,7 +4155,12 @@ metadata = {
                             <div className="absolute top-1 left-1 font-medium text-xs text-gray-500 dark:text-gray-400">{day}</div>
                             {dayData && (
                               <div className="flex flex-col items-center justify-center h-full">
-                                <div className="font-bold text-xs leading-tight text-center">
+                                <div className={`font-bold text-xs leading-tight text-center ${
+                                  dayData.color === 'green' ? 'text-green-600 dark:text-white' :
+                                  dayData.color === 'red' ? 'text-red-600 dark:text-white' :
+                                  dayData.color === 'blue' ? 'text-blue-600 dark:text-white' :
+                                  'text-gray-900 dark:text-gray-100'
+                                }`}>
                                   {calendarViewMode === 'dollar' ? 
                                     (dayData.pnl === 0 ? '$0' : `${dayData.pnl > 0 ? '+' : ''}$${Math.abs(dayData.pnl) >= 1000 ? `${(dayData.pnl/1000).toFixed(1)}K` : dayData.pnl}`) :
                                   calendarViewMode === 'runit' ?
