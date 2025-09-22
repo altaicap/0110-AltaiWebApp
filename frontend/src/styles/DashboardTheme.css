@@ -2391,6 +2391,17 @@
   color: #6b7280 !important;
 }
 
+/* Override day numbers on colored backgrounds to be white */
+[data-theme="dark"] .calendar-day-green .calendar-day-number,
+[data-theme="dark"] .calendar-day-red .calendar-day-number,
+[data-theme="dark"] .calendar-day-blue .calendar-day-number,
+[data-theme="light"] .calendar-day-green .calendar-day-number,
+[data-theme="light"] .calendar-day-red .calendar-day-number,
+[data-theme="light"] .calendar-day-blue .calendar-day-number {
+  color: white !important;
+  font-weight: 600 !important;
+}
+
 /* Default calendar text styling */
 [data-theme="dark"] .calendar-text-default {
   color: var(--dashboard-fg) !important;
