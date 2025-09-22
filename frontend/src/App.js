@@ -3546,9 +3546,6 @@ metadata = {
                   <div className="text-sm text-gray-500 font-medium">
                     Profit Factor
                   </div>
-                  <div className="text-xs text-gray-400">
-                    {dashboardData.profitFactor >= 1 ? 'Profitable' : 'Unprofitable'}
-                  </div>
                 </div>
 
                 {/* Average Win */}
