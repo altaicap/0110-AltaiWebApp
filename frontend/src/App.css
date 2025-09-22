@@ -260,6 +260,7 @@ body {
 .tab-content-padding {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
+  padding-bottom: 2rem; /* Add uniform bottom spacing for all tabs */
 }
 
 /* Full Screen Pane Styles */
