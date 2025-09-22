@@ -6498,6 +6498,22 @@ metadata = {
           columns={positionsColumns}
           setColumns={setPositionsColumns}
         />
+
+        {/* Recent Entries Column Settings Modal */}
+        <PositionsColumnSettings
+          isOpen={showRecentEntriesColumnSettings}
+          onClose={() => setShowRecentEntriesColumnSettings(false)}
+          columns={recentEntriesColumns}
+          setColumns={setRecentEntriesColumns}
+        />
+
+        {/* Recently Closed Column Settings Modal */}
+        <PositionsColumnSettings
+          isOpen={showRecentlyClosedColumnSettings}
+          onClose={() => setShowRecentlyClosedColumnSettings(false)}
+          columns={recentlyClosedColumns}
+          setColumns={setRecentlyClosedColumns}
+        />
       </div>
     </div>
   );
