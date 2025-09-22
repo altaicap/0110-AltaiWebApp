@@ -71,6 +71,7 @@
 
 [data-theme="dark"] .tab-content-padding {
   background-color: transparent !important;
+  padding-bottom: 2rem !important; /* Ensure bottom spacing in dark theme */
 }
 
 /* Target TabsContent component directly */
