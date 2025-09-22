@@ -249,6 +249,17 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
 }
 
+/* Light theme table conditional formatting */
+[data-theme="light"] .table-gain,
+[data-theme="light"] .positive {
+  color: #16a34a !important; /* Green-600 for good contrast on light background */
+}
+
+[data-theme="light"] .table-loss,
+[data-theme="light"] .negative {
+  color: #dc2626 !important; /* Red-600 for good contrast on light background */
+}
+
 /* Light theme dropdown menu items - remove individual panes */
 [data-theme="light"] [role="menuitem"],
 [data-theme="light"] .dropdown-menu-item,
