@@ -2144,13 +2144,103 @@
   color: var(--dashboard-accent) !important;
 }
 
-/* Ensure WCAG AA compliance - minimum 4.5:1 contrast */
+/* WCAG AA compliance - minimum 4.5:1 contrast */
 [data-theme="dark"] .text-contrast-check {
   color: var(--dashboard-fg); /* #FBFCFC on #090D0D = 18.5:1 ratio ✓ */
 }
 
 [data-theme="dark"] .text-muted-contrast-check {
   color: var(--dashboard-muted); /* #949faa on #090D0D = 8.2:1 ratio ✓ */
+}
+
+/* ========================================
+   CALENDAR THEMING - Custom classes for our theme system
+   ======================================== */
+
+/* Default calendar day styling */
+[data-theme="dark"] .calendar-day-default {
+  border-color: var(--dashboard-border) !important;
+  background-color: transparent !important;
+}
+
+[data-theme="light"] .calendar-day-default {
+  border-color: #e5e7eb !important;
+  background-color: transparent !important;
+}
+
+/* Calendar day number styling */
+[data-theme="dark"] .calendar-day-number {
+  color: var(--dashboard-muted) !important;
+}
+
+[data-theme="light"] .calendar-day-number {
+  color: #6b7280 !important;
+}
+
+/* Default calendar text styling */
+[data-theme="dark"] .calendar-text-default {
+  color: var(--dashboard-fg) !important;
+}
+
+[data-theme="light"] .calendar-text-default {
+  color: #1f2937 !important;
+}
+
+/* Green calendar days (profitable days) */
+[data-theme="dark"] .calendar-day-green {
+  background-color: rgba(0, 189, 125, 0.15) !important;
+  border-color: var(--dashboard-success) !important;
+}
+
+[data-theme="light"] .calendar-day-green {
+  background-color: rgba(34, 197, 94, 0.1) !important;
+  border-color: #22c55e !important;
+}
+
+[data-theme="dark"] .calendar-text-green {
+  color: var(--dashboard-success) !important;
+}
+
+[data-theme="light"] .calendar-text-green {
+  color: #15803d !important;
+}
+
+/* Red calendar days (losing days) */
+[data-theme="dark"] .calendar-day-red {
+  background-color: rgba(229, 62, 62, 0.15) !important;
+  border-color: var(--dashboard-danger) !important;
+}
+
+[data-theme="light"] .calendar-day-red {
+  background-color: rgba(239, 68, 68, 0.1) !important;
+  border-color: #ef4444 !important;
+}
+
+[data-theme="dark"] .calendar-text-red {
+  color: var(--dashboard-danger) !important;
+}
+
+[data-theme="light"] .calendar-text-red {
+  color: #dc2626 !important;
+}
+
+/* Blue calendar days (breakeven days) */
+[data-theme="dark"] .calendar-day-blue {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+  border-color: #3b82f6 !important;
+}
+
+[data-theme="light"] .calendar-day-blue {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+  border-color: #3b82f6 !important;
+}
+
+[data-theme="dark"] .calendar-text-blue {
+  color: #60a5fa !important;
+}
+
+[data-theme="light"] .calendar-text-blue {
+  color: #2563eb !important;
 }
 
 /* Shadow system - restrained elevations */
