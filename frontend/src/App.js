@@ -6509,6 +6509,14 @@ metadata = {
           columns={recentlyClosedColumns}
           setColumns={setRecentlyClosedColumns}
         />
+
+        {/* Trade Log Column Settings Modal */}
+        <PositionsColumnSettings
+          isOpen={showTradeLogColumnSettings}
+          onClose={() => setShowTradeLogColumnSettings(false)}
+          columns={tradeLogColumns}
+          setColumns={setTradeLogColumns}
+        />
       </div>
     </div>
   );
