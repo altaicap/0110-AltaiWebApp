@@ -483,13 +483,15 @@ function App() {
   const [positionsColumns, setPositionsColumns] = useState([
     { id: 'ticker', label: 'Ticker', visible: true, order: 0 },
     { id: 'costBasis', label: 'Cost Basis', visible: true, order: 1 },
-    { id: 'quantity', label: 'Quantity', visible: true, order: 2 },
-    { id: 'currentPrice', label: 'Current Price', visible: true, order: 3 },
-    { id: 'pnlPercentToday', label: '% PnL Today', visible: true, order: 4 },
-    { id: 'pnlDollarToday', label: '$ PnL Today', visible: true, order: 5 },
-    { id: 'pnlPercent', label: '% PnL', visible: true, order: 6 },
-    { id: 'pnlDollar', label: '$ PnL', visible: true, order: 7 },
-    { id: 'strategy', label: 'Strategy', visible: true, order: 8 }
+    { id: 'initialStop', label: 'Initial Stop', visible: true, order: 2 },
+    { id: 'currentStop', label: 'Current Stop', visible: true, order: 3 },
+    { id: 'currentPrice', label: 'Current Price', visible: true, order: 4 },
+    { id: 'pnlPercentToday', label: '% PnL Today', visible: true, order: 5 },
+    { id: 'pnlDollarToday', label: '$ PnL Today', visible: true, order: 6 },
+    { id: 'pnlPercent', label: '% PnL', visible: true, order: 7 },
+    { id: 'pnlDollar', label: '$ PnL', visible: true, order: 8 },
+    { id: 'rReturn', label: 'R-Return', visible: true, order: 9 },
+    { id: 'strategy', label: 'Strategy', visible: true, order: 10 }
   ]);
   const [showPositionsColumnSettings, setShowPositionsColumnSettings] = useState(false);
   
