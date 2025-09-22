@@ -23,6 +23,9 @@ body {
   /* AUTHORITATIVE ACCENT TOKENS */
   --accent-ui: #0E6D73;           /* Generic UI icons and controls */
   --accent-sun: #0E6D73;          /* Sun icon uses UI accent in light theme */
+  
+  /* Dashboard background */
+  --dashboard-bg-main: #F5F5F5;   /* Light grey dashboard background */
 }
 
 /* Light Theme Segmented Control - FIXED SIZE */
