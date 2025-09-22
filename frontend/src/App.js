@@ -4134,19 +4134,19 @@ metadata = {
                       // Days of the month
                       for (let day = 1; day <= daysInMonth; day++) {
                         const dayData = tradingData[day];
-                        let bgColor = 'border-gray-200 dark:border-gray-700';
-                        let textColor = 'text-gray-800 dark:text-gray-200';
+                        let bgColor = 'calendar-day-default';
+                        let textColor = 'calendar-text-default';
                         
                         if (dayData) {
                           if (dayData.color === 'green') {
-                            bgColor = 'bg-green-100 border-green-300 dark:bg-green-600 dark:border-green-600';
-                            textColor = 'text-green-800 dark:text-white';
+                            bgColor = 'calendar-day-green';
+                            textColor = 'calendar-text-green';
                           } else if (dayData.color === 'red') {
-                            bgColor = 'bg-red-100 border-red-300 dark:bg-red-600 dark:border-red-600';
-                            textColor = 'text-red-800 dark:text-white';
+                            bgColor = 'calendar-day-red';
+                            textColor = 'calendar-text-red';
                           } else if (dayData.color === 'blue') {
-                            bgColor = 'bg-blue-100 border-blue-300 dark:bg-blue-600 dark:border-blue-600';
-                            textColor = 'text-blue-800 dark:text-white';
+                            bgColor = 'calendar-day-blue';
+                            textColor = 'calendar-text-blue';
                           }
                         }
                         
