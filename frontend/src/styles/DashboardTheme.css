@@ -142,7 +142,6 @@
   display: flex !important;
   align-items: center !important;
 }
-}
 
 /* Remove any unwanted borders from notification button */
 [data-theme="dark"] [data-notification-button],
