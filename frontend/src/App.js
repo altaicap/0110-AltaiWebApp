@@ -495,6 +495,12 @@ function App() {
   ]);
   const [showPositionsColumnSettings, setShowPositionsColumnSettings] = useState(false);
   
+  // Strategy management for positions
+  const [strategyTags, setStrategyTags] = useState(['Prior Bar Break Algo', 'HoD Break', 'LoD Break', 'Manual Trade', 'Momentum Play', 'Mean Reversion']);
+  const [strategySuggestions, setStrategySuggestions] = useState([]);
+  const [showStrategySuggestions, setShowStrategySuggestions] = useState(false);
+  const [editingStrategy, setEditingStrategy] = useState(null);
+  
   // Date range filter state - Load from localStorage if available
   const [dateRangeFilter, setDateRangeFilter] = useState(() => {
     const saved = localStorage.getItem('altai_date_range_filter');
