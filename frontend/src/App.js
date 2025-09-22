@@ -6914,7 +6914,7 @@ const PositionsColumnSettings = ({ isOpen, onClose, columns, setColumns }) => {
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md mx-4">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold">Column Settings</h2>
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Column Settings</h2>
           <Button variant="ghost" size="sm" onClick={handleCancel}>
             <X className="h-4 w-4" />
           </Button>
@@ -6922,7 +6922,7 @@ const PositionsColumnSettings = ({ isOpen, onClose, columns, setColumns }) => {
         
         <div className="space-y-2 max-h-64 overflow-y-auto">
           {tempColumns.map((column, index) => (
-            <div key={column.id} className="flex items-center justify-between p-2 border rounded">
+            <div key={column.id} className="flex items-center justify-between p-2 border border-gray-200 dark:border-gray-600 rounded">
               <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
@@ -6930,7 +6930,7 @@ const PositionsColumnSettings = ({ isOpen, onClose, columns, setColumns }) => {
                   onChange={() => toggleColumnVisibility(column.id)}
                   className="rounded"
                 />
-                <span className="text-sm">{column.label}</span>
+                <span className="text-sm text-gray-900 dark:text-white">{column.label}</span>
               </div>
               <div className="flex gap-1">
                 <Button
