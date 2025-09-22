@@ -2855,15 +2855,10 @@ metadata = {
                               <BarChart3 className="w-3 h-3 mr-1" />
                               Backtest & Configure
                             </Button>
-                            {isConfigured ? (
+                            {isConfigured && (
                               <Button size="sm" variant="outline" className="text-xs h-7">
                                 <Settings className="w-3 h-3 mr-1" />
                                 Reconfigure
-                              </Button>
-                            ) : (
-                              <Button size="sm" variant="outline" disabled className="text-xs h-7">
-                                <Settings className="w-3 h-3 mr-1" />
-                                Configure Required
                               </Button>
                             )}
                             <Button 
