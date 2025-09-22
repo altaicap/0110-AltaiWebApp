@@ -309,6 +309,11 @@
   background-attachment: fixed;
 }
 
+/* Light theme dashboard background */
+[data-theme="light"] .dashboard-main {
+  background: var(--dashboard-bg-main);
+}
+
 @keyframes shimmer {
   0%, 100% { background-position: -200% 0; }
   50% { background-position: 200% 0; }
