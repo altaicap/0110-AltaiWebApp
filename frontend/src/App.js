@@ -4152,7 +4152,7 @@ metadata = {
                         
                         calendar.push(
                           <div key={day} className={`h-12 border rounded p-1 ${bgColor} ${textColor} flex flex-col relative`}>
-                            <div className="absolute top-1 left-1 font-medium text-xs text-gray-500 dark:text-gray-400">{day}</div>
+                            <div className="absolute top-1 left-1 font-medium text-xs calendar-day-number">{day}</div>
                             {dayData && (
                               <div className="flex flex-col items-center justify-center h-full">
                                 <div className="font-bold text-xs leading-tight text-center">
