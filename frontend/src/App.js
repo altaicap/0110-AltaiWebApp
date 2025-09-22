@@ -5048,25 +5048,28 @@ metadata = {
             {showTradeLogColumnSettings && (
               <div className="mt-4 p-4 border rounded bg-gray-50">
                 <div className="grid grid-cols-3 gap-2">
-                  {Object.entries(tradeLogColumns).map(([column, visible]) => (
-                    <div key={column} className="flex items-center gap-2">
+                  {tradeLogColumns.map((column) => (
+                    <div key={column.id} className="flex items-center gap-2">
                       <input
                         type="checkbox"
-                        id={`col-${column}`}
-                        checked={visible}
+                        id={`col-${column.id}`}
+                        checked={column.visible}
                         onChange={(e) => {
-                          setTradeLogColumns(prev => ({
-                            ...prev,
-                            [column]: e.target.checked
-                          }));
+                          setTradeLogColumns(prev => 
+                            prev.map(col => 
+                              col.id === column.id 
+                                ? { ...col, visible: e.target.checked }
+                                : col
+                            )
+                          );
                         }}
                         className="w-3 h-3"
                       />
                       <Label 
-                        htmlFor={`col-${column}`} 
+                        htmlFor={`col-${column.id}`} 
                         className="text-xs cursor-pointer"
                       >
-                        {column}
+                        {column.label}
                       </Label>
                     </div>
                   ))}
@@ -5076,10 +5079,9 @@ metadata = {
                     size="sm" 
                     variant="outline"
                     onClick={() => {
-                      const allTrue = Object.fromEntries(
-                        Object.keys(tradeLogColumns).map(key => [key, true])
+                      setTradeLogColumns(prev => 
+                        prev.map(col => ({ ...col, visible: true }))
                       );
-                      setTradeLogColumns(allTrue);
                     }}
                   >
                     Select All
@@ -5088,10 +5090,9 @@ metadata = {
                     size="sm" 
                     variant="outline"
                     onClick={() => {
-                      const allFalse = Object.fromEntries(
-                        Object.keys(tradeLogColumns).map(key => [key, false])
+                      setTradeLogColumns(prev => 
+                        prev.map(col => ({ ...col, visible: false }))
                       );
-                      setTradeLogColumns(allFalse);
                     }}
                   >
                     Clear All
