@@ -2529,30 +2529,75 @@
    TRADING PERFORMANCE HIGHLIGHTS FIXES
    ======================================== */
 
-/* Ensure progress bars are visible and working */
-.trading-highlights-pane .bg-green-500 {
+/* Ensure progress bars are visible and working - MAXIMUM SPECIFICITY */
+[data-theme="dark"] .trading-highlights-pane .bg-green-500,
+[data-theme="dark"] .trading-highlights-grid .bg-green-500,
+[data-theme="dark"] div.bg-green-500 {
   background-color: #22c55e !important;
 }
 
-.trading-highlights-pane .bg-yellow-500 {
+[data-theme="light"] .trading-highlights-pane .bg-green-500,
+[data-theme="light"] .trading-highlights-grid .bg-green-500,
+[data-theme="light"] div.bg-green-500 {
+  background-color: #22c55e !important;
+}
+
+[data-theme="dark"] .trading-highlights-pane .bg-yellow-500,
+[data-theme="dark"] .trading-highlights-grid .bg-yellow-500,
+[data-theme="dark"] div.bg-yellow-500 {
   background-color: #eab308 !important;
 }
 
-.trading-highlights-pane .bg-red-500 {
+[data-theme="light"] .trading-highlights-pane .bg-yellow-500,
+[data-theme="light"] .trading-highlights-grid .bg-yellow-500,
+[data-theme="light"] div.bg-yellow-500 {
+  background-color: #eab308 !important;
+}
+
+[data-theme="dark"] .trading-highlights-pane .bg-red-500,
+[data-theme="dark"] .trading-highlights-grid .bg-red-500,
+[data-theme="dark"] div.bg-red-500 {
   background-color: #ef4444 !important;
 }
 
-/* Progress bar container styling */
-.trading-highlights-pane .bg-gray-200 {
-  background-color: #e5e7eb !important;
+[data-theme="light"] .trading-highlights-pane .bg-red-500,
+[data-theme="light"] .trading-highlights-grid .bg-red-500,
+[data-theme="light"] div.bg-red-500 {
+  background-color: #ef4444 !important;
 }
 
-[data-theme="dark"] .trading-highlights-pane .bg-gray-700 {
+/* Progress bar container styling - MAXIMUM SPECIFICITY */
+[data-theme="dark"] .trading-highlights-pane .bg-gray-200,
+[data-theme="dark"] .trading-highlights-grid .bg-gray-200 {
   background-color: #374151 !important;
 }
 
-/* Ensure proper positioning and visibility */
-.trading-highlights-pane .relative div[style*="width"] {
+[data-theme="light"] .trading-highlights-pane .bg-gray-200,
+[data-theme="light"] .trading-highlights-grid .bg-gray-200 {
+  background-color: #e5e7eb !important;
+}
+
+[data-theme="dark"] .trading-highlights-pane .bg-gray-700,
+[data-theme="dark"] .trading-highlights-grid .bg-gray-700 {
+  background-color: #374151 !important;
+}
+
+[data-theme="light"] .trading-highlights-pane .bg-gray-700,
+[data-theme="light"] .trading-highlights-grid .bg-gray-700 {
+  background-color: #e5e7eb !important;
+}
+
+/* Ensure proper positioning and visibility - MAXIMUM SPECIFICITY */
+[data-theme="dark"] .trading-highlights-pane .relative div[style*="width"],
+[data-theme="dark"] .trading-highlights-grid .relative div[style*="width"] {
   min-height: 8px !important;
   display: block !important;
+  position: absolute !important;
+}
+
+[data-theme="light"] .trading-highlights-pane .relative div[style*="width"],
+[data-theme="light"] .trading-highlights-grid .relative div[style*="width"] {
+  min-height: 8px !important;
+  display: block !important;
+  position: absolute !important;
 }
