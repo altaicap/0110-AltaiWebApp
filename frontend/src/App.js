@@ -3866,6 +3866,15 @@ metadata = {
           {/* Middle Left: Recently Closed */}
           <Card className="relative pane-enhanced">
             <PaneControls paneId="recently-closed">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="text-xs mr-2"
+                onClick={() => setShowRecentlyClosedColumnSettings(true)}
+              >
+                <Settings2 className="h-3 w-3 mr-1" />
+                Columns
+              </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="sm" className="text-xs">
