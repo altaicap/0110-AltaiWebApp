@@ -3868,33 +3868,44 @@ metadata = {
             </CardHeader>
             {!minimizedPanes.has('recently-closed') && (
               <CardContent className="pt-0">
-                <div className="h-80 overflow-y-auto">
-                  <div className="space-y-2">
-                    {[
-                      { ticker: 'AAPL', pnl: 275, rUnits: '+1.2R', date: '2024-09-18', strategy: 'Prior Bar Break Algo' },
-                      { ticker: 'MSFT', pnl: -95, rUnits: '-0.4R', date: '2024-09-17', strategy: 'Prior Bar Break Algo' },
-                      { ticker: 'TSLA', pnl: 180, rUnits: '+0.8R', date: '2024-09-16', strategy: 'Prior Bar Break Algo' },
-                      { ticker: 'GOOGL', pnl: -125, rUnits: '-0.5R', date: '2024-09-15', strategy: 'Prior Bar Break Algo' },
-                      { ticker: 'NVDA', pnl: 450, rUnits: '+2.1R', date: '2024-09-14', strategy: 'Prior Bar Break Algo' },
-                      { ticker: 'AMD', pnl: 85, rUnits: '+0.3R', date: '2024-09-13', strategy: 'Prior Bar Break Algo' }
-                    ].map((trade, index) => (
-                      <div key={index} className="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-800 rounded text-xs">
-                        <div className="flex flex-col">
-                          <span className="font-medium">{trade.ticker}</span>
-                          <span className="text-gray-500">{trade.date}</span>
-                        </div>
-                        <div className="flex flex-col items-end">
-                          <span className={`font-medium ${trade.pnl >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                            {realizedPnlViewMode === 'dollar' ? 
-                              `${trade.pnl >= 0 ? '+' : ''}$${Math.abs(trade.pnl)}` : 
-                              trade.rUnits
-                            }
-                          </span>
-                          <span className="text-gray-500 text-xs">{trade.strategy}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                <div className="h-80 overflow-y-auto overflow-x-auto">
+                  <table className="w-full text-xs min-w-[800px]">
+                    <thead className="border-b border-gray-200 dark:border-gray-700">
+                      <tr className="text-left">
+                        <th className="pb-1 px-2 text-xs font-medium">Ticker</th>
+                        <th className="pb-1 px-2 text-xs font-medium">Close Date</th>
+                        <th className="pb-1 px-2 text-xs font-medium">$ Risk</th>
+                        <th className="pb-1 px-2 text-xs font-medium">{realizedPnlViewMode === 'dollar' ? '$ PnL' : 'R-Return'}</th>
+                        <th className="pb-1 px-2 text-xs font-medium">Strategy</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        { ticker: 'AAPL', pnl: 275, rReturn: '+1.2R', date: '2024-09-18', quantity: 100, costBasis: 185.50, initialStop: 180.25, strategy: 'Prior Bar Break Algo' },
+                        { ticker: 'MSFT', pnl: -95, rReturn: '-0.4R', date: '2024-09-17', quantity: 50, costBasis: 425.30, initialStop: 415.00, strategy: 'Prior Bar Break Algo' },
+                        { ticker: 'TSLA', pnl: 180, rReturn: '+0.8R', date: '2024-09-16', quantity: 75, costBasis: 245.80, initialStop: 238.50, strategy: 'Prior Bar Break Algo' },
+                        { ticker: 'GOOGL', pnl: -125, rReturn: '-0.5R', date: '2024-09-15', quantity: 25, costBasis: 168.75, initialStop: 163.80, strategy: 'Prior Bar Break Algo' },
+                        { ticker: 'NVDA', pnl: 450, rReturn: '+2.1R', date: '2024-09-14', quantity: 150, costBasis: 118.45, initialStop: 112.80, strategy: 'Prior Bar Break Algo' },
+                        { ticker: 'AMD', pnl: 85, rReturn: '+0.3R', date: '2024-09-13', quantity: 80, costBasis: 142.80, initialStop: 138.20, strategy: 'Prior Bar Break Algo' }
+                      ].map((trade, index) => {
+                        const dollarRisk = trade.quantity * (trade.costBasis - trade.initialStop);
+                        return (
+                          <tr key={index} className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                            <td className="py-2 px-2 font-medium">{trade.ticker}</td>
+                            <td className="py-2 px-2 text-gray-500">{trade.date}</td>
+                            <td className="py-2 px-2">${dollarRisk.toFixed(0)}</td>
+                            <td className={`py-2 px-2 font-medium ${trade.pnl >= 0 ? 'positive' : 'negative'}`}>
+                              {realizedPnlViewMode === 'dollar' ? 
+                                `${trade.pnl >= 0 ? '+' : ''}$${Math.abs(trade.pnl)}` : 
+                                trade.rReturn
+                              }
+                            </td>
+                            <td className="py-2 px-2 text-gray-500">{trade.strategy}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
                 </div>
               </CardContent>
             )}
