@@ -298,6 +298,15 @@
   transform: translateY(-2px) !important; /* Same hover effect as landing page */
 }
 
+/* Remove ANY background from theme toggle buttons */
+[data-theme="dark"] button:has(svg[data-icon="sun"]),
+[data-theme="dark"] button:has(.lucide-sun),
+[data-theme="light"] button:has(svg[data-icon="sun"]),
+[data-theme="light"] button:has(.lucide-sun) {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
 /* VERY SPECIFIC targeting for light theme sun icons */
 [data-theme="light"] svg[data-icon="sun"],
 [data-theme="light"] .lucide-sun {
