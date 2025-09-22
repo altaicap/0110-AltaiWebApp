@@ -89,6 +89,7 @@
 
 [data-theme="light"] .tab-content-padding {
   background-color: transparent !important;
+  padding-bottom: 2rem !important; /* Ensure bottom spacing in light theme */
 }
 
 [data-theme="light"] [data-state="active"] {
