@@ -3691,11 +3691,11 @@ metadata = {
                               } else if (column.id.includes('pnlPercent')) {
                                 const isPositive = value >= 0;
                                 displayValue = `${isPositive ? '+' : ''}${value.toFixed(2)}%`;
-                                className += isPositive ? ' text-green-500' : ' text-red-500';
+                                className += isPositive ? ' text-green-400 dark:text-green-400' : ' text-red-400 dark:text-red-400';
                               } else if (column.id.includes('pnlDollar')) {
                                 const isPositive = value >= 0;
                                 displayValue = `${isPositive ? '+' : ''}$${Math.abs(value).toFixed(2)}`;
-                                className += isPositive ? ' text-green-500' : ' text-red-500';
+                                className += isPositive ? ' text-green-400 dark:text-green-400' : ' text-red-400 dark:text-red-400';
                               } else if (column.id === 'ticker') {
                                 className += ' font-medium';
                               } else if (column.id === 'strategy') {
