@@ -3949,7 +3949,17 @@ metadata = {
 
           {/* Middle Right: Recent Entries */}
           <Card className="relative pane-enhanced">
-            <PaneControls paneId="recent-entries" />
+            <PaneControls paneId="recent-entries">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="text-xs"
+                onClick={() => setShowRecentEntriesColumnSettings(true)}
+              >
+                <Settings2 className="h-3 w-3 mr-1" />
+                Columns
+              </Button>
+            </PaneControls>
             <CardHeader className="pb-2">
               <CardTitle className="text-lg">Recent Entries</CardTitle>
               <CardDescription className="text-xs">Latest position entries</CardDescription>
