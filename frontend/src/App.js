@@ -5107,18 +5107,12 @@ metadata = {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Date/Time</TableHead>
-                    <TableHead>Symbol</TableHead>
-                    <TableHead>Signal</TableHead>
-                    <TableHead>Entry</TableHead>
-                    <TableHead>Stop</TableHead>
-                    <TableHead>TP1</TableHead>
-                    <TableHead>TP2</TableHead>
-                    <TableHead>TP3</TableHead>
-                    <TableHead>TP4</TableHead>
-                    <TableHead>Avg Sell Price</TableHead>
-                    <TableHead>PnL</TableHead>
-                    <TableHead>R-Return</TableHead>
+                    {tradeLogColumns
+                      .filter(col => col.visible)
+                      .sort((a, b) => a.order - b.order)
+                      .map(column => (
+                        <TableHead key={column.id}>{column.label}</TableHead>
+                      ))}
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -5135,34 +5129,76 @@ metadata = {
                     // R-Return = ((avgSellPrice - entryPrice) * quantity) / rRisk
                     const rReturn = rRisk > 0 ? (((avgSellPrice - entryPrice) * quantity) / rRisk).toFixed(2) : '0.00';
                     
+                    // Calculate RVOL (mock calculation)
+                    const rvol = (Math.random() * 2 + 0.5).toFixed(1);
+                    
                     return (
                       <TableRow key={index}>
-                        <TableCell>{trade.datetime}</TableCell>
-                        <TableCell>{trade.symbol}</TableCell>
-                        <TableCell>
-                          <Badge variant={trade.signal === 'BUY' ? 'default' : 'destructive'}>
-                            {trade.signal}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>${trade.entry}</TableCell>
-                        <TableCell>${trade.stop}</TableCell>
-                        <TableCell>${trade.tp1}</TableCell>
-                        <TableCell>${trade.tp2}</TableCell>
-                        <TableCell>${trade.tp3 || 'N/A'}</TableCell>
-                        <TableCell>${trade.tp4 || 'N/A'}</TableCell>
-                        <TableCell>${avgSellPrice}</TableCell>
-                        <TableCell className={trade.pnl >= 0 ? "text-green-600" : "text-red-600"}>
-                          ${trade.pnl}
-                        </TableCell>
-                        <TableCell className={parseFloat(rReturn) >= 0 ? "text-green-600" : "text-red-600"}>
-                          {rReturn}R
-                        </TableCell>
+                        {tradeLogColumns
+                          .filter(col => col.visible)
+                          .sort((a, b) => a.order - b.order)
+                          .map(column => {
+                            let value = '';
+                            let className = 'px-2 py-1 text-sm';
+                            
+                            switch(column.id) {
+                              case 'dateTime':
+                                value = trade.datetime;
+                                break;
+                              case 'symbol':
+                                value = trade.symbol;
+                                className += ' font-medium';
+                                break;
+                              case 'signal':
+                                return (
+                                  <TableCell key={column.id} className={className}>
+                                    <Badge variant={trade.signal === 'BUY' ? 'default' : 'destructive'}>
+                                      {trade.signal}
+                                    </Badge>
+                                  </TableCell>
+                                );
+                              case 'entry':
+                                value = `$${trade.entry}`;
+                                break;
+                              case 'stop':
+                                value = `$${trade.stop}`;
+                                break;
+                              case 'avgSellPrice':
+                                value = `$${avgSellPrice}`;
+                                break;
+                              case 'pnl':
+                                value = `$${trade.pnl}`;
+                                className += trade.pnl >= 0 ? ' positive' : ' negative';
+                                break;
+                              case 'rReturn':
+                                value = `${rReturn}R`;
+                                className += parseFloat(rReturn) >= 0 ? ' positive' : ' negative';
+                                break;
+                              case 'quantity':
+                                value = quantity.toLocaleString();
+                                break;
+                              case 'exposureAtCost':
+                                value = `${((entryPrice * quantity) / 10000 * 100).toFixed(1)}%`;
+                                break;
+                              case 'rvol':
+                                value = rvol;
+                                break;
+                              default:
+                                value = 'N/A';
+                            }
+                            
+                            return (
+                              <TableCell key={column.id} className={className}>
+                                {value}
+                              </TableCell>
+                            );
+                          })}
                       </TableRow>
                     );
                   })}
                   {tradeLog.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan={12} className="text-center text-gray-500 py-8">
+                      <TableCell colSpan={tradeLogColumns.filter(col => col.visible).length} className="text-center text-gray-500 py-8">
                         No trades to display. Run a backtest to see trade details.
                       </TableCell>
                     </TableRow>
