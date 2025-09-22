@@ -525,6 +525,9 @@ function App() {
   const [showStrategySuggestions, setShowStrategySuggestions] = useState(false);
   const [editingStrategy, setEditingStrategy] = useState(null);
   
+  // Calendar view mode state
+  const [calendarViewMode, setCalendarViewMode] = useState('dollar'); // 'dollar', 'runit', 'trades', 'percent'
+  
   // Date range filter state - Load from localStorage if available
   const [dateRangeFilter, setDateRangeFilter] = useState(() => {
     const saved = localStorage.getItem('altai_date_range_filter');
