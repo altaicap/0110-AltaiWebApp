@@ -2526,78 +2526,94 @@
 }
 
 /* ========================================
-   TRADING PERFORMANCE HIGHLIGHTS FIXES
+   PROGRESS BARS - FORCE COLORS WITH MAXIMUM SPECIFICITY
    ======================================== */
 
-/* Ensure progress bars are visible and working - MAXIMUM SPECIFICITY */
-[data-theme="dark"] .trading-highlights-pane .bg-green-500,
-[data-theme="dark"] .trading-highlights-grid .bg-green-500,
-[data-theme="dark"] div.bg-green-500 {
+/* Force progress bar colors - override ALL Tailwind classes */
+.bg-green-500,
+[class*="bg-green-500"],
+div.bg-green-500 {
   background-color: #22c55e !important;
 }
 
-[data-theme="light"] .trading-highlights-pane .bg-green-500,
-[data-theme="light"] .trading-highlights-grid .bg-green-500,
-[data-theme="light"] div.bg-green-500 {
+.bg-yellow-500,
+[class*="bg-yellow-500"],
+div.bg-yellow-500 {
+  background-color: #eab308 !important;
+}
+
+.bg-red-500,
+[class*="bg-red-500"],
+div.bg-red-500 {
+  background-color: #ef4444 !important;
+}
+
+.bg-gray-200,
+[class*="bg-gray-200"],
+div.bg-gray-200 {
+  background-color: #e5e7eb !important;
+}
+
+.bg-gray-700,
+[class*="bg-gray-700"],
+div.bg-gray-700 {
+  background-color: #374151 !important;
+}
+
+/* FORCE visibility and positioning */
+.h-2.absolute,
+div[style*="width"].h-2,
+.h-2[style*="width"] {
+  display: block !important;
+  position: absolute !important;
+  height: 8px !important;
+  min-height: 8px !important;
+}
+
+/* ========================================
+   CALENDAR BACKGROUNDS - FORCE COLORS WITH MAXIMUM SPECIFICITY  
+   ======================================== */
+
+/* FORCE green calendar backgrounds */
+.calendar-day-green,
+[class*="calendar-day-green"],
+div.calendar-day-green,
+.h-12.calendar-day-green,
+.border.calendar-day-green {
   background-color: #22c55e !important;
+  border-color: #16a34a !important;
 }
 
-[data-theme="dark"] .trading-highlights-pane .bg-yellow-500,
-[data-theme="dark"] .trading-highlights-grid .bg-yellow-500,
-[data-theme="dark"] div.bg-yellow-500 {
-  background-color: #eab308 !important;
-}
-
-[data-theme="light"] .trading-highlights-pane .bg-yellow-500,
-[data-theme="light"] .trading-highlights-grid .bg-yellow-500,
-[data-theme="light"] div.bg-yellow-500 {
-  background-color: #eab308 !important;
-}
-
-[data-theme="dark"] .trading-highlights-pane .bg-red-500,
-[data-theme="dark"] .trading-highlights-grid .bg-red-500,
-[data-theme="dark"] div.bg-red-500 {
+/* FORCE red calendar backgrounds */
+.calendar-day-red,
+[class*="calendar-day-red"],
+div.calendar-day-red,
+.h-12.calendar-day-red,
+.border.calendar-day-red {
   background-color: #ef4444 !important;
+  border-color: #dc2626 !important;
 }
 
-[data-theme="light"] .trading-highlights-pane .bg-red-500,
-[data-theme="light"] .trading-highlights-grid .bg-red-500,
-[data-theme="light"] div.bg-red-500 {
-  background-color: #ef4444 !important;
+/* FORCE orange calendar backgrounds */
+.calendar-day-blue,
+[class*="calendar-day-blue"],
+div.calendar-day-blue,
+.h-12.calendar-day-blue,
+.border.calendar-day-blue {
+  background-color: #f97316 !important;
+  border-color: #ea580c !important;
 }
 
-/* Progress bar container styling - MAXIMUM SPECIFICITY */
-[data-theme="dark"] .trading-highlights-pane .bg-gray-200,
-[data-theme="dark"] .trading-highlights-grid .bg-gray-200 {
-  background-color: #374151 !important;
-}
-
-[data-theme="light"] .trading-highlights-pane .bg-gray-200,
-[data-theme="light"] .trading-highlights-grid .bg-gray-200 {
-  background-color: #e5e7eb !important;
-}
-
-[data-theme="dark"] .trading-highlights-pane .bg-gray-700,
-[data-theme="dark"] .trading-highlights-grid .bg-gray-700 {
-  background-color: #374151 !important;
-}
-
-[data-theme="light"] .trading-highlights-pane .bg-gray-700,
-[data-theme="light"] .trading-highlights-grid .bg-gray-700 {
-  background-color: #e5e7eb !important;
-}
-
-/* Ensure proper positioning and visibility - MAXIMUM SPECIFICITY */
-[data-theme="dark"] .trading-highlights-pane .relative div[style*="width"],
-[data-theme="dark"] .trading-highlights-grid .relative div[style*="width"] {
-  min-height: 8px !important;
-  display: block !important;
-  position: absolute !important;
-}
-
-[data-theme="light"] .trading-highlights-pane .relative div[style*="width"],
-[data-theme="light"] .trading-highlights-grid .relative div[style*="width"] {
-  min-height: 8px !important;
-  display: block !important;
-  position: absolute !important;
+/* FORCE white text on colored calendar backgrounds */
+.calendar-day-green .calendar-day-number,
+.calendar-day-green .font-bold,
+.calendar-day-green *,
+.calendar-day-red .calendar-day-number,
+.calendar-day-red .font-bold,
+.calendar-day-red *,
+.calendar-day-blue .calendar-day-number,
+.calendar-day-blue .font-bold,
+.calendar-day-blue * {
+  color: white !important;
+  font-weight: 600 !important;
 }
