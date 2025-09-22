@@ -495,6 +495,30 @@ function App() {
   ]);
   const [showPositionsColumnSettings, setShowPositionsColumnSettings] = useState(false);
   
+  // Recent Entries column settings
+  const [recentEntriesColumns, setRecentEntriesColumns] = useState([
+    { id: 'ticker', label: 'Ticker', visible: true, order: 0 },
+    { id: 'entryDate', label: 'Entry Date', visible: true, order: 1 },
+    { id: 'entryPrice', label: 'Entry Price', visible: true, order: 2 },
+    { id: 'initialStop', label: 'Initial Stop', visible: true, order: 3 },
+    { id: 'currentStop', label: 'Current Stop', visible: true, order: 4 },
+    { id: 'quantity', label: 'Quantity', visible: true, order: 5 },
+    { id: 'dollarRisk', label: '$ Risk', visible: true, order: 6 },
+    { id: 'rReturn', label: 'R-Return', visible: true, order: 7 },
+    { id: 'strategy', label: 'Strategy', visible: true, order: 8 }
+  ]);
+  const [showRecentEntriesColumnSettings, setShowRecentEntriesColumnSettings] = useState(false);
+
+  // Recently Closed column settings
+  const [recentlyClosedColumns, setRecentlyClosedColumns] = useState([
+    { id: 'ticker', label: 'Ticker', visible: true, order: 0 },
+    { id: 'closeDate', label: 'Close Date', visible: true, order: 1 },
+    { id: 'dollarRisk', label: '$ Risk', visible: true, order: 2 },
+    { id: 'pnl', label: 'PnL/R-Return', visible: true, order: 3 },
+    { id: 'strategy', label: 'Strategy', visible: true, order: 4 }
+  ]);
+  const [showRecentlyClosedColumnSettings, setShowRecentlyClosedColumnSettings] = useState(false);
+  
   // Strategy management for positions
   const [strategyTags, setStrategyTags] = useState(['Prior Bar Break Algo', 'HoD Break', 'LoD Break', 'Manual Trade', 'Momentum Play', 'Mean Reversion']);
   const [strategySuggestions, setStrategySuggestions] = useState([]);
