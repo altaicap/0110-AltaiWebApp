@@ -4175,8 +4175,27 @@ metadata = {
                         }
                         
                         calendar.push(
-                          <div key={day} className={`h-12 border rounded p-1 ${bgColor} ${textColor} flex flex-col relative`}>
-                            <div className="absolute top-1 left-1 font-medium text-xs calendar-day-number">{day}</div>
+                          <div 
+                            key={day} 
+                            className={`h-12 border rounded p-1 flex flex-col relative ${bgColor} ${textColor}`}
+                            style={{
+                              backgroundColor: dayData?.color === 'green' ? '#22c55e' : 
+                                              dayData?.color === 'red' ? '#ef4444' : 
+                                              dayData?.color === 'blue' ? '#f97316' : 'transparent',
+                              borderColor: dayData?.color === 'green' ? '#16a34a' : 
+                                          dayData?.color === 'red' ? '#dc2626' : 
+                                          dayData?.color === 'blue' ? '#ea580c' : undefined
+                            }}
+                          >
+                            <div 
+                              className="absolute top-1 left-1 font-medium text-xs calendar-day-number"
+                              style={{
+                                color: dayData?.color ? 'white' : undefined,
+                                fontWeight: dayData?.color ? '600' : undefined
+                              }}
+                            >
+                              {day}
+                            </div>
                             {dayData && (
                               <div className="flex flex-col items-center justify-center h-full">
                                 <div className="font-bold text-xs leading-tight text-center">
