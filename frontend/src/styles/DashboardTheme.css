@@ -138,6 +138,10 @@
   min-height: 3.25rem;
   /* Remove transition that causes bounce effect */
   transition: none !important;
+  /* Ensure proper vertical alignment of child tabs */
+  display: flex !important;
+  align-items: center !important;
+}
 }
 
 /* Remove any unwanted borders from notification button */
