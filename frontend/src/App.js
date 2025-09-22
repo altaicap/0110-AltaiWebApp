@@ -1522,57 +1522,72 @@ metadata = {
     { 
       ticker: 'AAPL', 
       costBasis: 185.50, 
+      initialStop: 180.25,
+      currentStop: 188.10,
       quantity: 100, 
       currentPrice: 192.41, 
       pnlPercentToday: 0.78, 
       pnlDollarToday: 124.50, 
       pnlPercent: 3.73, 
-      pnlDollar: 691.00, 
+      pnlDollar: 691.00,
+      rReturn: ((192.41 - 185.50) / (185.50 - 180.25)).toFixed(2),
       strategy: 'Prior Bar Break Algo' 
     },
     { 
       ticker: 'MSFT', 
       costBasis: 425.30, 
+      initialStop: 415.00,
+      currentStop: 420.50,
       quantity: 50, 
       currentPrice: 421.85, 
       pnlPercentToday: -0.32, 
       pnlDollarToday: -67.80, 
       pnlPercent: -0.81, 
-      pnlDollar: -172.50, 
+      pnlDollar: -172.50,
+      rReturn: ((421.85 - 425.30) / (425.30 - 415.00)).toFixed(2),
       strategy: 'Prior Bar Break Algo' 
     },
     { 
       ticker: 'TSLA', 
       costBasis: 245.80, 
+      initialStop: 238.50,
+      currentStop: 248.20,
       quantity: 75, 
       currentPrice: 252.95, 
       pnlPercentToday: 1.45, 
       pnlDollarToday: 268.12, 
       pnlPercent: 2.91, 
-      pnlDollar: 536.25, 
+      pnlDollar: 536.25,
+      rReturn: ((252.95 - 245.80) / (245.80 - 238.50)).toFixed(2),
       strategy: 'Prior Bar Break Algo' 
     },
     { 
       ticker: 'GOOGL', 
       costBasis: 168.75, 
+      initialStop: 163.80,
+      currentStop: 164.50,
       quantity: 25, 
       currentPrice: 165.20, 
       pnlPercentToday: -0.68, 
       pnlDollarToday: -28.75, 
       pnlPercent: -2.10, 
-      pnlDollar: -88.75, 
-      strategy: 'Prior Bar Break Algo' 
+      pnlDollar: -88.75,
+      rReturn: ((165.20 - 168.75) / (168.75 - 163.80)).toFixed(2),
+      strategy: '' // Discretionary trade - empty for user input
     },
     { 
       ticker: 'NVDA', 
       costBasis: 118.45, 
+      initialStop: 112.80,
+      currentStop: 120.30,
       quantity: 150, 
       currentPrice: 125.20, 
       pnlPercentToday: 2.14, 
       pnlDollarToday: 320.50, 
       pnlPercent: 5.70, 
-      pnlDollar: 1012.50, 
-      strategy: 'Prior Bar Break Algo' 
+      pnlDollar: 1012.50,
+      rReturn: ((125.20 - 118.45) / (118.45 - 112.80)).toFixed(2),
+      strategy: 'Manual Trade' 
     }
   ];
 
