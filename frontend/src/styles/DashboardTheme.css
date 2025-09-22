@@ -2467,6 +2467,27 @@
   font-weight: 500 !important;
 }
 
+/* Theme-specific overrides for calendar text in light mode */
+[data-theme="light"] .calendar-text-white {
+  color: white !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="light"] .calendar-text-gray {
+  color: #6b7280 !important;
+  font-weight: 500 !important;
+}
+
+[data-theme="dark"] .calendar-text-white {
+  color: white !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="dark"] .calendar-text-gray {
+  color: #9ca3af !important;
+  font-weight: 500 !important;
+}
+
 /* Default calendar text styling */
 [data-theme="dark"] .calendar-text-default {
   color: var(--dashboard-fg) !important;
