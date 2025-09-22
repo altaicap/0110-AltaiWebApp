@@ -2154,8 +2154,145 @@
 }
 
 /* ========================================
-   BACKTEST TAB IMPROVEMENTS
+   DROPDOWN TEXT VISIBILITY FIXES
    ======================================== */
+
+/* Date picker buttons (Popover triggers) */
+[data-theme="dark"] button[role="combobox"],
+[data-theme="dark"] .popover-trigger {
+  background-color: var(--dashboard-input-bg) !important;
+  border-color: var(--dashboard-border) !important;
+  color: var(--dashboard-fg) !important;
+}
+
+[data-theme="dark"] button[role="combobox"]:hover,
+[data-theme="dark"] .popover-trigger:hover {
+  background-color: var(--dashboard-hover) !important;
+}
+
+[data-theme="light"] button[role="combobox"],
+[data-theme="light"] .popover-trigger {
+  background-color: white !important;
+  border-color: #d1d5db !important;
+  color: #1f2937 !important;
+}
+
+[data-theme="light"] button[role="combobox"]:hover,
+[data-theme="light"] .popover-trigger:hover {
+  background-color: #f9fafb !important;
+}
+
+/* Select dropdowns (RVOL Period, etc.) */
+[data-theme="dark"] [role="combobox"][data-state],
+[data-theme="dark"] .select-trigger {
+  background-color: var(--dashboard-input-bg) !important;
+  border-color: var(--dashboard-border) !important;
+  color: var(--dashboard-fg) !important;
+}
+
+[data-theme="dark"] [role="combobox"][data-state]:hover,
+[data-theme="dark"] .select-trigger:hover {
+  background-color: var(--dashboard-hover) !important;
+}
+
+[data-theme="light"] [role="combobox"][data-state],
+[data-theme="light"] .select-trigger {
+  background-color: white !important;
+  border-color: #d1d5db !important;
+  color: #1f2937 !important;
+}
+
+[data-theme="light"] [role="combobox"][data-state]:hover,
+[data-theme="light"] .select-trigger:hover {
+  background-color: #f9fafb !important;
+}
+
+/* Select dropdown content */
+[data-theme="dark"] [role="listbox"],
+[data-theme="dark"] .select-content {
+  background-color: var(--dashboard-bg-1) !important;
+  border-color: var(--dashboard-border) !important;
+  color: var(--dashboard-fg) !important;
+}
+
+[data-theme="dark"] [role="option"],
+[data-theme="dark"] .select-item {
+  color: var(--dashboard-fg) !important;
+}
+
+[data-theme="dark"] [role="option"]:hover,
+[data-theme="dark"] .select-item:hover {
+  background-color: var(--dashboard-hover) !important;
+}
+
+[data-theme="light"] [role="listbox"],
+[data-theme="light"] .select-content {
+  background-color: white !important;
+  border-color: #d1d5db !important;
+  color: #1f2937 !important;
+}
+
+[data-theme="light"] [role="option"],
+[data-theme="light"] .select-item {
+  color: #1f2937 !important;
+}
+
+[data-theme="light"] [role="option"]:hover,
+[data-theme="light"] .select-item:hover {
+  background-color: #f9fafb !important;
+}
+
+/* Date inputs */
+[data-theme="dark"] input[type="date"] {
+  background-color: var(--dashboard-input-bg) !important;
+  border-color: var(--dashboard-border) !important;
+  color: var(--dashboard-fg) !important;
+  color-scheme: dark !important;
+}
+
+[data-theme="dark"] input[type="date"]:focus {
+  outline: 2px solid var(--dashboard-focus) inset !important;
+  outline-offset: -2px !important;
+  border-color: var(--dashboard-accent) !important;
+}
+
+[data-theme="light"] input[type="date"] {
+  background-color: white !important;
+  border-color: #d1d5db !important;
+  color: #1f2937 !important;
+  color-scheme: light !important;
+}
+
+[data-theme="light"] input[type="date"]:focus {
+  outline: 2px solid #0E6D73 inset !important;
+  outline-offset: -2px !important;
+  border-color: #0E6D73 !important;
+}
+
+/* Number inputs (like Lookback Period) */
+[data-theme="dark"] input[type="number"] {
+  background-color: var(--dashboard-input-bg) !important;
+  border-color: var(--dashboard-border) !important;
+  color: var(--dashboard-fg) !important;
+}
+
+[data-theme="dark"] input[type="number"]:focus {
+  outline: 2px solid var(--dashboard-focus) inset !important;
+  outline-offset: -2px !important;
+  border-color: var(--dashboard-accent) !important;
+}
+
+[data-theme="light"] input[type="number"] {
+  background-color: white !important;
+  border-color: #d1d5db !important;
+  color: #1f2937 !important;
+}
+
+[data-theme="light"] input[type="number"]:focus {
+  outline: 2px solid #0E6D73 inset !important;
+  outline-offset: -2px !important;
+  border-color: #0E6D73 !important;
+}
 
 /* Timeframe dropdown styling */
 [data-theme="dark"] .timeframe-dropdown {
