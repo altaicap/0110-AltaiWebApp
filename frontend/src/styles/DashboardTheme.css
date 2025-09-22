@@ -467,8 +467,8 @@
   border: 1px solid #0E6D73 !important;
   box-shadow: none !important;
   transform: none !important;
-  margin: 2px !important; /* Equal margin on all sides for proper centering */
-  height: calc(100% - 4px) !important; /* Full height minus margins */
+  margin: 0 !important; /* Remove margins for precise centering */
+  height: 2.5rem !important; /* Fixed height for consistent appearance */
   z-index: 1;
   border-radius: 0.5rem;
   /* Use margin instead of inset for better control */
