@@ -3973,7 +3973,15 @@ metadata = {
           {/* Bottom Left: Calendar */}
           <Card className="relative pane-enhanced">
             <PaneControls paneId="calendar">
-              <Button variant="outline" size="sm" className="text-xs">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="text-xs"
+                onClick={() => {
+                  const now = new Date();
+                  setDashboardMonth(new Date(now.getFullYear(), now.getMonth(), 1));
+                }}
+              >
                 This month
               </Button>
             </PaneControls>
