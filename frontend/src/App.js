@@ -3920,30 +3920,51 @@ metadata = {
             </CardHeader>
             {!minimizedPanes.has('recent-entries') && (
               <CardContent className="pt-0">
-                <div className="h-80 overflow-y-auto">
-                  <div className="space-y-2">
-                    {[
-                      { ticker: 'AAPL', entryPrice: 192.41, quantity: 100, entryDate: '2024-09-19', strategy: 'Prior Bar Break Algo' },
-                      { ticker: 'MSFT', entryPrice: 421.85, quantity: 50, entryDate: '2024-09-18', strategy: 'Prior Bar Break Algo' },
-                      { ticker: 'TSLA', entryPrice: 252.95, quantity: 75, entryDate: '2024-09-17', strategy: 'Prior Bar Break Algo' },
-                      { ticker: 'GOOGL', entryPrice: 165.20, quantity: 25, entryDate: '2024-09-16', strategy: 'Prior Bar Break Algo' },
-                      { ticker: 'NVDA', entryPrice: 125.20, quantity: 150, entryDate: '2024-09-15', strategy: 'Prior Bar Break Algo' },
-                      { ticker: 'AMD', entryPrice: 142.80, quantity: 80, entryDate: '2024-09-14', strategy: 'Prior Bar Break Algo' }
-                    ].map((entry, index) => (
-                      <div key={index} className="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-800 rounded text-xs">
-                        <div className="flex flex-col">
-                          <span className="font-medium">{entry.ticker}</span>
-                          <span className="text-gray-500">{entry.entryDate}</span>
-                        </div>
-                        <div className="flex flex-col items-end">
-                          <span className="font-medium text-blue-500">
-                            ${entry.entryPrice} x {entry.quantity}
-                          </span>
-                          <span className="text-gray-500 text-xs">{entry.strategy}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                <div className="h-80 overflow-y-auto overflow-x-auto">
+                  <table className="w-full text-xs min-w-[1000px]">
+                    <thead className="border-b border-gray-200 dark:border-gray-700">
+                      <tr className="text-left">
+                        <th className="pb-1 px-2 text-xs font-medium">Ticker</th>
+                        <th className="pb-1 px-2 text-xs font-medium">Entry Date</th>
+                        <th className="pb-1 px-2 text-xs font-medium">Entry Price</th>
+                        <th className="pb-1 px-2 text-xs font-medium">Initial Stop</th>
+                        <th className="pb-1 px-2 text-xs font-medium">Current Stop</th>
+                        <th className="pb-1 px-2 text-xs font-medium">Quantity</th>
+                        <th className="pb-1 px-2 text-xs font-medium">$ Risk</th>
+                        <th className="pb-1 px-2 text-xs font-medium">R-Return</th>
+                        <th className="pb-1 px-2 text-xs font-medium">Strategy</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        { ticker: 'AAPL', entryPrice: 192.41, initialStop: 188.10, currentStop: 190.25, quantity: 100, entryDate: '2024-09-19', strategy: 'Prior Bar Break Algo' },
+                        { ticker: 'MSFT', entryPrice: 421.85, initialStop: 415.00, currentStop: 418.50, quantity: 50, entryDate: '2024-09-18', strategy: 'Prior Bar Break Algo' },
+                        { ticker: 'TSLA', entryPrice: 252.95, initialStop: 245.20, currentStop: 248.80, quantity: 75, entryDate: '2024-09-17', strategy: 'Prior Bar Break Algo' },
+                        { ticker: 'GOOGL', entryPrice: 165.20, initialStop: 160.50, currentStop: 162.10, quantity: 25, entryDate: '2024-09-16', strategy: 'Prior Bar Break Algo' },
+                        { ticker: 'NVDA', entryPrice: 125.20, initialStop: 119.80, currentStop: 122.15, quantity: 150, entryDate: '2024-09-15', strategy: 'Prior Bar Break Algo' },
+                        { ticker: 'AMD', entryPrice: 142.80, initialStop: 138.20, currentStop: 140.50, quantity: 80, entryDate: '2024-09-14', strategy: 'Prior Bar Break Algo' }
+                      ].map((entry, index) => {
+                        const dollarRisk = entry.quantity * (entry.entryPrice - entry.initialStop);
+                        const currentPrice = entry.entryPrice + (Math.random() * 10 - 5); // Mock current price
+                        const rReturn = ((currentPrice - entry.entryPrice) / (entry.entryPrice - entry.initialStop)).toFixed(2);
+                        return (
+                          <tr key={index} className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                            <td className="py-2 px-2 font-medium">{entry.ticker}</td>
+                            <td className="py-2 px-2 text-gray-500">{entry.entryDate}</td>
+                            <td className="py-2 px-2">${entry.entryPrice.toFixed(2)}</td>
+                            <td className="py-2 px-2">${entry.initialStop.toFixed(2)}</td>
+                            <td className="py-2 px-2">${entry.currentStop.toFixed(2)}</td>
+                            <td className="py-2 px-2">{entry.quantity}</td>
+                            <td className="py-2 px-2">${dollarRisk.toFixed(0)}</td>
+                            <td className={`py-2 px-2 font-medium ${parseFloat(rReturn) >= 0 ? 'positive' : 'negative'}`}>
+                              {parseFloat(rReturn) >= 0 ? '+' : ''}{rReturn}R
+                            </td>
+                            <td className="py-2 px-2 text-gray-500">{entry.strategy}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
                 </div>
               </CardContent>
             )}
