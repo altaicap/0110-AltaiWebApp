@@ -1073,7 +1073,7 @@
 
 /* Light Theme LLM Interface */
 [data-theme="light"] .ai-assistant-pane {
-  background: #f9fafb;
+  background: #F5F5F5;
   padding: 0;
   height: 100%;
   display: flex;
