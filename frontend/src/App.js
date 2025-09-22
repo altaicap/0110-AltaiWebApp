@@ -4019,6 +4019,42 @@ metadata = {
           {/* Bottom Left: Calendar */}
           <Card className="relative pane-enhanced">
             <PaneControls paneId="calendar">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className="text-xs mr-2">
+                    {calendarViewMode === 'dollar' ? '$ Returns' : 
+                     calendarViewMode === 'runit' ? 'R-Returns' :
+                     calendarViewMode === 'trades' ? 'No. of Trades' : '% Returns'}
+                    <ChevronDown className="h-3 w-3 ml-1" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="dropdown-menu-content">
+                  <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setCalendarViewMode('dollar')}>
+                    <div className="flex items-center gap-2 w-full">
+                      <span className="flex-1">$ Returns</span>
+                      {calendarViewMode === 'dollar' && <CheckCircle className="h-3 w-3" />}
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setCalendarViewMode('runit')}>
+                    <div className="flex items-center gap-2 w-full">
+                      <span className="flex-1">R-Returns</span>
+                      {calendarViewMode === 'runit' && <CheckCircle className="h-3 w-3" />}
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setCalendarViewMode('trades')}>
+                    <div className="flex items-center gap-2 w-full">
+                      <span className="flex-1">No. of Trades</span>
+                      {calendarViewMode === 'trades' && <CheckCircle className="h-3 w-3" />}
+                    </div>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="cursor-pointer dropdown-menu-item" onClick={() => setCalendarViewMode('percent')}>
+                    <div className="flex items-center gap-2 w-full">
+                      <span className="flex-1">% Returns</span>
+                      {calendarViewMode === 'percent' && <CheckCircle className="h-3 w-3" />}
+                    </div>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               <Button 
                 variant="outline" 
                 size="sm" 
