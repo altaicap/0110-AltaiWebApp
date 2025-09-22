@@ -4860,7 +4860,7 @@ metadata = {
                     ...prev, 
                     timeframe: e.target.value 
                   }))}
-                  className="w-full h-8 px-2 border rounded-md text-sm"
+                  className="w-full h-8 px-2 border rounded-md text-sm timeframe-dropdown"
                 >
                   <option value="15-second">15 Second</option>
                   <option value="1-minute">1 Minute</option>
