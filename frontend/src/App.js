@@ -3706,8 +3706,8 @@ metadata = {
             </CardHeader>
             {!minimizedPanes.has('positions') && (
               <CardContent className="pt-0">
-                <div className="h-80 overflow-y-auto">
-                  <table className="w-full text-xs">
+                <div className="h-80 overflow-y-auto overflow-x-auto">
+                  <table className="w-full text-xs min-w-[1200px]">
                     <thead className="border-b border-gray-200 dark:border-gray-700">
                       <tr className="text-left">
                         {positionsColumns
@@ -3716,7 +3716,7 @@ metadata = {
                           .map(column => (
                             <th 
                               key={column.id}
-                              className="pb-1 cursor-pointer hover:text-green-500 px-1 text-xs font-medium" 
+                              className="pb-1 cursor-pointer hover:text-green-500 px-2 text-xs font-medium whitespace-nowrap" 
                               onClick={() => handleSort(column.id)}
                             >
                               {column.label} {getSortIcon(column.id)}
@@ -3734,10 +3734,10 @@ metadata = {
                             .map(column => {
                               const value = position[column.id];
                               let displayValue = value;
-                              let className = "py-2 px-1 text-xs";
+                              let className = "py-2 px-2 text-xs whitespace-nowrap";
                               
                               // Format values based on column type
-                              if (column.id === 'costBasis' || column.id === 'currentPrice') {
+                              if (column.id === 'costBasis' || column.id === 'currentPrice' || column.id === 'initialStop' || column.id === 'currentStop') {
                                 displayValue = `$${value.toFixed(2)}`;
                               } else if (column.id === 'quantity') {
                                 displayValue = value.toLocaleString();
@@ -3749,10 +3749,72 @@ metadata = {
                                 const isPositive = value >= 0;
                                 displayValue = `${isPositive ? '+' : ''}$${Math.abs(value).toFixed(2)}`;
                                 className += isPositive ? ' positive' : ' negative';
+                              } else if (column.id === 'rReturn') {
+                                const isPositive = parseFloat(value) >= 0;
+                                displayValue = `${isPositive ? '+' : ''}${value}R`;
+                                className += isPositive ? ' positive' : ' negative';
                               } else if (column.id === 'ticker') {
                                 className += ' font-medium';
                               } else if (column.id === 'strategy') {
-                                className += ' text-gray-500';
+                                if (value === '' || value === null) {
+                                  // Editable strategy field for discretionary trades
+                                  return (
+                                    <td key={column.id} className={className}>
+                                      <input
+                                        type="text"
+                                        placeholder="Add strategy tag..."
+                                        className="w-full bg-transparent border border-gray-300 dark:border-gray-600 rounded px-1 py-0.5 text-xs"
+                                        onFocus={(e) => {
+                                          setEditingStrategy(`${position.ticker}-${index}`);
+                                          if (e.target.value.length > 0) {
+                                            const filtered = strategyTags.filter(tag => 
+                                              tag.toLowerCase().includes(e.target.value.toLowerCase())
+                                            );
+                                            setStrategySuggestions(filtered);
+                                            setShowStrategySuggestions(true);
+                                          }
+                                        }}
+                                        onChange={(e) => {
+                                          const input = e.target.value;
+                                          if (input.length > 0) {
+                                            const filtered = strategyTags.filter(tag => 
+                                              tag.toLowerCase().startsWith(input.toLowerCase())
+                                            );
+                                            setStrategySuggestions(filtered);
+                                            setShowStrategySuggestions(true);
+                                          } else {
+                                            setShowStrategySuggestions(false);
+                                          }
+                                        }}
+                                        onBlur={() => {
+                                          setTimeout(() => {
+                                            setShowStrategySuggestions(false);
+                                            setEditingStrategy(null);
+                                          }, 200);
+                                        }}
+                                      />
+                                      {showStrategySuggestions && editingStrategy === `${position.ticker}-${index}` && strategySuggestions.length > 0 && (
+                                        <div className="absolute z-50 mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded shadow-lg">
+                                          {strategySuggestions.slice(0, 5).map((suggestion) => (
+                                            <div
+                                              key={suggestion}
+                                              className="px-2 py-1 text-xs cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+                                              onClick={() => {
+                                                // Update position strategy
+                                                position.strategy = suggestion;
+                                                setShowStrategySuggestions(false);
+                                              }}
+                                            >
+                                              {suggestion}
+                                            </div>
+                                          ))}
+                                        </div>
+                                      )}
+                                    </td>
+                                  );
+                                } else {
+                                  className += ' text-gray-500';
+                                }
                               }
                               
                               return (
