@@ -5045,7 +5045,7 @@ metadata = {
             </div>
             
             {/* Column Settings Dropdown */}
-            {showColumnSettings && (
+            {showTradeLogColumnSettings && (
               <div className="mt-4 p-4 border rounded bg-gray-50">
                 <div className="grid grid-cols-3 gap-2">
                   {Object.entries(tradeLogColumns).map(([column, visible]) => (
