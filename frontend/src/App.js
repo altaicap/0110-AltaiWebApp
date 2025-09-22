@@ -4177,7 +4177,7 @@ metadata = {
                         calendar.push(
                           <div 
                             key={day} 
-                            className={`h-12 border rounded p-1 flex flex-col relative ${bgColor} ${textColor}`}
+                            className="h-12 border rounded p-1 flex flex-col relative"
                             style={{
                               backgroundColor: dayData?.color === 'green' ? '#22c55e' : 
                                               dayData?.color === 'red' ? '#ef4444' : 
@@ -4188,10 +4188,11 @@ metadata = {
                             }}
                           >
                             <div 
-                              className="absolute top-1 left-1 font-medium text-xs calendar-day-number"
+                              className="absolute top-1 left-1 font-medium text-xs"
                               style={{
-                                color: dayData?.color ? 'white' : undefined,
-                                fontWeight: dayData?.color ? '600' : undefined
+                                color: dayData?.color ? 'white' : 
+                                       (document.documentElement.getAttribute('data-theme') === 'light' ? '#6b7280' : '#9ca3af'),
+                                fontWeight: dayData?.color ? '600' : '500'
                               }}
                             >
                               {day}
@@ -4200,8 +4201,9 @@ metadata = {
                               <div 
                                 className="flex flex-col items-center justify-center h-full"
                                 style={{
-                                  color: dayData.color ? 'white' : undefined,
-                                  fontWeight: dayData.color ? '600' : undefined
+                                  color: dayData.color ? 'white' : 
+                                         (document.documentElement.getAttribute('data-theme') === 'light' ? '#000000' : '#ffffff'),
+                                  fontWeight: '600'
                                 }}
                               >
                                 <div className="font-bold text-xs leading-tight text-center">
