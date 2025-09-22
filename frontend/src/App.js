@@ -536,10 +536,13 @@ function App() {
     // Trading performance highlights
     winRateTrades: 67.8,  // Win rate percentage for trades
     winRateDays: 72.3,    // Win rate percentage for days  
+    breakevenRateTrades: 8.5, // Breakeven rate for trades
+    breakevenRateDays: 6.2,   // Breakeven rate for days
     profitFactor: 2.14,   // Profit factor (gross profit / gross loss)
     avgWin: 150,          // Average win in USD
     avgLoss: 70,          // Average loss in USD
     currentAccountValue: 125750.00,  // Current account value
+    portfolioReturnPercent: 18.7, // Portfolio return percentage
     totalRealizedPL: 23750.50       // Total realized P&L
   });
   const [integrationStatus, setIntegrationStatus] = useState({
