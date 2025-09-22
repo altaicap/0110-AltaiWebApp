@@ -3565,20 +3565,20 @@ metadata = {
                   <div className="text-sm text-gray-500 font-medium">
                     Win Rate (Days)
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2 relative overflow-hidden">
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 relative overflow-hidden">
                     <div 
-                      className="bg-green-500 h-2 rounded-l-full absolute left-0 transition-all duration-300" 
+                      className="bg-green-500 h-2 rounded-l-full absolute left-0 transition-all duration-300 z-10" 
                       style={{ width: `${(dashboardData.winRateDays || 72.3)}%` }}
                     ></div>
                     <div 
-                      className="bg-yellow-500 h-2 absolute transition-all duration-300" 
+                      className="bg-yellow-500 h-2 absolute transition-all duration-300 z-20" 
                       style={{ 
                         left: `${(dashboardData.winRateDays || 72.3)}%`,
                         width: `${(dashboardData.breakevenRateDays || 6.2)}%` 
                       }}
                     ></div>
                     <div 
-                      className="bg-red-500 h-2 rounded-r-full absolute right-0 transition-all duration-300" 
+                      className="bg-red-500 h-2 rounded-r-full absolute right-0 transition-all duration-300 z-10" 
                       style={{ width: `${100 - (dashboardData.winRateDays || 72.3) - (dashboardData.breakevenRateDays || 6.2)}%` }}
                     ></div>
                   </div>
