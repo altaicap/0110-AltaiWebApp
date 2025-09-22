@@ -4343,10 +4343,6 @@ metadata = {
                 <CardTitle className="pane-title">Configuration</CardTitle>
                 <CardDescription>Set up your backtest parameters</CardDescription>
               </div>
-              <Button size="sm" variant="outline">
-                <Download className="w-4 h-4 mr-2" />
-                Export Backtest
-              </Button>
             </div>
           </CardHeader>
           {!minimizedPanes.has('backtest-config') && (
