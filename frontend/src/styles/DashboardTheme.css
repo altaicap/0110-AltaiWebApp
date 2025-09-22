@@ -2154,8 +2154,48 @@
 }
 
 /* ========================================
-   CALENDAR THEMING - Custom classes for our theme system
+   STRATEGIES TAB BUTTON FIXES
    ======================================== */
+
+/* Ensure Backtest & Configure button icons are visible in both themes */
+[data-theme="dark"] .btn-primary svg,
+[data-theme="dark"] button[variant="primary"] svg,
+[data-theme="dark"] .variant-primary svg {
+  color: var(--dashboard-accent-on) !important;
+  fill: var(--dashboard-accent-on) !important;
+  stroke: var(--dashboard-accent-on) !important;
+  opacity: 1 !important;
+}
+
+[data-theme="light"] .btn-primary svg,
+[data-theme="light"] button[variant="primary"] svg,
+[data-theme="light"] .variant-primary svg {
+  color: white !important;
+  fill: white !important;
+  stroke: white !important;
+  opacity: 1 !important;
+}
+
+/* Strategy configuration button icons */
+[data-theme="dark"] .text-xs button svg {
+  color: var(--dashboard-accent) !important;
+  opacity: 0.8 !important;
+}
+
+[data-theme="dark"] .text-xs button:hover svg {
+  opacity: 1.0 !important;
+  color: #00d18a !important;
+}
+
+[data-theme="light"] .text-xs button svg {
+  color: #0E6D73 !important;
+  opacity: 0.8 !important;
+}
+
+[data-theme="light"] .text-xs button:hover svg {
+  opacity: 1.0 !important;
+  color: #00a66b !important;
+}
 
 /* Default calendar day styling */
 [data-theme="dark"] .calendar-day-default {
