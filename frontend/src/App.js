@@ -5934,7 +5934,7 @@ metadata = {
           style={{ width: `${100 - splitScreenRatio}%` }}
           className="flex flex-col"
         >
-          <div className={`flex-1 overflow-hidden ${isDarkTheme ? 'dashboard-main text-white' : 'bg-white text-gray-900'}`}>
+          <div className={`flex-1 overflow-hidden dashboard-main ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
             <Tabs 
               value={activeTab} 
               onValueChange={setActiveTab}
