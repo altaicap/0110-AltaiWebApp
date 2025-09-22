@@ -2493,3 +2493,35 @@
 [data-theme="dark"] .shadow-lg {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
 }
+
+/* ========================================
+   TRADING PERFORMANCE HIGHLIGHTS FIXES
+   ======================================== */
+
+/* Ensure progress bars are visible and working */
+.trading-highlights-pane .bg-green-500 {
+  background-color: #22c55e !important;
+}
+
+.trading-highlights-pane .bg-yellow-500 {
+  background-color: #eab308 !important;
+}
+
+.trading-highlights-pane .bg-red-500 {
+  background-color: #ef4444 !important;
+}
+
+/* Progress bar container styling */
+.trading-highlights-pane .bg-gray-200 {
+  background-color: #e5e7eb !important;
+}
+
+[data-theme="dark"] .trading-highlights-pane .bg-gray-700 {
+  background-color: #374151 !important;
+}
+
+/* Ensure proper positioning and visibility */
+.trading-highlights-pane .relative div[style*="width"] {
+  min-height: 8px !important;
+  display: block !important;
+}
