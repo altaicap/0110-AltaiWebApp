@@ -2411,42 +2411,51 @@
   color: #1f2937 !important;
 }
 
-/* Green calendar days (profitable days) - HIGH SPECIFICITY */
+/* Green calendar days (profitable days) - MAXIMUM SPECIFICITY */
 [data-theme="dark"] .h-12.border.rounded.calendar-day-green,
-[data-theme="dark"] .calendar-day-green.h-12.border.rounded {
+[data-theme="dark"] .calendar-day-green.h-12.border.rounded,
+[data-theme="dark"] div.calendar-day-green {
   background-color: #22c55e !important;
   border-color: #16a34a !important;
 }
 
 [data-theme="light"] .h-12.border.rounded.calendar-day-green,
-[data-theme="light"] .calendar-day-green.h-12.border.rounded {
+[data-theme="light"] .calendar-day-green.h-12.border.rounded,
+[data-theme="light"] div.calendar-day-green {
   background-color: #22c55e !important;
   border-color: #16a34a !important;
 }
 
+/* Calendar text colors - MAXIMUM SPECIFICITY */
 [data-theme="dark"] .calendar-text-green,
 [data-theme="dark"] .calendar-text-green .font-bold,
 [data-theme="dark"] .calendar-day-green .calendar-day-number,
-[data-theme="dark"] .h-12.border.rounded.calendar-day-green .calendar-day-number {
+[data-theme="dark"] .h-12.border.rounded.calendar-day-green .calendar-day-number,
+[data-theme="dark"] .calendar-day-green .font-bold.text-xs.leading-tight {
   color: white !important;
+  font-weight: 600 !important;
 }
 
 [data-theme="light"] .calendar-text-green,
 [data-theme="light"] .calendar-text-green .font-bold,
 [data-theme="light"] .calendar-day-green .calendar-day-number,
-[data-theme="light"] .h-12.border.rounded.calendar-day-green .calendar-day-number {
+[data-theme="light"] .h-12.border.rounded.calendar-day-green .calendar-day-number,
+[data-theme="light"] .calendar-day-green .font-bold.text-xs.leading-tight {
   color: white !important;
+  font-weight: 600 !important;
 }
 
-/* Red calendar days (losing days) - HIGH SPECIFICITY */
+/* Red calendar days (losing days) - MAXIMUM SPECIFICITY */
 [data-theme="dark"] .h-12.border.rounded.calendar-day-red,
-[data-theme="dark"] .calendar-day-red.h-12.border.rounded {
+[data-theme="dark"] .calendar-day-red.h-12.border.rounded,
+[data-theme="dark"] div.calendar-day-red {
   background-color: #ef4444 !important;
   border-color: #dc2626 !important;
 }
 
 [data-theme="light"] .h-12.border.rounded.calendar-day-red,
-[data-theme="light"] .calendar-day-red.h-12.border.rounded {
+[data-theme="light"] .calendar-day-red.h-12.border.rounded,
+[data-theme="light"] div.calendar-day-red {
   background-color: #ef4444 !important;
   border-color: #dc2626 !important;
 }
@@ -2454,26 +2463,32 @@
 [data-theme="dark"] .calendar-text-red,
 [data-theme="dark"] .calendar-text-red .font-bold,
 [data-theme="dark"] .calendar-day-red .calendar-day-number,
-[data-theme="dark"] .h-12.border.rounded.calendar-day-red .calendar-day-number {
+[data-theme="dark"] .h-12.border.rounded.calendar-day-red .calendar-day-number,
+[data-theme="dark"] .calendar-day-red .font-bold.text-xs.leading-tight {
   color: white !important;
+  font-weight: 600 !important;
 }
 
 [data-theme="light"] .calendar-text-red,
 [data-theme="light"] .calendar-text-red .font-bold,
 [data-theme="light"] .calendar-day-red .calendar-day-number,
-[data-theme="light"] .h-12.border.rounded.calendar-day-red .calendar-day-number {
+[data-theme="light"] .h-12.border.rounded.calendar-day-red .calendar-day-number,
+[data-theme="light"] .calendar-day-red .font-bold.text-xs.leading-tight {
   color: white !important;
+  font-weight: 600 !important;
 }
 
-/* Blue calendar days (breakeven days) - changed to orange - HIGH SPECIFICITY */
+/* Orange calendar days (breakeven days) - MAXIMUM SPECIFICITY */
 [data-theme="dark"] .h-12.border.rounded.calendar-day-blue,
-[data-theme="dark"] .calendar-day-blue.h-12.border.rounded {
+[data-theme="dark"] .calendar-day-blue.h-12.border.rounded,
+[data-theme="dark"] div.calendar-day-blue {
   background-color: #f97316 !important;
   border-color: #ea580c !important;
 }
 
 [data-theme="light"] .h-12.border.rounded.calendar-day-blue,
-[data-theme="light"] .calendar-day-blue.h-12.border.rounded {
+[data-theme="light"] .calendar-day-blue.h-12.border.rounded,
+[data-theme="light"] div.calendar-day-blue {
   background-color: #f97316 !important;
   border-color: #ea580c !important;
 }
@@ -2481,15 +2496,19 @@
 [data-theme="dark"] .calendar-text-blue,
 [data-theme="dark"] .calendar-text-blue .font-bold,
 [data-theme="dark"] .calendar-day-blue .calendar-day-number,
-[data-theme="dark"] .h-12.border.rounded.calendar-day-blue .calendar-day-number {
+[data-theme="dark"] .h-12.border.rounded.calendar-day-blue .calendar-day-number,
+[data-theme="dark"] .calendar-day-blue .font-bold.text-xs.leading-tight {
   color: white !important;
+  font-weight: 600 !important;
 }
 
 [data-theme="light"] .calendar-text-blue,
 [data-theme="light"] .calendar-text-blue .font-bold,
 [data-theme="light"] .calendar-day-blue .calendar-day-number,
-[data-theme="light"] .h-12.border.rounded.calendar-day-blue .calendar-day-number {
+[data-theme="light"] .h-12.border.rounded.calendar-day-blue .calendar-day-number,
+[data-theme="light"] .calendar-day-blue .font-bold.text-xs.leading-tight {
   color: white !important;
+  font-weight: 600 !important;
 }
 
 /* Shadow system - restrained elevations */
