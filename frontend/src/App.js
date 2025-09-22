@@ -514,8 +514,9 @@ function App() {
     { id: 'ticker', label: 'Ticker', visible: true, order: 0 },
     { id: 'closeDate', label: 'Close Date', visible: true, order: 1 },
     { id: 'dollarRisk', label: '$ Risk', visible: true, order: 2 },
-    { id: 'pnl', label: 'PnL/R-Return', visible: true, order: 3 },
-    { id: 'strategy', label: 'Strategy', visible: true, order: 4 }
+    { id: 'pnl', label: '$ PnL', visible: true, order: 3 },
+    { id: 'rReturn', label: 'R-Return', visible: true, order: 4 },
+    { id: 'strategy', label: 'Strategy', visible: true, order: 5 }
   ]);
   const [showRecentlyClosedColumnSettings, setShowRecentlyClosedColumnSettings] = useState(false);
   
