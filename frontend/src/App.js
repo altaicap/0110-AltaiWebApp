@@ -5033,73 +5033,44 @@ metadata = {
               </div>
               <div className="flex items-center gap-2">
                 <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="text-xs"
+                  onClick={() => setShowTradeLogColumnSettings(true)}
+                >
+                  <Settings2 className="h-3 w-3 mr-1" />
+                  Columns
+                </Button>
+                <Button 
                   size="sm" 
                   variant="outline"
-                  onClick={() => setShowTradeLogColumnSettings(!showTradeLogColumnSettings)}
+                  onClick={() => {
+                    // Export trade log as CSV with selected columns
+                    const visibleColumns = tradeLogColumns
+                      .filter(col => col.visible)
+                      .sort((a, b) => a.order - b.order);
+                    
+                    const csvData = [
+                      visibleColumns.map(col => col.label),
+                      // Add data rows here when needed
+                    ];
+                    
+                    const csvContent = csvData.map(row => row.join(',')).join('\n');
+                    const blob = new Blob([csvContent], { type: 'text/csv' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'backtest_trade_log.csv';
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                  }}
                   className="flex items-center gap-2"
                 >
-                  <Settings className="w-4 h-4" />
-                  Columns
+                  <Download className="w-4 h-4" />
+                  Export CSV
                 </Button>
               </div>
             </div>
-            
-            {/* Column Settings Dropdown */}
-            {showTradeLogColumnSettings && (
-              <div className="mt-4 p-4 border rounded bg-gray-50">
-                <div className="grid grid-cols-3 gap-2">
-                  {tradeLogColumns.map((column) => (
-                    <div key={column.id} className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        id={`col-${column.id}`}
-                        checked={column.visible}
-                        onChange={(e) => {
-                          setTradeLogColumns(prev => 
-                            prev.map(col => 
-                              col.id === column.id 
-                                ? { ...col, visible: e.target.checked }
-                                : col
-                            )
-                          );
-                        }}
-                        className="w-3 h-3"
-                      />
-                      <Label 
-                        htmlFor={`col-${column.id}`} 
-                        className="text-xs cursor-pointer"
-                      >
-                        {column.label}
-                      </Label>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-3 flex gap-2">
-                  <Button 
-                    size="sm" 
-                    variant="outline"
-                    onClick={() => {
-                      setTradeLogColumns(prev => 
-                        prev.map(col => ({ ...col, visible: true }))
-                      );
-                    }}
-                  >
-                    Select All
-                  </Button>
-                  <Button 
-                    size="sm" 
-                    variant="outline"
-                    onClick={() => {
-                      setTradeLogColumns(prev => 
-                        prev.map(col => ({ ...col, visible: false }))
-                      );
-                    }}
-                  >
-                    Clear All
-                  </Button>
-                </div>
-              </div>
-            )}
           </CardHeader>
           {!minimizedPanes.has('trade-log') && (
           <CardContent>
