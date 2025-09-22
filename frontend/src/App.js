@@ -4069,17 +4069,17 @@ metadata = {
                         }
                         
                         calendar.push(
-                          <div key={day} className={`h-12 border rounded p-1 ${bgColor} ${textColor} flex flex-col justify-between text-xs`}>
-                            <div className="font-medium">{day}</div>
+                          <div key={day} className={`h-12 border rounded p-1 ${bgColor} ${textColor} flex flex-col justify-center items-center text-xs relative`}>
+                            <div className="absolute top-1 left-1 font-medium text-xs">{day}</div>
                             {dayData && (
-                              <div className="flex flex-col items-center">
-                                <div className="font-bold text-xs">
+                              <div className="flex flex-col items-center justify-center h-full">
+                                <div className="font-bold text-xs leading-tight">
                                   {chartUnits === 'dollar' ? 
                                     (dayData.pnl === 0 ? '$0' : `${dayData.pnl > 0 ? '+' : ''}$${Math.abs(dayData.pnl) >= 1000 ? `${(dayData.pnl/1000).toFixed(1)}K` : dayData.pnl}`) :
                                     (dayData.pnl === 0 ? '0R' : `${dayData.pnl > 0 ? '+' : ''}${(dayData.pnl/100).toFixed(1)}R`)
                                   }
                                 </div>
-                                <div className="text-xs opacity-75">
+                                <div className="text-xs opacity-75 leading-tight">
                                   {dayData.trades} trades
                                 </div>
                               </div>
