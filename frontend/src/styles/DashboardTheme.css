@@ -2400,12 +2400,71 @@
   color: #6b7280 !important;
 }
 
-/* Override day numbers on colored backgrounds to be white - FORCE */
-.calendar-day-green .calendar-day-number,
-.calendar-day-red .calendar-day-number,
-.calendar-day-blue .calendar-day-number {
+/* ========================================
+   CALENDAR COLORS - SIMPLE WORKING APPROACH
+   ======================================== */
+
+/* Progress bar colors - keep these working */
+.bg-green-500 {
+  background-color: #22c55e !important;
+}
+
+.bg-yellow-500 {
+  background-color: #eab308 !important;
+}
+
+.bg-red-500 {
+  background-color: #ef4444 !important;
+}
+
+.bg-gray-200 {
+  background-color: #e5e7eb !important;
+}
+
+.bg-gray-700 {
+  background-color: #374151 !important;
+}
+
+/* Calendar day colors - FORCE with !important */
+.calendar-green {
+  background-color: #22c55e !important;
+  border-color: #16a34a !important;
+}
+
+.calendar-red {
+  background-color: #ef4444 !important;
+  border-color: #dc2626 !important;
+}
+
+.calendar-orange {
+  background-color: #f97316 !important;
+  border-color: #ea580c !important;
+}
+
+/* Calendar text colors */
+.calendar-text-white {
   color: white !important;
   font-weight: 600 !important;
+}
+
+.calendar-text-gray {
+  color: #6b7280 !important;
+  font-weight: 500 !important;
+}
+
+.calendar-text-black {
+  color: #000000 !important;
+  font-weight: 600 !important;
+}
+
+.calendar-text-default-dark {
+  color: #9ca3af !important;
+  font-weight: 500 !important;
+}
+
+.calendar-text-default-light {
+  color: #374151 !important;
+  font-weight: 500 !important;
 }
 
 /* Default calendar text styling */
