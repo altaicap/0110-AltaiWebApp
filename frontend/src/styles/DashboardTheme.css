@@ -2402,59 +2402,71 @@
 
 /* Green calendar days (profitable days) */
 [data-theme="dark"] .calendar-day-green {
-  background-color: rgba(0, 189, 125, 0.15) !important;
-  border-color: var(--dashboard-success) !important;
+  background-color: #22c55e !important;
+  border-color: #16a34a !important;
 }
 
 [data-theme="light"] .calendar-day-green {
-  background-color: rgba(34, 197, 94, 0.1) !important;
-  border-color: #22c55e !important;
+  background-color: #22c55e !important;
+  border-color: #16a34a !important;
 }
 
-[data-theme="dark"] .calendar-text-green {
-  color: var(--dashboard-success) !important;
+[data-theme="dark"] .calendar-text-green,
+[data-theme="dark"] .calendar-text-green .font-bold,
+[data-theme="dark"] .calendar-day-green .calendar-day-number {
+  color: white !important;
 }
 
-[data-theme="light"] .calendar-text-green {
-  color: #15803d !important;
+[data-theme="light"] .calendar-text-green,
+[data-theme="light"] .calendar-text-green .font-bold,
+[data-theme="light"] .calendar-day-green .calendar-day-number {
+  color: white !important;
 }
 
 /* Red calendar days (losing days) */
 [data-theme="dark"] .calendar-day-red {
-  background-color: rgba(229, 62, 62, 0.15) !important;
-  border-color: var(--dashboard-danger) !important;
+  background-color: #ef4444 !important;
+  border-color: #dc2626 !important;
 }
 
 [data-theme="light"] .calendar-day-red {
-  background-color: rgba(239, 68, 68, 0.1) !important;
-  border-color: #ef4444 !important;
+  background-color: #ef4444 !important;
+  border-color: #dc2626 !important;
 }
 
-[data-theme="dark"] .calendar-text-red {
-  color: var(--dashboard-danger) !important;
+[data-theme="dark"] .calendar-text-red,
+[data-theme="dark"] .calendar-text-red .font-bold,
+[data-theme="dark"] .calendar-day-red .calendar-day-number {
+  color: white !important;
 }
 
-[data-theme="light"] .calendar-text-red {
-  color: #dc2626 !important;
+[data-theme="light"] .calendar-text-red,
+[data-theme="light"] .calendar-text-red .font-bold,
+[data-theme="light"] .calendar-day-red .calendar-day-number {
+  color: white !important;
 }
 
-/* Blue calendar days (breakeven days) */
+/* Blue calendar days (breakeven days) - changed to orange */
 [data-theme="dark"] .calendar-day-blue {
-  background-color: rgba(59, 130, 246, 0.15) !important;
-  border-color: #3b82f6 !important;
+  background-color: #f97316 !important;
+  border-color: #ea580c !important;
 }
 
 [data-theme="light"] .calendar-day-blue {
-  background-color: rgba(59, 130, 246, 0.1) !important;
-  border-color: #3b82f6 !important;
+  background-color: #f97316 !important;
+  border-color: #ea580c !important;
 }
 
-[data-theme="dark"] .calendar-text-blue {
-  color: #60a5fa !important;
+[data-theme="dark"] .calendar-text-blue,
+[data-theme="dark"] .calendar-text-blue .font-bold,
+[data-theme="dark"] .calendar-day-blue .calendar-day-number {
+  color: white !important;
 }
 
-[data-theme="light"] .calendar-text-blue {
-  color: #2563eb !important;
+[data-theme="light"] .calendar-text-blue,
+[data-theme="light"] .calendar-text-blue .font-bold,
+[data-theme="light"] .calendar-day-blue .calendar-day-number {
+  color: white !important;
 }
 
 /* Shadow system - restrained elevations */
