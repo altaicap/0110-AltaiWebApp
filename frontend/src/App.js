@@ -4158,54 +4158,29 @@ metadata = {
                       // Days of the month
                       for (let day = 1; day <= daysInMonth; day++) {
                         const dayData = tradingData[day];
-                        let bgColor = 'calendar-day-default';
-                        let textColor = 'calendar-text-default';
                         
+                        // Determine background class
+                        let bgClass = '';
                         if (dayData) {
                           if (dayData.color === 'green') {
-                            bgColor = 'calendar-day-green';
-                            textColor = 'calendar-text-green';
+                            bgClass = 'calendar-green';
                           } else if (dayData.color === 'red') {
-                            bgColor = 'calendar-day-red';
-                            textColor = 'calendar-text-red';
+                            bgClass = 'calendar-red';
                           } else if (dayData.color === 'blue') {
-                            bgColor = 'calendar-day-blue';
-                            textColor = 'calendar-text-blue';
+                            bgClass = 'calendar-orange';
                           }
                         }
                         
                         calendar.push(
                           <div 
                             key={day} 
-                            className="h-12 border rounded p-1 flex flex-col relative"
-                            style={{
-                              backgroundColor: dayData?.color === 'green' ? '#22c55e' : 
-                                              dayData?.color === 'red' ? '#ef4444' : 
-                                              dayData?.color === 'blue' ? '#f97316' : 'transparent',
-                              borderColor: dayData?.color === 'green' ? '#16a34a' : 
-                                          dayData?.color === 'red' ? '#dc2626' : 
-                                          dayData?.color === 'blue' ? '#ea580c' : undefined
-                            }}
+                            className={`h-12 border rounded p-1 flex flex-col relative ${bgClass}`}
                           >
-                            <div 
-                              className="absolute top-1 left-1 font-medium text-xs"
-                              style={{
-                                color: dayData?.color ? 'white' : 
-                                       (document.documentElement.getAttribute('data-theme') === 'light' ? '#6b7280' : '#9ca3af'),
-                                fontWeight: dayData?.color ? '600' : '500'
-                              }}
-                            >
+                            <div className={`absolute top-1 left-1 font-medium text-xs ${dayData ? 'calendar-text-white' : 'calendar-text-gray'}`}>
                               {day}
                             </div>
                             {dayData && (
-                              <div 
-                                className="flex flex-col items-center justify-center h-full"
-                                style={{
-                                  color: dayData.color ? 'white' : 
-                                         (document.documentElement.getAttribute('data-theme') === 'light' ? '#000000' : '#ffffff'),
-                                  fontWeight: '600'
-                                }}
-                              >
+                              <div className="flex flex-col items-center justify-center h-full calendar-text-white">
                                 <div className="font-bold text-xs leading-tight text-center">
                                   {calendarViewMode === 'dollar' ? 
                                     (dayData.pnl === 0 ? '$0' : `${dayData.pnl > 0 ? '+' : ''}$${Math.abs(dayData.pnl) >= 1000 ? `${(dayData.pnl/1000).toFixed(1)}K` : dayData.pnl}`) :
