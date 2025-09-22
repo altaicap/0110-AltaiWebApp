@@ -3900,11 +3900,12 @@ metadata = {
                   <table className="w-full text-xs min-w-[800px]">
                     <thead className="border-b border-gray-200 dark:border-gray-700">
                       <tr className="text-left">
-                        <th className="pb-1 px-2 text-xs font-medium">Ticker</th>
-                        <th className="pb-1 px-2 text-xs font-medium">Close Date</th>
-                        <th className="pb-1 px-2 text-xs font-medium">$ Risk</th>
-                        <th className="pb-1 px-2 text-xs font-medium">{realizedPnlViewMode === 'dollar' ? '$ PnL' : 'R-Return'}</th>
-                        <th className="pb-1 px-2 text-xs font-medium">Strategy</th>
+                        {recentlyClosedColumns
+                          .filter(col => col.visible)
+                          .sort((a, b) => a.order - b.order)
+                          .map(column => (
+                            <th key={column.id} className="pb-1 px-2 text-xs font-medium">{column.label}</th>
+                          ))}
                       </tr>
                     </thead>
                     <tbody>
@@ -3919,16 +3920,47 @@ metadata = {
                         const dollarRisk = trade.quantity * (trade.costBasis - trade.initialStop);
                         return (
                           <tr key={index} className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50">
-                            <td className="py-2 px-2 font-medium">{trade.ticker}</td>
-                            <td className="py-2 px-2 text-gray-500">{trade.date}</td>
-                            <td className="py-2 px-2">${dollarRisk.toFixed(0)}</td>
-                            <td className={`py-2 px-2 font-medium ${trade.pnl >= 0 ? 'positive' : 'negative'}`}>
-                              {realizedPnlViewMode === 'dollar' ? 
-                                `${trade.pnl >= 0 ? '+' : ''}$${Math.abs(trade.pnl)}` : 
-                                trade.rReturn
-                              }
-                            </td>
-                            <td className="py-2 px-2 text-gray-500">{trade.strategy}</td>
+                            {recentlyClosedColumns
+                              .filter(col => col.visible)
+                              .sort((a, b) => a.order - b.order)
+                              .map(column => {
+                                let value = '';
+                                let className = 'py-2 px-2';
+                                
+                                switch(column.id) {
+                                  case 'ticker':
+                                    value = trade.ticker;
+                                    className += ' font-medium';
+                                    break;
+                                  case 'closeDate':
+                                    value = trade.date;
+                                    className += ' text-gray-500';
+                                    break;
+                                  case 'dollarRisk':
+                                    value = `$${dollarRisk.toFixed(0)}`;
+                                    break;
+                                  case 'pnl':
+                                    value = `${trade.pnl >= 0 ? '+' : ''}$${Math.abs(trade.pnl)}`;
+                                    className += trade.pnl >= 0 ? ' positive font-medium' : ' negative font-medium';
+                                    break;
+                                  case 'rReturn':
+                                    value = trade.rReturn;
+                                    className += trade.pnl >= 0 ? ' positive font-medium' : ' negative font-medium';
+                                    break;
+                                  case 'strategy':
+                                    value = trade.strategy;
+                                    className += ' text-gray-500';
+                                    break;
+                                  default:
+                                    value = '-';
+                                }
+                                
+                                return (
+                                  <td key={column.id} className={className}>
+                                    {value}
+                                  </td>
+                                );
+                              })}
                           </tr>
                         );
                       })}
