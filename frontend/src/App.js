@@ -4197,7 +4197,13 @@ metadata = {
                               {day}
                             </div>
                             {dayData && (
-                              <div className="flex flex-col items-center justify-center h-full">
+                              <div 
+                                className="flex flex-col items-center justify-center h-full"
+                                style={{
+                                  color: dayData.color ? 'white' : undefined,
+                                  fontWeight: dayData.color ? '600' : undefined
+                                }}
+                              >
                                 <div className="font-bold text-xs leading-tight text-center">
                                   {calendarViewMode === 'dollar' ? 
                                     (dayData.pnl === 0 ? '$0' : `${dayData.pnl > 0 ? '+' : ''}$${Math.abs(dayData.pnl) >= 1000 ? `${(dayData.pnl/1000).toFixed(1)}K` : dayData.pnl}`) :
