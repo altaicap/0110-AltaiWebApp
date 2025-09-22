@@ -2154,8 +2154,45 @@
 }
 
 /* ========================================
-   STRATEGIES TAB BUTTON FIXES
+   BACKTEST TAB IMPROVEMENTS
    ======================================== */
+
+/* Timeframe dropdown styling */
+[data-theme="dark"] .timeframe-dropdown {
+  background-color: var(--dashboard-input-bg) !important;
+  border-color: var(--dashboard-border) !important;
+  color: var(--dashboard-fg) !important;
+  border-radius: 0.375rem;
+}
+
+[data-theme="dark"] .timeframe-dropdown:focus {
+  outline: 2px solid var(--dashboard-focus) inset !important;
+  outline-offset: -2px !important;
+  border-color: var(--dashboard-accent) !important;
+}
+
+[data-theme="dark"] .timeframe-dropdown option {
+  background-color: var(--dashboard-input-bg) !important;
+  color: var(--dashboard-fg) !important;
+}
+
+[data-theme="light"] .timeframe-dropdown {
+  background-color: white !important;
+  border-color: #d1d5db !important;
+  color: #1f2937 !important;
+  border-radius: 0.375rem;
+}
+
+[data-theme="light"] .timeframe-dropdown:focus {
+  outline: 2px solid #0E6D73 inset !important;
+  outline-offset: -2px !important;
+  border-color: #0E6D73 !important;
+}
+
+[data-theme="light"] .timeframe-dropdown option {
+  background-color: white !important;
+  color: #1f2937 !important;
+}
 
 /* Ensure Backtest & Configure button icons are visible in both themes */
 [data-theme="dark"] .btn-primary svg,
