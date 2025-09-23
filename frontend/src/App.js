@@ -1557,6 +1557,7 @@ metadata = {
   const mockPositions = [
     { 
       ticker: 'AAPL', 
+      longShort: 'L',
       costBasis: 185.50, 
       initialStop: 180.25,
       currentStop: 188.10,
