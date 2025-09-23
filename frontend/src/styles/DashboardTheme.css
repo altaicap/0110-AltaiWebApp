@@ -2837,14 +2837,14 @@ button svg.text-black {
   font-weight: 500 !important;
 }
 
-/* Theme-specific overrides for calendar text in light mode */
+/* Theme-specific overrides for calendar text - proper visibility */
 [data-theme="light"] .calendar-text-white {
   color: white !important;
   font-weight: 600 !important;
 }
 
 [data-theme="light"] .calendar-text-gray {
-  color: #6b7280 !important;
+  color: #374151 !important; /* Dark gray for visibility on light background */
   font-weight: 500 !important;
 }
 
