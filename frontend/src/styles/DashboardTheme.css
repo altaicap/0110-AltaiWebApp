@@ -2474,6 +2474,57 @@ button svg.text-black {
   color: var(--dashboard-fg) !important;
 }
 
+/* STRATEGY SPECIFIC SETTINGS DROPDOWN - REMOVE INDIVIDUAL CONTAINERS */
+.strategy-settings-dropdown .strategy-item,
+.strategy-settings-dropdown [data-radix-select-item],
+[data-radix-select-content].strategy-settings-dropdown [data-radix-select-item],
+[data-radix-select-content] .strategy-item {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 8px 12px !important;
+}
+
+[data-theme="dark"] .strategy-settings-dropdown .strategy-item,
+[data-theme="dark"] .strategy-settings-dropdown [data-radix-select-item],
+[data-theme="dark"] [data-radix-select-content].strategy-settings-dropdown [data-radix-select-item],
+[data-theme="dark"] [data-radix-select-content] .strategy-item {
+  color: var(--dashboard-fg) !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+[data-theme="dark"] .strategy-settings-dropdown .strategy-item:hover,
+[data-theme="dark"] .strategy-settings-dropdown [data-radix-select-item]:hover,
+[data-theme="dark"] [data-radix-select-content].strategy-settings-dropdown [data-radix-select-item]:hover,
+[data-theme="dark"] [data-radix-select-content] .strategy-item:hover {
+  background-color: var(--dashboard-accent) !important;
+  color: white !important;
+}
+
+[data-theme="light"] .strategy-settings-dropdown .strategy-item,
+[data-theme="light"] .strategy-settings-dropdown [data-radix-select-item],
+[data-theme="light"] [data-radix-select-content].strategy-settings-dropdown [data-radix-select-item],
+[data-theme="light"] [data-radix-select-content] .strategy-item {
+  color: #1f2937 !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+[data-theme="light"] .strategy-settings-dropdown .strategy-item:hover,
+[data-theme="light"] .strategy-settings-dropdown [data-radix-select-item]:hover,
+[data-theme="light"] [data-radix-select-content].strategy-settings-dropdown [data-radix-select-item]:hover,
+[data-theme="light"] [data-radix-select-content] .strategy-item:hover {
+  background-color: #0E6D73 !important;
+  color: white !important;
+}
+
 /* BROKER ACCOUNT DROPDOWN - REMOVE INDIVIDUAL CONTAINERS */
 .broker-account-dropdown .broker-item,
 .broker-account-dropdown [data-radix-select-item],
