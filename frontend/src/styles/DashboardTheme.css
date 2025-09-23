@@ -1584,6 +1584,16 @@
 
 /* EXISTING DASHBOARD STYLES CONTINUE... */
 
+/* Strategy card description - 2 line limit */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.2em;
+  max-height: 2.4em;
+}
+
 /* FORCE ICON COLORS - ULTIMATE OVERRIDE */
 .force-black-icon,
 svg.force-black-icon,
