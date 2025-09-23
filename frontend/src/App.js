@@ -3764,8 +3764,8 @@ metadata = {
                               
                               // Format values based on column type
                               if (column.id === 'longShort') {
-                                displayValue = value;
-                                className += ' font-medium text-center';
+                                displayValue = value === 'L' ? 'Long' : 'Short';
+                                className += ' font-medium';
                               } else if (column.id === 'costBasis' || column.id === 'currentPrice' || column.id === 'initialStop' || column.id === 'currentStop') {
                                 displayValue = `$${value.toFixed(2)}`;
                               } else if (column.id === 'quantity') {
