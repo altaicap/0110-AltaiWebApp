@@ -2879,10 +2879,7 @@ metadata = {
                                 }
                               }}
                             >
-                              <div className="w-3 h-3 mr-1 relative">
-                                <FileText className="w-2 h-2 absolute top-0 left-0" />
-                                <Settings className="w-1.5 h-1.5 absolute top-1 left-1" />
-                              </div>
+                              <Settings className="w-3 h-3 mr-1" />
                               Backtest & Configure
                             </Button>
                             {isConfigured && (
