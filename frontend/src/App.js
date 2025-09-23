@@ -4251,13 +4251,13 @@ metadata = {
                         calendar.push(
                           <div 
                             key={day} 
-                            className={`h-12 border rounded p-1 flex flex-col relative ${bgClass}`}
+                            className={`h-12 rounded p-1 flex flex-col relative ${bgClass}`}
                           >
                             <div className={`absolute top-1 left-1 font-medium text-xs ${dayTextClass}`}>
                               {day}
                             </div>
                             {dayData && (
-                              <div className="flex flex-col items-center justify-center h-full calendar-text-white">
+                              <div className={`flex flex-col items-center justify-center h-full ${dayTextClass}`}>
                                 <div className="font-bold text-xs leading-tight text-center">
                                   {calendarViewMode === 'dollar' ? 
                                     (dayData.pnl === 0 ? '$0' : `${dayData.pnl > 0 ? '+' : ''}$${Math.abs(dayData.pnl) >= 1000 ? `${(dayData.pnl/1000).toFixed(1)}K` : dayData.pnl}`) :
