@@ -2876,7 +2876,7 @@ metadata = {
                                 }
                               }}
                             >
-                              <Settings className="w-3 h-3 mr-1" />
+                              <Settings className="w-3 h-3 mr-1 text-black" />
                               Backtest & Configure
                             </Button>
                             {isConfigured && (
