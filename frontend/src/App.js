@@ -2834,7 +2834,7 @@ metadata = {
                           <div className="flex gap-1 flex-wrap">
                             <Button 
                               size="sm" 
-                              className="text-xs h-7"
+                              className="text-xs h-7 bg-green-600 hover:bg-green-700 text-white border-green-600 hover:border-green-700"
                               onClick={() => {
                                 // Navigate to Backtest tab
                                 setActiveTab('backtest');
