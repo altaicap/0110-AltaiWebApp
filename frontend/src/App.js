@@ -601,6 +601,7 @@ function App() {
   const [showApiKeys, setShowApiKeys] = useState({
     polygon: false,
     newsware: false,
+    claude: false,
     tradexchange: false,
     tradestation: false
   });
