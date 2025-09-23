@@ -499,14 +499,15 @@ function App() {
   // Recent Entries column settings
   const [recentEntriesColumns, setRecentEntriesColumns] = useState([
     { id: 'ticker', label: 'Ticker', visible: true, order: 0 },
-    { id: 'entryDate', label: 'Entry Date', visible: true, order: 1 },
-    { id: 'entryPrice', label: 'Entry Price', visible: true, order: 2 },
-    { id: 'initialStop', label: 'Initial Stop', visible: true, order: 3 },
-    { id: 'currentStop', label: 'Current Stop', visible: true, order: 4 },
-    { id: 'quantity', label: 'Quantity', visible: true, order: 5 },
-    { id: 'dollarRisk', label: '$ Risk', visible: true, order: 6 },
-    { id: 'rReturn', label: 'R-Return', visible: true, order: 7 },
-    { id: 'strategy', label: 'Strategy', visible: true, order: 8 }
+    { id: 'longShort', label: 'L/S', visible: true, order: 1 },
+    { id: 'entryDate', label: 'Entry Date', visible: true, order: 2 },
+    { id: 'entryPrice', label: 'Entry Price', visible: true, order: 3 },
+    { id: 'initialStop', label: 'Initial Stop', visible: true, order: 4 },
+    { id: 'currentStop', label: 'Current Stop', visible: true, order: 5 },
+    { id: 'quantity', label: 'Quantity', visible: true, order: 6 },
+    { id: 'dollarRisk', label: '$ Risk', visible: true, order: 7 },
+    { id: 'rReturn', label: 'R-Return', visible: true, order: 8 },
+    { id: 'strategy', label: 'Strategy', visible: true, order: 9 }
   ]);
   const [showRecentEntriesColumnSettings, setShowRecentEntriesColumnSettings] = useState(false);
 
