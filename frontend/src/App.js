@@ -4223,7 +4223,7 @@ metadata = {
                       // Empty cells for days before month start
                       for (let i = 0; i < firstDay; i++) {
                         calendar.push(
-                          <div key={`empty-${i}`} className="h-12 border rounded"></div>
+                          <div key={`empty-${i}`} className="h-12 rounded calendar-empty"></div>
                         );
                       }
                       
