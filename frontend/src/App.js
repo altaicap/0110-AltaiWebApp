@@ -6019,7 +6019,7 @@ metadata = {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="sm" className={`text-xs connection-status-button ${isDarkTheme ? 'text-gray-300 border-gray-600 hover:bg-gray-700' : ''}`}>
-                    Connection Statuses {Object.values(integrationStatus).filter(status => status === 'connected').length}/10
+                    Connection Statuses {Object.values(integrationStatus).filter(status => status === 'connected').length}/9
                     <ChevronDown className="h-3 w-3 ml-1" />
                   </Button>
                 </DropdownMenuTrigger>
