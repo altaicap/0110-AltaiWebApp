@@ -885,6 +885,7 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
 
 ## test_plan:
   current_focus:
+    - "Settings Icon Fix for Backtest & Configure Buttons"
     - "Dashboard Pane Control Enhancements"
     - "Positions Pane Column Updates"
     - "Dashboard Pane Renames"
