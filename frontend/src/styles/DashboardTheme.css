@@ -473,7 +473,7 @@
 [data-theme="light"] [role="tablist"] [role="tab"][data-state="active"],
 [data-theme="light"] [role="tablist"] [role="tab"][aria-selected="true"] {
   background: #0E6D73 !important; /* Opaque signature green for light theme */
-  color: white !important; /* High contrast white text on green background */
+  color: black !important; /* Black text for better contrast on green background */
   border: 1px solid #0E6D73 !important;
   box-shadow: none !important;
   transform: none !important;
