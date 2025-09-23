@@ -4038,8 +4038,8 @@ metadata = {
                                     className += ' font-medium';
                                     break;
                                   case 'longShort':
-                                    value = entry.longShort;
-                                    className += ' font-medium text-center';
+                                    value = entry.longShort === 'L' ? 'Long' : 'Short';
+                                    className += ' font-medium';
                                     break;
                                   case 'entryDate':
                                     value = entry.entryDate;
