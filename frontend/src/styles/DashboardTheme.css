@@ -2474,31 +2474,45 @@ button svg.text-black {
   color: var(--dashboard-fg) !important;
 }
 
+/* Select dropdown items - remove individual containers */
+[data-theme="dark"] [data-radix-select-content] [data-radix-select-item],
+[data-theme="dark"] .select-content [data-radix-select-item],
 [data-theme="dark"] [role="option"],
 [data-theme="dark"] .select-item {
   color: var(--dashboard-fg) !important;
+  background: transparent !important; /* Remove individual item backgrounds */
+  border: none !important; /* Remove individual item borders */
+  border-radius: 0 !important; /* Remove individual item rounded corners */
+  box-shadow: none !important; /* Remove individual item shadows */
+  margin: 0 !important; /* Remove margins between items */
 }
 
+[data-theme="dark"] [data-radix-select-content] [data-radix-select-item]:hover,
+[data-theme="dark"] .select-content [data-radix-select-item]:hover,
 [data-theme="dark"] [role="option"]:hover,
 [data-theme="dark"] .select-item:hover {
-  background-color: var(--dashboard-hover) !important;
+  background-color: var(--dashboard-accent) !important;
+  color: white !important;
 }
 
-[data-theme="light"] [role="listbox"],
-[data-theme="light"] .select-content {
-  background-color: white !important;
-  border-color: #d1d5db !important;
-  color: #1f2937 !important;
-}
-
+[data-theme="light"] [data-radix-select-content] [data-radix-select-item],
+[data-theme="light"] .select-content [data-radix-select-item],
 [data-theme="light"] [role="option"],
 [data-theme="light"] .select-item {
   color: #1f2937 !important;
+  background: transparent !important; /* Remove individual item backgrounds */
+  border: none !important; /* Remove individual item borders */
+  border-radius: 0 !important; /* Remove individual item rounded corners */
+  box-shadow: none !important; /* Remove individual item shadows */
+  margin: 0 !important; /* Remove margins between items */
 }
 
+[data-theme="light"] [data-radix-select-content] [data-radix-select-item]:hover,
+[data-theme="light"] .select-content [data-radix-select-item]:hover,
 [data-theme="light"] [role="option"]:hover,
 [data-theme="light"] .select-item:hover {
-  background-color: #f9fafb !important;
+  background-color: #0E6D73 !important; /* Signature green hover for light theme */
+  color: white !important;
 }
 
 /* Date inputs */
