@@ -590,6 +590,7 @@ function App() {
   const [apiKeys, setApiKeys] = useState({
     polygon: '',
     newsware: '',
+    claude: '',
     tradexchange: '',
     tradestation: '',
     ibkr: '',
