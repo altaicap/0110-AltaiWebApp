@@ -3917,12 +3917,12 @@ metadata = {
                     </thead>
                     <tbody>
                       {[
-                        { ticker: 'AAPL', pnl: 275, rReturn: '+1.2R', date: '2024-09-18', quantity: 100, costBasis: 185.50, initialStop: 180.25, strategy: 'Prior Bar Break Algo' },
-                        { ticker: 'MSFT', pnl: -95, rReturn: '-0.4R', date: '2024-09-17', quantity: 50, costBasis: 425.30, initialStop: 415.00, strategy: 'Prior Bar Break Algo' },
-                        { ticker: 'TSLA', pnl: 180, rReturn: '+0.8R', date: '2024-09-16', quantity: 75, costBasis: 245.80, initialStop: 238.50, strategy: 'Prior Bar Break Algo' },
-                        { ticker: 'GOOGL', pnl: -125, rReturn: '-0.5R', date: '2024-09-15', quantity: 25, costBasis: 168.75, initialStop: 163.80, strategy: 'Prior Bar Break Algo' },
-                        { ticker: 'NVDA', pnl: 450, rReturn: '+2.1R', date: '2024-09-14', quantity: 150, costBasis: 118.45, initialStop: 112.80, strategy: 'Prior Bar Break Algo' },
-                        { ticker: 'AMD', pnl: 85, rReturn: '+0.3R', date: '2024-09-13', quantity: 80, costBasis: 142.80, initialStop: 138.20, strategy: 'Prior Bar Break Algo' }
+                        { ticker: 'AAPL', longShort: 'L', pnl: 275, rReturn: '+1.2R', date: '2024-09-18', quantity: 100, costBasis: 185.50, initialStop: 180.25, strategy: 'Prior Bar Break Algo' },
+                        { ticker: 'MSFT', longShort: 'L', pnl: -95, rReturn: '-0.4R', date: '2024-09-17', quantity: 50, costBasis: 425.30, initialStop: 415.00, strategy: 'Prior Bar Break Algo' },
+                        { ticker: 'TSLA', longShort: 'S', pnl: 180, rReturn: '+0.8R', date: '2024-09-16', quantity: 75, costBasis: 245.80, initialStop: 238.50, strategy: 'Prior Bar Break Algo' },
+                        { ticker: 'GOOGL', longShort: 'L', pnl: -125, rReturn: '-0.5R', date: '2024-09-15', quantity: 25, costBasis: 168.75, initialStop: 163.80, strategy: 'Prior Bar Break Algo' },
+                        { ticker: 'NVDA', longShort: 'L', pnl: 450, rReturn: '+2.1R', date: '2024-09-14', quantity: 150, costBasis: 118.45, initialStop: 112.80, strategy: 'Prior Bar Break Algo' },
+                        { ticker: 'AMD', longShort: 'S', pnl: 85, rReturn: '+0.3R', date: '2024-09-13', quantity: 80, costBasis: 142.80, initialStop: 138.20, strategy: 'Prior Bar Break Algo' }
                       ].map((trade, index) => {
                         const dollarRisk = trade.quantity * (trade.costBasis - trade.initialStop);
                         return (
