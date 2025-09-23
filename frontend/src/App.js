@@ -4005,15 +4005,12 @@ metadata = {
                   <table className="w-full text-xs min-w-[1000px]">
                     <thead className="border-b border-gray-200 dark:border-gray-700">
                       <tr className="text-left">
-                        <th className="pb-1 px-2 text-xs font-medium">Ticker</th>
-                        <th className="pb-1 px-2 text-xs font-medium">Entry Date</th>
-                        <th className="pb-1 px-2 text-xs font-medium">Entry Price</th>
-                        <th className="pb-1 px-2 text-xs font-medium">Initial Stop</th>
-                        <th className="pb-1 px-2 text-xs font-medium">Current Stop</th>
-                        <th className="pb-1 px-2 text-xs font-medium">Quantity</th>
-                        <th className="pb-1 px-2 text-xs font-medium">$ Risk</th>
-                        <th className="pb-1 px-2 text-xs font-medium">R-Return</th>
-                        <th className="pb-1 px-2 text-xs font-medium">Strategy</th>
+                        {recentEntriesColumns
+                          .filter(col => col.visible)
+                          .sort((a, b) => a.order - b.order)
+                          .map(column => (
+                            <th key={column.id} className="pb-1 px-2 text-xs font-medium">{column.label}</th>
+                          ))}
                       </tr>
                     </thead>
                     <tbody>
@@ -4025,22 +4022,62 @@ metadata = {
                         { ticker: 'NVDA', longShort: 'L', entryPrice: 125.20, initialStop: 119.80, currentStop: 122.15, quantity: 150, entryDate: '2024-09-15', rReturn: '+2.1R', strategy: 'Prior Bar Break Algo' },
                         { ticker: 'AMD', longShort: 'S', entryPrice: 142.80, initialStop: 138.20, currentStop: 140.50, quantity: 80, entryDate: '2024-09-14', rReturn: '+0.3R', strategy: 'Prior Bar Break Algo' }
                       ].map((entry, index) => {
-                        const dollarRisk = entry.quantity * (entry.entryPrice - entry.initialStop);
-                        const currentPrice = entry.entryPrice + (Math.random() * 10 - 5); // Mock current price
-                        const rReturn = ((currentPrice - entry.entryPrice) / (entry.entryPrice - entry.initialStop)).toFixed(2);
+                        const dollarRisk = entry.quantity * Math.abs(entry.entryPrice - entry.initialStop);
                         return (
                           <tr key={index} className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50">
-                            <td className="py-2 px-2 font-medium">{entry.ticker}</td>
-                            <td className="py-2 px-2 text-gray-500">{entry.entryDate}</td>
-                            <td className="py-2 px-2">${entry.entryPrice.toFixed(2)}</td>
-                            <td className="py-2 px-2">${entry.initialStop.toFixed(2)}</td>
-                            <td className="py-2 px-2">${entry.currentStop.toFixed(2)}</td>
-                            <td className="py-2 px-2">{entry.quantity}</td>
-                            <td className="py-2 px-2">${dollarRisk.toFixed(0)}</td>
-                            <td className={`py-2 px-2 font-medium ${parseFloat(rReturn) >= 0 ? 'positive' : 'negative'}`}>
-                              {parseFloat(rReturn) >= 0 ? '+' : ''}{rReturn}R
-                            </td>
-                            <td className="py-2 px-2 text-gray-500">{entry.strategy}</td>
+                            {recentEntriesColumns
+                              .filter(col => col.visible)
+                              .sort((a, b) => a.order - b.order)
+                              .map(column => {
+                                let value = '';
+                                let className = 'py-2 px-2';
+                                
+                                switch(column.id) {
+                                  case 'ticker':
+                                    value = entry.ticker;
+                                    className += ' font-medium';
+                                    break;
+                                  case 'longShort':
+                                    value = entry.longShort;
+                                    className += ' font-medium text-center';
+                                    break;
+                                  case 'entryDate':
+                                    value = entry.entryDate;
+                                    className += ' text-gray-500';
+                                    break;
+                                  case 'entryPrice':
+                                    value = `$${entry.entryPrice}`;
+                                    break;
+                                  case 'initialStop':
+                                    value = `$${entry.initialStop}`;
+                                    break;
+                                  case 'currentStop':
+                                    value = `$${entry.currentStop}`;
+                                    break;
+                                  case 'quantity':
+                                    value = entry.quantity.toLocaleString();
+                                    break;
+                                  case 'dollarRisk':
+                                    value = `$${dollarRisk.toFixed(0)}`;
+                                    break;
+                                  case 'rReturn':
+                                    value = entry.rReturn;
+                                    className += entry.rReturn.startsWith('+') ? ' positive font-medium' : ' negative font-medium';
+                                    break;
+                                  case 'strategy':
+                                    value = entry.strategy;
+                                    className += ' text-gray-500';
+                                    break;
+                                  default:
+                                    value = '-';
+                                }
+                                
+                                return (
+                                  <td key={column.id} className={className}>
+                                    {value}
+                                  </td>
+                                );
+                              })}
                           </tr>
                         );
                       })}
