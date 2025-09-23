@@ -4578,7 +4578,7 @@ metadata = {
                 </Button>
               ) : (
                 <Button 
-                  className="bg-blue-600 hover:bg-blue-700"
+                  className="bg-[#0E6D73] hover:bg-[#0A5A5F] dark:bg-blue-600 dark:hover:bg-blue-700 text-white"
                   onClick={async () => {
                     // Save configuration as a separate instance
                     const configurationData = {
