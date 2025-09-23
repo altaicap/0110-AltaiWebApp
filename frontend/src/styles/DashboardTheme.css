@@ -497,12 +497,12 @@
   right: unset !important;
 }
 
-/* Active tab icons in light theme - use stroke for better visibility of complex icons */
+/* Active tab icons in light theme - black for better visibility */
 [data-theme="light"] [role="tablist"] [role="tab"][data-state="active"] svg,
 [data-theme="light"] [role="tablist"] [role="tab"][aria-selected="true"] svg {
-  color: white !important;
+  color: black !important;
   fill: none !important; /* Remove fill to show internal structure */
-  stroke: white !important; /* Use stroke instead for better icon definition */
+  stroke: black !important; /* Use black stroke for better icon definition */
   stroke-width: 1.5px !important; /* Ensure stroke is visible */
   stroke-linecap: round !important;
   stroke-linejoin: round !important;
