@@ -22,6 +22,7 @@ import { Slider } from "./components/ui/slider";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./components/ui/tooltip";
 import { 
   Settings, 
+  Cog,
   TrendingUp, 
   BarChart3, 
   FileText, 
