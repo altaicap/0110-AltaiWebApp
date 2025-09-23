@@ -2781,10 +2781,10 @@ metadata = {
             <PaneControls paneId="uploaded-strategies">
               <Button 
                 onClick={() => setShowNewStrategyModal(true)} 
-                className="bg-[#0E6D73] hover:bg-[#0A5A5F] dark:bg-[#00BD7D] dark:hover:bg-[#009963] text-black"
+                className="bg-[#0E6D73] hover:bg-[#0A5A5F] dark:bg-[#00BD7D] dark:hover:bg-[#009963] text-white dark:text-black"
                 size="sm"
               >
-                <Plus className="w-4 h-4 mr-2 text-black" />
+                <Plus className="w-4 h-4 mr-2 text-white dark:text-black" />
                 New Strategy
               </Button>
             </PaneControls>
