@@ -2877,7 +2877,7 @@ metadata = {
                                 }
                               }}
                             >
-                              <Cog className="w-3 h-3 mr-1 text-black" />
+                              <Cog className="w-3 h-3 mr-1 text-white dark:text-black" />
                               Backtest & Configure
                             </Button>
                             {isConfigured && (
