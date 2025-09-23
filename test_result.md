@@ -865,6 +865,18 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
         agent: "testing"
         comment: "🎯 SIGNATURE GREEN COLORS TESTING COMPLETE: Comprehensive code analysis and verification of button color implementation completed with 100% success rate. ✅ NEW STRATEGY BUTTON COLORS VERIFIED: Found exact implementation at line 2786 with perfect signature green colors - Light Mode: bg-[#0E6D73] hover:bg-[#0A5A5F] (darker teal-green matching STRATEGIES tab), Dark Mode: bg-[#00BD7D] hover:bg-[#009963] (brighter green matching STRATEGIES tab), text-white for proper contrast. ✅ BACKTEST & CONFIGURE BUTTON COLORS VERIFIED: Found exact implementation at line 2837 with identical signature green styling - Light Mode: bg-[#0E6D73] hover:bg-[#0A5A5F], Dark Mode: bg-[#00BD7D] hover:bg-[#009963], text-white, border-0 for clean appearance. ✅ STRATEGIES TAB COLOR MATCHING CONFIRMED: Tab active state uses rgba(14, 109, 115, 0.16) in light theme (derived from #0E6D73) and --accent: #00BD7D in dark theme, perfectly matching button colors. ✅ THEME CONSISTENCY VERIFIED: Both themes use correct signature greens - Light: #0E6D73 (darker teal-green), Dark: #00BD7D (brighter green), with proper hover states #0A5A5F and #009963 respectively. ✅ IMPLEMENTATION QUALITY: Clean Tailwind CSS classes, proper dark: prefixes, consistent text-white, no generic bright greens detected. All signature green color requirements successfully implemented and match STRATEGIES tab selection colors perfectly."
 
+  - task: "Settings Icon Fix for Backtest & Configure Buttons"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "CRITICAL ICON FIX IMPLEMENTED: Fixed the broken composite icon issue by replacing the complex layered FileText+Settings positioning with a simple, reliable Settings icon. Removed problematic composite icon with absolute positioning that was causing black circles and positioning issues. Replaced with clean, simple Settings className='w-3 h-3 mr-1' icon. Applied to both 'Backtest & Configure' buttons in Uploaded Strategies (line 2879) and 'Backtest' buttons in Configured Strategies (line 2754). The fix ensures Settings (gear) icon is clearly visible inside buttons with proper size (w-3 h-3) and spacing (mr-1), properly positioned within buttons, and themed appropriately for both light and dark modes."
+
 ## metadata:
   created_by: "main_agent"
   version: "1.0"
