@@ -2813,8 +2813,8 @@ metadata = {
                     const isConfigured = tradingConfigurations.some(c => c.strategy_name === strategy.name);
                     
                     return (
-                      <Card key={strategy.id} className="hover:shadow-md transition-shadow">
-                        <CardHeader className="pb-2">
+                      <Card key={strategy.id} className="hover:shadow-md transition-shadow flex flex-col h-full">
+                        <CardHeader className="pb-2 flex-shrink-0">
                           <CardTitle className="text-sm flex items-center gap-2">
                             {strategy.name}
                             <Badge variant="secondary" className="text-xs">UPLOADED</Badge>
@@ -2824,12 +2824,12 @@ metadata = {
                               </Badge>
                             )}
                           </CardTitle>
-                          <CardDescription className="text-xs">
-                            {strategy.description}
+                          <CardDescription className="text-xs h-8 overflow-hidden line-clamp-2">
+                            {strategy.description || '\u00A0'}
                           </CardDescription>
                         </CardHeader>
-                        <CardContent className="pt-2">
-                          <div className="flex gap-1 flex-wrap">
+                        <CardContent className="pt-2 flex-grow flex flex-col justify-end">
+                          <div className="flex gap-1 flex-wrap">{/* buttons content unchanged */}
                             <Button 
                               size="sm" 
                               className="text-xs h-7 bg-[#0E6D73] hover:bg-[#0A5A5F] dark:bg-[#00BD7D] dark:hover:bg-[#009963] text-white dark:text-black border-0"
