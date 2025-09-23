@@ -2037,7 +2037,7 @@ metadata = {
                       <ChevronDown className="h-3 w-3 ml-1" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="dropdown-menu-content">
+                  <DropdownMenuContent align="start" className="dropdown-menu-content w-full">
                     <DropdownMenuItem 
                       className="cursor-pointer dropdown-menu-item" 
                       onClick={() => handleAppSettingChange('fontSize', 'medium')}
