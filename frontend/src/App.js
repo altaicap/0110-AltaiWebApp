@@ -4952,24 +4952,72 @@ metadata = {
               
               <div>
                 <Label htmlFor="chart-timeframe" className="text-xs font-medium">Timeframe</Label>
-                <select
-                  id="chart-timeframe"
-                  value={strategyVisualizationSettings.timeframe}
-                  onChange={(e) => setStrategyVisualizationSettings(prev => ({ 
-                    ...prev, 
-                    timeframe: e.target.value 
-                  }))}
-                  className="w-full h-8 px-2 border rounded-md text-sm timeframe-dropdown"
-                >
-                  <option value="15-second">15 Second</option>
-                  <option value="1-minute">1 Minute</option>
-                  <option value="2-minute">2 Minute</option>
-                  <option value="5-minute">5 Minute</option>
-                  <option value="15-minute">15 Minute</option>
-                  <option value="30-minute">30 Minute</option>
-                  <option value="1-day">1 Day</option>
-                  <option value="1-week">1 Week</option>
-                </select>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className="w-full h-8 text-sm justify-between">
+                      {strategyVisualizationSettings.timeframe === '15-second' ? '15 Second' :
+                       strategyVisualizationSettings.timeframe === '1-minute' ? '1 Minute' :
+                       strategyVisualizationSettings.timeframe === '2-minute' ? '2 Minute' :
+                       strategyVisualizationSettings.timeframe === '5-minute' ? '5 Minute' :
+                       strategyVisualizationSettings.timeframe === '15-minute' ? '15 Minute' :
+                       strategyVisualizationSettings.timeframe === '30-minute' ? '30 Minute' :
+                       strategyVisualizationSettings.timeframe === '1-day' ? '1 Day' :
+                       strategyVisualizationSettings.timeframe === '1-week' ? '1 Week' : 
+                       'Select timeframe'}
+                      <ChevronDown className="h-3 w-3 ml-1" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="dropdown-menu-content">
+                    <DropdownMenuItem 
+                      className="cursor-pointer dropdown-menu-item" 
+                      onClick={() => setStrategyVisualizationSettings(prev => ({ ...prev, timeframe: '15-second' }))}
+                    >
+                      15 Second
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      className="cursor-pointer dropdown-menu-item" 
+                      onClick={() => setStrategyVisualizationSettings(prev => ({ ...prev, timeframe: '1-minute' }))}
+                    >
+                      1 Minute
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      className="cursor-pointer dropdown-menu-item" 
+                      onClick={() => setStrategyVisualizationSettings(prev => ({ ...prev, timeframe: '2-minute' }))}
+                    >
+                      2 Minute
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      className="cursor-pointer dropdown-menu-item" 
+                      onClick={() => setStrategyVisualizationSettings(prev => ({ ...prev, timeframe: '5-minute' }))}
+                    >
+                      5 Minute
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      className="cursor-pointer dropdown-menu-item" 
+                      onClick={() => setStrategyVisualizationSettings(prev => ({ ...prev, timeframe: '15-minute' }))}
+                    >
+                      15 Minute
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      className="cursor-pointer dropdown-menu-item" 
+                      onClick={() => setStrategyVisualizationSettings(prev => ({ ...prev, timeframe: '30-minute' }))}
+                    >
+                      30 Minute
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      className="cursor-pointer dropdown-menu-item" 
+                      onClick={() => setStrategyVisualizationSettings(prev => ({ ...prev, timeframe: '1-day' }))}
+                    >
+                      1 Day
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      className="cursor-pointer dropdown-menu-item" 
+                      onClick={() => setStrategyVisualizationSettings(prev => ({ ...prev, timeframe: '1-week' }))}
+                    >
+                      1 Week
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
               
               <div>
