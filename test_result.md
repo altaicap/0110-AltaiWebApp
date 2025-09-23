@@ -128,6 +128,18 @@
         agent: "testing"
         comment: "🎯 COMPREHENSIVE THREE UI FIXES TESTING COMPLETE: Successfully tested all three critical UI fixes with detailed verification across both light and dark themes. ✅ FIX 1 - SETTINGS ICON VISIBILITY: PERFECT SUCCESS (5/5 buttons) - All 'Backtest & Configure' buttons now display clear, visible Cog icons (16x16px) instead of dots or missing icons. Icons are appropriately sized and clearly visible in both themes. ✅ FIX 2 - LIGHT THEME COLORS: MIXED SUCCESS - Text colors PERFECT (5/5 buttons with white text rgb(255,255,255) on green backgrounds), STRATEGIES tab has white text on green background. However, icons still show green colors (rgb(14,109,115)) instead of white, indicating CSS specificity needs refinement for complete icon color override. ✅ FIX 3 - DARK THEME TAB ICON INVERSION: SUCCESS - STRATEGIES tab icon properly uses white stroke (rgb(255,255,255)) with fill:none, preventing inversion effect. Dark theme active tab icons display consistent appearance without inversion artifacts. ✅ FUNCTIONALITY: All buttons remain fully clickable and functional, navigation to BACKTEST tab works correctly. OVERALL RESULT: 2.5/3 fixes fully working, with light theme icon colors needing additional CSS specificity improvements. Core functionality and visibility issues resolved successfully."
 
+  - task: "Inline Style Icon Color Fixes for Backtest & Configure and New Strategy Buttons"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "🎯 INLINE STYLE ICON COLOR FIXES IMPLEMENTED: Replaced all CSS-based icon coloring with direct inline styles using isDarkTheme variable to bypass CSS specificity issues. SPECIFIC CHANGES: 1) All Cog Icons (Backtest & Configure buttons) - Replaced className='text-white dark:text-black' with style={{color: isDarkTheme ? 'black' : 'white'}} on lines 2755, 2880, 2885. 2) Plus Icon (New Strategy button) - Replaced className='text-white dark:text-black' with style={{color: isDarkTheme ? 'black' : 'white'}} on line 2787. EXPECTED RESULTS: Dark theme (isDarkTheme = true) should show BLACK icons (rgb(0,0,0)), Light theme (isDarkTheme = false) should show WHITE icons (rgb(255,255,255)). This inline style approach should completely bypass CSS specificity issues and provide direct control over icon colors for perfect visibility on green button backgrounds."
+
 ## agent_communication:
     -agent: "main"
     -message: "✅ COMPLETED BOTH REQUESTED FIXES: 1) Fixed Archive Button Functionality - The confirmation dialog was completely missing from the JSX render. Added proper confirmation dialog component that appears when Archive buttons are clicked, with theme-compatible styling and proper event handling. 2) Updated Backtest & Configure Icons - Replaced BarChart3 icons with composite FileText+Settings design to match the document+gear reference image. Both fixes ready for testing."
