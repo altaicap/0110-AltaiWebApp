@@ -579,6 +579,7 @@ function App() {
   const [integrationStatus, setIntegrationStatus] = useState({
     polygon: 'connected',
     newsware: 'connected', 
+    claude: 'connected',
     tradestation: 'disconnected',
     tradexchange: 'disconnected',
     ibkr: 'disconnected',
