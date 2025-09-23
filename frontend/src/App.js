@@ -4607,7 +4607,7 @@ metadata = {
                   }}
                   disabled={!backtestForm.strategy_name}
                 >
-                  <Settings className="w-4 h-4 mr-2" />
+                  <Settings className={`w-4 h-4 mr-2 ${isDarkTheme ? 'force-white-icon' : 'force-white-icon'}`} />
                   Save Configuration
                 </Button>
               )}
