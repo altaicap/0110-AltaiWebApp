@@ -3762,7 +3762,10 @@ metadata = {
                               let className = "py-2 px-2 text-xs whitespace-nowrap";
                               
                               // Format values based on column type
-                              if (column.id === 'costBasis' || column.id === 'currentPrice' || column.id === 'initialStop' || column.id === 'currentStop') {
+                              if (column.id === 'longShort') {
+                                displayValue = value;
+                                className += ' font-medium text-center';
+                              } else if (column.id === 'costBasis' || column.id === 'currentPrice' || column.id === 'initialStop' || column.id === 'currentStop') {
                                 displayValue = `$${value.toFixed(2)}`;
                               } else if (column.id === 'quantity') {
                                 displayValue = value.toLocaleString();
