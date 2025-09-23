@@ -414,7 +414,7 @@
 [data-theme="dark"] [role="tab"][data-state="active"],
 [data-theme="dark"] [role="tab"][aria-selected="true"] {
   background: var(--dashboard-accent) !important;
-  color: white !important; /* High contrast white text on dark theme */
+  color: black !important; /* Black text for better contrast on green background */
   border: 1px solid var(--dashboard-accent) !important;
   box-shadow: none !important;
   transform: none !important;
