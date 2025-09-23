@@ -2882,7 +2882,7 @@ metadata = {
                             </Button>
                             {isConfigured && (
                               <Button size="sm" variant="outline" className="text-xs h-7">
-                                <Settings className="w-3 h-3 mr-1 text-black" />
+                                <Cog className="w-3 h-3 mr-1 text-black" />
                                 Reconfigure
                               </Button>
                             )}
