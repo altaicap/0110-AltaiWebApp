@@ -2028,16 +2028,36 @@ metadata = {
             <div className="grid grid-cols-1 gap-4">
               <div>
                 <Label htmlFor="fontSize">Font Size</Label>
-                <Select value={appSettings.fontSize} onValueChange={(value) => handleAppSettingChange('fontSize', value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select font size" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="medium">Small</SelectItem>
-                    <SelectItem value="large">Default</SelectItem>
-                    <SelectItem value="extra-large">Large</SelectItem>
-                  </SelectContent>
-                </Select>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className="w-full justify-between text-xs">
+                      {appSettings.fontSize === 'medium' ? 'Small' : 
+                       appSettings.fontSize === 'large' ? 'Default' : 
+                       appSettings.fontSize === 'extra-large' ? 'Large' : 'Select font size'}
+                      <ChevronDown className="h-3 w-3 ml-1" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="dropdown-menu-content">
+                    <DropdownMenuItem 
+                      className="cursor-pointer dropdown-menu-item" 
+                      onClick={() => handleAppSettingChange('fontSize', 'medium')}
+                    >
+                      Small
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      className="cursor-pointer dropdown-menu-item" 
+                      onClick={() => handleAppSettingChange('fontSize', 'large')}
+                    >
+                      Default
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      className="cursor-pointer dropdown-menu-item" 
+                      onClick={() => handleAppSettingChange('fontSize', 'extra-large')}
+                    >
+                      Large
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
           </CardContent>
