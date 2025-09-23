@@ -4231,15 +4231,20 @@ metadata = {
                       for (let day = 1; day <= daysInMonth; day++) {
                         const dayData = tradingData[day];
                         
-                        // Determine background class
+                        // Determine background class and colors based on PnL
                         let bgClass = '';
+                        let dayTextClass = 'calendar-text-gray'; // Default for empty days
+                        
                         if (dayData) {
-                          if (dayData.color === 'green') {
+                          if (dayData.pnl > 0) {
                             bgClass = 'calendar-green';
-                          } else if (dayData.color === 'red') {
-                            bgClass = 'calendar-red';
-                          } else if (dayData.color === 'blue') {
-                            bgClass = 'calendar-orange';
+                            dayTextClass = 'calendar-text-white';
+                          } else if (dayData.pnl < 0) {
+                            bgClass = 'calendar-red'; 
+                            dayTextClass = 'calendar-text-white';
+                          } else {
+                            bgClass = 'calendar-orange'; // For zero PnL
+                            dayTextClass = 'calendar-text-white';
                           }
                         }
                         
@@ -4248,7 +4253,7 @@ metadata = {
                             key={day} 
                             className={`h-12 border rounded p-1 flex flex-col relative ${bgClass}`}
                           >
-                            <div className={`absolute top-1 left-1 font-medium text-xs ${dayData ? 'calendar-text-white' : 'calendar-text-gray'}`}>
+                            <div className={`absolute top-1 left-1 font-medium text-xs ${dayTextClass}`}>
                               {day}
                             </div>
                             {dayData && (
