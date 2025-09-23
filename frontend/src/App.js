@@ -4018,12 +4018,12 @@ metadata = {
                     </thead>
                     <tbody>
                       {[
-                        { ticker: 'AAPL', entryPrice: 192.41, initialStop: 188.10, currentStop: 190.25, quantity: 100, entryDate: '2024-09-19', strategy: 'Prior Bar Break Algo' },
-                        { ticker: 'MSFT', entryPrice: 421.85, initialStop: 415.00, currentStop: 418.50, quantity: 50, entryDate: '2024-09-18', strategy: 'Prior Bar Break Algo' },
-                        { ticker: 'TSLA', entryPrice: 252.95, initialStop: 245.20, currentStop: 248.80, quantity: 75, entryDate: '2024-09-17', strategy: 'Prior Bar Break Algo' },
-                        { ticker: 'GOOGL', entryPrice: 165.20, initialStop: 160.50, currentStop: 162.10, quantity: 25, entryDate: '2024-09-16', strategy: 'Prior Bar Break Algo' },
-                        { ticker: 'NVDA', entryPrice: 125.20, initialStop: 119.80, currentStop: 122.15, quantity: 150, entryDate: '2024-09-15', strategy: 'Prior Bar Break Algo' },
-                        { ticker: 'AMD', entryPrice: 142.80, initialStop: 138.20, currentStop: 140.50, quantity: 80, entryDate: '2024-09-14', strategy: 'Prior Bar Break Algo' }
+                        { ticker: 'AAPL', longShort: 'L', entryPrice: 192.41, initialStop: 188.10, currentStop: 190.25, quantity: 100, entryDate: '2024-09-19', rReturn: '+1.2R', strategy: 'Prior Bar Break Algo' },
+                        { ticker: 'MSFT', longShort: 'L', entryPrice: 421.85, initialStop: 415.00, currentStop: 418.50, quantity: 50, entryDate: '2024-09-18', rReturn: '-0.4R', strategy: 'Prior Bar Break Algo' },
+                        { ticker: 'TSLA', longShort: 'S', entryPrice: 252.95, initialStop: 245.20, currentStop: 248.80, quantity: 75, entryDate: '2024-09-17', rReturn: '+0.8R', strategy: 'Prior Bar Break Algo' },
+                        { ticker: 'GOOGL', longShort: 'L', entryPrice: 165.20, initialStop: 160.50, currentStop: 162.10, quantity: 25, entryDate: '2024-09-16', rReturn: '-0.5R', strategy: 'Prior Bar Break Algo' },
+                        { ticker: 'NVDA', longShort: 'L', entryPrice: 125.20, initialStop: 119.80, currentStop: 122.15, quantity: 150, entryDate: '2024-09-15', rReturn: '+2.1R', strategy: 'Prior Bar Break Algo' },
+                        { ticker: 'AMD', longShort: 'S', entryPrice: 142.80, initialStop: 138.20, currentStop: 140.50, quantity: 80, entryDate: '2024-09-14', rReturn: '+0.3R', strategy: 'Prior Bar Break Algo' }
                       ].map((entry, index) => {
                         const dollarRisk = entry.quantity * (entry.entryPrice - entry.initialStop);
                         const currentPrice = entry.entryPrice + (Math.random() * 10 - 5); // Mock current price
