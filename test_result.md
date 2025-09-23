@@ -130,15 +130,18 @@
 
   - task: "Inline Style Icon Color Fixes for Backtest & Configure and New Strategy Buttons"
     implemented: true
-    working: "NA"
+    working: false
     file: "frontend/src/App.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "🎯 INLINE STYLE ICON COLOR FIXES IMPLEMENTED: Replaced all CSS-based icon coloring with direct inline styles using isDarkTheme variable to bypass CSS specificity issues. SPECIFIC CHANGES: 1) All Cog Icons (Backtest & Configure buttons) - Replaced className='text-white dark:text-black' with style={{color: isDarkTheme ? 'black' : 'white'}} on lines 2755, 2880, 2885. 2) Plus Icon (New Strategy button) - Replaced className='text-white dark:text-black' with style={{color: isDarkTheme ? 'black' : 'white'}} on line 2787. EXPECTED RESULTS: Dark theme (isDarkTheme = true) should show BLACK icons (rgb(0,0,0)), Light theme (isDarkTheme = false) should show WHITE icons (rgb(255,255,255)). This inline style approach should completely bypass CSS specificity issues and provide direct control over icon colors for perfect visibility on green button backgrounds."
+      - working: false
+        agent: "testing"
+        comment: "❌ INLINE STYLE ICON COLOR FIXES FAILED: Comprehensive testing reveals CSS specificity override issue preventing inline styles from working. DETAILED FINDINGS: ✅ INLINE STYLES CORRECTLY APPLIED: All 5 icons (4 Cog + 1 Plus) have correct inline style attribute 'color: black;' applied, confirming isDarkTheme logic works perfectly. ✅ THEME DETECTION WORKING: HTML data-theme='dark' correctly detected, inline styles show expected 'color: black;' for dark theme. ❌ CRITICAL CSS OVERRIDE ISSUE: Despite correct inline styles, all icons display rgb(0,189,125) (green) instead of expected rgb(0,0,0) (black). CSS rules with higher specificity are overriding the inline styles. ✅ SOLUTION CONFIRMED: Manual testing with !important declaration successfully changes icon color to rgb(255,0,0), proving that higher CSS specificity is needed. RECOMMENDATION: Inline styles need !important declaration or CSS rules need to be updated with higher specificity to override existing green color rules. SUCCESS RATE: 0% for visible icon colors (5/5 failures), but 100% for inline style application logic."
 
 ## agent_communication:
     -agent: "main"
