@@ -1584,6 +1584,39 @@
 
 /* EXISTING DASHBOARD STYLES CONTINUE... */
 
+/* FORCE ICON COLORS - ULTIMATE OVERRIDE */
+.force-black-icon,
+.force-black-icon *,
+svg.force-black-icon,
+svg.force-black-icon *,
+[data-theme="dark"] .force-black-icon,
+[data-theme="dark"] .force-black-icon *,
+html[data-theme="dark"] .force-black-icon,
+html[data-theme="dark"] .force-black-icon *,
+html body [data-theme="dark"] .force-black-icon,
+html body [data-theme="dark"] .force-black-icon * {
+  color: black !important;
+  fill: black !important;
+  stroke: black !important;
+  opacity: 1 !important;
+}
+
+.force-white-icon,
+.force-white-icon *,
+svg.force-white-icon,
+svg.force-white-icon *,
+[data-theme="light"] .force-white-icon,
+[data-theme="light"] .force-white-icon *,
+html[data-theme="light"] .force-white-icon,
+html[data-theme="light"] .force-white-icon *,
+html body [data-theme="light"] .force-white-icon,
+html body [data-theme="light"] .force-white-icon * {
+  color: white !important;
+  fill: white !important;
+  stroke: white !important;
+  opacity: 1 !important;
+}
+
 /* FORCE ICON COLORS ON GREEN BUTTONS - HIGHEST SPECIFICITY OVERRIDE */
 html[data-theme="dark"] .bg-\[#00BD7D\] svg[color="black"],
 html[data-theme="dark"] .dark\:bg-\[#00BD7D\] svg[color="black"],
