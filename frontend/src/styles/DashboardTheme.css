@@ -2474,6 +2474,57 @@ button svg.text-black {
   color: var(--dashboard-fg) !important;
 }
 
+/* BROKER ACCOUNT DROPDOWN - REMOVE INDIVIDUAL CONTAINERS */
+.broker-account-dropdown .broker-item,
+.broker-account-dropdown [data-radix-select-item],
+[data-radix-select-content].broker-account-dropdown [data-radix-select-item],
+[data-radix-select-content] .broker-item {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 8px 12px !important;
+}
+
+[data-theme="dark"] .broker-account-dropdown .broker-item,
+[data-theme="dark"] .broker-account-dropdown [data-radix-select-item],
+[data-theme="dark"] [data-radix-select-content].broker-account-dropdown [data-radix-select-item],
+[data-theme="dark"] [data-radix-select-content] .broker-item {
+  color: var(--dashboard-fg) !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+[data-theme="dark"] .broker-account-dropdown .broker-item:hover,
+[data-theme="dark"] .broker-account-dropdown [data-radix-select-item]:hover,
+[data-theme="dark"] [data-radix-select-content].broker-account-dropdown [data-radix-select-item]:hover,
+[data-theme="dark"] [data-radix-select-content] .broker-item:hover {
+  background-color: var(--dashboard-accent) !important;
+  color: white !important;
+}
+
+[data-theme="light"] .broker-account-dropdown .broker-item,
+[data-theme="light"] .broker-account-dropdown [data-radix-select-item],
+[data-theme="light"] [data-radix-select-content].broker-account-dropdown [data-radix-select-item],
+[data-theme="light"] [data-radix-select-content] .broker-item {
+  color: #1f2937 !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+[data-theme="light"] .broker-account-dropdown .broker-item:hover,
+[data-theme="light"] .broker-account-dropdown [data-radix-select-item]:hover,
+[data-theme="light"] [data-radix-select-content].broker-account-dropdown [data-radix-select-item]:hover,
+[data-theme="light"] [data-radix-select-content] .broker-item:hover {
+  background-color: #0E6D73 !important;
+  color: white !important;
+}
+
 /* Select dropdown items - remove individual containers */
 [data-theme="dark"] [data-radix-select-content] [data-radix-select-item],
 [data-theme="dark"] .select-content [data-radix-select-item],
