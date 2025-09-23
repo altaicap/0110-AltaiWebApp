@@ -56,9 +56,33 @@
 ##   test_all: false
 ##   test_priority: "high_first"  # or "sequential" or "stuck_first"
 ##
+  - task: "Archive Button Functionality Fix"
+    implemented: true
+    working: true
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed Archive button functionality in Strategies tab by adding the missing confirmation dialog component. The issue was that while handleDeleteStrategy was correctly setting showDeleteConfirmDialog to true, there was no actual dialog component being rendered in the JSX. Added a proper confirmation dialog that appears when Archive buttons are clicked, with proper styling for both dark and light themes, and proper wire-up to confirmDeleteStrategy function."
+
+  - task: "Backtest & Configure Icon Update"
+    implemented: true
+    working: true
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Updated Backtest & Configure button icons to use a document+gear combination as requested. Replaced BarChart3 icons with a composite design using FileText (document) and Settings (gear) icons positioned absolutely within a relative container to create the layered document+gear effect matching the user's uploaded reference image. Applied to both 'Backtest' buttons in configured strategies and 'Backtest & Configure' buttons in uploaded strategies sections."
+
 ## agent_communication:
-##     -agent: "main"
-##     -message: "🎉 ALL 5 PRIORITIES COMPLETED SUCCESSFULLY! ✅ Priority 1: Calendar Pane - Fixed light theme background colors and text visibility using custom CSS classes. ✅ Priority 2: Strategies Tab - Removed 'Configure Required' buttons, enhanced button icon visibility. ✅ Priority 3: Backtest Tab - Removed 'Export Backtest' button, styled timeframe dropdown with proper theming. ✅ Priority 4: Dropdowns - Fixed dark theme text visibility for date pickers, RVOL dropdowns, and input fields with comprehensive CSS rules. ✅ Priority 5: Column Management - Successfully unified Backtest Trade Log with Positions-style modal system, added professional column settings with reordering capability, streamlined header interface. All components now work perfectly in both dark and light themes with proper contrast and functionality."
+    -agent: "main"
+    -message: "✅ COMPLETED BOTH REQUESTED FIXES: 1) Fixed Archive Button Functionality - The confirmation dialog was completely missing from the JSX render. Added proper confirmation dialog component that appears when Archive buttons are clicked, with theme-compatible styling and proper event handling. 2) Updated Backtest & Configure Icons - Replaced BarChart3 icons with composite FileText+Settings design to match the document+gear reference image. Both fixes ready for testing."
 
 # Protocol Guidelines for Main agent
 #
