@@ -2224,24 +2224,47 @@
 [data-theme="dark"] .rdp-caption_label,
 [data-theme="dark"] .rdp-nav_button,
 [data-theme="dark"] .rdp-head_cell,
-[data-theme="dark"] .rdp-day {
-  color: var(--dashboard-fg) !important;
+[data-theme="dark"] .rdp-day,
+[data-theme="dark"] .rdp-caption,
+[data-theme="dark"] .rdp-months,
+[data-theme="dark"] .rdp-month {
+  color: white !important;
 }
 
 [data-theme="light"] .rdp-caption_label,
 [data-theme="light"] .rdp-nav_button,
 [data-theme="light"] .rdp-head_cell,
-[data-theme="light"] .rdp-day {
+[data-theme="light"] .rdp-day,
+[data-theme="light"] .rdp-caption,
+[data-theme="light"] .rdp-months,
+[data-theme="light"] .rdp-month {
   color: #1f2937 !important;
+}
+
+/* Remove grey borders around date cells */
+[data-theme="dark"] .rdp-day,
+[data-theme="dark"] .rdp-cell {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+[data-theme="light"] .rdp-day,
+[data-theme="light"] .rdp-cell {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 /* Calendar navigation arrows */
 [data-theme="dark"] .rdp-nav_button:hover {
   background-color: var(--dashboard-hover) !important;
+  color: white !important;
 }
 
 [data-theme="light"] .rdp-nav_button:hover {
   background-color: #f3f4f6 !important;
+  color: #1f2937 !important;
 }
 
 /* Calendar theming fixes */
