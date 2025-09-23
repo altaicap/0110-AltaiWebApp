@@ -2256,6 +2256,9 @@
   border: none !important;
   box-shadow: none !important;
   outline: none !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 [data-theme="light"] .rdp-day,
@@ -2263,6 +2266,26 @@
   border: none !important;
   box-shadow: none !important;
   outline: none !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Ensure all date buttons are visible and clickable */
+[data-theme="dark"] .rdp-day:not([aria-hidden="true"]) {
+  color: white !important;
+  background-color: transparent !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+[data-theme="light"] .rdp-day:not([aria-hidden="true"]) {
+  color: #1f2937 !important;
+  background-color: transparent !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 /* Calendar navigation arrows */
