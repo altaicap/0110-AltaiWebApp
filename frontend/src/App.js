@@ -2751,9 +2751,9 @@ metadata = {
                                   }
                                 }}
                               >
-                                <div className="w-3 h-3 mr-1 relative flex items-center justify-center">
-                                  <FileText className="w-2.5 h-2.5 absolute -top-0.5 -left-0.5" />
-                                  <Settings className="w-2 h-2 absolute top-0.5 left-0.5" />
+                                <div className="w-3 h-3 mr-1 relative">
+                                  <FileText className="w-2 h-2 absolute top-0 left-0" />
+                                  <Settings className="w-1.5 h-1.5 absolute top-1 left-1" />
                                 </div>
                                 Backtest
                               </Button>
