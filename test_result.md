@@ -94,9 +94,9 @@
 
   - task: "Black Text and Icon Visibility on Green Background Buttons and Tabs"
     implemented: true
-    working: "partial"
-    file: "frontend/src/App.js"
-    stuck_count: 0
+    working: false
+    file: "frontend/src/App.js, frontend/src/styles/DashboardTheme.css"
+    stuck_count: 1
     priority: "high"
     needs_retesting: false
     status_history:
@@ -109,6 +109,9 @@
       - working: "partial"
         agent: "testing"
         comment: "🎯 FINAL VERIFICATION TESTING COMPLETE: Comprehensive testing of additional CSS specificity fixes across both themes. ✅ MAJOR SUCCESS - TEXT VISIBILITY: Perfect 100% success rate for all text elements - STRATEGIES tab text BLACK (rgb(0,0,0)) in both themes, all 4 'Backtest & Configure' buttons display BLACK text (rgb(0,0,0)), 'New Strategy' button shows BLACK text (rgb(0,0,0)). All buttons maintain proper green backgrounds (dark: rgb(0,189,125), light: rgb(14,109,115)) and remain fully functional. ✅ PARTIAL ICON IMPROVEMENT: CSS overrides showing mixed results - some icon properties (fill/stroke) achieving black in certain cases, but color property still displaying green. STRATEGIES tab icon shows partial success with fill: rgb(0,0,0) in dark theme and stroke: rgb(0,0,0) in light theme. ❌ REMAINING ICON ISSUE: Settings icons in 'Backtest & Configure' buttons and Plus icon in 'New Strategy' button still display primary color property as green instead of black. The high-specificity CSS rules (button.bg-[#0E6D73] svg, button svg.text-black) are partially effective but need additional targeting for complete icon color override. Overall: 85% success rate - text implementation perfect, icon colors significantly improved but not fully resolved."
+      - working: false
+        agent: "testing"
+        comment: "❌ FINAL ICON COLOR VERIFICATION FAILED: Comprehensive testing of the highly specific CSS rules reveals the icon color implementation is NOT working as specified in the review request. ✅ TEXT COLORS PERFECT: All text colors are correctly implemented - Dark theme: BLACK text (rgb(0,0,0)) on all 4 'Backtest & Configure' buttons and 1 'New Strategy' button ✓, Light theme: WHITE text (rgb(255,255,255)) on all buttons ✓. ❌ CRITICAL ICON COLOR FAILURES: Despite the implemented CSS rules targeting button.dark:bg-[#00BD7D] svg and button.bg-[#0E6D73] svg, ALL ICONS are displaying in GREEN colors instead of the required BLACK/WHITE: Dark theme icons showing rgb(0,189,125) instead of BLACK, Light theme icons showing rgb(14,109,115) instead of WHITE. The CSS specificity rules are not overriding the icon colors effectively. ❌ HOVER STATE FAILURES: Hover states also failing - Dark theme hover: rgb(0,209,138) instead of BLACK, Light theme hover: rgb(0,166,107) instead of WHITE. SUCCESS RATE: 0% for icon colors (18 icon color failures out of 18 tests). The highly specific CSS implementation needs significant revision to achieve the required icon color overrides for proper contrast on green backgrounds."
 
   - task: "Three Critical UI Fixes - Settings Icons, Light Theme Colors, Dark Theme Tab Icons"
     implemented: true
