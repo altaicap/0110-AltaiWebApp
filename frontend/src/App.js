@@ -3939,6 +3939,10 @@ metadata = {
                                     value = trade.ticker;
                                     className += ' font-medium';
                                     break;
+                                  case 'longShort':
+                                    value = trade.longShort;
+                                    className += ' font-medium text-center';
+                                    break;
                                   case 'closeDate':
                                     value = trade.date;
                                     className += ' text-gray-500';
