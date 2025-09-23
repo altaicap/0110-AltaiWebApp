@@ -1580,6 +1580,17 @@
 
 /* EXISTING DASHBOARD STYLES CONTINUE... */
 
+/* Force black icons on green background buttons with highest specificity */
+button.bg-\[#0E6D73\] svg,
+button.dark\:bg-\[#00BD7D\] svg,
+[data-theme="dark"] button:has(.bg-\[#00BD7D\]) svg,
+[data-theme="light"] button:has(.bg-\[#0E6D73\]) svg,
+button svg.text-black {
+  color: black !important;
+  fill: black !important;
+  stroke: black !important;
+}
+
 /* Generic UI icon theming - GREEN ACCENT (excluding sun icons) */
 [data-theme="dark"] .icon:not(.lucide-sun):not([data-icon="sun"]),
 [data-theme="dark"] .btn-icon > svg:not(.lucide-sun):not([data-icon="sun"]),
