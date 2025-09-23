@@ -2192,26 +2192,56 @@
 }
 /* Date picker popover content - less transparent */
 [data-theme="dark"] .popover-content,
-[data-theme="dark"] [data-radix-popper-content-wrapper] {
+[data-theme="dark"] [data-radix-popper-content-wrapper],
+[data-theme="dark"] [data-radix-popper-content] {
   background-color: var(--dashboard-bg-1) !important;
   border-color: var(--dashboard-border) !important;
-  opacity: 0.98 !important;
+  opacity: 1 !important;
 }
 
 [data-theme="light"] .popover-content,
-[data-theme="light"] [data-radix-popper-content-wrapper] {
+[data-theme="light"] [data-radix-popper-content-wrapper],
+[data-theme="light"] [data-radix-popper-content] {
   background-color: white !important;
   border-color: #d1d5db !important;
-  opacity: 0.98 !important;
+  opacity: 1 !important;
 }
 
-/* Calendar container within popover */
-[data-theme="dark"] .rdp {
+/* Calendar container within popover - FULL OPACITY */
+[data-theme="dark"] .rdp,
+[data-theme="dark"] .react-day-picker {
   background-color: var(--dashboard-bg-1) !important;
+  opacity: 1 !important;
 }
 
-[data-theme="light"] .rdp {
+[data-theme="light"] .rdp,
+[data-theme="light"] .react-day-picker {
   background-color: white !important;
+  opacity: 1 !important;
+}
+
+/* Calendar header text (month/year) visibility */
+[data-theme="dark"] .rdp-caption_label,
+[data-theme="dark"] .rdp-nav_button,
+[data-theme="dark"] .rdp-head_cell,
+[data-theme="dark"] .rdp-day {
+  color: var(--dashboard-fg) !important;
+}
+
+[data-theme="light"] .rdp-caption_label,
+[data-theme="light"] .rdp-nav_button,
+[data-theme="light"] .rdp-head_cell,
+[data-theme="light"] .rdp-day {
+  color: #1f2937 !important;
+}
+
+/* Calendar navigation arrows */
+[data-theme="dark"] .rdp-nav_button:hover {
+  background-color: var(--dashboard-hover) !important;
+}
+
+[data-theme="light"] .rdp-nav_button:hover {
+  background-color: #f3f4f6 !important;
 }
 
 /* Calendar theming fixes */
