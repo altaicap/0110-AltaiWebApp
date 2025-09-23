@@ -1580,6 +1580,17 @@
 
 /* EXISTING DASHBOARD STYLES CONTINUE... */
 
+/* Force black icons on green background buttons with highest specificity - override theme colors */
+[data-theme="dark"] button svg.text-black,
+[data-theme="light"] button svg.text-black,
+button svg.text-black,
+svg.text-black {
+  color: black !important;
+  fill: black !important;
+  stroke: black !important;
+  opacity: 1 !important;
+}
+
 /* Force black icons on green background buttons with highest specificity */
 button.bg-\[#0E6D73\] svg,
 button.dark\:bg-\[#00BD7D\] svg,
