@@ -4658,9 +4658,9 @@ metadata = {
                               <SelectTrigger>
                                 <SelectValue />
                               </SelectTrigger>
-                              <SelectContent>
+                              <SelectContent className="strategy-settings-dropdown">
                                 {param.options?.map((option) => (
-                                  <SelectItem key={option} value={option}>
+                                  <SelectItem key={option} value={option} className="strategy-item">
                                     {option}
                                   </SelectItem>
                                 ))}
