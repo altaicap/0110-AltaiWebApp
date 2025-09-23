@@ -433,11 +433,11 @@
   border-radius: 0.5rem !important; /* Match light theme radius */
 }
 
-/* Active tab icons in dark theme - white for contrast */
+/* Active tab icons in dark theme - black for contrast */
 [data-theme="dark"] [role="tab"][data-state="active"] svg,
 [data-theme="dark"] [role="tab"][aria-selected="true"] svg {
-  color: white !important;
-  fill: white !important;
+  color: black !important;
+  fill: black !important;
 }
 
 [data-theme="light"] [role="tab"] {
