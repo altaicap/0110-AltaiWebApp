@@ -1584,6 +1584,52 @@
 
 /* EXISTING DASHBOARD STYLES CONTINUE... */
 
+/* BACKTEST & CONFIGURE BUTTON ICON COLORS - DARK THEME (BLACK ICONS) */
+[data-theme="dark"] button.bg-\[#00BD7D\] svg,
+[data-theme="dark"] button.dark\:bg-\[#00BD7D\] svg,
+[data-theme="dark"] button.bg-\[#00BD7D\]:hover svg,
+[data-theme="dark"] button.dark\:bg-\[#00BD7D\]:hover svg,
+[data-theme="dark"] button.dark\:hover\:bg-\[#009963\] svg,
+[data-theme="dark"] button.dark\:hover\:bg-\[#009963\]:hover svg {
+  color: black !important;
+  fill: black !important;
+  stroke: black !important;
+  opacity: 1 !important;
+}
+
+/* BACKTEST & CONFIGURE BUTTON ICON COLORS - LIGHT THEME (WHITE ICONS) */
+[data-theme="light"] button.bg-\[#0E6D73\] svg,
+[data-theme="light"] button.bg-\[#0E6D73\]:hover svg,
+[data-theme="light"] button.hover\:bg-\[#0A5A5F\] svg,
+[data-theme="light"] button.hover\:bg-\[#0A5A5F\]:hover svg {
+  color: white !important;
+  fill: white !important;
+  stroke: white !important;
+  opacity: 1 !important;
+}
+
+/* NEW STRATEGY BUTTON ICON COLORS - DARK THEME (BLACK ICONS) */
+[data-theme="dark"] button.dark\:bg-\[#00BD7D\] .w-4.h-4,
+[data-theme="dark"] button.dark\:bg-\[#00BD7D\]:hover .w-4.h-4,
+[data-theme="dark"] button.dark\:hover\:bg-\[#009963\] .w-4.h-4,
+[data-theme="dark"] button.dark\:hover\:bg-\[#009963\]:hover .w-4.h-4 {
+  color: black !important;
+  fill: black !important;
+  stroke: black !important;
+  opacity: 1 !important;
+}
+
+/* NEW STRATEGY BUTTON ICON COLORS - LIGHT THEME (WHITE ICONS) */
+[data-theme="light"] button.bg-\[#0E6D73\] .w-4.h-4,
+[data-theme="light"] button.bg-\[#0E6D73\]:hover .w-4.h-4,
+[data-theme="light"] button.hover\:bg-\[#0A5A5F\] .w-4.h-4,
+[data-theme="light"] button.hover\:bg-\[#0A5A5F\]:hover .w-4.h-4 {
+  color: white !important;
+  fill: white !important;
+  stroke: white !important;
+  opacity: 1 !important;
+}
+
 /* Force theme-specific colors for button icons on green backgrounds */
 [data-theme="light"] button svg.text-white,
 [data-theme="light"] button:has(.bg-\[#0E6D73\]) svg,
