@@ -152,12 +152,12 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
         card.style.willChange = 'transform';
       });
 
-      // Play: Animate to final positions with slower, smoother timing
+      // Play: Animate to final positions with slower, smoother timing (slowed by 3x)
       requestAnimationFrame(() => {
         cards.forEach((card, index) => {
           card.style.transition = index === targetIndex 
-            ? 'transform 480ms cubic-bezier(0.25, 0.8, 0.25, 1)'  // Slower, smoother for expanding card
-            : 'transform 400ms cubic-bezier(0.25, 0.8, 0.25, 1)';  // Smoother for rearranging cards
+            ? 'transform 1440ms cubic-bezier(0.25, 0.8, 0.25, 1)'  // Slower, smoother for expanding card (480ms * 3)
+            : 'transform 1200ms cubic-bezier(0.25, 0.8, 0.25, 1)';  // Smoother for rearranging cards (400ms * 3)
           card.style.transform = '';
         });
 
@@ -169,7 +169,7 @@ const LandingPage = ({ onSignIn, onRegister, onGoToDashboard, isDarkTheme, onTog
             card.style.transformOrigin = '';
           });
           setIsAnimating(false);
-        }, 480);
+        }, 1440); // Increased timeout to match longest animation
       });
     });
   };
