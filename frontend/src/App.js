@@ -2882,7 +2882,7 @@ metadata = {
                             </Button>
                             {isConfigured && (
                               <Button size="sm" variant="outline" className="text-xs h-7">
-                                <Cog className="w-3 h-3 mr-1 text-white dark:text-black" />
+                                <Cog className="w-3 h-3 mr-1" style={{color: isDarkTheme ? 'black' : 'white'}} />
                                 Reconfigure
                               </Button>
                             )}
