@@ -6645,6 +6645,53 @@ metadata = {
           columns={tradeLogColumns}
           setColumns={setTradeLogColumns}
         />
+
+        {/* Delete Confirmation Dialog */}
+        {showDeleteConfirmDialog && deleteConfirmData && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md mx-4 border dark:border-gray-600">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center">
+                  <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Archive Strategy</h2>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">This action can be undone</p>
+                </div>
+              </div>
+              
+              <div className="mb-6">
+                <p className="text-gray-700 dark:text-gray-300">
+                  Are you sure you want to archive "{deleteConfirmData.strategy.name || deleteConfirmData.strategy.configuration_name}"?
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                  The strategy will be moved to the archive and can be restored later.
+                </p>
+              </div>
+              
+              <div className="flex gap-3 justify-end">
+                <Button 
+                  variant="outline" 
+                  onClick={() => {
+                    setShowDeleteConfirmDialog(false);
+                    setDeleteConfirmData(null);
+                  }}
+                  className="dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  variant="destructive"
+                  onClick={confirmDeleteStrategy}
+                  className="bg-red-600 hover:bg-red-700 text-white"
+                >
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Archive Strategy
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
