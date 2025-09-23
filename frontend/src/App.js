@@ -2752,7 +2752,7 @@ metadata = {
                                   }
                                 }}
                               >
-                                <Cog className="w-3 h-3 mr-1 text-white dark:text-black" />
+                                <Cog className="w-3 h-3 mr-1" style={{color: isDarkTheme ? 'black' : 'white'}} />
                                 Backtest
                               </Button>
                               <Button 
