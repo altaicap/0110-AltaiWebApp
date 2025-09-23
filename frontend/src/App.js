@@ -2703,15 +2703,15 @@ metadata = {
                                 <SelectTrigger className="h-7 text-xs">
                                   <SelectValue placeholder="Select broker account" />
                                 </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="tradestation|paper">TradeStation Paper</SelectItem>
-                                  <SelectItem value="tradestation|stocks">TradeStation Stocks</SelectItem>
-                                  <SelectItem value="tradestation|options">TradeStation Options</SelectItem>
-                                  <SelectItem value="ibkr|paper">IBKR Paper Trading</SelectItem>
-                                  <SelectItem value="ibkr|stocks">IBKR Stocks</SelectItem>
-                                  <SelectItem value="ibkr|options">IBKR Options</SelectItem>
-                                  <SelectItem value="ibkr|forex">IBKR Forex</SelectItem>
-                                  <SelectItem value="ibkr|crypto">IBKR Crypto</SelectItem>
+                                <SelectContent className="broker-account-dropdown">
+                                  <SelectItem value="tradestation|paper" className="broker-item">TradeStation Paper</SelectItem>
+                                  <SelectItem value="tradestation|stocks" className="broker-item">TradeStation Stocks</SelectItem>
+                                  <SelectItem value="tradestation|options" className="broker-item">TradeStation Options</SelectItem>
+                                  <SelectItem value="ibkr|paper" className="broker-item">IBKR Paper Trading</SelectItem>
+                                  <SelectItem value="ibkr|stocks" className="broker-item">IBKR Stocks</SelectItem>
+                                  <SelectItem value="ibkr|options" className="broker-item">IBKR Options</SelectItem>
+                                  <SelectItem value="ibkr|forex" className="broker-item">IBKR Forex</SelectItem>
+                                  <SelectItem value="ibkr|crypto" className="broker-item">IBKR Crypto</SelectItem>
                                 </SelectContent>
                               </Select>
                             </div>
