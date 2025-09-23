@@ -2877,7 +2877,7 @@ metadata = {
                                 }
                               }}
                             >
-                              <Cog className="w-3 h-3 mr-1" style={{color: isDarkTheme ? 'black' : 'white'}} />
+                              <Cog className={`w-3 h-3 mr-1 ${isDarkTheme ? 'force-black-icon' : 'force-white-icon'}`} />
                               Backtest & Configure
                             </Button>
                             {isConfigured && (
