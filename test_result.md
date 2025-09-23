@@ -71,12 +71,12 @@
         agent: "testing"
         comment: "✅ ARCHIVE BUTTON FUNCTIONALITY VERIFIED: Comprehensive testing completed successfully. Found 4 Archive buttons in Strategies tab (both Configured and Uploaded Strategies sections). Archive button functionality working perfectly: 1) Confirmation dialog appears correctly when Archive buttons are clicked, 2) Dialog has proper 'Archive Strategy' title and 'This action can be undone' subtitle, 3) Dialog includes warning icon with proper red styling, 4) Both Cancel and Archive Strategy buttons present and functional, 5) Cancel button correctly closes dialog, 6) Dialog styling compatible with both light and dark themes. The fix successfully resolved the missing confirmation dialog component issue."
 
-  - task: "Backtest & Configure Icon Update"
+  - task: "Backtest & Configure Button Styling and Icons Fix"
     implemented: true
     working: true
     file: "frontend/src/App.js"
     stuck_count: 0
-    priority: "medium"
+    priority: "high"
     needs_retesting: false
     status_history:
       - working: "NA"
@@ -85,6 +85,12 @@
       - working: true
         agent: "testing"
         comment: "✅ ICON UPDATE VERIFIED: Successfully tested icon updates across all Backtest & Configure buttons. Found 5 total buttons (1 'BACKTEST' button and 4 'Backtest & Configure' buttons). Icon verification results: 4 out of 4 'Backtest & Configure' buttons now display the new composite FileText+Settings icon design correctly, replacing the old BarChart3 icons. The composite design uses FileText (document) and Settings (gear) icons positioned within a relative container to create the layered document+gear effect as requested. All buttons in both Configured Strategies and Uploaded Strategies sections have been successfully updated. The 1 'BACKTEST' button has unclear icon structure but this may be intentional as it's a different button type."
+      - working: true
+        agent: "main"
+        comment: "CRITICAL FIXES IMPLEMENTED: 1) Fixed Button Styling - Added proper green background styling to 'Backtest & Configure' buttons with bg-green-600 hover:bg-green-700 text-white border-green-600 hover:border-green-700 classes for signature dark green in light mode and proper contrast in dark mode. 2) Fixed Composite Icon Positioning - Updated FileText+Settings icon positioning from overlapping negative positions to clean layered positioning: FileText w-2 h-2 absolute top-0 left-0 (main document), Settings w-1.5 h-1.5 absolute top-1 left-1 (smaller gear overlay)."
+      - working: true
+        agent: "testing"
+        comment: "✅ COMPREHENSIVE BUTTON STYLING AND ICONS TESTING COMPLETE: Successfully verified both critical fixes with 100% success rate across all themes. 🟢 BUTTON STYLING VERIFIED: Found 4 'Backtest & Configure' buttons, all have perfect green styling - bg-green-600 hover:bg-green-700 text-white classes applied correctly, computed background rgb(22, 163, 74) (signature dark green), computed text color rgb(255, 255, 255) (white text), styling maintained in both dark and light modes with proper contrast. 📄⚙️ ICON POSITIONING VERIFIED: All 4 buttons display perfect document+gear combination - FileText icons: 'lucide lucide-file-text w-2 h-2 absolute top-0 left-0' (main document layer), Settings icons: 'lucide lucide-settings w-1.5 h-1.5 absolute top-1 left-1' (gear overlay), clean layered positioning achieved (no overlapping negative positions), icons visible as document+gear combination (not single dots/ellipses). 🎨 THEME COMPATIBILITY: Both fixes work perfectly in dark and light modes, no blending teal issues in dark mode, proper contrast maintained across all themes. Both critical fixes successfully resolve the reported issues and are production-ready."
 
 ## agent_communication:
     -agent: "main"
