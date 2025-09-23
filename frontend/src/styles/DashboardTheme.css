@@ -2220,15 +2220,24 @@
   opacity: 1 !important;
 }
 
-/* Calendar header text (month/year) visibility */
+/* Calendar header text (month/year) visibility - MORE SPECIFIC */
 [data-theme="dark"] .rdp-caption_label,
 [data-theme="dark"] .rdp-nav_button,
 [data-theme="dark"] .rdp-head_cell,
 [data-theme="dark"] .rdp-day,
 [data-theme="dark"] .rdp-caption,
 [data-theme="dark"] .rdp-months,
-[data-theme="dark"] .rdp-month {
+[data-theme="dark"] .rdp-month,
+[data-theme="dark"] .rdp-caption_start,
+[data-theme="dark"] .rdp-caption_end,
+[data-theme="dark"] .rdp * {
   color: white !important;
+}
+
+/* Force calendar header specifically */
+[data-theme="dark"] .rdp .rdp-caption_label {
+  color: white !important;
+  font-weight: 500 !important;
 }
 
 [data-theme="light"] .rdp-caption_label,
