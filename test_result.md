@@ -878,6 +878,7 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
     - "Dashboard Pane Renames"
     - "Chart Display Updates"
     - "Calendar Layout Enhancement"
+    - "Signature Green Colors for Backtest & Configure and New Strategy Buttons"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
