@@ -973,11 +973,18 @@ async def test_tradexchange_webhook():
 @app.get("/api/backtest/results")
 async def get_backtest_results():
     """Get all backtest results"""
-    cursor = db.backtest_results.find().sort("created_at", -1).limit(100)
-    results = []
-    async for doc in cursor:
-        results.append(doc)
-    return results
+    try:
+        cursor = db.backtest_results.find().sort("created_at", -1).limit(100)
+        results = []
+        async for doc in cursor:
+            # Convert ObjectId to string for JSON serialization
+            if '_id' in doc:
+                doc['_id'] = str(doc['_id'])
+            results.append(doc)
+        return results
+    except Exception as e:
+        # Return empty list if there's an error
+        return []
 
 
 # Authentication and User Management Endpoints
