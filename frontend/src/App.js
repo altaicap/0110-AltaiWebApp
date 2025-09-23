@@ -5406,18 +5406,46 @@ metadata = {
                 <div className="text-sm space-y-2">
                   <div className="flex items-center gap-2">
                     <Label className="whitespace-nowrap">Current RVOL Period:</Label>
-                    <Select value={rvolPeriod} onValueChange={setRvolPeriod}>
-                      <SelectTrigger className="w-20 h-8">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="1m">1m</SelectItem>
-                        <SelectItem value="5m">5m</SelectItem>
-                        <SelectItem value="15m">15m</SelectItem>
-                        <SelectItem value="1h">1h</SelectItem>
-                        <SelectItem value="1d">1d</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="sm" className="w-20 h-8 text-xs justify-between">
+                          {rvolPeriod}
+                          <ChevronDown className="h-3 w-3 ml-1" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="dropdown-menu-content">
+                        <DropdownMenuItem 
+                          className="cursor-pointer dropdown-menu-item" 
+                          onClick={() => setRvolPeriod('1m')}
+                        >
+                          1m
+                        </DropdownMenuItem>
+                        <DropdownMenuItem 
+                          className="cursor-pointer dropdown-menu-item" 
+                          onClick={() => setRvolPeriod('5m')}
+                        >
+                          5m
+                        </DropdownMenuItem>
+                        <DropdownMenuItem 
+                          className="cursor-pointer dropdown-menu-item" 
+                          onClick={() => setRvolPeriod('15m')}
+                        >
+                          15m
+                        </DropdownMenuItem>
+                        <DropdownMenuItem 
+                          className="cursor-pointer dropdown-menu-item" 
+                          onClick={() => setRvolPeriod('1h')}
+                        >
+                          1h
+                        </DropdownMenuItem>
+                        <DropdownMenuItem 
+                          className="cursor-pointer dropdown-menu-item" 
+                          onClick={() => setRvolPeriod('1d')}
+                        >
+                          1d
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                     <Label className="whitespace-nowrap">Lookback Period:</Label>
                     <Input
                       type="number"
