@@ -2795,20 +2795,29 @@ button svg.text-black {
   background-color: #374151 !important;
 }
 
-/* Calendar day colors - FORCE with !important */
+/* Calendar day colors - MAXIMUM SPECIFICITY with borders */
 .calendar-green {
   background-color: #22c55e !important;
-  border-color: #16a34a !important;
+  border: 1px solid #16a34a !important;
 }
 
 .calendar-red {
   background-color: #ef4444 !important;
-  border-color: #dc2626 !important;
+  border: 1px solid #dc2626 !important;
 }
 
 .calendar-orange {
   background-color: #f97316 !important;
-  border-color: #ea580c !important;
+  border: 1px solid #ea580c !important;
+}
+
+.calendar-empty {
+  border: 1px solid #e5e7eb !important;
+  background-color: transparent !important;
+}
+
+[data-theme="dark"] .calendar-empty {
+  border: 1px solid #374151 !important;
 }
 
 /* Calendar text colors */
