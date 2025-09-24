@@ -651,6 +651,26 @@ function App() {
   ]);
   const [showTradeLogColumnSettings, setShowTradeLogColumnSettings] = useState(false);
   
+  // Watchlist state management
+  const [watchlistEntries, setWatchlistEntries] = useState([
+    { id: 1, date: '2024-09-24', ticker: 'AAPL', comment1: 'Earnings Beat', comment2: 'Strong iPhone Sales', comment3: 'Bullish', comment4: 'Tech Strength', comment5: 'Buy Zone', comment6: 'Monitor' },
+    { id: 2, date: '2024-09-24', ticker: 'TSLA', comment1: 'Upgrade', comment2: 'Delivery Numbers', comment3: 'Neutral', comment4: 'EV Growth', comment5: 'Wait', comment6: 'Review' },
+    { id: 3, date: '2024-09-23', ticker: 'NVDA', comment1: 'AI Hype', comment2: 'Data Center', comment3: 'Bullish', comment4: 'Momentum', comment5: 'Strong', comment6: 'Watch' }
+  ]);
+  const [showWatchlistSettings, setShowWatchlistSettings] = useState(false);
+  const [editingWatchlistEntry, setEditingWatchlistEntry] = useState(null);
+  const [showAddWatchlistEntry, setShowAddWatchlistEntry] = useState(false);
+  
+  // Watchlist column configuration
+  const [watchlistColumnConfig, setWatchlistColumnConfig] = useState({
+    comment1: { type: 'dropdown', label: 'Category', options: ['Earnings', 'Upgrade', 'Downgrade', 'AI Hype', 'Government Investment', 'Technical', 'News'] },
+    comment2: { type: 'text', label: 'Reason' },
+    comment3: { type: 'dropdown', label: 'Sentiment', options: ['Bullish', 'Bearish', 'Neutral'] },
+    comment4: { type: 'text', label: 'Sector' },
+    comment5: { type: 'dropdown', label: 'Action', options: ['Buy Zone', 'Sell Zone', 'Wait', 'Monitor', 'Strong'] },
+    comment6: { type: 'text', label: 'Notes' }
+  });
+  
   // Backtest Form State (moved from BacktestTab to prevent resets)
   const [backtestForm, setBacktestForm] = useState({
     strategy_name: '',
