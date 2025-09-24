@@ -5860,12 +5860,7 @@ metadata = {
     const [formData, setFormData] = useState({
       date: new Date().toISOString().split('T')[0],
       ticker: '',
-      comment1: '',
-      comment2: '',
-      comment3: '',
-      comment4: '',
-      comment5: '',
-      comment6: ''
+      ...Object.keys(columnConfig).reduce((acc, key) => ({ ...acc, [key]: '' }), {})
     });
 
     useEffect(() => {
@@ -5873,26 +5868,16 @@ metadata = {
         setFormData({
           date: editingEntry.date || new Date().toISOString().split('T')[0],
           ticker: editingEntry.ticker || '',
-          comment1: editingEntry.comment1 || '',
-          comment2: editingEntry.comment2 || '',
-          comment3: editingEntry.comment3 || '',
-          comment4: editingEntry.comment4 || '',
-          comment5: editingEntry.comment5 || '',
-          comment6: editingEntry.comment6 || ''
+          ...Object.keys(columnConfig).reduce((acc, key) => ({ ...acc, [key]: editingEntry[key] || '' }), {})
         });
       } else {
         setFormData({
           date: new Date().toISOString().split('T')[0],
           ticker: '',
-          comment1: '',
-          comment2: '',
-          comment3: '',
-          comment4: '',
-          comment5: '',
-          comment6: ''
+          ...Object.keys(columnConfig).reduce((acc, key) => ({ ...acc, [key]: '' }), {})
         });
       }
-    }, [editingEntry]);
+    }, [editingEntry, columnConfig]);
 
     const handleSubmit = (e) => {
       e.preventDefault();
@@ -5930,9 +5915,9 @@ metadata = {
     if (!isOpen) return null;
 
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={onClose}>
+      <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={onClose}>
         <Card 
-          className={`w-full max-w-2xl mx-4 border ${isDarkTheme ? 'border-gray-600 bg-gray-800' : 'border-gray-300 bg-white'}`}
+          className={`w-full max-w-2xl mx-4 border ${isDarkTheme ? 'border-gray-700 bg-gray-900' : 'border-gray-300 bg-white'}`}
           onClick={(e) => e.stopPropagation()}
         >
           <CardHeader>
@@ -5975,10 +5960,18 @@ metadata = {
               ))}
               
               <div className="flex gap-3 justify-end pt-4">
-                <Button type="button" variant="outline" onClick={onClose} className={isDarkTheme ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : ''}>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={onClose} 
+                  className={isDarkTheme ? 'border-gray-600 text-gray-300 hover:bg-gray-800 bg-gray-800' : 'border-gray-300 hover:bg-gray-50'}
+                >
                   Cancel
                 </Button>
-                <Button type="submit" className="bg-[#0E6D73] hover:bg-[#0A5A5F] dark:bg-[#00BD7D] dark:hover:bg-[#009963] text-white dark:text-black">
+                <Button 
+                  type="submit" 
+                  className="bg-[#0E6D73] hover:bg-[#0A5A5F] dark:bg-[#00BD7D] dark:hover:bg-[#009963] text-white dark:text-black"
+                >
                   {editingEntry ? 'Update' : 'Add'} Entry
                 </Button>
               </div>
