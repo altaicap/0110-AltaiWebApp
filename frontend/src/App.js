@@ -5731,6 +5731,136 @@ metadata = {
     );
   };
 
+  // Watchlist Tab Component
+  const WatchlistTab = () => {
+    const addWatchlistEntry = () => {
+      setEditingWatchlistEntry(null);
+      setShowAddWatchlistEntry(true);
+    };
+
+    const saveWatchlistEntry = (entryData) => {
+      if (editingWatchlistEntry) {
+        // Edit existing entry
+        setWatchlistEntries(prev => 
+          prev.map(entry => 
+            entry.id === editingWatchlistEntry.id ? { ...entry, ...entryData } : entry
+          )
+        );
+      } else {
+        // Add new entry
+        const newEntry = {
+          id: Date.now(),
+          date: new Date().toISOString().split('T')[0],
+          ...entryData
+        };
+        setWatchlistEntries(prev => [...prev, newEntry]);
+      }
+      setShowAddWatchlistEntry(false);
+      setEditingWatchlistEntry(null);
+    };
+
+    const deleteWatchlistEntry = (entryId) => {
+      setWatchlistEntries(prev => prev.filter(entry => entry.id !== entryId));
+    };
+
+    return (
+      <div className="space-y-6">
+        <div className="tab-header-enhanced">
+          {/* Header content will be in the card */}
+        </div>
+
+        {/* Watchlist Pane */}
+        <Card className={`relative pane-enhanced ${fullScreenPane === 'watchlist' ? 'fullscreen-enhanced' : ''}`}>
+          <PaneControls paneId="watchlist">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="text-xs mr-2"
+              onClick={() => setShowWatchlistSettings(true)}
+            >
+              <Settings2 className="h-3 w-3 mr-1" />
+              Settings
+            </Button>
+            <Button 
+              size="sm" 
+              className="bg-[#0E6D73] hover:bg-[#0A5A5F] dark:bg-[#00BD7D] dark:hover:bg-[#009963] text-white dark:text-black"
+              onClick={addWatchlistEntry}
+            >
+              <Plus className={`w-4 h-4 mr-2 ${isDarkTheme ? 'force-black-icon' : 'force-white-icon'}`} />
+              Add Entry
+            </Button>
+          </PaneControls>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>Watchlist</CardTitle>
+                <CardDescription>Daily ticker watchlist with custom notes and categorization</CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          {!minimizedPanes.has('watchlist') && (
+          <CardContent>
+            <div className="h-96 overflow-y-auto overflow-x-auto">
+              <table className="w-full text-xs min-w-[1200px]">
+                <thead className="border-b border-gray-200 dark:border-gray-700">
+                  <tr className="text-left">
+                    <th className="pb-1 px-2 text-xs font-medium">Date</th>
+                    <th className="pb-1 px-2 text-xs font-medium">Ticker</th>
+                    <th className="pb-1 px-2 text-xs font-medium">{watchlistColumnConfig.comment1.label}</th>
+                    <th className="pb-1 px-2 text-xs font-medium">{watchlistColumnConfig.comment2.label}</th>
+                    <th className="pb-1 px-2 text-xs font-medium">{watchlistColumnConfig.comment3.label}</th>
+                    <th className="pb-1 px-2 text-xs font-medium">{watchlistColumnConfig.comment4.label}</th>
+                    <th className="pb-1 px-2 text-xs font-medium">{watchlistColumnConfig.comment5.label}</th>
+                    <th className="pb-1 px-2 text-xs font-medium">{watchlistColumnConfig.comment6.label}</th>
+                    <th className="pb-1 px-2 text-xs font-medium">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {watchlistEntries.map((entry) => (
+                    <tr key={entry.id} className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                      <td className="py-2 px-2">{entry.date}</td>
+                      <td className="py-2 px-2 font-medium">{entry.ticker}</td>
+                      <td className="py-2 px-2">{entry.comment1}</td>
+                      <td className="py-2 px-2">{entry.comment2}</td>
+                      <td className="py-2 px-2">{entry.comment3}</td>
+                      <td className="py-2 px-2">{entry.comment4}</td>
+                      <td className="py-2 px-2">{entry.comment5}</td>
+                      <td className="py-2 px-2">{entry.comment6}</td>
+                      <td className="py-2 px-2">
+                        <div className="flex gap-1">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-6 w-6 p-0"
+                            onClick={() => {
+                              setEditingWatchlistEntry(entry);
+                              setShowAddWatchlistEntry(true);
+                            }}
+                          >
+                            <Edit className="h-3 w-3" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-6 w-6 p-0 text-red-600 hover:text-red-700"
+                            onClick={() => deleteWatchlistEntry(entry.id)}
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+          )}
+        </Card>
+      </div>
+    );
+  };
+
   // Theme toggle function
   const toggleTheme = () => {
     const newTheme = appSettings.theme === 'light' ? 'dark' : 'light';
