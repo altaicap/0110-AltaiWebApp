@@ -1584,22 +1584,23 @@
 
 /* EXISTING DASHBOARD STYLES CONTINUE... */
 
-/* Configuration button icons - force white color with maximum specificity */
-.config-button-icon,
-svg.config-button-icon,
-button .config-button-icon,
-button svg.config-button-icon,
+/* Configuration button icons - theme-specific colors with maximum specificity */
 [data-theme="light"] .config-button-icon,
 [data-theme="light"] svg.config-button-icon,
 [data-theme="light"] button .config-button-icon,
-[data-theme="light"] button svg.config-button-icon,
+[data-theme="light"] button svg.config-button-icon {
+  color: white !important;
+  fill: white !important;
+  stroke: white !important;
+}
+
 [data-theme="dark"] .config-button-icon,
 [data-theme="dark"] svg.config-button-icon,
 [data-theme="dark"] button .config-button-icon,
 [data-theme="dark"] button svg.config-button-icon {
-  color: white !important;
-  fill: white !important;
-  stroke: white !important;
+  color: black !important;
+  fill: black !important;
+  stroke: black !important;
 }
 
 /* Strategy card description - 2 line limit */
