@@ -5274,51 +5274,50 @@ metadata = {
 
         {/* Backtest Trade Log */}
         <Card className={`relative ${fullScreenPane === 'trade-log' ? 'fullscreen-enhanced' : ''}`}>
-          <FullScreenButton paneId="trade-log" />
+          <PaneControls paneId="trade-log">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="text-xs mr-2"
+              onClick={() => setShowTradeLogColumnSettings(true)}
+            >
+              <Settings2 className="h-3 w-3 mr-1" />
+              Columns
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => {
+                // Export trade log as CSV with selected columns
+                const visibleColumns = tradeLogColumns
+                  .filter(col => col.visible)
+                  .sort((a, b) => a.order - b.order);
+                
+                const csvData = [
+                  visibleColumns.map(col => col.label),
+                  // Add data rows here when needed
+                ];
+                
+                const csvContent = csvData.map(row => row.join(',')).join('\n');
+                const blob = new Blob([csvContent], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'backtest_trade_log.csv';
+                a.click();
+                window.URL.revokeObjectURL(url);
+              }}
+              className="flex items-center gap-2"
+            >
+              <Download className="w-4 h-4" />
+              Export CSV
+            </Button>
+          </PaneControls>
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle>Backtest Trade Log</CardTitle>
                 <CardDescription>Individual trades from backtest results</CardDescription>
-              </div>
-              <div className="flex items-center gap-2 mr-16">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="text-xs"
-                  onClick={() => setShowTradeLogColumnSettings(true)}
-                >
-                  <Settings2 className="h-3 w-3 mr-1" />
-                  Columns
-                </Button>
-                <Button 
-                  size="sm" 
-                  variant="outline"
-                  onClick={() => {
-                    // Export trade log as CSV with selected columns
-                    const visibleColumns = tradeLogColumns
-                      .filter(col => col.visible)
-                      .sort((a, b) => a.order - b.order);
-                    
-                    const csvData = [
-                      visibleColumns.map(col => col.label),
-                      // Add data rows here when needed
-                    ];
-                    
-                    const csvContent = csvData.map(row => row.join(',')).join('\n');
-                    const blob = new Blob([csvContent], { type: 'text/csv' });
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'backtest_trade_log.csv';
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                  }}
-                  className="flex items-center gap-2"
-                >
-                  <Download className="w-4 h-4" />
-                  Export CSV
-                </Button>
               </div>
             </div>
           </CardHeader>
