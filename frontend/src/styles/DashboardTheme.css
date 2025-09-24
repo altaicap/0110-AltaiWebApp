@@ -2495,6 +2495,100 @@ button svg.text-black {
   color: var(--dashboard-fg) !important;
 }
 
+/* WATCHLIST SETTINGS DROPDOWN - REMOVE INDIVIDUAL CONTAINERS - HIGHEST SPECIFICITY */
+html body [data-theme="dark"] .watchlist-settings-dropdown .watchlist-settings-item,
+html body [data-theme="dark"] .watchlist-settings-dropdown [data-radix-select-item],
+html body [data-theme="dark"] [data-radix-select-content].watchlist-settings-dropdown [data-radix-select-item],
+html body [data-theme="dark"] [data-radix-select-content] .watchlist-settings-item,
+html body div div [data-theme="dark"] .watchlist-settings-dropdown [data-radix-select-item] {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 8px 12px !important;
+  color: var(--dashboard-fg) !important;
+}
+
+html body [data-theme="dark"] .watchlist-settings-dropdown .watchlist-settings-item:hover,
+html body [data-theme="dark"] .watchlist-settings-dropdown [data-radix-select-item]:hover,
+html body [data-theme="dark"] [data-radix-select-content].watchlist-settings-dropdown [data-radix-select-item]:hover,
+html body [data-theme="dark"] [data-radix-select-content] .watchlist-settings-item:hover,
+html body div div [data-theme="dark"] .watchlist-settings-dropdown [data-radix-select-item]:hover {
+  background-color: var(--dashboard-accent) !important;
+  color: white !important;
+}
+
+html body [data-theme="light"] .watchlist-settings-dropdown .watchlist-settings-item,
+html body [data-theme="light"] .watchlist-settings-dropdown [data-radix-select-item],
+html body [data-theme="light"] [data-radix-select-content].watchlist-settings-dropdown [data-radix-select-item],
+html body [data-theme="light"] [data-radix-select-content] .watchlist-settings-item,
+html body div div [data-theme="light"] .watchlist-settings-dropdown [data-radix-select-item] {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 8px 12px !important;
+  color: #1f2937 !important;
+}
+
+html body [data-theme="light"] .watchlist-settings-dropdown .watchlist-settings-item:hover,
+html body [data-theme="light"] .watchlist-settings-dropdown [data-radix-select-item]:hover,
+html body [data-theme="light"] [data-radix-select-content].watchlist-settings-dropdown [data-radix-select-item]:hover,
+html body [data-theme="light"] [data-radix-select-content] .watchlist-settings-item:hover,
+html body div div [data-theme="light"] .watchlist-settings-dropdown [data-radix-select-item]:hover {
+  background-color: #0E6D73 !important;
+  color: white !important;
+}
+
+/* WATCHLIST DROPDOWN - REMOVE INDIVIDUAL CONTAINERS - HIGHEST SPECIFICITY */
+html body [data-theme="dark"] .watchlist-dropdown .watchlist-item,
+html body [data-theme="dark"] .watchlist-dropdown [data-radix-select-item],
+html body [data-theme="dark"] [data-radix-select-content].watchlist-dropdown [data-radix-select-item],
+html body [data-theme="dark"] [data-radix-select-content] .watchlist-item,
+html body div div [data-theme="dark"] .watchlist-dropdown [data-radix-select-item] {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 8px 12px !important;
+  color: var(--dashboard-fg) !important;
+}
+
+html body [data-theme="dark"] .watchlist-dropdown .watchlist-item:hover,
+html body [data-theme="dark"] .watchlist-dropdown [data-radix-select-item]:hover,
+html body [data-theme="dark"] [data-radix-select-content].watchlist-dropdown [data-radix-select-item]:hover,
+html body [data-theme="dark"] [data-radix-select-content] .watchlist-item:hover,
+html body div div [data-theme="dark"] .watchlist-dropdown [data-radix-select-item]:hover {
+  background-color: var(--dashboard-accent) !important;
+  color: white !important;
+}
+
+html body [data-theme="light"] .watchlist-dropdown .watchlist-item,
+html body [data-theme="light"] .watchlist-dropdown [data-radix-select-item],
+html body [data-theme="light"] [data-radix-select-content].watchlist-dropdown [data-radix-select-item],
+html body [data-theme="light"] [data-radix-select-content] .watchlist-item,
+html body div div [data-theme="light"] .watchlist-dropdown [data-radix-select-item] {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 8px 12px !important;
+  color: #1f2937 !important;
+}
+
+html body [data-theme="light"] .watchlist-dropdown .watchlist-item:hover,
+html body [data-theme="light"] .watchlist-dropdown [data-radix-select-item]:hover,
+html body [data-theme="light"] [data-radix-select-content].watchlist-dropdown [data-radix-select-item]:hover,
+html body [data-theme="light"] [data-radix-select-content] .watchlist-item:hover,
+html body div div [data-theme="light"] .watchlist-dropdown [data-radix-select-item]:hover {
+  background-color: #0E6D73 !important;
+  color: white !important;
+}
+
 /* WATCHLIST DROPDOWN - REMOVE INDIVIDUAL CONTAINERS */
 .watchlist-dropdown .watchlist-item,
 .watchlist-dropdown [data-radix-select-item],
