@@ -1590,8 +1590,9 @@
 [data-theme="light"] button .config-button-icon,
 [data-theme="light"] button svg.config-button-icon {
   color: white !important;
-  fill: white !important;
+  fill: none !important;
   stroke: white !important;
+  stroke-width: 1.5px !important;
 }
 
 [data-theme="dark"] .config-button-icon,
@@ -1599,8 +1600,9 @@
 [data-theme="dark"] button .config-button-icon,
 [data-theme="dark"] button svg.config-button-icon {
   color: black !important;
-  fill: black !important;
+  fill: none !important;
   stroke: black !important;
+  stroke-width: 1.5px !important;
 }
 
 /* Strategy card description - 2 line limit */
