@@ -640,15 +640,14 @@ function App() {
   const [tradeLogColumns, setTradeLogColumns] = useState([
     { id: 'dateTime', label: 'Date/Time', visible: true, order: 0 },
     { id: 'symbol', label: 'Symbol', visible: true, order: 1 },
-    { id: 'signal', label: 'Signal', visible: true, order: 2 },
-    { id: 'entry', label: 'Entry', visible: true, order: 3 },
-    { id: 'stop', label: 'Stop', visible: true, order: 4 },
+    { id: 'entry', label: 'Entry', visible: true, order: 2 },
+    { id: 'initialStop', label: 'Initial Stop', visible: true, order: 3 },
+    { id: 'quantity', label: 'Quantity', visible: true, order: 4 },
     { id: 'avgSellPrice', label: 'Avg Sell Price', visible: true, order: 5 },
     { id: 'pnl', label: 'PnL', visible: true, order: 6 },
     { id: 'rReturn', label: 'R-Return', visible: true, order: 7 },
-    { id: 'quantity', label: 'Quantity', visible: true, order: 8 },
-    { id: 'exposureAtCost', label: 'Exposure at Cost %', visible: true, order: 9 },
-    { id: 'rvol', label: 'RVOL', visible: true, order: 10 }
+    { id: 'tradeAmount', label: 'Trade Amount', visible: true, order: 8 },
+    { id: 'exposureAtCost', label: 'Exposure at Cost %', visible: true, order: 9 }
   ]);
   const [showTradeLogColumnSettings, setShowTradeLogColumnSettings] = useState(false);
   
