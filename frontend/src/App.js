@@ -6403,11 +6403,16 @@ metadata = {
               className="h-full flex flex-col"
             >
               {/* Primary Tabs - CENTERED WITH EQUAL SPACING */}
-              <TabsList className="grid w-full grid-cols-5 tabs-container-centered flex-shrink-0 mt-4">
+              <TabsList className="grid w-full grid-cols-6 tabs-container-centered flex-shrink-0 mt-4">
                 <TabsTrigger value="dashboard" className="flex items-center gap-2 px-3 md:px-6 uppercase">
                   <BarChart3 className="w-4 h-4 flex-shrink-0" />
                   <span className="hidden sm:inline">DASHBOARD</span>
                   <span className="sm:hidden">DASH</span>
+                </TabsTrigger>
+                <TabsTrigger value="watchlist" className="flex items-center gap-2 px-3 md:px-6 uppercase">
+                  <Eye className="w-4 h-4 flex-shrink-0" />
+                  <span className="hidden sm:inline">WATCHLIST</span>
+                  <span className="sm:hidden">WATCH</span>
                 </TabsTrigger>
                 <TabsTrigger value="strategies" className="flex items-center gap-2 px-3 md:px-6 uppercase">
                   <TrendingUp className="w-4 h-4 flex-shrink-0" />
