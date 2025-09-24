@@ -4996,7 +4996,7 @@ metadata = {
                     stroke={isDarkTheme ? '#9ca3af' : '#6b7280'}
                     fontSize={12}
                   />
-                  <Tooltip 
+                  <RechartsTooltip 
                     contentStyle={{
                       backgroundColor: isDarkTheme ? '#1f2937' : 'white',
                       border: `1px solid ${isDarkTheme ? '#374151' : '#e5e7eb'}`,
