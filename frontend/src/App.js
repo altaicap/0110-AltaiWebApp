@@ -663,6 +663,20 @@ function App() {
   const [runningBacktest, setRunningBacktest] = useState(false);
   const [symbolInput, setSymbolInput] = useState('');
   const [chartSymbol, setChartSymbol] = useState('AAPL');
+  const [benchmarkTicker, setBenchmarkTicker] = useState('SPY');
+  
+  // Strategy Equity Curve Data
+  const [equityCurveData, setEquityCurveData] = useState([
+    { date: '2024-01-01', portfolioValue: 100000, strategyPercent: 0, benchmarkPercent: 0 },
+    { date: '2024-02-01', portfolioValue: 103200, strategyPercent: 3.2, benchmarkPercent: 2.1 },
+    { date: '2024-03-01', portfolioValue: 107800, strategyPercent: 7.8, benchmarkPercent: 4.3 },
+    { date: '2024-04-01', portfolioValue: 112500, strategyPercent: 12.5, benchmarkPercent: 6.8 },
+    { date: '2024-05-01', portfolioValue: 109200, strategyPercent: 9.2, benchmarkPercent: 7.2 },
+    { date: '2024-06-01', portfolioValue: 115800, strategyPercent: 15.8, benchmarkPercent: 9.1 },
+    { date: '2024-07-01', portfolioValue: 118900, strategyPercent: 18.9, benchmarkPercent: 11.4 },
+    { date: '2024-08-01', portfolioValue: 123400, strategyPercent: 23.4, benchmarkPercent: 12.8 },
+    { date: '2024-09-01', portfolioValue: 127200, strategyPercent: 27.2, benchmarkPercent: 14.5 }
+  ]);
 
   // Trading Integration State
   const [availableBrokers, setAvailableBrokers] = useState([]);
