@@ -6720,6 +6720,30 @@ metadata = {
           setColumns={setTradeLogColumns}
         />
 
+        {/* Watchlist Add/Edit Entry Modal */}
+        {showAddWatchlistEntry && (
+          <WatchlistEntryModal
+            isOpen={showAddWatchlistEntry}
+            onClose={() => {
+              setShowAddWatchlistEntry(false);
+              setEditingWatchlistEntry(null);
+            }}
+            onSave={saveWatchlistEntry}
+            editingEntry={editingWatchlistEntry}
+            columnConfig={watchlistColumnConfig}
+          />
+        )}
+
+        {/* Watchlist Settings Modal */}
+        {showWatchlistSettings && (
+          <WatchlistSettingsModal
+            isOpen={showWatchlistSettings}
+            onClose={() => setShowWatchlistSettings(false)}
+            columnConfig={watchlistColumnConfig}
+            setColumnConfig={setWatchlistColumnConfig}
+          />
+        )}
+
         {/* Delete Confirmation Dialog */}
         {showDeleteConfirmDialog && deleteConfirmData && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
