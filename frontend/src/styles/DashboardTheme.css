@@ -2495,6 +2495,96 @@ button svg.text-black {
   color: var(--dashboard-fg) !important;
 }
 
+/* WATCHLIST DROPDOWN - REMOVE INDIVIDUAL CONTAINERS */
+.watchlist-dropdown .watchlist-item,
+.watchlist-dropdown [data-radix-select-item],
+[data-radix-select-content].watchlist-dropdown [data-radix-select-item],
+[data-radix-select-content] .watchlist-item {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 8px 12px !important;
+}
+
+[data-theme="dark"] .watchlist-dropdown .watchlist-item,
+[data-theme="dark"] .watchlist-dropdown [data-radix-select-item],
+[data-theme="dark"] [data-radix-select-content].watchlist-dropdown [data-radix-select-item],
+[data-theme="dark"] [data-radix-select-content] .watchlist-item {
+  color: var(--dashboard-fg) !important;
+  background: transparent !important;
+}
+
+[data-theme="dark"] .watchlist-dropdown .watchlist-item:hover,
+[data-theme="dark"] .watchlist-dropdown [data-radix-select-item]:hover,
+[data-theme="dark"] [data-radix-select-content].watchlist-dropdown [data-radix-select-item]:hover,
+[data-theme="dark"] [data-radix-select-content] .watchlist-item:hover {
+  background-color: var(--dashboard-accent) !important;
+  color: white !important;
+}
+
+[data-theme="light"] .watchlist-dropdown .watchlist-item,
+[data-theme="light"] .watchlist-dropdown [data-radix-select-item],
+[data-theme="light"] [data-radix-select-content].watchlist-dropdown [data-radix-select-item],
+[data-theme="light"] [data-radix-select-content] .watchlist-item {
+  color: #1f2937 !important;
+  background: transparent !important;
+}
+
+[data-theme="light"] .watchlist-dropdown .watchlist-item:hover,
+[data-theme="light"] .watchlist-dropdown [data-radix-select-item]:hover,
+[data-theme="light"] [data-radix-select-content].watchlist-dropdown [data-radix-select-item]:hover,
+[data-theme="light"] [data-radix-select-content] .watchlist-item:hover {
+  background-color: #0E6D73 !important;
+  color: white !important;
+}
+
+/* WATCHLIST SETTINGS DROPDOWN - REMOVE INDIVIDUAL CONTAINERS */
+.watchlist-settings-dropdown .watchlist-settings-item,
+.watchlist-settings-dropdown [data-radix-select-item],
+[data-radix-select-content].watchlist-settings-dropdown [data-radix-select-item],
+[data-radix-select-content] .watchlist-settings-item {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 8px 12px !important;
+}
+
+[data-theme="dark"] .watchlist-settings-dropdown .watchlist-settings-item,
+[data-theme="dark"] .watchlist-settings-dropdown [data-radix-select-item],
+[data-theme="dark"] [data-radix-select-content].watchlist-settings-dropdown [data-radix-select-item],
+[data-theme="dark"] [data-radix-select-content] .watchlist-settings-item {
+  color: var(--dashboard-fg) !important;
+  background: transparent !important;
+}
+
+[data-theme="dark"] .watchlist-settings-dropdown .watchlist-settings-item:hover,
+[data-theme="dark"] .watchlist-settings-dropdown [data-radix-select-item]:hover,
+[data-theme="dark"] [data-radix-select-content].watchlist-settings-dropdown [data-radix-select-item]:hover,
+[data-theme="dark"] [data-radix-select-content] .watchlist-settings-item:hover {
+  background-color: var(--dashboard-accent) !important;
+  color: white !important;
+}
+
+[data-theme="light"] .watchlist-settings-dropdown .watchlist-settings-item,
+[data-theme="light"] .watchlist-settings-dropdown [data-radix-select-item],
+[data-theme="light"] [data-radix-select-content].watchlist-settings-dropdown [data-radix-select-item],
+[data-theme="light"] [data-radix-select-content] .watchlist-settings-item {
+  color: #1f2937 !important;
+  background: transparent !important;
+}
+
+[data-theme="light"] .watchlist-settings-dropdown .watchlist-settings-item:hover,
+[data-theme="light"] .watchlist-settings-dropdown [data-radix-select-item]:hover,
+[data-theme="light"] [data-radix-select-content].watchlist-settings-dropdown [data-radix-select-item]:hover,
+[data-theme="light"] [data-radix-select-content] .watchlist-settings-item:hover {
+  background-color: #0E6D73 !important;
+  color: white !important;
+}
+
 /* STRATEGY SPECIFIC SETTINGS DROPDOWN - REMOVE INDIVIDUAL CONTAINERS */
 .strategy-settings-dropdown .strategy-item,
 .strategy-settings-dropdown [data-radix-select-item],
