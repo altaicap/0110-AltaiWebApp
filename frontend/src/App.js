@@ -7151,7 +7151,7 @@ const PositionsColumnSettings = ({ isOpen, onClose, columns, setColumns }) => {
           <Button onClick={handleSave} className="flex-1">
             Save Changes
           </Button>
-          <Button variant="outline" onClick={handleCancel}>
+          <Button variant="outline" onClick={handleCancel} className="text-gray-900 dark:text-white">
             Cancel
           </Button>
         </div>
