@@ -6086,7 +6086,7 @@ metadata = {
                     onClick={() => deleteColumn(columnKey)}
                     className={`text-red-600 hover:text-red-700 ${isDarkTheme ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
                   >
-                    <Trash2 className="h-4 w-4 mr-1" style={{color: '#dc2626'}} />
+                    <Trash2 className="h-4 w-4 mr-1" style={{color: '#dc2626', fill: '#dc2626', stroke: '#dc2626'}} />
                     Delete Column
                   </Button>
                 </div>
