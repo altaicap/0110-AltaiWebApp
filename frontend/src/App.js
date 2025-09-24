@@ -4573,15 +4573,15 @@ metadata = {
             </div>
 
             <div className="flex gap-2">
-              <Button onClick={runBacktest} disabled={runningBacktest} className="flex-1">
+              <Button onClick={runBacktest} disabled={runningBacktest} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white">
                 {runningBacktest ? (
                   <>
-                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                    <RefreshCw className="w-4 h-4 mr-2 animate-spin text-white" />
                     Running Backtest...
                   </>
                 ) : (
                   <>
-                    <Play className={`w-4 h-4 mr-2 ${isDarkTheme ? 'force-white-icon' : 'force-white-icon'}`} />
+                    <Play className="w-4 h-4 mr-2 text-white" />
                     Run Backtest
                   </>
                 )}
