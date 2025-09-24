@@ -5917,7 +5917,7 @@ metadata = {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={onClose}>
         <Card 
-          className={`w-full max-w-2xl mx-4 border ${isDarkTheme ? 'border-gray-700 bg-gray-900' : 'border-gray-300 bg-white'}`}
+          className={`w-full max-w-2xl mx-4 border ${isDarkTheme ? 'border-gray-700 bg-[#0A0A0B]' : 'border-gray-300 bg-white'}`}
           onClick={(e) => e.stopPropagation()}
         >
           <CardHeader>
