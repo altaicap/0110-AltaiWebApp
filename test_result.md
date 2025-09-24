@@ -1014,7 +1014,7 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
 
 ## test_plan:
   current_focus:
-    - "Strategy Equity Curve Pane in Backtest Tab"
+    - "Field Type Dropdown Container Removal in Watchlist Settings Modal"
   stuck_tasks: 
     - "Inline Style Icon Color Fixes for Backtest & Configure and New Strategy Buttons"
     - "Force Icon Color Classes - Ultimate Override Solution"
