@@ -2232,7 +2232,7 @@ metadata = {
                 variant="ghost"
                 size="sm"
                 onClick={() => setConnectivityCollapsed(prev => ({ ...prev, newsIntegrations: !prev.newsIntegrations }))}
-                className="flex items-center gap-2 p-0 h-auto font-semibold text-left w-full justify-start"
+                className="flex items-center gap-2 p-0 h-auto font-normal text-left w-full justify-start"
               >
                 <ChevronDown className={`h-4 w-4 transition-transform ${connectivityCollapsed.newsIntegrations ? '-rotate-90' : ''}`} />
                 <span className="text-base">News Integrations</span>
