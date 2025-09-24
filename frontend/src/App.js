@@ -5862,6 +5862,279 @@ metadata = {
     );
   };
 
+  // Watchlist Entry Modal Component
+  const WatchlistEntryModal = ({ isOpen, onClose, onSave, editingEntry, columnConfig }) => {
+    const [formData, setFormData] = useState({
+      ticker: '',
+      comment1: '',
+      comment2: '',
+      comment3: '',
+      comment4: '',
+      comment5: '',
+      comment6: ''
+    });
+
+    useEffect(() => {
+      if (editingEntry) {
+        setFormData({
+          ticker: editingEntry.ticker || '',
+          comment1: editingEntry.comment1 || '',
+          comment2: editingEntry.comment2 || '',
+          comment3: editingEntry.comment3 || '',
+          comment4: editingEntry.comment4 || '',
+          comment5: editingEntry.comment5 || '',
+          comment6: editingEntry.comment6 || ''
+        });
+      } else {
+        setFormData({
+          ticker: '',
+          comment1: '',
+          comment2: '',
+          comment3: '',
+          comment4: '',
+          comment5: '',
+          comment6: ''
+        });
+      }
+    }, [editingEntry]);
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      if (!formData.ticker.trim()) return;
+      onSave(formData);
+    };
+
+    const renderField = (key, config) => {
+      if (config.type === 'dropdown') {
+        return (
+          <Select value={formData[key]} onValueChange={(value) => setFormData(prev => ({ ...prev, [key]: value }))}>
+            <SelectTrigger className={isDarkTheme ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}>
+              <SelectValue placeholder={`Select ${config.label}`} />
+            </SelectTrigger>
+            <SelectContent>
+              {config.options.map(option => (
+                <SelectItem key={option} value={option}>{option}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        );
+      } else {
+        return (
+          <Input
+            type="text"
+            value={formData[key]}
+            onChange={(e) => setFormData(prev => ({ ...prev, [key]: e.target.value }))}
+            placeholder={`Enter ${config.label}`}
+            className={isDarkTheme ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300'}
+          />
+        );
+      }
+    };
+
+    if (!isOpen) return null;
+
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={onClose}>
+        <Card 
+          className={`w-full max-w-2xl mx-4 border ${isDarkTheme ? 'border-gray-600 bg-gray-800' : 'border-gray-300 bg-white'}`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <CardHeader>
+            <CardTitle className={isDarkTheme ? 'text-white' : 'text-gray-900'}>
+              {editingEntry ? 'Edit Watchlist Entry' : 'Add Watchlist Entry'}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <Label htmlFor="ticker" className={isDarkTheme ? 'text-gray-200' : 'text-gray-700'}>Ticker *</Label>
+                <Input
+                  id="ticker"
+                  type="text"
+                  value={formData.ticker}
+                  onChange={(e) => setFormData(prev => ({ ...prev, ticker: e.target.value.toUpperCase() }))}
+                  placeholder="Enter ticker symbol"
+                  className={isDarkTheme ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300'}
+                  required
+                />
+              </div>
+              
+              {Object.entries(columnConfig).map(([key, config]) => (
+                <div key={key}>
+                  <Label htmlFor={key} className={isDarkTheme ? 'text-gray-200' : 'text-gray-700'}>{config.label}</Label>
+                  {renderField(key, config)}
+                </div>
+              ))}
+              
+              <div className="flex gap-3 justify-end pt-4">
+                <Button type="button" variant="outline" onClick={onClose} className={isDarkTheme ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : ''}>
+                  Cancel
+                </Button>
+                <Button type="submit" className="bg-[#0E6D73] hover:bg-[#0A5A5F] dark:bg-[#00BD7D] dark:hover:bg-[#009963] text-white dark:text-black">
+                  {editingEntry ? 'Update' : 'Add'} Entry
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  };
+
+  // Watchlist Settings Modal Component
+  const WatchlistSettingsModal = ({ isOpen, onClose, columnConfig, setColumnConfig }) => {
+    const [tempConfig, setTempConfig] = useState(columnConfig);
+    const [editingOptions, setEditingOptions] = useState({});
+
+    useEffect(() => {
+      setTempConfig(columnConfig);
+    }, [columnConfig]);
+
+    const handleSave = () => {
+      setColumnConfig(tempConfig);
+      onClose();
+    };
+
+    const updateColumnType = (columnKey, type) => {
+      setTempConfig(prev => ({
+        ...prev,
+        [columnKey]: {
+          ...prev[columnKey],
+          type,
+          options: type === 'dropdown' ? (prev[columnKey].options || ['Option 1', 'Option 2']) : []
+        }
+      }));
+    };
+
+    const updateColumnLabel = (columnKey, label) => {
+      setTempConfig(prev => ({
+        ...prev,
+        [columnKey]: {
+          ...prev[columnKey],
+          label
+        }
+      }));
+    };
+
+    const updateDropdownOptions = (columnKey, options) => {
+      setTempConfig(prev => ({
+        ...prev,
+        [columnKey]: {
+          ...prev[columnKey],
+          options
+        }
+      }));
+    };
+
+    if (!isOpen) return null;
+
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={onClose}>
+        <Card 
+          className={`w-full max-w-4xl mx-4 max-h-[80vh] overflow-y-auto border ${isDarkTheme ? 'border-gray-600 bg-gray-800' : 'border-gray-300 bg-white'}`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <CardHeader>
+            <CardTitle className={isDarkTheme ? 'text-white' : 'text-gray-900'}>Watchlist Column Settings</CardTitle>
+            <CardDescription className={isDarkTheme ? 'text-gray-300' : 'text-gray-600'}>
+              Configure column types and customize dropdown options
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {Object.entries(tempConfig).map(([columnKey, config]) => (
+              <div key={columnKey} className={`p-4 rounded border ${isDarkTheme ? 'border-gray-700 bg-gray-750' : 'border-gray-200 bg-gray-50'}`}>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <Label className={`text-sm font-medium ${isDarkTheme ? 'text-gray-200' : 'text-gray-700'}`}>
+                      Column Label
+                    </Label>
+                    <Input
+                      value={config.label}
+                      onChange={(e) => updateColumnLabel(columnKey, e.target.value)}
+                      className={`mt-1 ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label className={`text-sm font-medium ${isDarkTheme ? 'text-gray-200' : 'text-gray-700'}`}>
+                      Field Type
+                    </Label>
+                    <Select value={config.type} onValueChange={(value) => updateColumnType(columnKey, value)}>
+                      <SelectTrigger className={`mt-1 ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="text">Text Input</SelectItem>
+                        <SelectItem value="dropdown">Dropdown</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {config.type === 'dropdown' && (
+                    <div>
+                      <Label className={`text-sm font-medium ${isDarkTheme ? 'text-gray-200' : 'text-gray-700'}`}>
+                        Dropdown Options
+                      </Label>
+                      <div className="mt-1 space-y-2">
+                        {config.options.map((option, index) => (
+                          <div key={index} className="flex gap-2">
+                            <Input
+                              value={option}
+                              onChange={(e) => {
+                                const newOptions = [...config.options];
+                                newOptions[index] = e.target.value;
+                                updateDropdownOptions(columnKey, newOptions);
+                              }}
+                              className={isDarkTheme ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}
+                            />
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => {
+                                const newOptions = config.options.filter((_, i) => i !== index);
+                                updateDropdownOptions(columnKey, newOptions);
+                              }}
+                              className="text-red-600 hover:text-red-700"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        ))}
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            const newOptions = [...config.options, `Option ${config.options.length + 1}`];
+                            updateDropdownOptions(columnKey, newOptions);
+                          }}
+                          className={isDarkTheme ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : ''}
+                        >
+                          <Plus className="h-4 w-4 mr-1" />
+                          Add Option
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+            
+            <div className="flex gap-3 justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
+              <Button variant="outline" onClick={onClose} className={isDarkTheme ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : ''}>
+                Cancel
+              </Button>
+              <Button onClick={handleSave} className="bg-[#0E6D73] hover:bg-[#0A5A5F] dark:bg-[#00BD7D] dark:hover:bg-[#009963] text-white dark:text-black">
+                Save Settings
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  };
+
   // Theme toggle function
   const toggleTheme = () => {
     const newTheme = appSettings.theme === 'light' ? 'dark' : 'light';
