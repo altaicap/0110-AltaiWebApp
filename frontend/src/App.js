@@ -6441,6 +6441,10 @@ metadata = {
                 <DashboardTab />
               </TabsContent>
 
+              <TabsContent value="watchlist" className="tab-content-padding h-full flex-1 overflow-y-auto">
+                <WatchlistTab />
+              </TabsContent>
+
               <TabsContent value="settings" className="tab-content-padding h-full flex-1 overflow-y-auto">
                 <SettingsTab />
               </TabsContent>
