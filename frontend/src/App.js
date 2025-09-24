@@ -5865,6 +5865,7 @@ metadata = {
   // Watchlist Entry Modal Component
   const WatchlistEntryModal = ({ isOpen, onClose, onSave, editingEntry, columnConfig }) => {
     const [formData, setFormData] = useState({
+      date: new Date().toISOString().split('T')[0],
       ticker: '',
       comment1: '',
       comment2: '',
@@ -5877,6 +5878,7 @@ metadata = {
     useEffect(() => {
       if (editingEntry) {
         setFormData({
+          date: editingEntry.date || new Date().toISOString().split('T')[0],
           ticker: editingEntry.ticker || '',
           comment1: editingEntry.comment1 || '',
           comment2: editingEntry.comment2 || '',
@@ -5887,6 +5889,7 @@ metadata = {
         });
       } else {
         setFormData({
+          date: new Date().toISOString().split('T')[0],
           ticker: '',
           comment1: '',
           comment2: '',
@@ -5911,9 +5914,9 @@ metadata = {
             <SelectTrigger className={isDarkTheme ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}>
               <SelectValue placeholder={`Select ${config.label}`} />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="watchlist-dropdown">
               {config.options.map(option => (
-                <SelectItem key={option} value={option}>{option}</SelectItem>
+                <SelectItem key={option} value={option} className="watchlist-item">{option}</SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -5946,6 +5949,18 @@ metadata = {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <Label htmlFor="date" className={isDarkTheme ? 'text-gray-200' : 'text-gray-700'}>Date *</Label>
+                <Input
+                  id="date"
+                  type="date"
+                  value={formData.date}
+                  onChange={(e) => setFormData(prev => ({ ...prev, date: e.target.value }))}
+                  className={isDarkTheme ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}
+                  required
+                />
+              </div>
+              
               <div>
                 <Label htmlFor="ticker" className={isDarkTheme ? 'text-gray-200' : 'text-gray-700'}>Ticker *</Label>
                 <Input
