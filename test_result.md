@@ -995,9 +995,11 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
 
 ## test_plan:
   current_focus:
-    - "Force Icon Color Classes - Ultimate Override Solution"
+    - "Strategy Equity Curve Pane in Backtest Tab"
   stuck_tasks: 
     - "Inline Style Icon Color Fixes for Backtest & Configure and New Strategy Buttons"
+    - "Force Icon Color Classes - Ultimate Override Solution"
+    - "Black Text and Icon Visibility on Green Background Buttons and Tabs"
   test_all: false
   test_priority: "high_first"
 
