@@ -5999,13 +5999,22 @@ metadata = {
   // Watchlist Settings Modal Component
   const WatchlistSettingsModal = ({ isOpen, onClose, columnConfig, setColumnConfig }) => {
     const [tempConfig, setTempConfig] = useState(columnConfig);
+    const [nextColumnId, setNextColumnId] = useState(7); // Start after comment6
 
     useEffect(() => {
       setTempConfig(columnConfig);
+      // Find the highest column number to set next ID
+      const maxId = Math.max(...Object.keys(columnConfig).map(key => parseInt(key.replace('comment', '')) || 0));
+      setNextColumnId(maxId + 1);
     }, [columnConfig]);
 
     const handleSave = () => {
       setColumnConfig(tempConfig);
+      onClose();
+    };
+
+    const handleCancel = () => {
+      setTempConfig(columnConfig); // Revert to original
       onClose();
     };
 
@@ -6040,41 +6049,80 @@ metadata = {
       }));
     };
 
+    const addColumn = () => {
+      if (Object.keys(tempConfig).length >= 12) return;
+      
+      const newKey = `comment${nextColumnId}`;
+      setTempConfig(prev => ({
+        ...prev,
+        [newKey]: {
+          type: 'text',
+          label: `Column ${nextColumnId}`,
+          options: []
+        }
+      }));
+      setNextColumnId(prev => prev + 1);
+    };
+
+    const deleteColumn = (columnKey) => {
+      setTempConfig(prev => {
+        const newConfig = { ...prev };
+        delete newConfig[columnKey];
+        return newConfig;
+      });
+    };
+
     if (!isOpen) return null;
 
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={onClose}>
+      <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={handleCancel}>
         <Card 
-          className={`w-full max-w-4xl mx-4 max-h-[80vh] overflow-y-auto border ${isDarkTheme ? 'border-gray-600 bg-gray-800' : 'border-gray-300 bg-white'}`}
+          className={`w-full max-w-5xl mx-4 max-h-[85vh] overflow-y-auto ${isDarkTheme ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-300'}`}
           onClick={(e) => e.stopPropagation()}
         >
-          <CardHeader>
+          <CardHeader className={isDarkTheme ? 'border-b border-gray-700' : 'border-b border-gray-200'}>
             <CardTitle className={isDarkTheme ? 'text-white' : 'text-gray-900'}>Watchlist Column Settings</CardTitle>
-            <CardDescription className={isDarkTheme ? 'text-gray-300' : 'text-gray-600'}>
-              Configure column types and customize dropdown options
+            <CardDescription className={isDarkTheme ? 'text-gray-400' : 'text-gray-600'}>
+              Configure column types and customize dropdown options (0-12 columns allowed)
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-6 p-6">
             {Object.entries(tempConfig).map(([columnKey, config]) => (
-              <div key={columnKey} className={`p-4 rounded border ${isDarkTheme ? 'border-gray-600 bg-gray-700' : 'border-gray-200 bg-gray-50'}`}>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div key={columnKey} className={`p-6 rounded-lg border ${isDarkTheme ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-gray-50'}`}>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className={`font-medium ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
+                    Column {columnKey.replace('comment', '')}
+                  </h3>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => deleteColumn(columnKey)}
+                    className={`text-red-600 hover:text-red-700 ${isDarkTheme ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
+                  >
+                    <Trash2 className="h-4 w-4 mr-1" />
+                    Delete Column
+                  </Button>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div>
-                    <Label className={`text-sm font-medium ${isDarkTheme ? 'text-gray-200' : 'text-gray-700'}`}>
+                    <Label className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-700'}`}>
                       Column Label
                     </Label>
                     <Input
                       value={config.label}
                       onChange={(e) => updateColumnLabel(columnKey, e.target.value)}
-                      className={`mt-1 ${isDarkTheme ? 'bg-gray-600 border-gray-500 text-white' : 'bg-white border-gray-300'}`}
+                      className={`mt-2 ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
                     />
                   </div>
                   
                   <div>
-                    <Label className={`text-sm font-medium ${isDarkTheme ? 'text-gray-200' : 'text-gray-700'}`}>
+                    <Label className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-700'}`}>
                       Field Type
                     </Label>
                     <Select value={config.type} onValueChange={(value) => updateColumnType(columnKey, value)}>
-                      <SelectTrigger className={`mt-1 ${isDarkTheme ? 'bg-gray-600 border-gray-500 text-white' : 'bg-white border-gray-300'}`}>
+                      <SelectTrigger className={`mt-2 ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="watchlist-settings-dropdown">
@@ -6086,10 +6134,10 @@ metadata = {
 
                   {config.type === 'dropdown' && (
                     <div>
-                      <Label className={`text-sm font-medium ${isDarkTheme ? 'text-gray-200' : 'text-gray-700'}`}>
+                      <Label className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-700'}`}>
                         Dropdown Options
                       </Label>
-                      <div className="mt-1 space-y-2">
+                      <div className="mt-2 space-y-3">
                         {config.options.map((option, index) => (
                           <div key={index} className="flex gap-2">
                             <Input
@@ -6099,7 +6147,7 @@ metadata = {
                                 newOptions[index] = e.target.value;
                                 updateDropdownOptions(columnKey, newOptions);
                               }}
-                              className={isDarkTheme ? 'bg-gray-600 border-gray-500 text-white' : 'bg-white border-gray-300'}
+                              className={isDarkTheme ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}
                             />
                             <Button
                               type="button"
@@ -6109,7 +6157,7 @@ metadata = {
                                 const newOptions = config.options.filter((_, i) => i !== index);
                                 updateDropdownOptions(columnKey, newOptions);
                               }}
-                              className={`text-red-600 hover:text-red-700 ${isDarkTheme ? 'hover:bg-gray-600' : 'hover:bg-gray-100'}`}
+                              className={`text-red-600 hover:text-red-700 ${isDarkTheme ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
                             >
                               <Trash2 className="h-4 w-4" />
                             </Button>
@@ -6123,7 +6171,7 @@ metadata = {
                             const newOptions = [...config.options, `Option ${config.options.length + 1}`];
                             updateDropdownOptions(columnKey, newOptions);
                           }}
-                          className={isDarkTheme ? 'border-gray-500 text-gray-300 hover:bg-gray-600 bg-gray-700' : 'border-gray-300 hover:bg-gray-50'}
+                          className={isDarkTheme ? 'border-gray-600 text-gray-300 hover:bg-gray-700 bg-gray-800' : 'border-gray-300 hover:bg-gray-50'}
                         >
                           <Plus className="h-4 w-4 mr-1" />
                           Add Option
@@ -6135,11 +6183,32 @@ metadata = {
               </div>
             ))}
             
-            <div className={`flex gap-3 justify-end pt-4 border-t ${isDarkTheme ? 'border-gray-600' : 'border-gray-200'}`}>
-              <Button variant="outline" onClick={onClose} className={isDarkTheme ? 'border-gray-500 text-gray-300 hover:bg-gray-600 bg-gray-700' : 'border-gray-300 hover:bg-gray-50'}>
+            {Object.keys(tempConfig).length < 12 && (
+              <div className={`p-4 rounded-lg border-2 border-dashed ${isDarkTheme ? 'border-gray-600 bg-gray-800/50' : 'border-gray-300 bg-gray-50'}`}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={addColumn}
+                  className={`w-full ${isDarkTheme ? 'border-gray-600 text-gray-300 hover:bg-gray-700 bg-gray-800' : 'border-gray-300 hover:bg-gray-50'}`}
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add New Column ({Object.keys(tempConfig).length}/12)
+                </Button>
+              </div>
+            )}
+            
+            <div className={`flex gap-3 justify-end pt-6 border-t ${isDarkTheme ? 'border-gray-700' : 'border-gray-200'}`}>
+              <Button 
+                variant="outline" 
+                onClick={handleCancel}
+                className={isDarkTheme ? 'border-gray-600 text-gray-300 hover:bg-gray-700 bg-gray-800' : 'border-gray-300 hover:bg-gray-50'}
+              >
                 Cancel
               </Button>
-              <Button onClick={handleSave} className="bg-[#0E6D73] hover:bg-[#0A5A5F] dark:bg-[#00BD7D] dark:hover:bg-[#009963] text-white dark:text-black">
+              <Button 
+                onClick={handleSave} 
+                className="bg-[#0E6D73] hover:bg-[#0A5A5F] dark:bg-[#00BD7D] dark:hover:bg-[#009963] text-white dark:text-black"
+              >
                 Save Settings
               </Button>
             </div>
