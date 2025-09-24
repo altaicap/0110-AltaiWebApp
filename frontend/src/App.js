@@ -6436,8 +6436,8 @@ metadata = {
           </div>
         </div>
 
-        {/* Authentication Modal - THEMED FOR CURRENT MODE */}
-        {showAuthModal && (
+        {/* Authentication Modal - THEMED FOR CURRENT MODE - Only show when NOT on landing page */}
+        {showAuthModal && !showLandingPage && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => setShowAuthModal(false)}>
             <Card 
               className={`w-full max-w-md mx-4 border ${isDarkTheme ? 'border-gray-600' : 'border-gray-300'}`}
