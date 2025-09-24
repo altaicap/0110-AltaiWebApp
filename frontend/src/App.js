@@ -4983,15 +4983,6 @@ metadata = {
                     fontSize={12}
                   />
                   <YAxis 
-                    yAxisId="dollar"
-                    orientation="left"
-                    tickFormatter={(value) => `$${(value/1000).toFixed(0)}K`}
-                    stroke={isDarkTheme ? '#9ca3af' : '#6b7280'}
-                    fontSize={12}
-                  />
-                  <YAxis 
-                    yAxisId="percent"
-                    orientation="right"
                     tickFormatter={(value) => `${value.toFixed(1)}%`}
                     stroke={isDarkTheme ? '#9ca3af' : '#6b7280'}
                     fontSize={12}
@@ -5003,7 +4994,6 @@ metadata = {
                       borderRadius: '6px'
                     }}
                     formatter={(value, name) => {
-                      if (name === 'Portfolio Value') return [`$${value.toLocaleString()}`, name];
                       if (name === 'Strategy %') return [`${value.toFixed(2)}%`, name];
                       if (name === 'Benchmark %') return [`${value.toFixed(2)}%`, name];
                       return [value, name];
@@ -5011,7 +5001,6 @@ metadata = {
                   />
                   <Legend />
                   <Line 
-                    yAxisId="percent"
                     type="monotone" 
                     dataKey="strategyPercent" 
                     stroke="#00BD7D" 
@@ -5021,7 +5010,6 @@ metadata = {
                   />
                   {benchmarkTicker && (
                     <Line 
-                      yAxisId="percent"
                       type="monotone" 
                       dataKey="benchmarkPercent" 
                       stroke="#ef4444" 
@@ -5031,15 +5019,6 @@ metadata = {
                       strokeDasharray="5 5"
                     />
                   )}
-                  <Line 
-                    yAxisId="dollar"
-                    type="monotone" 
-                    dataKey="portfolioValue" 
-                    stroke="#3b82f6" 
-                    strokeWidth={2}
-                    name="Portfolio Value ($)"
-                    dot={false}
-                  />
                 </ComposedChart>
               </ResponsiveContainer>
             </div>
