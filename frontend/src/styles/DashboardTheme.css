@@ -2495,6 +2495,56 @@ button svg.text-black {
   color: var(--dashboard-fg) !important;
 }
 
+/* FORCE ALL RADIX SELECT ITEMS TO HAVE NO CONTAINERS - ULTIMATE OVERRIDE */
+html body div div div div div [data-radix-select-content] [data-radix-select-item],
+html body div div div div [data-radix-select-content] [data-radix-select-item],
+html body div div [data-radix-select-content] [data-radix-select-item],
+html body [data-radix-select-content] [data-radix-select-item],
+[data-radix-select-content] [data-radix-select-item] {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 8px 12px !important;
+}
+
+[data-theme="dark"] html body div div div div div [data-radix-select-content] [data-radix-select-item],
+[data-theme="dark"] html body div div div div [data-radix-select-content] [data-radix-select-item],
+[data-theme="dark"] html body div div [data-radix-select-content] [data-radix-select-item],
+[data-theme="dark"] html body [data-radix-select-content] [data-radix-select-item],
+[data-theme="dark"] [data-radix-select-content] [data-radix-select-item] {
+  color: var(--dashboard-fg) !important;
+  background: transparent !important;
+}
+
+[data-theme="dark"] html body div div div div div [data-radix-select-content] [data-radix-select-item]:hover,
+[data-theme="dark"] html body div div div div [data-radix-select-content] [data-radix-select-item]:hover,
+[data-theme="dark"] html body div div [data-radix-select-content] [data-radix-select-item]:hover,
+[data-theme="dark"] html body [data-radix-select-content] [data-radix-select-item]:hover,
+[data-theme="dark"] [data-radix-select-content] [data-radix-select-item]:hover {
+  background-color: var(--dashboard-accent) !important;
+  color: white !important;
+}
+
+[data-theme="light"] html body div div div div div [data-radix-select-content] [data-radix-select-item],
+[data-theme="light"] html body div div div div [data-radix-select-content] [data-radix-select-item],
+[data-theme="light"] html body div div [data-radix-select-content] [data-radix-select-item],
+[data-theme="light"] html body [data-radix-select-content] [data-radix-select-item],
+[data-theme="light"] [data-radix-select-content] [data-radix-select-item] {
+  color: #1f2937 !important;
+  background: transparent !important;
+}
+
+[data-theme="light"] html body div div div div div [data-radix-select-content] [data-radix-select-item]:hover,
+[data-theme="light"] html body div div div div [data-radix-select-content] [data-radix-select-item]:hover,
+[data-theme="light"] html body div div [data-radix-select-content] [data-radix-select-item]:hover,
+[data-theme="light"] html body [data-radix-select-content] [data-radix-select-item]:hover,
+[data-theme="light"] [data-radix-select-content] [data-radix-select-item]:hover {
+  background-color: #0E6D73 !important;
+  color: white !important;
+}
+
 /* WATCHLIST SETTINGS DROPDOWN - REMOVE INDIVIDUAL CONTAINERS - HIGHEST SPECIFICITY */
 html body [data-theme="dark"] .watchlist-settings-dropdown .watchlist-settings-item,
 html body [data-theme="dark"] .watchlist-settings-dropdown [data-radix-select-item],
