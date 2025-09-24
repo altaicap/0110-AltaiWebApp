@@ -689,7 +689,6 @@ function App() {
       // Add new entry
       const newEntry = {
         id: Date.now(),
-        date: new Date().toISOString().split('T')[0],
         ...entryData
       };
       setWatchlistEntries(prev => [...prev, newEntry]);
