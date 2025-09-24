@@ -2504,6 +2504,196 @@ metadata = {
                       </Button>
                     </div>
                   </div>
+
+                  {/* Robinhood Integration */}
+                  <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-green-100 to-emerald-100 ${isDarkTheme ? 'dark:from-green-900/40 dark:to-emerald-900/40 dark:border-gray-600' : ''}`}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
+                          <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L2 7L12 12L22 7L12 2ZM2 17L12 22L22 17M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </div>
+                        <div>
+                          <Label className={`text-base font-semibold flex items-center gap-2 ${isDarkTheme ? 'text-white' : ''}`}>
+                            Robinhood
+                            <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.robinhood)} animate-pulse`} />
+                          </Label>
+                          <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>Commission-free trading platform</p>
+                        </div>
+                      </div>
+                      <Badge variant="secondary" className="px-3 py-1">
+                        {integrationStatus.robinhood === 'connected' ? 'Connected' : 
+                         integrationStatus.robinhood === 'warning' ? 'Connected (Issues)' : 'Disconnected'}
+                      </Badge>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="robinhoodKey">API Key</Label>
+                      <Input
+                        id="robinhoodKey"
+                        type="password"
+                        value={apiKeys.robinhood || ''}
+                        onChange={(e) => setApiKeys(prev => ({ ...prev, robinhood: e.target.value }))}
+                        placeholder="Enter Robinhood API Key"
+                        className="font-mono text-sm"
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <Button 
+                        size="sm"
+                        onClick={() => {
+                          if (!isAuthenticated) {
+                            setError('Please sign in to connect your broker account');
+                            return;
+                          }
+                          if (integrationStatus.robinhood === 'connected') {
+                            setError('Disconnect functionality not yet implemented');
+                          } else {
+                            initiateOAuth('robinhood');
+                          }
+                        }}
+                        disabled={!isAuthenticated}
+                      >
+                        {integrationStatus.robinhood === 'connected' ? <CheckCircle className="w-4 h-4 mr-2" /> : <XCircle className="w-4 h-4 mr-2" />}
+                        {integrationStatus.robinhood === 'connected' ? 'Disconnect' : 'Connect Robinhood'}
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => testConnection('robinhood')}
+                        disabled={!isAuthenticated}
+                      >
+                        Test Connection
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Coinbase Integration */}
+                  <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-blue-100 to-indigo-100 ${isDarkTheme ? 'dark:from-blue-900/40 dark:to-indigo-900/40 dark:border-gray-600' : ''}`}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
+                          <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M8 12h8M12 8v8" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+                          </svg>
+                        </div>
+                        <div>
+                          <Label className={`text-base font-semibold flex items-center gap-2 ${isDarkTheme ? 'text-white' : ''}`}>
+                            Coinbase
+                            <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.coinbase)} animate-pulse`} />
+                          </Label>
+                          <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>Cryptocurrency trading platform</p>
+                        </div>
+                      </div>
+                      <Badge variant="secondary" className="px-3 py-1">
+                        {integrationStatus.coinbase === 'connected' ? 'Connected' : 
+                         integrationStatus.coinbase === 'warning' ? 'Connected (Issues)' : 'Disconnected'}
+                      </Badge>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="coinbaseKey">API Key</Label>
+                      <Input
+                        id="coinbaseKey"
+                        type="password"
+                        value={apiKeys.coinbase || ''}
+                        onChange={(e) => setApiKeys(prev => ({ ...prev, coinbase: e.target.value }))}
+                        placeholder="Enter Coinbase API Key"
+                        className="font-mono text-sm"
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <Button 
+                        size="sm"
+                        onClick={() => {
+                          if (!isAuthenticated) {
+                            setError('Please sign in to connect your broker account');
+                            return;
+                          }
+                          if (integrationStatus.coinbase === 'connected') {
+                            setError('Disconnect functionality not yet implemented');
+                          } else {
+                            initiateOAuth('coinbase');
+                          }
+                        }}
+                        disabled={!isAuthenticated}
+                      >
+                        {integrationStatus.coinbase === 'connected' ? <CheckCircle className="w-4 h-4 mr-2" /> : <XCircle className="w-4 h-4 mr-2" />}
+                        {integrationStatus.coinbase === 'connected' ? 'Disconnect' : 'Connect Coinbase'}
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => testConnection('coinbase')}
+                        disabled={!isAuthenticated}
+                      >
+                        Test Connection
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Kraken Integration */}
+                  <div className={`space-y-3 p-4 border rounded-lg bg-gradient-to-r from-purple-100 to-violet-100 ${isDarkTheme ? 'dark:from-purple-900/40 dark:to-violet-900/40 dark:border-gray-600' : ''}`}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
+                          <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                          </svg>
+                        </div>
+                        <div>
+                          <Label className={`text-base font-semibold flex items-center gap-2 ${isDarkTheme ? 'text-white' : ''}`}>
+                            Kraken
+                            <div className={`w-3 h-3 rounded-full ${getStatusColor(integrationStatus.kraken)} animate-pulse`} />
+                          </Label>
+                          <p className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>Advanced cryptocurrency exchange</p>
+                        </div>
+                      </div>
+                      <Badge variant="secondary" className="px-3 py-1">
+                        {integrationStatus.kraken === 'connected' ? 'Connected' : 
+                         integrationStatus.kraken === 'warning' ? 'Connected (Issues)' : 'Disconnected'}
+                      </Badge>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="krakenKey">API Key</Label>
+                      <Input
+                        id="krakenKey"
+                        type="password"
+                        value={apiKeys.kraken || ''}
+                        onChange={(e) => setApiKeys(prev => ({ ...prev, kraken: e.target.value }))}
+                        placeholder="Enter Kraken API Key"
+                        className="font-mono text-sm"
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <Button 
+                        size="sm"
+                        onClick={() => {
+                          if (!isAuthenticated) {
+                            setError('Please sign in to connect your broker account');
+                            return;
+                          }
+                          if (integrationStatus.kraken === 'connected') {
+                            setError('Disconnect functionality not yet implemented');
+                          } else {
+                            initiateOAuth('kraken');
+                          }
+                        }}
+                        disabled={!isAuthenticated}
+                      >
+                        {integrationStatus.kraken === 'connected' ? <CheckCircle className="w-4 h-4 mr-2" /> : <XCircle className="w-4 h-4 mr-2" />}
+                        {integrationStatus.kraken === 'connected' ? 'Disconnect' : 'Connect Kraken'}
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => testConnection('kraken')}
+                        disabled={!isAuthenticated}
+                      >
+                        Test Connection
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
