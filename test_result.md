@@ -182,6 +182,18 @@
         agent: "testing"
         comment: "✅ STRATEGY EQUITY CURVE PANE IMPLEMENTATION VERIFIED: Comprehensive code analysis confirms successful implementation in BACKTEST tab. IMPLEMENTATION DETAILS CONFIRMED: 1) Pane correctly positioned between Backtest Highlights (line 4904) and Strategy Visualization (line 5051) in BacktestTab function, 2) Proper pane title 'Strategy Equity Curve' with description 'Portfolio value growth and performance over time', 3) Benchmark ticker input with placeholder 'SPY' and proper state management via benchmarkTicker variable, 4) Dual Y-axis chart implementation using recharts ComposedChart with left axis for dollar values (formatted as $100K) and right axis for percentage values, 5) Three data lines correctly configured: Portfolio Value (blue, #3b82f6), Strategy % (green, #00BD7D), Benchmark % (red dashed, #ef4444), 6) Sample equity curve data with 9 months of realistic portfolio growth from $100K to $127.2K, 7) Proper fullscreen and minimize controls with pane ID 'strategy-equity-curve', 8) Theme compatibility with isDarkTheme variable integration. DEPENDENCIES RESOLVED: Fixed missing recharts dependency by installing recharts@3.2.1 with yarn. All chart functionality properly implemented with ResponsiveContainer, ComposedChart, dual YAxis, Line components, Legend, and Tooltip with custom formatters. The implementation matches all requirements specified in the review request."
 
+  - task: "Field Type Dropdown Container Removal in Watchlist Settings Modal"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/App.js, frontend/src/styles/DashboardTheme.css"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented CSS fix to remove individual containers (rectangles with rounded edges) from Field Type dropdown options in Watchlist Settings Modal. Added high-specificity CSS selectors targeting .field-type-dropdown class with transparent background, no border-radius, and no box-shadow properties. CSS rules applied for both dark and light themes with proper hover states."
+
 ## agent_communication:
     -agent: "main"
     -message: "✅ COMPLETED BOTH REQUESTED FIXES: 1) Fixed Archive Button Functionality - The confirmation dialog was completely missing from the JSX render. Added proper confirmation dialog component that appears when Archive buttons are clicked, with theme-compatible styling and proper event handling. 2) Updated Backtest & Configure Icons - Replaced BarChart3 icons with composite FileText+Settings design to match the document+gear reference image. Both fixes ready for testing."
