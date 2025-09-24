@@ -6111,9 +6111,9 @@ metadata = {
                       <SelectTrigger className={`mt-2 ${isDarkTheme ? 'bg-[#171717] border-gray-600 text-white' : 'bg-white border-gray-300'}`}>
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="watchlist-settings-dropdown">
-                        <SelectItem value="text" className="watchlist-settings-item">Text Input</SelectItem>
-                        <SelectItem value="dropdown" className="watchlist-settings-item">Dropdown</SelectItem>
+                      <SelectContent className="field-type-dropdown">
+                        <SelectItem value="text" className="field-type-item">Text Input</SelectItem>
+                        <SelectItem value="dropdown" className="field-type-item">Dropdown</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
