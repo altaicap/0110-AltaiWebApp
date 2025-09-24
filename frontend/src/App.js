@@ -2574,8 +2574,7 @@ metadata = {
                       <div className="flex items-center gap-3">
                         <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
                           <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor">
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M8 12h8M12 8v8" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+                            <path d="M3 3H21C21.55 3 22 3.45 22 4V20C22 20.55 21.55 21 21 21H3C2.45 21 2 20.55 2 20V4C2 3.45 2.45 3 3 3ZM20 8H4V19H20V8ZM20 6V5H4V6H20ZM6 10H8V17H6V10ZM10 12H12V17H10V12ZM14 14H16V17H14V14Z" />
                           </svg>
                         </div>
                         <div>
