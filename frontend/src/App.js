@@ -4959,7 +4959,7 @@ metadata = {
                 <CardTitle>Strategy Equity Curve</CardTitle>
                 <CardDescription>Portfolio value growth and performance over time</CardDescription>
               </div>
-              <div className="flex items-center gap-2 mr-10">
+              <div className="flex items-center gap-2 mr-16">
                 <Label htmlFor="benchmark-ticker" className="text-xs font-medium">Benchmark:</Label>
                 <Input 
                   id="benchmark-ticker"
