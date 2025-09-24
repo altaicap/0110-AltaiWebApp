@@ -4935,6 +4935,103 @@ metadata = {
           )}
         </Card>
 
+        {/* Strategy Equity Curve */}
+        <Card className={`relative pane-enhanced ${fullScreenPane === 'strategy-equity-curve' ? 'fullscreen-enhanced' : ''}`}>
+          <FullScreenButton paneId="strategy-equity-curve" />
+          <CardHeader>
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <CardTitle>Strategy Equity Curve</CardTitle>
+                <CardDescription>Portfolio value growth and performance over time</CardDescription>
+              </div>
+              <div className="flex items-center gap-2">
+                <Label htmlFor="benchmark-ticker" className="text-xs font-medium">Benchmark:</Label>
+                <Input 
+                  id="benchmark-ticker"
+                  placeholder="SPY"
+                  value={benchmarkTicker}
+                  onChange={(e) => setBenchmarkTicker(e.target.value.toUpperCase())}
+                  className="h-8 w-20"
+                />
+              </div>
+            </div>
+          </CardHeader>
+          {!minimizedPanes.has('strategy-equity-curve') && (
+          <CardContent>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <ComposedChart data={equityCurveData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke={isDarkTheme ? '#374151' : '#e5e7eb'} />
+                  <XAxis 
+                    dataKey="date" 
+                    stroke={isDarkTheme ? '#9ca3af' : '#6b7280'}
+                    fontSize={12}
+                  />
+                  <YAxis 
+                    yAxisId="dollar"
+                    orientation="left"
+                    tickFormatter={(value) => `$${(value/1000).toFixed(0)}K`}
+                    stroke={isDarkTheme ? '#9ca3af' : '#6b7280'}
+                    fontSize={12}
+                  />
+                  <YAxis 
+                    yAxisId="percent"
+                    orientation="right"
+                    tickFormatter={(value) => `${value.toFixed(1)}%`}
+                    stroke={isDarkTheme ? '#9ca3af' : '#6b7280'}
+                    fontSize={12}
+                  />
+                  <Tooltip 
+                    contentStyle={{
+                      backgroundColor: isDarkTheme ? '#1f2937' : 'white',
+                      border: `1px solid ${isDarkTheme ? '#374151' : '#e5e7eb'}`,
+                      borderRadius: '6px'
+                    }}
+                    formatter={(value, name) => {
+                      if (name === 'Portfolio Value') return [`$${value.toLocaleString()}`, name];
+                      if (name === 'Strategy %') return [`${value.toFixed(2)}%`, name];
+                      if (name === 'Benchmark %') return [`${value.toFixed(2)}%`, name];
+                      return [value, name];
+                    }}
+                  />
+                  <Legend />
+                  <Line 
+                    yAxisId="percent"
+                    type="monotone" 
+                    dataKey="strategyPercent" 
+                    stroke="#00BD7D" 
+                    strokeWidth={2}
+                    name="Strategy %"
+                    dot={false}
+                  />
+                  {benchmarkTicker && (
+                    <Line 
+                      yAxisId="percent"
+                      type="monotone" 
+                      dataKey="benchmarkPercent" 
+                      stroke="#ef4444" 
+                      strokeWidth={2}
+                      name={`${benchmarkTicker} %`}
+                      dot={false}
+                      strokeDasharray="5 5"
+                    />
+                  )}
+                  <Line 
+                    yAxisId="dollar"
+                    type="monotone" 
+                    dataKey="portfolioValue" 
+                    stroke="#3b82f6" 
+                    strokeWidth={2}
+                    name="Portfolio Value ($)"
+                    dot={false}
+                  />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+          )}
+        </Card>
+
         {/* Chart Panel */}
         <Card className={`relative pane-enhanced ${fullScreenPane === 'chart-panel' ? 'fullscreen-enhanced' : ''}`}>
           <FullScreenButton paneId="chart-panel" />
