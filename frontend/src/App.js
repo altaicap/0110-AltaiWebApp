@@ -5764,36 +5764,6 @@ metadata = {
 
   // Watchlist Tab Component
   const WatchlistTab = () => {
-    const addWatchlistEntry = () => {
-      setEditingWatchlistEntry(null);
-      setShowAddWatchlistEntry(true);
-    };
-
-    const saveWatchlistEntry = (entryData) => {
-      if (editingWatchlistEntry) {
-        // Edit existing entry
-        setWatchlistEntries(prev => 
-          prev.map(entry => 
-            entry.id === editingWatchlistEntry.id ? { ...entry, ...entryData } : entry
-          )
-        );
-      } else {
-        // Add new entry
-        const newEntry = {
-          id: Date.now(),
-          date: new Date().toISOString().split('T')[0],
-          ...entryData
-        };
-        setWatchlistEntries(prev => [...prev, newEntry]);
-      }
-      setShowAddWatchlistEntry(false);
-      setEditingWatchlistEntry(null);
-    };
-
-    const deleteWatchlistEntry = (entryId) => {
-      setWatchlistEntries(prev => prev.filter(entry => entry.id !== entryId));
-    };
-
     return (
       <div className="space-y-6">
         <div className="tab-header-enhanced">
