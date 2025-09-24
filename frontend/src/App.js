@@ -5282,7 +5282,7 @@ metadata = {
                 <CardTitle>Backtest Trade Log</CardTitle>
                 <CardDescription>Individual trades from backtest results</CardDescription>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 mr-10">
                 <Button 
                   variant="outline" 
                   size="sm" 
