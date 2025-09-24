@@ -6077,7 +6077,7 @@ metadata = {
               <div key={columnKey} className={`p-6 rounded-lg border ${isDarkTheme ? 'border-gray-600 bg-[#171717]' : 'border-gray-200 bg-gray-50'}`}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className={`font-medium ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
-                    Column {columnKey.replace('comment', '')}
+                    {config.label || `Column ${columnKey.replace('comment', '')}`}
                   </h3>
                   <Button
                     type="button"
@@ -6086,7 +6086,7 @@ metadata = {
                     onClick={() => deleteColumn(columnKey)}
                     className={`text-red-600 hover:text-red-700 ${isDarkTheme ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
                   >
-                    <Trash2 className="h-4 w-4 mr-1" />
+                    <Trash2 className="h-4 w-4 mr-1 text-red-600" />
                     Delete Column
                   </Button>
                 </div>
