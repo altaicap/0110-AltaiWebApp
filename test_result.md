@@ -167,6 +167,18 @@
         agent: "testing"
         comment: "❌ FORCE ICON COLOR CLASSES TESTING FAILED - DASHBOARD ACCESS ISSUE: Comprehensive testing attempted but unable to verify the Force Icon Color Classes implementation due to persistent authentication and dashboard access problems. AUTHENTICATION ISSUES: Multiple authentication bypass attempts failed - localStorage token injection, direct state manipulation, and React event triggering all unsuccessful. Application remains on landing page instead of redirecting to dashboard. BACKEND ERRORS: Fixed ObjectId serialization error in /api/backtest/results endpoint that was causing 500 errors, but authentication flow still not working properly. IMPLEMENTATION VERIFICATION: ✅ Code implementation confirmed present in App.js (lines 2755, 2787, 2880, 2885) with correct conditional CSS classes, ✅ CSS rules confirmed present in DashboardTheme.css with high-specificity selectors and !important declarations, ✅ isDarkTheme variable confirmed defined at line 5625. CRITICAL ISSUE: Cannot access STRATEGIES tab where target icons (4 Cog + 1 Plus) are located to verify: 1) CSS class application (force-black-icon vs force-white-icon), 2) Icon color success (BLACK vs WHITE), 3) Theme switching functionality. SUCCESS RATE: 0% - Unable to test due to inaccessible target elements. RECOMMENDATION: Main agent must resolve authentication flow and dashboard routing issues before icon color implementation can be properly tested."
 
+  - task: "Strategy Equity Curve Pane in Backtest Tab"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added new Strategy Equity Curve pane positioned between Backtest Highlights and Strategy Visualization panes. Implemented dual Y-axis line chart with left axis for dollar values (formatted as $100K) and right axis for percentage values (formatted as 15.2%). Three data lines: Portfolio Value ($) - Blue line on dollar axis, Strategy % - Green line on percent axis, Benchmark % - Red dashed line on percent axis when benchmark selected. Added benchmark ticker input field (default: SPY) in header. Includes 9 months of sample equity curve data showing portfolio growth from $100K to $127.2K with strategy outperforming benchmark. Pane supports fullscreen toggle and minimize functionality like other panes."
+
 ## agent_communication:
     -agent: "main"
     -message: "✅ COMPLETED BOTH REQUESTED FIXES: 1) Fixed Archive Button Functionality - The confirmation dialog was completely missing from the JSX render. Added proper confirmation dialog component that appears when Archive buttons are clicked, with theme-compatible styling and proper event handling. 2) Updated Backtest & Configure Icons - Replaced BarChart3 icons with composite FileText+Settings design to match the document+gear reference image. Both fixes ready for testing."
