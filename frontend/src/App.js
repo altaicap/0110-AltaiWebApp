@@ -5801,17 +5801,14 @@ metadata = {
           {!minimizedPanes.has('watchlist') && (
           <CardContent>
             <div className="h-96 overflow-y-auto overflow-x-auto">
-              <table className="w-full text-xs min-w-[1200px]">
+              <table className="w-full text-xs min-w-[800px]">
                 <thead className="border-b border-gray-200 dark:border-gray-700">
                   <tr className="text-left">
                     <th className="pb-1 px-2 text-xs font-medium">Date</th>
                     <th className="pb-1 px-2 text-xs font-medium">Ticker</th>
-                    <th className="pb-1 px-2 text-xs font-medium">{watchlistColumnConfig.comment1.label}</th>
-                    <th className="pb-1 px-2 text-xs font-medium">{watchlistColumnConfig.comment2.label}</th>
-                    <th className="pb-1 px-2 text-xs font-medium">{watchlistColumnConfig.comment3.label}</th>
-                    <th className="pb-1 px-2 text-xs font-medium">{watchlistColumnConfig.comment4.label}</th>
-                    <th className="pb-1 px-2 text-xs font-medium">{watchlistColumnConfig.comment5.label}</th>
-                    <th className="pb-1 px-2 text-xs font-medium">{watchlistColumnConfig.comment6.label}</th>
+                    {Object.entries(watchlistColumnConfig).map(([key, config]) => (
+                      <th key={key} className="pb-1 px-2 text-xs font-medium">{config.label}</th>
+                    ))}
                     <th className="pb-1 px-2 text-xs font-medium">Actions</th>
                   </tr>
                 </thead>
@@ -5820,12 +5817,9 @@ metadata = {
                     <tr key={entry.id} className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50">
                       <td className="py-2 px-2">{entry.date}</td>
                       <td className="py-2 px-2 font-medium">{entry.ticker}</td>
-                      <td className="py-2 px-2">{entry.comment1}</td>
-                      <td className="py-2 px-2">{entry.comment2}</td>
-                      <td className="py-2 px-2">{entry.comment3}</td>
-                      <td className="py-2 px-2">{entry.comment4}</td>
-                      <td className="py-2 px-2">{entry.comment5}</td>
-                      <td className="py-2 px-2">{entry.comment6}</td>
+                      {Object.keys(watchlistColumnConfig).map((key) => (
+                        <td key={key} className="py-2 px-2">{entry[key] || ''}</td>
+                      ))}
                       <td className="py-2 px-2">
                         <div className="flex gap-1">
                           <Button
