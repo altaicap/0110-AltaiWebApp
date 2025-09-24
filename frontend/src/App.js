@@ -4952,13 +4952,14 @@ metadata = {
 
         {/* Strategy Equity Curve */}
         <Card className={`relative pane-enhanced ${fullScreenPane === 'strategy-equity-curve' ? 'fullscreen-enhanced' : ''}`}>
+          <FullScreenButton paneId="strategy-equity-curve" />
           <CardHeader>
             <div className="flex items-center justify-between mb-4">
               <div>
                 <CardTitle>Strategy Equity Curve</CardTitle>
                 <CardDescription>Portfolio value growth and performance over time</CardDescription>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 mr-10">
                 <Label htmlFor="benchmark-ticker" className="text-xs font-medium">Benchmark:</Label>
                 <Input 
                   id="benchmark-ticker"
@@ -4967,7 +4968,6 @@ metadata = {
                   onChange={(e) => setBenchmarkTicker(e.target.value.toUpperCase())}
                   className="h-8 w-20"
                 />
-                <FullScreenButton paneId="strategy-equity-curve" />
               </div>
             </div>
           </CardHeader>
