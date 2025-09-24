@@ -671,6 +671,37 @@ function App() {
     comment6: { type: 'text', label: 'Notes' }
   });
   
+  // Watchlist functions
+  const addWatchlistEntry = () => {
+    setEditingWatchlistEntry(null);
+    setShowAddWatchlistEntry(true);
+  };
+
+  const saveWatchlistEntry = (entryData) => {
+    if (editingWatchlistEntry) {
+      // Edit existing entry
+      setWatchlistEntries(prev => 
+        prev.map(entry => 
+          entry.id === editingWatchlistEntry.id ? { ...entry, ...entryData } : entry
+        )
+      );
+    } else {
+      // Add new entry
+      const newEntry = {
+        id: Date.now(),
+        date: new Date().toISOString().split('T')[0],
+        ...entryData
+      };
+      setWatchlistEntries(prev => [...prev, newEntry]);
+    }
+    setShowAddWatchlistEntry(false);
+    setEditingWatchlistEntry(null);
+  };
+
+  const deleteWatchlistEntry = (entryId) => {
+    setWatchlistEntries(prev => prev.filter(entry => entry.id !== entryId));
+  };
+  
   // Backtest Form State (moved from BacktestTab to prevent resets)
   const [backtestForm, setBacktestForm] = useState({
     strategy_name: '',
