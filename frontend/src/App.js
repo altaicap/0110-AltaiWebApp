@@ -6063,18 +6063,18 @@ metadata = {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={handleCancel}>
         <Card 
-          className={`w-full max-w-5xl mx-4 max-h-[85vh] overflow-y-auto ${isDarkTheme ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-300'}`}
+          className={`w-full max-w-5xl mx-4 max-h-[85vh] overflow-y-auto ${isDarkTheme ? 'bg-[#0A0A0B] border-gray-700' : 'bg-white border-gray-300'}`}
           onClick={(e) => e.stopPropagation()}
         >
-          <CardHeader className={isDarkTheme ? 'border-b border-gray-700' : 'border-b border-gray-200'}>
+          <CardHeader className={`${isDarkTheme ? 'border-b border-gray-700 bg-[#0A0A0B]' : 'border-b border-gray-200 bg-white'}`}>
             <CardTitle className={isDarkTheme ? 'text-white' : 'text-gray-900'}>Watchlist Column Settings</CardTitle>
             <CardDescription className={isDarkTheme ? 'text-gray-400' : 'text-gray-600'}>
               Configure column types and customize dropdown options (0-12 columns allowed)
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6 p-6">
+          <CardContent className={`space-y-6 p-6 ${isDarkTheme ? 'bg-[#0A0A0B]' : 'bg-white'}`}>
             {Object.entries(tempConfig).map(([columnKey, config]) => (
-              <div key={columnKey} className={`p-6 rounded-lg border ${isDarkTheme ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-gray-50'}`}>
+              <div key={columnKey} className={`p-6 rounded-lg border ${isDarkTheme ? 'border-gray-600 bg-[#171717]' : 'border-gray-200 bg-gray-50'}`}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className={`font-medium ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
                     Column {columnKey.replace('comment', '')}
@@ -6084,7 +6084,7 @@ metadata = {
                     variant="ghost"
                     size="sm"
                     onClick={() => deleteColumn(columnKey)}
-                    className={`text-red-600 hover:text-red-700 ${isDarkTheme ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
+                    className={`text-red-600 hover:text-red-700 ${isDarkTheme ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
                   >
                     <Trash2 className="h-4 w-4 mr-1" />
                     Delete Column
@@ -6099,7 +6099,7 @@ metadata = {
                     <Input
                       value={config.label}
                       onChange={(e) => updateColumnLabel(columnKey, e.target.value)}
-                      className={`mt-2 ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+                      className={`mt-2 ${isDarkTheme ? 'bg-[#171717] border-gray-600 text-white' : 'bg-white border-gray-300'}`}
                     />
                   </div>
                   
@@ -6108,7 +6108,7 @@ metadata = {
                       Field Type
                     </Label>
                     <Select value={config.type} onValueChange={(value) => updateColumnType(columnKey, value)}>
-                      <SelectTrigger className={`mt-2 ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}>
+                      <SelectTrigger className={`mt-2 ${isDarkTheme ? 'bg-[#171717] border-gray-600 text-white' : 'bg-white border-gray-300'}`}>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="watchlist-settings-dropdown">
@@ -6133,7 +6133,7 @@ metadata = {
                                 newOptions[index] = e.target.value;
                                 updateDropdownOptions(columnKey, newOptions);
                               }}
-                              className={isDarkTheme ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}
+                              className={isDarkTheme ? 'bg-[#171717] border-gray-600 text-white' : 'bg-white border-gray-300'}
                             />
                             <Button
                               type="button"
@@ -6143,7 +6143,7 @@ metadata = {
                                 const newOptions = config.options.filter((_, i) => i !== index);
                                 updateDropdownOptions(columnKey, newOptions);
                               }}
-                              className={`text-red-600 hover:text-red-700 ${isDarkTheme ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
+                              className={`text-red-600 hover:text-red-700 ${isDarkTheme ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
                             >
                               <Trash2 className="h-4 w-4" />
                             </Button>
@@ -6157,7 +6157,7 @@ metadata = {
                             const newOptions = [...config.options, `Option ${config.options.length + 1}`];
                             updateDropdownOptions(columnKey, newOptions);
                           }}
-                          className={isDarkTheme ? 'border-gray-600 text-gray-300 hover:bg-gray-700 bg-gray-800' : 'border-gray-300 hover:bg-gray-50'}
+                          className={isDarkTheme ? 'border-gray-600 text-gray-300 hover:bg-gray-800 bg-[#171717]' : 'border-gray-300 hover:bg-gray-50'}
                         >
                           <Plus className="h-4 w-4 mr-1" />
                           Add Option
@@ -6170,12 +6170,12 @@ metadata = {
             ))}
             
             {Object.keys(tempConfig).length < 12 && (
-              <div className={`p-4 rounded-lg border-2 border-dashed ${isDarkTheme ? 'border-gray-600 bg-gray-800/50' : 'border-gray-300 bg-gray-50'}`}>
+              <div className={`p-4 rounded-lg border-2 border-dashed ${isDarkTheme ? 'border-gray-600 bg-[#171717]/50' : 'border-gray-300 bg-gray-50'}`}>
                 <Button
                   type="button"
                   variant="outline"
                   onClick={addColumn}
-                  className={`w-full ${isDarkTheme ? 'border-gray-600 text-gray-300 hover:bg-gray-700 bg-gray-800' : 'border-gray-300 hover:bg-gray-50'}`}
+                  className={`w-full ${isDarkTheme ? 'border-gray-600 text-gray-300 hover:bg-gray-800 bg-[#171717]' : 'border-gray-300 hover:bg-gray-50'}`}
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   Add New Column ({Object.keys(tempConfig).length}/12)
@@ -6187,7 +6187,7 @@ metadata = {
               <Button 
                 variant="outline" 
                 onClick={handleCancel}
-                className={isDarkTheme ? 'border-gray-600 text-gray-300 hover:bg-gray-700 bg-gray-800' : 'border-gray-300 hover:bg-gray-50'}
+                className={isDarkTheme ? 'border-gray-600 text-gray-300 hover:bg-gray-800 bg-[#171717]' : 'border-gray-300 hover:bg-gray-50'}
               >
                 Cancel
               </Button>
