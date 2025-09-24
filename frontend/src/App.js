@@ -5999,7 +5999,6 @@ metadata = {
   // Watchlist Settings Modal Component
   const WatchlistSettingsModal = ({ isOpen, onClose, columnConfig, setColumnConfig }) => {
     const [tempConfig, setTempConfig] = useState(columnConfig);
-    const [editingOptions, setEditingOptions] = useState({});
 
     useEffect(() => {
       setTempConfig(columnConfig);
@@ -6057,7 +6056,7 @@ metadata = {
           </CardHeader>
           <CardContent className="space-y-6">
             {Object.entries(tempConfig).map(([columnKey, config]) => (
-              <div key={columnKey} className={`p-4 rounded border ${isDarkTheme ? 'border-gray-700 bg-gray-750' : 'border-gray-200 bg-gray-50'}`}>
+              <div key={columnKey} className={`p-4 rounded border ${isDarkTheme ? 'border-gray-600 bg-gray-700' : 'border-gray-200 bg-gray-50'}`}>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <Label className={`text-sm font-medium ${isDarkTheme ? 'text-gray-200' : 'text-gray-700'}`}>
@@ -6066,7 +6065,7 @@ metadata = {
                     <Input
                       value={config.label}
                       onChange={(e) => updateColumnLabel(columnKey, e.target.value)}
-                      className={`mt-1 ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+                      className={`mt-1 ${isDarkTheme ? 'bg-gray-600 border-gray-500 text-white' : 'bg-white border-gray-300'}`}
                     />
                   </div>
                   
@@ -6075,12 +6074,12 @@ metadata = {
                       Field Type
                     </Label>
                     <Select value={config.type} onValueChange={(value) => updateColumnType(columnKey, value)}>
-                      <SelectTrigger className={`mt-1 ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}>
+                      <SelectTrigger className={`mt-1 ${isDarkTheme ? 'bg-gray-600 border-gray-500 text-white' : 'bg-white border-gray-300'}`}>
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="text">Text Input</SelectItem>
-                        <SelectItem value="dropdown">Dropdown</SelectItem>
+                      <SelectContent className="watchlist-settings-dropdown">
+                        <SelectItem value="text" className="watchlist-settings-item">Text Input</SelectItem>
+                        <SelectItem value="dropdown" className="watchlist-settings-item">Dropdown</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -6100,7 +6099,7 @@ metadata = {
                                 newOptions[index] = e.target.value;
                                 updateDropdownOptions(columnKey, newOptions);
                               }}
-                              className={isDarkTheme ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}
+                              className={isDarkTheme ? 'bg-gray-600 border-gray-500 text-white' : 'bg-white border-gray-300'}
                             />
                             <Button
                               type="button"
@@ -6110,7 +6109,7 @@ metadata = {
                                 const newOptions = config.options.filter((_, i) => i !== index);
                                 updateDropdownOptions(columnKey, newOptions);
                               }}
-                              className="text-red-600 hover:text-red-700"
+                              className={`text-red-600 hover:text-red-700 ${isDarkTheme ? 'hover:bg-gray-600' : 'hover:bg-gray-100'}`}
                             >
                               <Trash2 className="h-4 w-4" />
                             </Button>
@@ -6124,7 +6123,7 @@ metadata = {
                             const newOptions = [...config.options, `Option ${config.options.length + 1}`];
                             updateDropdownOptions(columnKey, newOptions);
                           }}
-                          className={isDarkTheme ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : ''}
+                          className={isDarkTheme ? 'border-gray-500 text-gray-300 hover:bg-gray-600 bg-gray-700' : 'border-gray-300 hover:bg-gray-50'}
                         >
                           <Plus className="h-4 w-4 mr-1" />
                           Add Option
@@ -6136,8 +6135,8 @@ metadata = {
               </div>
             ))}
             
-            <div className="flex gap-3 justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
-              <Button variant="outline" onClick={onClose} className={isDarkTheme ? 'border-gray-600 text-gray-300 hover:bg-gray-700' : ''}>
+            <div className={`flex gap-3 justify-end pt-4 border-t ${isDarkTheme ? 'border-gray-600' : 'border-gray-200'}`}>
+              <Button variant="outline" onClick={onClose} className={isDarkTheme ? 'border-gray-500 text-gray-300 hover:bg-gray-600 bg-gray-700' : 'border-gray-300 hover:bg-gray-50'}>
                 Cancel
               </Button>
               <Button onClick={handleSave} className="bg-[#0E6D73] hover:bg-[#0A5A5F] dark:bg-[#00BD7D] dark:hover:bg-[#009963] text-white dark:text-black">
