@@ -2495,6 +2495,53 @@ button svg.text-black {
   color: var(--dashboard-fg) !important;
 }
 
+/* FIELD TYPE DROPDOWN - REMOVE INDIVIDUAL CONTAINERS - HIGHEST SPECIFICITY */
+html body [data-theme="dark"] .field-type-dropdown .field-type-item,
+html body [data-theme="dark"] .field-type-dropdown [data-radix-select-item],
+html body [data-theme="dark"] [data-radix-select-content].field-type-dropdown [data-radix-select-item],
+html body [data-theme="dark"] [data-radix-select-content] .field-type-item,
+html body div div [data-theme="dark"] .field-type-dropdown [data-radix-select-item] {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 8px 12px !important;
+  color: var(--dashboard-fg) !important;
+}
+
+html body [data-theme="dark"] .field-type-dropdown .field-type-item:hover,
+html body [data-theme="dark"] .field-type-dropdown [data-radix-select-item]:hover,
+html body [data-theme="dark"] [data-radix-select-content].field-type-dropdown [data-radix-select-item]:hover,
+html body [data-theme="dark"] [data-radix-select-content] .field-type-item:hover,
+html body div div [data-theme="dark"] .field-type-dropdown [data-radix-select-item]:hover {
+  background-color: var(--dashboard-accent) !important;
+  color: white !important;
+}
+
+html body [data-theme="light"] .field-type-dropdown .field-type-item,
+html body [data-theme="light"] .field-type-dropdown [data-radix-select-item],
+html body [data-theme="light"] [data-radix-select-content].field-type-dropdown [data-radix-select-item],
+html body [data-theme="light"] [data-radix-select-content] .field-type-item,
+html body div div [data-theme="light"] .field-type-dropdown [data-radix-select-item] {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 8px 12px !important;
+  color: #1f2937 !important;
+}
+
+html body [data-theme="light"] .field-type-dropdown .field-type-item:hover,
+html body [data-theme="light"] .field-type-dropdown [data-radix-select-item]:hover,
+html body [data-theme="light"] [data-radix-select-content].field-type-dropdown [data-radix-select-item]:hover,
+html body [data-theme="light"] [data-radix-select-content] .field-type-item:hover,
+html body div div [data-theme="light"] .field-type-dropdown [data-radix-select-item]:hover {
+  background-color: #0E6D73 !important;
+  color: white !important;
+}
+
 /* FIELD TYPE DROPDOWN - REMOVE INDIVIDUAL CONTAINERS */
 .field-type-dropdown .field-type-item,
 .field-type-dropdown [data-radix-select-item],
@@ -2506,44 +2553,6 @@ button svg.text-black {
   box-shadow: none !important;
   margin: 0 !important;
   padding: 8px 12px !important;
-}
-
-[data-theme="dark"] .field-type-dropdown .field-type-item,
-[data-theme="dark"] .field-type-dropdown [data-radix-select-item],
-[data-theme="dark"] [data-radix-select-content].field-type-dropdown [data-radix-select-item],
-[data-theme="dark"] [data-radix-select-content] .field-type-item {
-  color: var(--dashboard-fg) !important;
-  background: transparent !important;
-  border: none !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-
-[data-theme="dark"] .field-type-dropdown .field-type-item:hover,
-[data-theme="dark"] .field-type-dropdown [data-radix-select-item]:hover,
-[data-theme="dark"] [data-radix-select-content].field-type-dropdown [data-radix-select-item]:hover,
-[data-theme="dark"] [data-radix-select-content] .field-type-item:hover {
-  background-color: var(--dashboard-accent) !important;
-  color: white !important;
-}
-
-[data-theme="light"] .field-type-dropdown .field-type-item,
-[data-theme="light"] .field-type-dropdown [data-radix-select-item],
-[data-theme="light"] [data-radix-select-content].field-type-dropdown [data-radix-select-item],
-[data-theme="light"] [data-radix-select-content] .field-type-item {
-  color: #1f2937 !important;
-  background: transparent !important;
-  border: none !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-
-[data-theme="light"] .field-type-dropdown .field-type-item:hover,
-[data-theme="light"] .field-type-dropdown [data-radix-select-item]:hover,
-[data-theme="light"] [data-radix-select-content].field-type-dropdown [data-radix-select-item]:hover,
-[data-theme="light"] [data-radix-select-content] .field-type-item:hover {
-  background-color: #0E6D73 !important;
-  color: white !important;
 }
 
 /* FORCE ALL RADIX SELECT ITEMS TO HAVE NO CONTAINERS - ULTIMATE OVERRIDE */
