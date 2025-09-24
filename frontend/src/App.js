@@ -4581,7 +4581,7 @@ metadata = {
                   </>
                 ) : (
                   <>
-                    <Play className="w-4 h-4 mr-2" style={{color: 'white !important'}} />
+                    <Play className="w-4 h-4 mr-2 config-button-icon" />
                     Run Backtest
                   </>
                 )}
