@@ -2096,7 +2096,7 @@ async def get_daily_pnl(
     start_date: str,
     end_date: str,
     mode: str = "dollar",
-    current_user: dict = Depends(get_current_user)
+    current_user: User = Depends(get_current_user_with_db)
 ):
     """
     Get daily P&L series for calendar and charts
