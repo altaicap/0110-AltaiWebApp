@@ -3925,7 +3925,7 @@ metadata = {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           
           {/* Top Left: Equity Curve */}
-          <Card className="relative pane-enhanced">
+          <Card className={`relative pane-enhanced ${fullScreenPane === 'equity-curve' ? 'fullscreen-enhanced' : ''}`}>
             <PaneControls paneId="equity-curve">
               <div className="relative">
                 <input
