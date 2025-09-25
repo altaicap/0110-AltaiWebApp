@@ -302,16 +302,32 @@ class BrokerService:
         broker_service = self.get_broker_service(broker_type)
         
         try:
-            if broker_type.lower() == "tradestation":
+            broker_key = broker_type.lower()
+            
+            if broker_key == "tradestation":
                 client = self.tradestation.create_client(access_token)
                 ts_order = order.to_tradestation_order()
                 result = await client.place_order(account_id, ts_order)
-            elif broker_type.lower() == "ibkr":
+            elif broker_key == "ibkr":
                 client = self.ibkr.create_client(access_token)
                 ibkr_order = order.to_ibkr_order()
                 result = await client.place_order(account_id, ibkr_order)
+            elif broker_key == "robinhood":
+                client = self.robinhood.create_client(access_token)
+                rh_order = order.to_robinhood_order()
+                result = await client.place_order(account_id, rh_order)
+            elif broker_key == "coinbase":
+                client = self.coinbase.create_client(access_token)
+                cb_order = order.to_coinbase_order()
+                result = await client.place_order(account_id, cb_order)
+            elif broker_key == "kraken":
+                client = self.kraken.create_client(access_token)
+                kr_order = order.to_kraken_order()
+                result = await client.place_order(account_id, kr_order)
+            else:
+                raise ValueError(f"Unknown broker type: {broker_key}")
             
-            result["broker"] = broker_type.lower()
+            result["broker"] = broker_key
             return result
             
         except Exception as e:
