@@ -4189,7 +4189,23 @@ metadata = {
           </Card>
 
           {/* Middle Left: Recently Closed */}
-          <Card className={`relative pane-enhanced ${fullScreenPane === 'recently-closed' ? 'fullscreen-enhanced' : ''}`}>
+          <Card 
+            className={`relative pane-enhanced ${fullScreenPane === 'recently-closed' ? 'fullscreen-enhanced' : ''}`}
+            style={fullScreenPane === 'recently-closed' ? {
+              position: 'fixed',
+              top: '120px',
+              left: '48px', 
+              right: '48px',
+              bottom: '24px',
+              width: 'auto',
+              height: 'auto',
+              zIndex: 9999,
+              margin: 0,
+              backgroundColor: isDarkTheme ? '#171717' : '#FBFCFC',
+              backgroundImage: 'none',
+              backdropFilter: 'none'
+            } : {}}
+          >
             <PaneControls paneId="recently-closed">
               <Button 
                 variant="outline" 
