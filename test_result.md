@@ -255,6 +255,18 @@
         agent: "testing"
         comment: "🎉 CALENDAR LIGHT THEME CORRECTED CSS SELECTORS - COMPLETE SUCCESS! ✅ DEFINITIVE FIX VERIFIED: The corrected CSS selectors are working perfectly in light theme as specified in the review request. Successfully accessed Dashboard tab in light theme and found 48 calendar elements with 100% success rate. 🎨 CORRECTED CSS SELECTORS WORKING: The updated CSS attribute selectors now match the actual inline style format: GREEN: div[style*='rgb(34, 197, 94)'] → background: rgb(34, 197, 94) !important ✓ WORKING, RED: div[style*='rgb(239, 68, 68)'] → background: rgb(239, 68, 68) !important ✓ WORKING, YELLOW: div[style*='rgb(234, 179, 8)'] → background: rgb(234, 179, 8) !important ✓ WORKING. 📊 COMPREHENSIVE VERIFICATION RESULTS: Found 7 GREEN days working correctly, 7 RED days working correctly, 4 YELLOW days working correctly, 0 CSS override failures. SUCCESS RATE: 100.0% - all colored calendar days displaying correct computed background colors. ✅ COMPUTED STYLES VERIFIED: All calendar days now show exact rgb values (rgb(34, 197, 94), rgb(239, 68, 68), rgb(234, 179, 8)) instead of rgba(0, 0, 0, 0), confirming the CSS selectors are successfully overriding any conflicting styles. ✅ TEXT COLORS CONFIRMED: 36 white text elements on colored backgrounds and 12 gray text elements on empty backgrounds working correctly. 🎯 CRITICAL SUCCESS FACTORS: CSS selectors match inline style format exactly, background colors display correctly in light theme, computed styles show proper rgb values, text colors maintain proper contrast (white on colored, gray on empty). The calendar light theme conditional formatting is now FULLY WORKING as specified in the review request."
 
+  - task: "Dashboard Panes Maximize Button Functionality"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "User reported that Dashboard panes maximize functionality is inconsistent - some panes like 'Uploaded Strategy' work correctly but other Dashboard panes (Trading Performance Highlights, Equity Curve, Positions, Recently Closed, Calendar, Daily Net PnL Charts) are not maximizing properly. Need to test all Dashboard panes for consistent maximize/restore functionality with proper fullscreen dimensions (1920x800), opaque backgrounds, and correct z-index positioning."
+
 ## agent_communication:
     -agent: "main"
     -message: "✅ COMPLETED BOTH REQUESTED FIXES: 1) Fixed Archive Button Functionality - The confirmation dialog was completely missing from the JSX render. Added proper confirmation dialog component that appears when Archive buttons are clicked, with theme-compatible styling and proper event handling. 2) Updated Backtest & Configure Icons - Replaced BarChart3 icons with composite FileText+Settings design to match the document+gear reference image. Both fixes ready for testing."
