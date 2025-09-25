@@ -3147,23 +3147,24 @@ html[data-theme="light"] body div.calendar-yellow {
   border: 1px solid #374151 !important;
 }
 
-/* Calendar text colors - HIGH SPECIFICITY */
-div.calendar-text-white,
-.calendar-green div.calendar-text-white,
-.calendar-red div.calendar-text-white,
-.calendar-yellow div.calendar-text-white,
-[data-theme="dark"] div.calendar-text-white,
-[data-theme="light"] div.calendar-text-white,
-html[data-theme="light"] div.calendar-text-white,
-body[data-theme="light"] div.calendar-text-white {
+/* Calendar text colors - ULTRA HIGH SPECIFICITY TO BEAT TAILWIND */
+.calendar-green .calendar-text-white,
+.calendar-red .calendar-text-white,
+.calendar-yellow .calendar-text-white,
+.h-12.rounded.calendar-green .calendar-text-white,
+.h-12.rounded.calendar-red .calendar-text-white,
+.h-12.rounded.calendar-yellow .calendar-text-white,
+[data-theme="light"] .calendar-green .calendar-text-white,
+[data-theme="light"] .calendar-red .calendar-text-white,
+[data-theme="light"] .calendar-yellow .calendar-text-white,
+[data-theme="light"] .h-12.rounded.calendar-green .calendar-text-white,
+[data-theme="light"] .h-12.rounded.calendar-red .calendar-text-white,
+[data-theme="light"] .h-12.rounded.calendar-yellow .calendar-text-white {
   color: white !important;
 }
 
-div.calendar-text-gray,
-[data-theme="dark"] div.calendar-text-gray,
-[data-theme="light"] div.calendar-text-gray,
-html[data-theme="light"] div.calendar-text-gray,
-body[data-theme="light"] div.calendar-text-gray {
+.calendar-text-gray,
+[data-theme="light"] .calendar-text-gray {
   color: #9ca3af !important;
 }
 
