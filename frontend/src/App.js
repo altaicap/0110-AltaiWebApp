@@ -4196,17 +4196,18 @@ metadata = {
             className={`relative pane-enhanced ${fullScreenPane === 'recently-closed' ? 'fullscreen-enhanced' : ''}`}
             style={fullScreenPane === 'recently-closed' ? {
               position: 'fixed',
-              top: '120px',
-              left: '48px', 
-              right: '48px',
-              bottom: '24px',
+              top: '200px',
+              left: '80px', 
+              right: '80px',
+              bottom: '40px',
               width: 'auto',
               height: 'auto',
               zIndex: 9999,
               margin: 0,
-              backgroundColor: isDarkTheme ? '#171717' : '#FBFCFC',
+              backgroundColor: isDarkTheme ? '#171717' : '#ffffff',
               backgroundImage: 'none',
-              backdropFilter: 'none'
+              backdropFilter: 'none',
+              opacity: 1
             } : {}}
           >
             <PaneControls paneId="recently-closed">
