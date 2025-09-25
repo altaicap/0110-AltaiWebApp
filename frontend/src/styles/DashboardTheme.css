@@ -3110,28 +3110,31 @@ html body div div [data-theme="light"] .watchlist-dropdown [data-radix-select-it
   background-color: #374151 !important;
 }
 
-/* Calendar day colors - HIGH SPECIFICITY TO OVERRIDE TAILWIND */
-div.calendar-green,
-[data-theme="dark"] div.calendar-green,
-[data-theme="light"] div.calendar-green,
-html[data-theme="light"] div.calendar-green,
-body[data-theme="light"] div.calendar-green {
+/* Calendar day colors - ULTRA HIGH SPECIFICITY TO BEAT TAILWIND */
+div.h-12.rounded.calendar-green,
+div.calendar-green.h-12.rounded,
+.h-12.rounded.p-1.flex.flex-col.relative.calendar-green,
+[data-theme="light"] div.h-12.rounded.calendar-green,
+[data-theme="light"] .h-12.rounded.p-1.flex.flex-col.relative.calendar-green,
+html[data-theme="light"] body div.calendar-green {
   background-color: #22c55e !important;
 }
 
-div.calendar-red,
-[data-theme="dark"] div.calendar-red,
-[data-theme="light"] div.calendar-red,
-html[data-theme="light"] div.calendar-red,
-body[data-theme="light"] div.calendar-red {
+div.h-12.rounded.calendar-red,
+div.calendar-red.h-12.rounded,
+.h-12.rounded.p-1.flex.flex-col.relative.calendar-red,
+[data-theme="light"] div.h-12.rounded.calendar-red,
+[data-theme="light"] .h-12.rounded.p-1.flex.flex-col.relative.calendar-red,
+html[data-theme="light"] body div.calendar-red {
   background-color: #ef4444 !important;
 }
 
-div.calendar-yellow,
-[data-theme="dark"] div.calendar-yellow,
-[data-theme="light"] div.calendar-yellow,
-html[data-theme="light"] div.calendar-yellow,
-body[data-theme="light"] div.calendar-yellow {
+div.h-12.rounded.calendar-yellow,
+div.calendar-yellow.h-12.rounded,
+.h-12.rounded.p-1.flex.flex-col.relative.calendar-yellow,
+[data-theme="light"] div.h-12.rounded.calendar-yellow,
+[data-theme="light"] .h-12.rounded.p-1.flex.flex-col.relative.calendar-yellow,
+html[data-theme="light"] body div.calendar-yellow {
   background-color: #eab308 !important;
 }
 
