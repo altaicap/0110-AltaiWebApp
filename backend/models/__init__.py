@@ -47,6 +47,7 @@ __all__ = [
     'Transaction',
     'Notification',
     'SUBSCRIPTION_PLANS',
+    'TradeSource',
     'TradeModel',
     'DailyPerformanceModel', 
     'StrategyModel',
