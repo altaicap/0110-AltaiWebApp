@@ -342,9 +342,21 @@
 #====================================================================================================
 
 ## user_problem_statement: 
-Create a professional landing page for Altai Trader that hides the WebApp features behind authentication. Landing page should include exact headlines ("Trade What Matters: Backtest Ideas, Connect News, Execute with confidence" and specified subheadline), webapp screenshots of Strategies/Backtest/News tabs, integration logos section (Polygon, NewsWare, TradeXchange, TradeStation, IBKR), feature highlights for trading/backtesting/news, styled marketing design, Sign In/Register buttons in header, and proper routing (unauthenticated → landing page, authenticated → dashboard).
+Investigate and fix the Pydantic validation error in server.py that was preventing the FastAPI server from starting. The error was: "Invalid args for response field! Hint: check that <class 'sqlalchemy.orm.session.Session'> is a valid Pydantic field type."
 
 ## backend:
+  - task: "Pydantic Validation Error Fix - Server Startup Issue"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed critical Pydantic validation error that was preventing FastAPI server startup. The issue was that multiple endpoints were using 'current_user: dict = Depends(get_current_user)' which caused FastAPI to try to resolve get_current_user dependencies including an unresolved SQLAlchemy Session parameter. Fixed by updating all 15+ endpoints to use 'current_user: User = Depends(get_current_user_with_db)' which properly handles the database session dependency. Server now starts successfully and responds to API calls. Confirmed working via /api/system/health endpoint returning proper JSON response."
+
   - task: "Landing Page Creation"
     implemented: true
     working: true
