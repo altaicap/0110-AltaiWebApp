@@ -223,3 +223,276 @@ SUBSCRIPTION_PLANS = {
         ]
     }
 }
+
+# Trading and Performance Models (stored in MongoDB via Pydantic)
+
+from pydantic import BaseModel, Field
+from typing import Optional, List, Dict, Any
+from datetime import datetime, date
+from enum import Enum
+
+class TradeSource(str, Enum):
+    """Source of trade data"""
+    BACKTEST = "backtest"
+    LIVE = "live"
+    PAPER = "paper"
+
+class TradeModel(BaseModel):
+    """Individual trade record"""
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    strategy_id: Optional[str] = None
+    backtest_id: Optional[str] = None
+    
+    # Trade details
+    symbol: str
+    side: str  # "long" or "short"
+    quantity: float
+    entry_price: float
+    exit_price: Optional[float] = None
+    
+    # Timestamps
+    entry_time: datetime
+    exit_time: Optional[datetime] = None
+    
+    # P&L and performance
+    pnl: Optional[float] = None
+    pnl_percent: Optional[float] = None
+    mae: Optional[float] = None  # Maximum Adverse Excursion
+    mfe: Optional[float] = None  # Maximum Favorable Excursion
+    
+    # Fees and slippage
+    commission: float = 0.0
+    slippage: float = 0.0
+    
+    # Trade metadata
+    source: TradeSource = TradeSource.LIVE
+    broker: Optional[str] = None
+    account_id: Optional[str] = None
+    order_ids: List[str] = []
+    
+    # Additional data
+    metadata: Dict[str, Any] = {}
+    
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class DailyPerformanceModel(BaseModel):
+    """Daily aggregated performance metrics"""
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    date: date
+    
+    # Daily metrics
+    trades_count: int = 0
+    winning_trades: int = 0
+    losing_trades: int = 0
+    
+    # P&L
+    gross_pnl: float = 0.0
+    net_pnl: float = 0.0
+    commission_total: float = 0.0
+    
+    # Returns
+    return_percent: float = 0.0
+    return_r: float = 0.0  # R-multiple return
+    
+    # Account values
+    starting_equity: Optional[float] = None
+    ending_equity: Optional[float] = None
+    
+    # Source breakdown
+    source: TradeSource = TradeSource.LIVE
+    strategy_breakdown: Dict[str, float] = {}  # strategy_id -> pnl
+    
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class StrategyModel(BaseModel):
+    """Trading strategy definition"""
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    
+    # Strategy details
+    name: str
+    description: Optional[str] = None
+    code: Optional[str] = None  # Strategy code/script
+    parameters: Dict[str, Any] = {}
+    
+    # Status
+    is_active: bool = True
+    is_live: bool = False
+    
+    # Performance tracking
+    total_trades: int = 0
+    win_rate: Optional[float] = None
+    profit_factor: Optional[float] = None
+    total_pnl: float = 0.0
+    
+    # Metadata
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+class BacktestModel(BaseModel):
+    """Backtest configuration and results"""
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    strategy_id: str
+    
+    # Configuration
+    name: str
+    symbols: List[str]
+    start_date: date
+    end_date: date
+    initial_capital: float = 100000.0
+    
+    # Parameters
+    commission: float = 0.0
+    slippage: float = 0.0
+    timeframe: str = "1D"
+    parameters: Dict[str, Any] = {}
+    
+    # Status
+    status: str = "pending"  # pending, running, completed, error, cancelled
+    progress: float = 0.0
+    
+    # Results (populated when completed)
+    total_trades: Optional[int] = None
+    win_rate: Optional[float] = None
+    profit_factor: Optional[float] = None
+    total_return: Optional[float] = None
+    max_drawdown: Optional[float] = None
+    sharpe_ratio: Optional[float] = None
+    
+    # Error handling
+    error_message: Optional[str] = None
+    
+    # Timestamps
+    started_at: Optional[datetime] = None
+    completed_at: Optional[datetime] = None
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class WatchlistModel(BaseModel):
+    """Watchlist configuration"""
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    
+    name: str
+    description: Optional[str] = None
+    
+    # Column configuration
+    columns: List[Dict[str, Any]] = []  # Column definitions
+    
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+class WatchlistItemModel(BaseModel):
+    """Individual watchlist entry"""
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    watchlist_id: str
+    user_id: str
+    
+    # Core data
+    ticker: str
+    data: Dict[str, Any] = {}  # Dynamic data based on watchlist columns
+    
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+class BrokerConnectionModel(BaseModel):
+    """Broker OAuth connection"""
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    
+    # Connection details
+    broker: str  # tradestation, ibkr, robinhood, coinbase, kraken
+    account_name: Optional[str] = None
+    
+    # OAuth tokens (encrypted in storage)
+    access_token: Optional[str] = None
+    refresh_token: Optional[str] = None
+    token_expires_at: Optional[datetime] = None
+    
+    # Status
+    status: str = "disconnected"  # connected, disconnected, expired, error
+    last_sync: Optional[datetime] = None
+    last_error: Optional[str] = None
+    
+    # Metadata
+    connection_metadata: Dict[str, Any] = {}
+    
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+# Response Models for API
+
+class DashboardMetricsResponse(BaseModel):
+    """Dashboard metrics API response"""
+    
+    # Performance cards
+    total_trades: int
+    win_rate_trades: float  # Win rate by number of trades
+    win_rate_days: Optional[float] = None  # Win rate by profitable days
+    profit_factor: Optional[float] = None
+    avg_win: Optional[float] = None
+    avg_loss: Optional[float] = None
+    total_pnl: float
+    total_return: float
+    
+    # Time series data
+    daily_pnl: List[Dict[str, Any]] = []  # [{date, pnl, trades, equity}]
+    equity_curve: List[Dict[str, Any]] = []  # [{date, equity, drawdown}]
+    
+    # Period info
+    start_date: date
+    end_date: date
+    total_days: int
+    trading_days: int
+    
+    # Data source
+    source_filter: Optional[str] = None
+    
+    class Config:
+        json_encoders = {
+            datetime: lambda dt: dt.isoformat(),
+            date: lambda d: d.isoformat()
+        }
+
+class BacktestResultsResponse(BaseModel):
+    """Backtest results API response"""
+    
+    # Basic info
+    backtest_id: str
+    name: str
+    status: str
+    
+    # Configuration
+    symbols: List[str]
+    start_date: date
+    end_date: date
+    initial_capital: float
+    
+    # Performance metrics
+    total_trades: int
+    win_rate: float
+    profit_factor: float
+    total_return: float
+    cagr: float
+    max_drawdown: float
+    sharpe_ratio: Optional[float] = None
+    
+    # Detailed results
+    equity_curve: List[Dict[str, Any]] = []
+    trades: List[Dict[str, Any]] = []
+    
+    # Summary stats
+    avg_win: float
+    avg_loss: float
+    largest_win: float
+    largest_loss: float
+    
+    completed_at: Optional[datetime] = None
+    
+    class Config:
+        json_encoders = {
+            datetime: lambda dt: dt.isoformat(),
+            date: lambda d: d.isoformat()
+        }
