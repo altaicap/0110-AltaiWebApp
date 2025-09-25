@@ -958,7 +958,7 @@ async def get_backtest_results():
 # Import new dependencies
 from database import get_db_session, get_mongodb, db_manager, create_default_users
 from auth import AuthService, get_current_user, get_current_user_optional, PasswordResetService
-from models import User, Subscription, PaymentMethod, Transaction, Notification, SUBSCRIPTION_PLANS, DashboardMetricsResponse
+from models import User, Subscription, PaymentMethod, Transaction, Notification, SUBSCRIPTION_PLANS, DashboardMetricsResponse, BacktestResultsResponse
 from services.adyen_service import AdyenService
 from services.metrics_service import get_metrics_service
 from services.backtest_engine import get_backtest_engine
