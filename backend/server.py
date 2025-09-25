@@ -2178,6 +2178,169 @@ async def create_sample_data(
         )
 
 # ============================================================================
+# BACKTEST ENDPOINTS
+# ============================================================================
+
+@app.post("/api/backtests/run")
+async def run_backtest(
+    request: BacktestRequest,
+    current_user: dict = Depends(get_current_user)
+):
+    """
+    Start a new backtest
+    
+    Request body should include:
+    - strategy_name: Name of the strategy
+    - symbols: List of symbols to backtest
+    - start_date: Start date for backtest
+    - end_date: End date for backtest
+    - initial_capital: Starting capital (optional, default 100000)
+    - commission: Commission per trade (optional, default 1.0)
+    - timeframe: Timeframe for data (optional, default "1D")
+    - parameters: Strategy parameters (optional)
+    """
+    try:
+        # Get MongoDB connection
+        mongo_db = get_mongodb()
+        
+        # Get backtest engine
+        backtest_engine = get_backtest_engine(mongo_db)
+        
+        # Prepare backtest configuration
+        config = {
+            "user_id": current_user["user_id"],
+            "name": request.strategy_name,
+            "symbols": request.symbols if request.symbols else [request.symbol],
+            "start_date": request.start_date.date(),
+            "end_date": request.end_date.date(),
+            "initial_capital": getattr(request, 'initial_capital', 100000.0),
+            "commission": getattr(request, 'commission', 1.0),
+            "slippage": getattr(request, 'slippage', 0.01),
+            "timeframe": request.timeframe,
+            "parameters": request.parameters
+        }
+        
+        # Start backtest
+        backtest_id = await backtest_engine.run_backtest(
+            user_id=current_user["user_id"],
+            backtest_config=config
+        )
+        
+        return {
+            "id": backtest_id,
+            "status": "started",
+            "message": "Backtest started successfully",
+            "estimated_duration": 30  # seconds (placeholder)
+        }
+        
+    except Exception as e:
+        logger.error(f"Error starting backtest: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error starting backtest: {str(e)}"
+        )
+
+@app.get("/api/backtests/{backtest_id}")
+async def get_backtest_status(
+    backtest_id: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """Get backtest status and progress"""
+    try:
+        # Get MongoDB connection
+        mongo_db = get_mongodb()
+        
+        # Get backtest engine
+        backtest_engine = get_backtest_engine(mongo_db)
+        
+        # Get status
+        status_info = await backtest_engine.get_backtest_status(
+            backtest_id=backtest_id,
+            user_id=current_user["user_id"]
+        )
+        
+        return status_info
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching backtest status: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error fetching backtest status"
+        )
+
+@app.get("/api/backtests/{backtest_id}/results", response_model=BacktestResultsResponse)
+async def get_backtest_results(
+    backtest_id: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """Get comprehensive backtest results"""
+    try:
+        # Get MongoDB connection
+        mongo_db = get_mongodb()
+        
+        # Get backtest engine
+        backtest_engine = get_backtest_engine(mongo_db)
+        
+        # Get results
+        results = await backtest_engine.get_backtest_results(
+            backtest_id=backtest_id,
+            user_id=current_user["user_id"]
+        )
+        
+        return results
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching backtest results: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error fetching backtest results"
+        )
+
+@app.get("/api/backtests")
+async def list_backtests(
+    limit: int = 20,
+    offset: int = 0,
+    status_filter: Optional[str] = None,
+    current_user: dict = Depends(get_current_user)
+):
+    """List user's backtests with pagination and filtering"""
+    try:
+        # Get MongoDB connection
+        mongo_db = get_mongodb()
+        
+        # Get backtest engine
+        backtest_engine = get_backtest_engine(mongo_db)
+        
+        # List backtests
+        results = await backtest_engine.list_backtests(
+            user_id=current_user["user_id"],
+            limit=limit,
+            offset=offset
+        )
+        
+        # Apply status filter if specified
+        if status_filter:
+            filtered_backtests = [
+                bt for bt in results["backtests"] 
+                if bt["status"] == status_filter
+            ]
+            results["backtests"] = filtered_backtests
+            results["total_count"] = len(filtered_backtests)
+        
+        return results
+        
+    except Exception as e:
+        logger.error(f"Error listing backtests: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error listing backtests"
+        )
+
+# ============================================================================
 # HEALTH CHECK AND SYSTEM STATUS ENDPOINTS
 # ============================================================================
 
