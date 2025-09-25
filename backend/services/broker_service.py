@@ -21,6 +21,9 @@ class BrokerType(Enum):
     """Supported broker types"""
     TRADESTATION = "tradestation"
     IBKR = "ibkr"
+    ROBINHOOD = "robinhood"
+    COINBASE = "coinbase"
+    KRAKEN = "kraken"
 
 class OrderType(Enum):
     """Unified order types"""
