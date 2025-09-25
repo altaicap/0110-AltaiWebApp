@@ -2342,6 +2342,171 @@ async def list_backtests(
         )
 
 # ============================================================================
+# AI/CHAT ENDPOINTS
+# ============================================================================
+
+@app.post("/api/chat/message")
+async def send_chat_message(
+    request: dict,
+    current_user: dict = Depends(get_current_user)
+):
+    """
+    Send message to AI assistant for dashboard Q&A or support
+    
+    Request body:
+    - message: User's question/message
+    - context: Optional context object
+    - date_range: Optional explicit date range {start: "YYYY-MM-DD", end: "YYYY-MM-DD"}
+    """
+    try:
+        message = request.get("message", "").strip()
+        if not message:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Message cannot be empty"
+            )
+        
+        # Get MongoDB connection
+        mongo_db = get_mongodb()
+        
+        # Get AI assistant
+        ai_assistant = get_ai_assistant(mongo_db)
+        
+        context = request.get("context")
+        date_range = request.get("date_range")
+        
+        # Determine if this is a dashboard query or general support
+        message_lower = message.lower()
+        
+        is_dashboard_query = any(x in message_lower for x in [
+            "performance", "pnl", "profit", "loss", "trade", "win rate", 
+            "return", "equity", "drawdown", "sharpe", "my results",
+            "how am i doing", "show me", "analyze"
+        ])
+        
+        if is_dashboard_query:
+            # Handle dashboard-related query
+            response = await ai_assistant.handle_dashboard_query(
+                user_id=current_user["user_id"],
+                message=message,
+                context=context,
+                date_range=date_range
+            )
+        else:
+            # Handle general support query
+            response = await ai_assistant.handle_support_query(
+                message=message,
+                context=context
+            )
+        
+        return response
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error processing chat message: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error processing your message"
+        )
+
+@app.post("/api/chat/upload-watchlist")
+async def upload_watchlist_file(
+    file: UploadFile = File(...),
+    current_user: dict = Depends(get_current_user)
+):
+    """
+    Upload Excel/CSV file for watchlist import
+    
+    Supports .csv, .xlsx, .xls files up to 5MB
+    Returns preview and suggested column mappings
+    """
+    try:
+        # Get MongoDB connection
+        mongo_db = get_mongodb()
+        
+        # Get AI assistant
+        ai_assistant = get_ai_assistant(mongo_db)
+        
+        # Process file upload
+        result = await ai_assistant.handle_watchlist_upload(
+            user_id=current_user["user_id"],
+            file=file
+        )
+        
+        return result
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error uploading watchlist file: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error processing uploaded file"
+        )
+
+@app.post("/api/chat/confirm-watchlist")
+async def confirm_watchlist_import(
+    request: dict,
+    current_user: dict = Depends(get_current_user)
+):
+    """
+    Confirm watchlist import with user-specified column mapping
+    
+    Request body:
+    - import_id: Import ID from upload response
+    - column_mapping: Object mapping fields to source columns
+    - watchlist_name: Name for the new watchlist
+    """
+    try:
+        import_id = request.get("import_id")
+        column_mapping = request.get("column_mapping", {})
+        watchlist_name = request.get("watchlist_name", "").strip()
+        
+        if not import_id:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="import_id is required"
+            )
+        
+        if not watchlist_name:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="watchlist_name is required"
+            )
+        
+        if not column_mapping.get("ticker"):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="ticker column mapping is required"
+            )
+        
+        # Get MongoDB connection
+        mongo_db = get_mongodb()
+        
+        # Get AI assistant
+        ai_assistant = get_ai_assistant(mongo_db)
+        
+        # Confirm import
+        result = await ai_assistant.confirm_watchlist_import(
+            user_id=current_user["user_id"],
+            import_id=import_id,
+            column_mapping=column_mapping,
+            watchlist_name=watchlist_name
+        )
+        
+        return result
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error confirming watchlist import: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error importing watchlist"
+        )
+
+# ============================================================================
 # HEALTH CHECK AND SYSTEM STATUS ENDPOINTS
 # ============================================================================
 
