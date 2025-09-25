@@ -3723,7 +3723,11 @@ class ReviewRequestTester:
 def main():
     """Main test runner"""
     if len(sys.argv) > 1:
-        if sys.argv[1] == "trading":
+        if sys.argv[1] == "pydantic":
+            tester = PydanticValidationTester()
+            success = tester.run_all_pydantic_tests()
+            return 0 if success else 1
+        elif sys.argv[1] == "trading":
             tester = TradingIntegrationTester()
             success = tester.run_all_trading_tests()
             return 0 if success else 1
@@ -3748,14 +3752,14 @@ def main():
             success = tester.run_all_llm_tests()
             return 0 if success else 1
         else:
-            print("Usage: python backend_test.py [trading|auth|feedback80|support|review|llm]")
+            print("Usage: python backend_test.py [pydantic|trading|auth|feedback80|support|review|llm]")
             return 1
     else:
-        # Default to LLM chat integration tests as per review request
-        print("🚀 Running LLM Chat Integration Tests (Review Request Default)")
+        # Default to Pydantic validation tests as per review request
+        print("🚀 Running Pydantic Validation Fix Tests (Review Request Default)")
         print("=" * 70)
-        tester = LLMChatIntegrationTester()
-        success = tester.run_all_llm_tests()
+        tester = PydanticValidationTester()
+        success = tester.run_all_pydantic_tests()
         return 0 if success else 1
 
 if __name__ == "__main__":
