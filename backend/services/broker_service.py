@@ -253,42 +253,37 @@ class BrokerService:
         broker_service = self.get_broker_service(broker_type)
         
         try:
-            if broker_type.lower() == "tradestation":
+            broker_key = broker_type.lower()
+            
+            if broker_key == "tradestation":
                 client = self.tradestation.create_client(access_token)
-                accounts = await client.get_accounts()
-                return [
-                    {
-                        "account_id": acc.account_id,
-                        "name": acc.name,
-                        "type": acc.type,
-                        "status": acc.status,
-                        "currency": acc.currency,
-                        "broker": "tradestation",
-                        "margin_enabled": acc.margin_enabled,
-                        "cash_balance": acc.cash_balance,
-                        "equity": acc.equity,
-                        "buying_power": acc.day_trading_buying_power
-                    }
-                    for acc in accounts
-                ]
-            elif broker_type.lower() == "ibkr":
+            elif broker_key == "ibkr":
                 client = self.ibkr.create_client(access_token)
-                accounts = await client.get_accounts()
-                return [
-                    {
-                        "account_id": acc.account_id,
-                        "name": acc.name,
-                        "type": acc.type,
-                        "status": acc.status,
-                        "currency": acc.currency,
-                        "broker": "ibkr",
-                        "margin_enabled": acc.margin_enabled,
-                        "cash_balance": acc.cash_balance,
-                        "equity": acc.equity,
-                        "buying_power": acc.day_trading_buying_power
-                    }
-                    for acc in accounts
-                ]
+            elif broker_key == "robinhood":
+                client = self.robinhood.create_client(access_token)
+            elif broker_key == "coinbase":
+                client = self.coinbase.create_client(access_token)
+            elif broker_key == "kraken":
+                client = self.kraken.create_client(access_token)
+            else:
+                raise ValueError(f"Unknown broker type: {broker_key}")
+            
+            accounts = await client.get_accounts()
+            return [
+                {
+                    "account_id": acc.account_id,
+                    "name": acc.name,
+                    "type": acc.type,
+                    "status": acc.status,
+                    "currency": acc.currency,
+                    "broker": broker_key,
+                    "margin_enabled": acc.margin_enabled,
+                    "cash_balance": acc.cash_balance,
+                    "equity": acc.equity,
+                    "buying_power": acc.day_trading_buying_power
+                }
+                for acc in accounts
+            ]
         except Exception as e:
             logger.error(f"Error fetching accounts for {broker_type}: {str(e)}")
             raise HTTPException(
