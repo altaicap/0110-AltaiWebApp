@@ -113,10 +113,16 @@ class BrokerService:
     def __init__(self):
         self.tradestation = TradeStationService()
         self.ibkr = IBKRService()
+        self.robinhood = RobinhoodService()
+        self.coinbase = CoinbaseService()
+        self.kraken = KrakenService()
         
         self.brokers = {
             BrokerType.TRADESTATION: self.tradestation,
-            BrokerType.IBKR: self.ibkr
+            BrokerType.IBKR: self.ibkr,
+            BrokerType.ROBINHOOD: self.robinhood,
+            BrokerType.COINBASE: self.coinbase,
+            BrokerType.KRAKEN: self.kraken
         }
     
     def get_broker_service(self, broker_type: Union[str, BrokerType]):
