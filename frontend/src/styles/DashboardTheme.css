@@ -3150,13 +3150,17 @@ div.calendar-text-white,
 .calendar-red div.calendar-text-white,
 .calendar-yellow div.calendar-text-white,
 [data-theme="dark"] div.calendar-text-white,
-[data-theme="light"] div.calendar-text-white {
+[data-theme="light"] div.calendar-text-white,
+html[data-theme="light"] div.calendar-text-white,
+body[data-theme="light"] div.calendar-text-white {
   color: white !important;
 }
 
 div.calendar-text-gray,
 [data-theme="dark"] div.calendar-text-gray,
-[data-theme="light"] div.calendar-text-gray {
+[data-theme="light"] div.calendar-text-gray,
+html[data-theme="light"] div.calendar-text-gray,
+body[data-theme="light"] div.calendar-text-gray {
   color: #9ca3af !important;
 }
 
