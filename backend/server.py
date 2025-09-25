@@ -2767,7 +2767,7 @@ async def add_watchlist_item(
 async def update_watchlist_settings(
     watchlist_id: str,
     request: dict,
-    current_user: dict = Depends(get_current_user)
+    current_user: User = Depends(get_current_user_with_db)
 ):
     """Update watchlist column settings"""
     try:
