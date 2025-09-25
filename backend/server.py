@@ -2348,7 +2348,7 @@ async def list_backtests(
 @app.post("/api/chat/message")
 async def send_chat_message(
     request: dict,
-    current_user: dict = Depends(get_current_user)
+    current_user: User = Depends(get_current_user_with_db)
 ):
     """
     Send message to AI assistant for dashboard Q&A or support
