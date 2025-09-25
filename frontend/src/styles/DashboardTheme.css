@@ -3132,29 +3132,13 @@ html body div div [data-theme="light"] .watchlist-dropdown [data-radix-select-it
   border: 1px solid #374151 !important;
 }
 
-/* Calendar text colors */
-html body div.calendar-text-white,
-.calendar-text-white,
-[data-theme="dark"] .calendar-text-white,
-[data-theme="light"] .calendar-text-white {
+/* Calendar text colors - SIMPLE */
+.calendar-text-white {
   color: white !important;
-  font-weight: 600 !important;
 }
 
-html body div.calendar-text-gray,
-.calendar-text-gray,
-[data-theme="dark"] .calendar-text-gray,
-[data-theme="light"] .calendar-text-gray {
-  color: #6b7280 !important;
-  font-weight: 500 !important;
-}
-
-html body div.calendar-text-black,
-.calendar-text-black,
-[data-theme="dark"] .calendar-text-black,
-[data-theme="light"] .calendar-text-black {
-  color: #000000 !important;
-  font-weight: 600 !important;
+.calendar-text-gray {
+  color: #9ca3af !important;
 }
 
 .calendar-text-default-dark {
