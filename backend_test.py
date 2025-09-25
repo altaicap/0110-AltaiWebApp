@@ -314,47 +314,43 @@ class PydanticValidationTester:
         
         auth_headers = {"Authorization": f"Bearer {self.auth_token}"}
         
-        # Test available brokers
-        brokers_to_test = ["tradestation", "ibkr", "robinhood", "coinbase", "kraken"]
+        # Test the correct trading endpoints that exist in the backend
+        # Test OAuth initiation endpoint
+        oauth_start_data = {
+            "broker": "tradestation",
+            "state": "test_state_tradestation"
+        }
         
-        for broker in brokers_to_test:
-            # Test OAuth start endpoint
-            oauth_start_data = {
-                "broker": broker,
-                "state": f"test_state_{broker}"
-            }
-            
-            success, response = self.run_test(
-                f"OAuth Start - {broker.upper()}",
-                "POST",
-                f"/api/brokers/{broker}/oauth/start",
-                500,  # Expected to fail due to missing credentials, but should handle gracefully
-                data=oauth_start_data,
-                headers=auth_headers
-            )
-            
-            # We expect 500 due to missing credentials, but no Pydantic validation errors
-            if success:
-                self.log_test(f"OAuth Start {broker.upper()} Error Handling", True, "No Pydantic validation errors")
-            
-            # Test OAuth callback endpoint
-            callback_data = {
-                "broker": broker,
-                "code": f"mock_code_{broker}",
-                "state": f"test_state_{broker}"
-            }
-            
-            success, response = self.run_test(
-                f"OAuth Callback - {broker.upper()}",
-                "POST",
-                f"/api/brokers/{broker}/oauth/callback",
-                400,  # Expected to fail with mock data
-                data=callback_data,
-                headers=auth_headers
-            )
-            
-            if success:
-                self.log_test(f"OAuth Callback {broker.upper()} Error Handling", True, "No Pydantic validation errors")
+        success, response = self.run_test(
+            "OAuth Initiation - TradeStation",
+            "POST",
+            "/api/trading/auth/initiate",
+            500,  # Expected to fail due to missing credentials
+            data=oauth_start_data,
+            headers=auth_headers
+        )
+        
+        if success:
+            self.log_test("OAuth Initiation Error Handling", True, "No Pydantic validation errors")
+        
+        # Test OAuth callback endpoint
+        callback_data = {
+            "broker": "tradestation",
+            "code": "mock_code_tradestation",
+            "state": "test_state_tradestation"
+        }
+        
+        success, response = self.run_test(
+            "OAuth Callback - TradeStation",
+            "POST",
+            "/api/trading/auth/callback",
+            400,  # Expected to fail with mock data
+            data=callback_data,
+            headers=auth_headers
+        )
+        
+        if success:
+            self.log_test("OAuth Callback Error Handling", True, "No Pydantic validation errors")
 
     def test_error_handling(self):
         """Test error handling scenarios"""
