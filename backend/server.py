@@ -2413,7 +2413,7 @@ async def send_chat_message(
 @app.post("/api/chat/upload-watchlist")
 async def upload_watchlist_file(
     file: UploadFile = File(...),
-    current_user: dict = Depends(get_current_user)
+    current_user: User = Depends(get_current_user_with_db)
 ):
     """
     Upload Excel/CSV file for watchlist import
