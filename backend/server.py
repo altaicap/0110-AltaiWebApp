@@ -2512,7 +2512,7 @@ async def confirm_watchlist_import(
 
 @app.get("/api/watchlists")
 async def get_watchlists(
-    current_user: dict = Depends(get_current_user)
+    current_user: User = Depends(get_current_user_with_db)
 ):
     """Get all watchlists for the current user"""
     try:
