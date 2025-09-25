@@ -295,42 +295,7 @@ async def root():
     }
 
 
-@app.get("/api/health")
-async def health_check():
-    """Comprehensive health check"""
-    try:
-        await client.admin.command('ping')
-        db_status = "healthy"
-    except:
-        db_status = "unhealthy"
-        
-    # Test services (production mode only)
-    services_status = {}
-    
-    if PRODUCTION_MODE and market_service:
-        try:
-            market_test = await market_service.test_connection()
-            services_status["polygon"] = market_test["status"]
-        except:
-            services_status["polygon"] = "error"
-    
-    if PRODUCTION_MODE and news_service:
-        try:
-            news_test = await news_service.test_connections()
-            services_status["newsware"] = news_test["newsware"]["status"]
-            services_status["tradexchange"] = news_test["tradexchange"]["status"]
-        except:
-            services_status["newsware"] = "error"
-            services_status["tradexchange"] = "error"
-        
-    return {
-        "status": "healthy",
-        "database": db_status,
-        "services": services_status,
-        "production_mode": PRODUCTION_MODE,
-        "timestamp": datetime.utcnow().isoformat(),
-        "version": "2.0.0"
-    }
+# Old health check replaced with comprehensive version below
 
 
 # Settings API
