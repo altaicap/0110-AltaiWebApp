@@ -962,6 +962,7 @@ from models import User, Subscription, PaymentMethod, Transaction, Notification,
 from services.adyen_service import AdyenService
 from services.metrics_service import get_metrics_service
 from services.backtest_engine import get_backtest_engine
+from services.ai_service import get_ai_assistant
 from fastapi import Depends, Request, BackgroundTasks
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
