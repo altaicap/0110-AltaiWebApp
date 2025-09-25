@@ -28,6 +28,7 @@ Notification = models_module.Notification
 SUBSCRIPTION_PLANS = models_module.SUBSCRIPTION_PLANS
 
 # Trading models (Pydantic)
+TradeSource = models_module.TradeSource
 TradeModel = models_module.TradeModel
 DailyPerformanceModel = models_module.DailyPerformanceModel
 StrategyModel = models_module.StrategyModel
