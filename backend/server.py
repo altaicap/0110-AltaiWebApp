@@ -2150,7 +2150,7 @@ async def get_daily_pnl(
 
 @app.post("/api/metrics/create-sample-data")
 async def create_sample_data(
-    current_user: dict = Depends(get_current_user)
+    current_user: User = Depends(get_current_user_with_db)
 ):
     """
     Create sample trading data for testing (development only)
