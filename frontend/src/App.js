@@ -4589,7 +4589,7 @@ metadata = {
           </Card>
 
           {/* Bottom Right: Daily Net PnL Charts */}
-          <Card className="relative pane-enhanced">
+          <Card className={`relative pane-enhanced ${fullScreenPane === 'daily-pnl-charts' ? 'fullscreen-enhanced' : ''}`}>
             <PaneControls paneId="daily-pnl-charts">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
