@@ -4531,21 +4531,21 @@ metadata = {
                         calendar.push(
                           <div 
                             key={day} 
-                            className={`h-12 rounded p-1 flex flex-col relative ${bgClass}`}
+                            className="h-12 rounded p-1 flex flex-col relative"
                             style={containerStyle}
                           >
                             <div 
-                              className={`absolute top-1 left-1 font-medium text-xs ${dayTextClass}`}
-                              style={textStyle}
+                              className="absolute top-1 left-1 font-medium text-xs"
+                              style={dayNumberTextStyle}
                             >
                               {day}
                             </div>
                             {dayData && (
-                              <div 
-                                className={`flex flex-col items-center justify-center h-full ${dayTextClass}`}
-                                style={textStyle}
-                              >
-                                <div className="font-bold text-xs leading-tight text-center">
+                              <div className="flex flex-col items-center justify-center h-full">
+                                <div 
+                                  className="font-bold text-xs leading-tight text-center"
+                                  style={pnlTextStyle}
+                                >
                                   {calendarViewMode === 'dollar' ? 
                                     (dayData.pnl === 0 ? '$0' : `${dayData.pnl > 0 ? '+' : ''}$${Math.abs(dayData.pnl) >= 1000 ? `${(dayData.pnl/1000).toFixed(1)}K` : dayData.pnl}`) :
                                   calendarViewMode === 'runit' ?
