@@ -4496,8 +4496,8 @@ metadata = {
                             bgClass = 'calendar-red'; 
                             dayTextClass = 'calendar-text-white';
                           } else {
-                            bgClass = 'calendar-orange'; // For zero PnL
-                            dayTextClass = 'calendar-text-white';
+                            bgClass = 'calendar-yellow'; // For zero PnL (breakeven)
+                            dayTextClass = 'calendar-text-black';
                           }
                         }
                         
