@@ -961,6 +961,7 @@ from auth import AuthService, get_current_user, get_current_user_optional, Passw
 from models import User, Subscription, PaymentMethod, Transaction, Notification, SUBSCRIPTION_PLANS, DashboardMetricsResponse
 from services.adyen_service import AdyenService
 from services.metrics_service import get_metrics_service
+from services.backtest_engine import get_backtest_engine
 from fastapi import Depends, Request, BackgroundTasks
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
