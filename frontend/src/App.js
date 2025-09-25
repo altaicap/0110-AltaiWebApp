@@ -3789,7 +3789,23 @@ metadata = {
         </div>
 
         {/* Trading Highlights Pane */}
-        <Card className={`relative pane-enhanced w-full trading-highlights-pane ${fullScreenPane === 'trading-highlights' ? 'fullscreen-enhanced' : ''}`}>
+        <Card 
+          className={`relative pane-enhanced w-full trading-highlights-pane ${fullScreenPane === 'trading-highlights' ? 'fullscreen-enhanced' : ''}`}
+          style={fullScreenPane === 'trading-highlights' ? {
+            position: 'fixed',
+            top: '120px',
+            left: '48px', 
+            right: '48px',
+            bottom: '24px',
+            width: 'auto',
+            height: 'auto',
+            zIndex: 9999,
+            margin: 0,
+            backgroundColor: isDarkTheme ? '#171717' : '#FBFCFC',
+            backgroundImage: 'none',
+            backdropFilter: 'none'
+          } : {}}
+        >
           <PaneControls paneId="trading-highlights" />
           <CardHeader className="pb-4">
             <CardTitle className="text-lg">Trading Performance Highlights</CardTitle>
