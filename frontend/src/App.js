@@ -3992,7 +3992,7 @@ metadata = {
           </Card>
 
           {/* Top Right: Positions */}
-          <Card className="relative pane-enhanced">
+          <Card className={`relative pane-enhanced ${fullScreenPane === 'positions' ? 'fullscreen-enhanced' : ''}`}>
             <PaneControls paneId="positions">
               <Button 
                 variant="outline" 
