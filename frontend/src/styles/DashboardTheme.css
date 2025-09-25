@@ -3141,36 +3141,7 @@ html body div div [data-theme="light"] .watchlist-dropdown [data-radix-select-it
   color: #9ca3af !important;
 }
 
-.calendar-text-default-dark {
-  color: #9ca3af !important;
-  font-weight: 500 !important;
-}
-
-.calendar-text-default-light {
-  color: #374151 !important;
-  font-weight: 500 !important;
-}
-
-/* Theme-specific overrides for calendar text - proper visibility */
-[data-theme="light"] .calendar-text-white {
-  color: white !important;
-  font-weight: 600 !important;
-}
-
-[data-theme="light"] .calendar-text-gray {
-  color: #374151 !important; /* Dark gray for visibility on light background */
-  font-weight: 500 !important;
-}
-
-[data-theme="dark"] .calendar-text-white {
-  color: white !important;
-  font-weight: 600 !important;
-}
-
-[data-theme="dark"] .calendar-text-gray {
-  color: #9ca3af !important;
-  font-weight: 500 !important;
-}
+/* Clean up - removed problematic CSS */
 
 /* Default calendar text styling */
 [data-theme="dark"] .calendar-text-default {
