@@ -2210,6 +2210,211 @@ async def create_sample_data(
             detail="Internal server error creating sample data"
         )
 
+# ============================================================================
+# HEALTH CHECK AND SYSTEM STATUS ENDPOINTS
+# ============================================================================
+
+@app.get("/api/health")
+async def health_check():
+    """Comprehensive health check for all system components"""
+    try:
+        health_status = {
+            "status": "healthy",
+            "timestamp": datetime.utcnow().isoformat(),
+            "version": "1.0.0",
+            "databases": {},
+            "services": {}
+        }
+        
+        # Test MongoDB connection
+        try:
+            mongo_db = get_mongodb()
+            # Ping MongoDB
+            await mongo_db.command("ping")
+            health_status["databases"]["mongodb"] = {
+                "status": "healthy",
+                "message": "Connected successfully"
+            }
+        except Exception as e:
+            health_status["databases"]["mongodb"] = {
+                "status": "unhealthy", 
+                "message": f"Connection failed: {str(e)}"
+            }
+            health_status["status"] = "degraded"
+        
+        # Test SQL Database connection
+        try:
+            db = get_database()
+            # Simple query to test connection
+            db.execute("SELECT 1")
+            health_status["databases"]["postgresql"] = {
+                "status": "healthy",
+                "message": "Connected successfully"
+            }
+        except Exception as e:
+            health_status["databases"]["postgresql"] = {
+                "status": "unhealthy",
+                "message": f"Connection failed: {str(e)}"
+            }
+            health_status["status"] = "degraded"
+        
+        # Test broker services
+        broker_service = BrokerService()
+        available_brokers = broker_service.get_available_brokers()
+        
+        configured_count = sum(1 for broker in available_brokers.values() if broker.get("configured", False))
+        total_count = len(available_brokers)
+        
+        health_status["services"]["broker_integrations"] = {
+            "status": "healthy" if configured_count > 0 else "warning",
+            "message": f"{configured_count}/{total_count} brokers configured"
+        }
+        
+        # Test market data (if Polygon key is configured)
+        polygon_key = os.getenv("POLYGON_API_KEY")
+        if polygon_key:
+            try:
+                # Simple test - could expand to actual API call
+                health_status["services"]["market_data"] = {
+                    "status": "configured",
+                    "message": "Polygon API key configured"
+                }
+            except Exception as e:
+                health_status["services"]["market_data"] = {
+                    "status": "error",
+                    "message": f"Market data error: {str(e)}"
+                }
+                health_status["status"] = "degraded"
+        else:
+            health_status["services"]["market_data"] = {
+                "status": "not_configured",
+                "message": "No market data API key configured"
+            }
+        
+        # Overall status determination
+        unhealthy_components = []
+        for category in ["databases", "services"]:
+            for name, component in health_status[category].items():
+                if component["status"] in ["unhealthy", "error"]:
+                    unhealthy_components.append(f"{category}.{name}")
+        
+        if unhealthy_components:
+            health_status["status"] = "unhealthy"
+            health_status["unhealthy_components"] = unhealthy_components
+        elif health_status["status"] != "degraded":
+            health_status["status"] = "healthy"
+        
+        # Return appropriate HTTP status
+        if health_status["status"] == "healthy":
+            return health_status
+        elif health_status["status"] == "degraded":
+            return Response(
+                content=json.dumps(health_status),
+                status_code=200,  # Still functional but with issues
+                media_type="application/json"
+            )
+        else:  # unhealthy
+            return Response(
+                content=json.dumps(health_status),
+                status_code=503,  # Service Unavailable
+                media_type="application/json"
+            )
+            
+    except Exception as e:
+        logger.error(f"Health check error: {str(e)}")
+        return Response(
+            content=json.dumps({
+                "status": "error",
+                "message": f"Health check failed: {str(e)}",
+                "timestamp": datetime.utcnow().isoformat()
+            }),
+            status_code=500,
+            media_type="application/json"
+        )
+
+@app.get("/api/health/ready")
+async def readiness_check():
+    """Kubernetes readiness probe - checks if app is ready to serve traffic"""
+    try:
+        # Test critical dependencies
+        mongo_db = get_mongodb()
+        await mongo_db.command("ping")
+        
+        db = get_database()
+        db.execute("SELECT 1")
+        
+        return {"status": "ready", "timestamp": datetime.utcnow().isoformat()}
+        
+    except Exception as e:
+        logger.error(f"Readiness check failed: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=f"Service not ready: {str(e)}"
+        )
+
+@app.get("/api/health/live") 
+async def liveness_check():
+    """Kubernetes liveness probe - checks if app is alive"""
+    return {
+        "status": "alive", 
+        "timestamp": datetime.utcnow().isoformat(),
+        "uptime": "unknown"  # Could add actual uptime tracking
+    }
+
+@app.get("/api/system/status")
+async def get_system_status(
+    current_user: dict = Depends(get_current_user)
+):
+    """Detailed system status for admin monitoring"""
+    try:
+        # Get basic health status
+        health_response = await health_check()
+        if isinstance(health_response, Response):
+            health_data = json.loads(health_response.body)
+        else:
+            health_data = health_response
+        
+        # Add additional system information
+        system_status = {
+            **health_data,
+            "system_info": {
+                "python_version": f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}",
+                "platform": sys.platform,
+                "memory_usage": "unknown",  # Could add psutil for detailed metrics
+                "cpu_usage": "unknown"
+            },
+            "database_stats": {},
+            "service_stats": {}
+        }
+        
+        # Add database statistics if healthy
+        if health_data["databases"]["mongodb"]["status"] == "healthy":
+            try:
+                mongo_db = get_mongodb()
+                # Get collection stats
+                collections_stats = {}
+                for collection_name in ["users", "trades", "daily_performance", "broker_connections", "strategies"]:
+                    try:
+                        count = await mongo_db[collection_name].count_documents({})
+                        collections_stats[collection_name] = {"count": count}
+                    except:
+                        collections_stats[collection_name] = {"count": "error"}
+                
+                system_status["database_stats"]["mongodb"] = {
+                    "collections": collections_stats
+                }
+            except Exception as e:
+                logger.warning(f"Could not get MongoDB stats: {str(e)}")
+        
+        return system_status
+        
+    except Exception as e:
+        logger.error(f"System status error: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error fetching system status: {str(e)}"
+        )
+
 # ================================
 # Support Endpoints
 # ================================
