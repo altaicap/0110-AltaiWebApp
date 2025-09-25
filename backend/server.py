@@ -2185,7 +2185,7 @@ async def create_sample_data(
 @app.post("/api/backtests/run")
 async def run_backtest(
     request: BacktestRequest,
-    current_user: dict = Depends(get_current_user)
+    current_user: User = Depends(get_current_user_with_db)
 ):
     """
     Start a new backtest
