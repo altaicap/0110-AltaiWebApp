@@ -2274,7 +2274,7 @@ async def get_backtest_status(
 @app.get("/api/backtests/{backtest_id}/results", response_model=BacktestResultsResponse)
 async def get_backtest_results(
     backtest_id: str,
-    current_user: dict = Depends(get_current_user)
+    current_user: User = Depends(get_current_user_with_db)
 ):
     """Get comprehensive backtest results"""
     try:
