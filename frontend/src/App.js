@@ -4141,7 +4141,7 @@ metadata = {
           </Card>
 
           {/* Middle Left: Recently Closed */}
-          <Card className="relative pane-enhanced">
+          <Card className={`relative pane-enhanced ${fullScreenPane === 'recently-closed' ? 'fullscreen-enhanced' : ''}`}>
             <PaneControls paneId="recently-closed">
               <Button 
                 variant="outline" 
