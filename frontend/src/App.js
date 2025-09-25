@@ -3793,21 +3793,25 @@ metadata = {
         {/* Trading Highlights Pane */}
         <Card 
           className={`relative pane-enhanced w-full trading-highlights-pane ${fullScreenPane === 'trading-highlights' ? 'fullscreen-enhanced' : ''}`}
-          style={fullScreenPane === 'trading-highlights' ? {
-            position: 'fixed',
-            top: '200px',
-            left: '80px', 
-            right: '80px',
-            bottom: '40px',
-            width: 'auto',
-            height: 'auto',
-            zIndex: 9999,
-            margin: 0,
-            backgroundColor: isDarkTheme ? '#171717' : '#ffffff',
-            backgroundImage: 'none',
-            backdropFilter: 'none',
-            opacity: 1
-          } : {}}
+          style={(() => {
+            const isFullscreen = fullScreenPane === 'trading-highlights';
+            console.log('Trading Highlights isFullscreen:', isFullscreen, 'fullScreenPane:', fullScreenPane);
+            return isFullscreen ? {
+              position: 'fixed',
+              top: '200px',
+              left: '80px', 
+              right: '80px',
+              bottom: '40px',
+              width: 'auto',
+              height: 'auto',
+              zIndex: 9999,
+              margin: 0,
+              backgroundColor: isDarkTheme ? '#171717' : '#ffffff',
+              backgroundImage: 'none',
+              backdropFilter: 'none',
+              opacity: 1
+            } : {};
+          })()}
         >
           <PaneControls paneId="trading-highlights" />
           <CardHeader className="pb-4">
