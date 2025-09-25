@@ -345,6 +345,18 @@
 Investigate and fix the Pydantic validation error in server.py that was preventing the FastAPI server from starting. The error was: "Invalid args for response field! Hint: check that <class 'sqlalchemy.orm.session.Session'> is a valid Pydantic field type."
 
 ## backend:
+  - task: "Maximize Button Functionality Fix - All Dashboard Panes"
+    implemented: true
+    working: true
+    file: "frontend/src/App.js, frontend/src/styles/DashboardTheme.css"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed maximize functionality for all Dashboard panes. Issues found: 1) 'Trading Performance Highlights' pane was missing fullscreen controls entirely - added <PaneControls paneId='trading-highlights' /> and conditional fullscreen-enhanced class. 2) All other Dashboard panes had controls but missing CSS for actual fullscreen positioning - added comprehensive .fullscreen-enhanced CSS with position: fixed, full viewport dimensions, z-index: 9999, and opaque backgrounds. 3) Added conditional fullscreen-enhanced class to all Dashboard panes (equity-curve, positions, recently-closed, calendar, daily-pnl-charts, trading-highlights). 4) Ensured maximized panes are opaque in both light and dark themes to prevent readability issues when layered over other content. All panes should now maximize to take exact same space and dimensions as the working 'Uploaded Strategy' pane example."
+
   - task: "Pydantic Validation Error Fix - Server Startup Issue"
     implemented: true
     working: true
