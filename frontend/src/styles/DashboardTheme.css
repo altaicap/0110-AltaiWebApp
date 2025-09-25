@@ -3168,18 +3168,18 @@ html[data-theme="light"] body div.calendar-yellow {
   color: #9ca3af !important;
 }
 
-/* ULTIMATE CALENDAR FIX - TARGET INLINE STYLES DIRECTLY */
-html body [data-theme="light"] div[style*="backgroundColor"][style*="#22c55e"],
-html body [data-theme="light"] div[style*="backgroundColor"][style*="#ef4444"],
-html body [data-theme="light"] div[style*="backgroundColor"][style*="#eab308"],
-[data-theme="light"] div[style*="backgroundColor"][style*="#22c55e"],
-[data-theme="light"] div[style*="backgroundColor"][style*="#ef4444"], 
-[data-theme="light"] div[style*="backgroundColor"][style*="#eab308"],
-div.h-12.rounded[style*="backgroundColor"][style*="#22c55e"],
-div.h-12.rounded[style*="backgroundColor"][style*="#ef4444"],
-div.h-12.rounded[style*="backgroundColor"][style*="#eab308"] {
-  background: unset !important;
-  background-color: unset !important;
+/* ULTIMATE CALENDAR FIX - TARGET ACTUAL INLINE STYLE FORMAT */
+html body [data-theme="light"] div[style*="background: none rgb(34, 197, 94)"],
+html body [data-theme="light"] div[style*="background: none rgb(239, 68, 68)"],
+html body [data-theme="light"] div[style*="background: none rgb(234, 179, 8)"],
+[data-theme="light"] div[style*="rgb(34, 197, 94)"],
+[data-theme="light"] div[style*="rgb(239, 68, 68)"], 
+[data-theme="light"] div[style*="rgb(234, 179, 8)"],
+div.h-12.rounded[style*="rgb(34, 197, 94)"],
+div.h-12.rounded[style*="rgb(239, 68, 68)"],
+div.h-12.rounded[style*="rgb(234, 179, 8)"] {
+  background: inherit !important;
+  background-color: inherit !important;
 }
 
 /* Default calendar text styling */
