@@ -2058,6 +2058,251 @@ async def toggle_live_trading(
         )
 
 # ============================================================================
+# BROKER AND TRADING ENDPOINTS
+# ============================================================================
+
+@app.get("/api/brokers/available")
+async def get_available_brokers():
+    """Get list of all available brokers and their configuration status"""
+    try:
+        broker_service = BrokerService()
+        brokers = broker_service.get_available_brokers()
+        
+        return {
+            "brokers": list(brokers.values()),
+            "total_count": len(brokers)
+        }
+        
+    except Exception as e:
+        logger.error(f"Error fetching available brokers: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error fetching available brokers"
+        )
+
+@app.post("/api/brokers/{broker}/oauth/start")
+async def start_broker_oauth(
+    broker: str,
+    state: Optional[str] = None,
+    current_user: dict = Depends(get_current_user)
+):
+    """Initiate OAuth flow for a broker"""
+    try:
+        broker_service = BrokerService()
+        
+        # Validate broker type
+        valid_brokers = ["tradestation", "ibkr", "robinhood", "coinbase", "kraken"]
+        if broker.lower() not in valid_brokers:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Invalid broker. Must be one of: {', '.join(valid_brokers)}"
+            )
+        
+        # Generate authorization URL
+        auth_data = broker_service.generate_auth_url(broker, state)
+        
+        return {
+            "authorization_url": auth_data["authorization_url"],
+            "state": auth_data["state"],
+            "broker": broker,
+            "instructions": f"Click the URL to authorize {broker.title()} access"
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error starting {broker} OAuth: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error initiating {broker} OAuth flow"
+        )
+
+@app.post("/api/brokers/{broker}/oauth/callback")
+async def handle_broker_oauth_callback(
+    broker: str,
+    code: str,
+    state: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """Handle OAuth callback and store tokens"""
+    try:
+        broker_service = BrokerService()
+        
+        # Exchange code for tokens
+        tokens = await broker_service.handle_oauth_callback(broker, code, state)
+        
+        # Store connection in database
+        mongo_db = get_mongodb()
+        
+        # Create broker connection record
+        connection_data = {
+            "id": str(uuid.uuid4()),
+            "user_id": current_user["user_id"],
+            "broker": broker.lower(),
+            "access_token": tokens["access_token"],  # Should be encrypted in production
+            "refresh_token": tokens.get("refresh_token"),
+            "token_expires_at": datetime.utcnow() + timedelta(seconds=tokens.get("expires_in", 3600)),
+            "status": "connected",
+            "last_sync": datetime.utcnow(),
+            "connection_metadata": {
+                "token_type": tokens.get("token_type", "Bearer"),
+                "scope": tokens.get("scope")
+            },
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        }
+        
+        # Store connection
+        await mongo_db.broker_connections.insert_one(connection_data)
+        
+        return {
+            "success": True,
+            "connection_id": connection_data["id"],
+            "broker": broker,
+            "expires_at": connection_data["token_expires_at"].isoformat(),
+            "message": f"{broker.title()} connected successfully"
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error handling {broker} OAuth callback: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error completing {broker} OAuth connection"
+        )
+
+@app.get("/api/brokers/connections")
+async def get_broker_connections(
+    current_user: dict = Depends(get_current_user)
+):
+    """Get all broker connections for the current user"""
+    try:
+        mongo_db = get_mongodb()
+        
+        # Fetch connections
+        cursor = mongo_db.broker_connections.find({"user_id": current_user["user_id"]})
+        connections = await cursor.to_list(length=None)
+        
+        # Format response
+        formatted_connections = []
+        for conn in connections:
+            formatted_connections.append({
+                "id": conn["id"],
+                "broker": conn["broker"],
+                "status": conn["status"],
+                "last_sync": conn.get("last_sync"),
+                "last_error": conn.get("last_error"),
+                "expires_at": conn.get("token_expires_at"),
+                "created_at": conn["created_at"]
+            })
+        
+        return {
+            "connections": formatted_connections,
+            "total_count": len(formatted_connections)
+        }
+        
+    except Exception as e:
+        logger.error(f"Error fetching broker connections: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error fetching broker connections"
+        )
+
+@app.delete("/api/brokers/connections/{connection_id}")
+async def disconnect_broker(
+    connection_id: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """Disconnect a broker connection"""
+    try:
+        mongo_db = get_mongodb()
+        
+        # Find and delete connection
+        result = await mongo_db.broker_connections.delete_one({
+            "id": connection_id,
+            "user_id": current_user["user_id"]
+        })
+        
+        if result.deleted_count == 0:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Broker connection not found"
+            )
+        
+        return {
+            "message": "Broker connection disconnected successfully",
+            "disconnected_at": datetime.utcnow().isoformat()
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error disconnecting broker: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error disconnecting broker"
+        )
+
+@app.post("/api/brokers/{broker}/test")
+async def test_broker_connection(
+    broker: str,
+    connection_id: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """Test a broker connection"""
+    try:
+        mongo_db = get_mongodb()
+        
+        # Find connection
+        connection = await mongo_db.broker_connections.find_one({
+            "id": connection_id,
+            "user_id": current_user["user_id"],
+            "broker": broker.lower()
+        })
+        
+        if not connection:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Broker connection not found"
+            )
+        
+        # Test connection using broker service
+        broker_service = BrokerService()
+        test_result = await broker_service.test_connection(broker, connection["access_token"])
+        
+        # Update last sync status
+        update_data = {
+            "last_sync": datetime.utcnow(),
+            "status": "connected" if test_result["status"] == "success" else "error",
+            "updated_at": datetime.utcnow()
+        }
+        
+        if test_result["status"] == "error":
+            update_data["last_error"] = test_result["message"]
+        else:
+            update_data["last_error"] = None
+        
+        await mongo_db.broker_connections.update_one(
+            {"id": connection_id},
+            {"$set": update_data}
+        )
+        
+        return {
+            "status": test_result["status"],
+            "message": test_result["message"],
+            "last_sync": update_data["last_sync"].isoformat()
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error testing {broker} connection: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error testing {broker} connection"
+        )
+# ============================================================================
 # DASHBOARD METRICS ENDPOINTS
 # ============================================================================
 
