@@ -1906,32 +1906,35 @@ button svg.text-black {
 /* Fullscreen Enhanced Styling */
 .fullscreen-enhanced {
   position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
+  top: 80px !important; /* Space for dashboard tab bar */
+  left: 24px !important; /* Align with AI interface spacing */
+  right: 24px !important; /* Equal spacing on both sides */
+  bottom: 24px !important; /* Small bottom spacing */
+  width: auto !important;
+  height: auto !important;
   z-index: 9999 !important;
   margin: 0 !important;
-  border-radius: 0 !important;
+  border-radius: 0.875rem !important; /* Keep rounded corners */
   max-width: none !important;
   max-height: none !important;
   opacity: 1 !important;
-  background: var(--bg-1) !important; /* Opaque background */
+  backdrop-filter: none !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important; /* Strong shadow for depth */
 }
 
-/* Ensure fullscreen panes are opaque in both themes */
+/* Ensure fullscreen panes are completely opaque in both themes */
 [data-theme="dark"] .fullscreen-enhanced,
 html[data-theme="dark"] .fullscreen-enhanced {
-  background: #171717 !important; /* Solid dark background */
+  background: #171717 !important; /* Solid dark background - no transparency */
   backdrop-filter: none !important;
+  background-image: none !important; /* Remove any gradients */
 }
 
 [data-theme="light"] .fullscreen-enhanced,
 html[data-theme="light"] .fullscreen-enhanced {
-  background: #FBFCFC !important; /* Solid light background */
+  background: #FBFCFC !important; /* Solid light background - no transparency */
   backdrop-filter: none !important;
+  background-image: none !important; /* Remove any gradients */
 }
 
 /* Cards/Panels/Widgets */
