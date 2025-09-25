@@ -2210,9 +2210,8 @@ async def health_check():
         
         # Test SQL Database connection
         try:
-            db = get_database()
-            # Simple query to test connection
-            db.execute("SELECT 1")
+            # Test SQL database connection using the database manager
+            db_manager.get_sql_session().execute("SELECT 1")
             health_status["databases"]["postgresql"] = {
                 "status": "healthy",
                 "message": "Connected successfully"
