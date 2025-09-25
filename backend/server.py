@@ -2305,8 +2305,8 @@ async def readiness_check():
         mongo_db = get_mongodb()
         await mongo_db.command("ping")
         
-        db = get_database()
-        db.execute("SELECT 1")
+        # Test SQL database connection
+        db_manager.get_sql_session().execute("SELECT 1")
         
         return {"status": "ready", "timestamp": datetime.utcnow().isoformat()}
         
