@@ -3168,32 +3168,33 @@ html[data-theme="light"] body div.calendar-yellow {
   color: #9ca3af !important;
 }
 
-/* NUCLEAR OPTION - FORCE LIGHT THEME COLORS */
-html[data-theme="light"] .h-12.rounded.p-1.flex.flex-col.relative.calendar-green,
-html[data-theme="light"] div.calendar-green,
-[data-theme="light"] div.calendar-green,
-.calendar-green {
+/* ULTIMATE NUCLEAR OPTION - OVERRIDE 63+ TRANSPARENT BACKGROUND RULES */
+html[data-theme="light"] body div.h-12.rounded.p-1.flex.flex-col.relative[style*="background"],
+html[data-theme="light"] body .h-12.rounded.p-1.flex.flex-col.relative[style*="background"],
+html[data-theme="light"] div[style*="backgroundColor: rgb(34, 197, 94)"],
+html[data-theme="light"] div[style*="backgroundColor: rgb(239, 68, 68)"],
+html[data-theme="light"] div[style*="backgroundColor: rgb(234, 179, 8)"],
+[data-theme="light"] div[style*="#22c55e"],
+[data-theme="light"] div[style*="#ef4444"],
+[data-theme="light"] div[style*="#eab308"] {
+  background-color: inherit !important;
+  background: inherit !important;
+}
+
+/* Force specific calendar colors with attribute selectors */
+html[data-theme="light"] div[style*="#22c55e"] {
   background-color: #22c55e !important;
+  background: #22c55e !important;
 }
 
-html[data-theme="light"] .h-12.rounded.p-1.flex.flex-col.relative.calendar-red,
-html[data-theme="light"] div.calendar-red,
-[data-theme="light"] div.calendar-red,
-.calendar-red {
+html[data-theme="light"] div[style*="#ef4444"] {
   background-color: #ef4444 !important;
+  background: #ef4444 !important;
 }
 
-html[data-theme="light"] .h-12.rounded.p-1.flex.flex-col.relative.calendar-yellow,
-html[data-theme="light"] div.calendar-yellow,
-[data-theme="light"] div.calendar-yellow,
-.calendar-yellow {
+html[data-theme="light"] div[style*="#eab308"] {
   background-color: #eab308 !important;
-}
-
-/* NUCLEAR OPTION - FORCE LIGHT THEME TEXT */
-html[data-theme="light"] .calendar-text-white,
-[data-theme="light"] .calendar-text-white {
-  color: white !important;
+  background: #eab308 !important;
 }
 
 /* Default calendar text styling */
