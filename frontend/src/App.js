@@ -4501,29 +4501,47 @@ metadata = {
                           }
                         }
                         
-                        // Get inline styles for absolute color control - FORCE COLORS IN BOTH THEMES
+                        // NUCLEAR OPTION - FORCE STYLES WITH MULTIPLE PROPERTIES
                         let containerStyle = {};
                         let dayNumberTextStyle = {};
                         let pnlTextStyle = {};
                         
                         if (dayData) {
-                          // Always apply background colors regardless of theme
+                          // Always apply background colors with multiple CSS properties to force override
                           if (dayData.pnl > 0) {
-                            containerStyle = { backgroundColor: '#22c55e' }; // Green
-                            dayNumberTextStyle = { color: '#ffffff' }; // White text on green
-                            pnlTextStyle = { color: '#ffffff' }; // White text on green
+                            containerStyle = { 
+                              backgroundColor: '#22c55e',
+                              background: '#22c55e',
+                              backgroundImage: 'none',
+                              border: 'none'
+                            }; // Force Green
+                            dayNumberTextStyle = { color: '#ffffff' }; 
+                            pnlTextStyle = { color: '#ffffff' };
                           } else if (dayData.pnl < 0) {
-                            containerStyle = { backgroundColor: '#ef4444' }; // Red
-                            dayNumberTextStyle = { color: '#ffffff' }; // White text on red
-                            pnlTextStyle = { color: '#ffffff' }; // White text on red
+                            containerStyle = { 
+                              backgroundColor: '#ef4444',
+                              background: '#ef4444', 
+                              backgroundImage: 'none',
+                              border: 'none'
+                            }; // Force Red
+                            dayNumberTextStyle = { color: '#ffffff' };
+                            pnlTextStyle = { color: '#ffffff' };
                           } else {
-                            containerStyle = { backgroundColor: '#eab308' }; // Yellow
-                            dayNumberTextStyle = { color: '#ffffff' }; // White text on yellow
-                            pnlTextStyle = { color: '#ffffff' }; // White text on yellow
+                            containerStyle = { 
+                              backgroundColor: '#eab308',
+                              background: '#eab308',
+                              backgroundImage: 'none', 
+                              border: 'none'
+                            }; // Force Yellow
+                            dayNumberTextStyle = { color: '#ffffff' };
+                            pnlTextStyle = { color: '#ffffff' };
                           }
                         } else {
                           // Empty days - theme-specific text colors
-                          containerStyle = {};
+                          containerStyle = { 
+                            backgroundColor: 'transparent',
+                            background: 'transparent'
+                          };
                           dayNumberTextStyle = { color: isDarkTheme ? '#9ca3af' : '#6b7280' };
                           pnlTextStyle = { color: isDarkTheme ? '#9ca3af' : '#6b7280' };
                         }
