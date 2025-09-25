@@ -3164,7 +3164,27 @@ body[data-theme="light"] div.calendar-text-gray {
   color: #9ca3af !important;
 }
 
-/* Clean up - removed problematic CSS */
+/* Light theme specific overrides - FORCE COLORS */
+html[data-theme="light"] body div.calendar-green,
+body[data-theme="light"] div.calendar-green {
+  background-color: #22c55e !important;
+}
+
+html[data-theme="light"] body div.calendar-red,
+body[data-theme="light"] div.calendar-red {
+  background-color: #ef4444 !important;
+}
+
+html[data-theme="light"] body div.calendar-yellow,
+body[data-theme="light"] div.calendar-yellow {
+  background-color: #eab308 !important;
+}
+
+/* Force white text on colored containers in light theme */
+html[data-theme="light"] body div.calendar-text-white,
+body[data-theme="light"] div.calendar-text-white {
+  color: white !important;
+}
 
 /* Default calendar text styling */
 [data-theme="dark"] .calendar-text-default {
