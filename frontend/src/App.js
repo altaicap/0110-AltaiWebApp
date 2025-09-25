@@ -4501,16 +4501,39 @@ metadata = {
                           }
                         }
                         
+                        // Get inline styles for absolute color control
+                        let containerStyle = {};
+                        let textStyle = { color: 'white' };
+                        
+                        if (dayData) {
+                          if (dayData.pnl > 0) {
+                            containerStyle = { backgroundColor: '#22c55e' }; // Green
+                          } else if (dayData.pnl < 0) {
+                            containerStyle = { backgroundColor: '#ef4444' }; // Red
+                          } else {
+                            containerStyle = { backgroundColor: '#eab308' }; // Yellow
+                          }
+                        } else {
+                          textStyle = { color: isDarkTheme ? '#9ca3af' : '#6b7280' };
+                        }
+
                         calendar.push(
                           <div 
                             key={day} 
                             className={`h-12 rounded p-1 flex flex-col relative ${bgClass}`}
+                            style={containerStyle}
                           >
-                            <div className={`absolute top-1 left-1 font-medium text-xs ${dayTextClass}`}>
+                            <div 
+                              className={`absolute top-1 left-1 font-medium text-xs ${dayTextClass}`}
+                              style={textStyle}
+                            >
                               {day}
                             </div>
                             {dayData && (
-                              <div className={`flex flex-col items-center justify-center h-full ${dayTextClass}`}>
+                              <div 
+                                className={`flex flex-col items-center justify-center h-full ${dayTextClass}`}
+                                style={textStyle}
+                              >
                                 <div className="font-bold text-xs leading-tight text-center">
                                   {calendarViewMode === 'dollar' ? 
                                     (dayData.pnl === 0 ? '$0' : `${dayData.pnl > 0 ? '+' : ''}$${Math.abs(dayData.pnl) >= 1000 ? `${(dayData.pnl/1000).toFixed(1)}K` : dayData.pnl}`) :
