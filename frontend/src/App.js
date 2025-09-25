@@ -4024,7 +4024,23 @@ metadata = {
           </Card>
 
           {/* Top Right: Positions */}
-          <Card className={`relative pane-enhanced ${fullScreenPane === 'positions' ? 'fullscreen-enhanced' : ''}`}>
+          <Card 
+            className={`relative pane-enhanced ${fullScreenPane === 'positions' ? 'fullscreen-enhanced' : ''}`}
+            style={fullScreenPane === 'positions' ? {
+              position: 'fixed',
+              top: '120px',
+              left: '48px', 
+              right: '48px',
+              bottom: '24px',
+              width: 'auto',
+              height: 'auto',
+              zIndex: 9999,
+              margin: 0,
+              backgroundColor: isDarkTheme ? '#171717' : '#FBFCFC',
+              backgroundImage: 'none',
+              backdropFilter: 'none'
+            } : {}}
+          >
             <PaneControls paneId="positions">
               <Button 
                 variant="outline" 
