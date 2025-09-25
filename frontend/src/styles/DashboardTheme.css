@@ -3126,6 +3126,11 @@ html body div div [data-theme="light"] .watchlist-dropdown [data-radix-select-it
   border: 1px solid #ea580c !important;
 }
 
+.calendar-yellow {
+  background-color: #eab308 !important;
+  border: 1px solid #ca8a04 !important;
+}
+
 .calendar-empty {
   border: 1px solid #e5e7eb !important;
   background-color: transparent !important;
