@@ -3941,7 +3941,23 @@ metadata = {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           
           {/* Top Left: Equity Curve */}
-          <Card className={`relative pane-enhanced ${fullScreenPane === 'equity-curve' ? 'fullscreen-enhanced' : ''}`}>
+          <Card 
+            className={`relative pane-enhanced ${fullScreenPane === 'equity-curve' ? 'fullscreen-enhanced' : ''}`}
+            style={fullScreenPane === 'equity-curve' ? {
+              position: 'fixed',
+              top: '120px',
+              left: '48px', 
+              right: '48px',
+              bottom: '24px',
+              width: 'auto',
+              height: 'auto',
+              zIndex: 9999,
+              margin: 0,
+              backgroundColor: isDarkTheme ? '#171717' : '#FBFCFC',
+              backgroundImage: 'none',
+              backdropFilter: 'none'
+            } : {}}
+          >
             <PaneControls paneId="equity-curve">
               <div className="relative">
                 <input
