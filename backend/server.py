@@ -2448,7 +2448,7 @@ async def upload_watchlist_file(
 @app.post("/api/chat/confirm-watchlist")
 async def confirm_watchlist_import(
     request: dict,
-    current_user: dict = Depends(get_current_user)
+    current_user: User = Depends(get_current_user_with_db)
 ):
     """
     Confirm watchlist import with user-specified column mapping
