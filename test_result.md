@@ -224,11 +224,11 @@
 
   - task: "Calendar Conditional Formatting in Dashboard Tab"
     implemented: true
-    working: "partial"
+    working: true
     file: "frontend/src/App.js, frontend/src/styles/DashboardTheme.css"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "testing"
