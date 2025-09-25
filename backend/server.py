@@ -2507,6 +2507,312 @@ async def confirm_watchlist_import(
         )
 
 # ============================================================================
+# WATCHLIST ENDPOINTS
+# ============================================================================
+
+@app.get("/api/watchlists")
+async def get_watchlists(
+    current_user: dict = Depends(get_current_user)
+):
+    """Get all watchlists for the current user"""
+    try:
+        # Get MongoDB connection
+        mongo_db = get_mongodb()
+        
+        # Fetch watchlists
+        cursor = mongo_db.watchlists.find({"user_id": current_user["user_id"]})
+        watchlists = await cursor.to_list(length=None)
+        
+        # Format response
+        formatted_watchlists = []
+        for wl in watchlists:
+            formatted_watchlists.append({
+                "id": wl["id"],
+                "name": wl["name"],
+                "description": wl.get("description"),
+                "columns": wl.get("columns", []),
+                "created_at": wl["created_at"],
+                "updated_at": wl["updated_at"]
+            })
+        
+        return {
+            "watchlists": formatted_watchlists,
+            "total_count": len(formatted_watchlists)
+        }
+        
+    except Exception as e:
+        logger.error(f"Error fetching watchlists: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error fetching watchlists"
+        )
+
+@app.post("/api/watchlists")
+async def create_watchlist(
+    request: dict,
+    current_user: dict = Depends(get_current_user)
+):
+    """Create a new watchlist"""
+    try:
+        name = request.get("name", "").strip()
+        description = request.get("description", "").strip()
+        columns = request.get("columns", [])
+        
+        if not name:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Watchlist name is required"
+            )
+        
+        # Get MongoDB connection
+        mongo_db = get_mongodb()
+        
+        # Check if watchlist name already exists
+        existing = await mongo_db.watchlists.find_one({
+            "user_id": current_user["user_id"],
+            "name": name
+        })
+        
+        if existing:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Watchlist with this name already exists"
+            )
+        
+        # Create watchlist record
+        watchlist_id = str(uuid.uuid4())
+        watchlist_record = {
+            "id": watchlist_id,
+            "user_id": current_user["user_id"],
+            "name": name,
+            "description": description,
+            "columns": columns,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        }
+        
+        # Store watchlist
+        await mongo_db.watchlists.insert_one(watchlist_record)
+        
+        return {
+            "id": watchlist_id,
+            "name": name,
+            "description": description,
+            "columns": columns,
+            "created_at": watchlist_record["created_at"],
+            "updated_at": watchlist_record["updated_at"]
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error creating watchlist: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error creating watchlist"
+        )
+
+@app.get("/api/watchlists/{watchlist_id}/items")
+async def get_watchlist_items(
+    watchlist_id: str,
+    limit: int = 50,
+    offset: int = 0,
+    columns: Optional[str] = None,
+    current_user: dict = Depends(get_current_user)
+):
+    """Get items in a watchlist"""
+    try:
+        # Get MongoDB connection
+        mongo_db = get_mongodb()
+        
+        # Verify watchlist ownership
+        watchlist = await mongo_db.watchlists.find_one({
+            "id": watchlist_id,
+            "user_id": current_user["user_id"]
+        })
+        
+        if not watchlist:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Watchlist not found"
+            )
+        
+        # Count total items
+        total_count = await mongo_db.watchlist_items.count_documents({
+            "watchlist_id": watchlist_id,
+            "user_id": current_user["user_id"]
+        })
+        
+        # Fetch items with pagination
+        cursor = mongo_db.watchlist_items.find({
+            "watchlist_id": watchlist_id,
+            "user_id": current_user["user_id"]
+        }).sort("created_at", -1).skip(offset).limit(limit)
+        
+        items = await cursor.to_list(length=limit)
+        
+        # Format items
+        formatted_items = []
+        for item in items:
+            formatted_items.append({
+                "id": item["id"],
+                "ticker": item["ticker"],
+                "data": item["data"],
+                "created_at": item["created_at"],
+                "updated_at": item["updated_at"]
+            })
+        
+        return {
+            "items": formatted_items,
+            "total_count": total_count,
+            "columns_config": watchlist.get("columns", []),
+            "has_more": (offset + len(formatted_items)) < total_count
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching watchlist items: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error fetching watchlist items"
+        )
+
+@app.post("/api/watchlists/{watchlist_id}/items")
+async def add_watchlist_item(
+    watchlist_id: str,
+    request: dict,
+    current_user: dict = Depends(get_current_user)
+):
+    """Add item to watchlist"""
+    try:
+        ticker = request.get("ticker", "").strip().upper()
+        data = request.get("data", {})
+        
+        if not ticker:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Ticker is required"
+            )
+        
+        # Validate ticker format
+        import re
+        if not re.match(r'^[A-Z0-9]{1,10}$', ticker):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid ticker format"
+            )
+        
+        # Get MongoDB connection
+        mongo_db = get_mongodb()
+        
+        # Verify watchlist ownership
+        watchlist = await mongo_db.watchlists.find_one({
+            "id": watchlist_id,
+            "user_id": current_user["user_id"]
+        })
+        
+        if not watchlist:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Watchlist not found"
+            )
+        
+        # Check for duplicates
+        existing = await mongo_db.watchlist_items.find_one({
+            "watchlist_id": watchlist_id,
+            "user_id": current_user["user_id"],
+            "ticker": ticker
+        })
+        
+        if existing:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail=f"Ticker {ticker} already exists in this watchlist"
+            )
+        
+        # Create item
+        item_id = str(uuid.uuid4())
+        item_record = {
+            "id": item_id,
+            "watchlist_id": watchlist_id,
+            "user_id": current_user["user_id"],
+            "ticker": ticker,
+            "data": data,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        }
+        
+        # Store item
+        await mongo_db.watchlist_items.insert_one(item_record)
+        
+        return {
+            "id": item_id,
+            "ticker": ticker,
+            "data": data,
+            "created_at": item_record["created_at"],
+            "updated_at": item_record["updated_at"]
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error adding watchlist item: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error adding item to watchlist"
+        )
+
+@app.put("/api/watchlists/{watchlist_id}/settings")
+async def update_watchlist_settings(
+    watchlist_id: str,
+    request: dict,
+    current_user: dict = Depends(get_current_user)
+):
+    """Update watchlist column settings"""
+    try:
+        columns = request.get("columns", [])
+        
+        # Get MongoDB connection
+        mongo_db = get_mongodb()
+        
+        # Verify watchlist ownership
+        watchlist = await mongo_db.watchlists.find_one({
+            "id": watchlist_id,
+            "user_id": current_user["user_id"]
+        })
+        
+        if not watchlist:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Watchlist not found"
+            )
+        
+        # Update watchlist
+        await mongo_db.watchlists.update_one(
+            {"id": watchlist_id},
+            {"$set": {
+                "columns": columns,
+                "updated_at": datetime.utcnow()
+            }}
+        )
+        
+        return {
+            "columns_config": columns,
+            "updated_at": datetime.utcnow().isoformat(),
+            "message": "Watchlist settings updated successfully"
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating watchlist settings: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error updating watchlist settings"
+        )
+
+# ============================================================================
 # HEALTH CHECK AND SYSTEM STATUS ENDPOINTS
 # ============================================================================
 
