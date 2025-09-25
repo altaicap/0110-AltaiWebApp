@@ -2034,7 +2034,7 @@ async def get_dashboard_metrics(
     start_date: Optional[str] = None,
     end_date: Optional[str] = None,
     source: Optional[str] = None,
-    current_user: dict = Depends(get_current_user)
+    current_user: User = Depends(get_current_user_with_db)
 ):
     """
     Get comprehensive dashboard metrics with date filtering
