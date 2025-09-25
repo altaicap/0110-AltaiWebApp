@@ -1449,7 +1449,7 @@ async def system_health():
 # Trading Integration Endpoints
 
 # Import trading services and models
-from services.broker_service import broker_service, UnifiedOrder, BrokerType
+from services.broker_service import broker_service, BrokerService, UnifiedOrder, BrokerType
 from models.trading_models import BrokerConnection, TradingAccount, TradingConfiguration, OrderHistory, add_trading_relationships_to_user
 
 # Add trading relationships to User model
