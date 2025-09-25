@@ -4501,19 +4501,25 @@ metadata = {
                           }
                         }
                         
-                        // Get inline styles for absolute color control
+                        // Get inline styles for absolute color control - FORCE COLORS IN BOTH THEMES
                         let containerStyle = {};
-                        let textStyle = { color: 'white' };
+                        let textStyle = {};
                         
                         if (dayData) {
+                          // Always apply background colors regardless of theme
                           if (dayData.pnl > 0) {
-                            containerStyle = { backgroundColor: '#22c55e' }; // Green
+                            containerStyle = { backgroundColor: '#22c55e !important' }; // Green
+                            textStyle = { color: 'white !important' }; // White text on green
                           } else if (dayData.pnl < 0) {
-                            containerStyle = { backgroundColor: '#ef4444' }; // Red
+                            containerStyle = { backgroundColor: '#ef4444 !important' }; // Red
+                            textStyle = { color: 'white !important' }; // White text on red
                           } else {
-                            containerStyle = { backgroundColor: '#eab308' }; // Yellow
+                            containerStyle = { backgroundColor: '#eab308 !important' }; // Yellow
+                            textStyle = { color: 'white !important' }; // White text on yellow
                           }
                         } else {
+                          // Empty days - theme-specific text colors
+                          containerStyle = { backgroundColor: 'transparent' };
                           textStyle = { color: isDarkTheme ? '#9ca3af' : '#6b7280' };
                         }
 
