@@ -2029,19 +2029,22 @@ metadata = {
   const PaneControls = ({ paneId, children }) => (
     <div className="absolute top-2 right-2 flex gap-1 items-center">
       {children && <div className="flex gap-1 mr-1">{children}</div>}
-      <Button
-        size="sm"
-        variant="ghost"
-        className="w-8 h-8 p-0 rounded-full hover:bg-gray-100"
-        onClick={() => toggleMinimize(paneId)}
-        title={minimizedPanes.has(paneId) ? "Expand pane" : "Minimize pane"}
-      >
-        {minimizedPanes.has(paneId) ? (
-          <Expand className="w-4 h-4" />
-        ) : (
-          <Minus className="w-4 h-4" />
-        )}
-      </Button>
+      {/* Hide minimize button when pane is fullscreen */}
+      {fullScreenPane !== paneId && (
+        <Button
+          size="sm"
+          variant="ghost"
+          className="w-8 h-8 p-0 rounded-full hover:bg-gray-100"
+          onClick={() => toggleMinimize(paneId)}
+          title={minimizedPanes.has(paneId) ? "Expand pane" : "Minimize pane"}
+        >
+          {minimizedPanes.has(paneId) ? (
+            <Expand className="w-4 h-4" />
+          ) : (
+            <Minus className="w-4 h-4" />
+          )}
+        </Button>
+      )}
       <Button
         size="sm"
         variant="ghost"
