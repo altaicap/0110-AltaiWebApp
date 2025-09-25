@@ -1903,38 +1903,55 @@ button svg.text-black {
   z-index: 2;
 }
 
-/* Fullscreen Enhanced Styling */
+/* Fullscreen Enhanced Styling - COMPLETELY OPAQUE */
 .fullscreen-enhanced {
   position: fixed !important;
-  top: 80px !important; /* Space for dashboard tab bar */
-  left: 24px !important; /* Align with AI interface spacing */
-  right: 24px !important; /* Equal spacing on both sides */
-  bottom: 24px !important; /* Small bottom spacing */
+  top: 120px !important; /* Larger space for dashboard tab bar */
+  left: 48px !important; /* Match AI interface spacing from left edge */
+  right: 48px !important; /* Match rightmost pane spacing from right edge */
+  bottom: 24px !important;
   width: auto !important;
   height: auto !important;
   z-index: 9999 !important;
   margin: 0 !important;
-  border-radius: 0.875rem !important; /* Keep rounded corners */
+  border-radius: 0.875rem !important;
   max-width: none !important;
   max-height: none !important;
   opacity: 1 !important;
   backdrop-filter: none !important;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important; /* Strong shadow for depth */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
 }
 
-/* Ensure fullscreen panes are completely opaque in both themes */
+/* AGGRESSIVE OPACITY FIXES - NO TRANSPARENCY AT ALL */
 [data-theme="dark"] .fullscreen-enhanced,
-html[data-theme="dark"] .fullscreen-enhanced {
-  background: #171717 !important; /* Solid dark background - no transparency */
+html[data-theme="dark"] .fullscreen-enhanced,
+body[data-theme="dark"] .fullscreen-enhanced,
+div[data-theme="dark"] .fullscreen-enhanced {
+  background: #171717 !important; /* SOLID dark background */
+  background-color: #171717 !important;
+  background-image: none !important; 
   backdrop-filter: none !important;
-  background-image: none !important; /* Remove any gradients */
+  -webkit-backdrop-filter: none !important;
 }
 
 [data-theme="light"] .fullscreen-enhanced,
-html[data-theme="light"] .fullscreen-enhanced {
-  background: #FBFCFC !important; /* Solid light background - no transparency */
+html[data-theme="light"] .fullscreen-enhanced,
+body[data-theme="light"] .fullscreen-enhanced,
+div[data-theme="light"] .fullscreen-enhanced {
+  background: #FBFCFC !important; /* SOLID light background */
+  background-color: #FBFCFC !important;
+  background-image: none !important;
   backdrop-filter: none !important;
-  background-image: none !important; /* Remove any gradients */
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Override any card gradients when fullscreen */
+.fullscreen-enhanced.card,
+.fullscreen-enhanced .card,
+.fullscreen-enhanced[class*="Card"],
+.fullscreen-enhanced div[class*="Card"] {
+  background: inherit !important;
+  background-image: none !important;
 }
 
 /* Cards/Panels/Widgets */
