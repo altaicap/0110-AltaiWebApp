@@ -11,6 +11,9 @@ from enum import Enum
 
 from services.tradestation_service import TradeStationService, TradeStationOrder
 from services.ibkr_service import IBKRService, IBKROrder
+from services.robinhood_service import RobinhoodService, RobinhoodOrder
+from services.coinbase_service import CoinbaseService, CoinbaseOrder
+from services.kraken_service import KrakenService, KrakenOrder
 
 logger = logging.getLogger(__name__)
 
