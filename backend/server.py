@@ -2970,7 +2970,7 @@ async def liveness_check():
 
 @app.get("/api/system/status")
 async def get_system_status(
-    current_user: dict = Depends(get_current_user)
+    current_user: User = Depends(get_current_user_with_db)
 ):
     """Detailed system status for admin monitoring"""
     try:
