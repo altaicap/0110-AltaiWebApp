@@ -2846,12 +2846,18 @@ async def health_check():
         
         # Test SQL Database connection
         try:
-            # Test SQL database connection using the database manager
-            db_manager.get_sql_session().execute("SELECT 1")
-            health_status["databases"]["postgresql"] = {
-                "status": "healthy",
-                "message": "Connected successfully"
-            }
+            # Test PostgreSQL connection (using proper session management)
+            from database import SessionLocal
+            db = SessionLocal()
+            try:
+                # Simple query to test connection  
+                result = db.execute("SELECT 1")
+                health_status["databases"]["postgresql"] = {
+                    "status": "healthy",
+                    "message": "Connected successfully"
+                }
+            finally:
+                db.close()
         except Exception as e:
             health_status["databases"]["postgresql"] = {
                 "status": "unhealthy",
