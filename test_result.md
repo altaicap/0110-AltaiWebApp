@@ -1046,6 +1046,7 @@ Create a professional landing page for Altai Trader that hides the WebApp featur
 
 ## test_plan:
   current_focus:
+    - "Calendar Conditional Formatting in Dashboard Tab"
     - "Field Type Dropdown Container Removal in Watchlist Settings Modal"
   stuck_tasks: 
     - "Inline Style Icon Color Fixes for Backtest & Configure and New Strategy Buttons"
