@@ -106,6 +106,51 @@ class UnifiedOrder:
             stop_price=self.stop_price,
             time_in_force=self.time_in_force
         )
+    
+    def to_robinhood_order(self) -> RobinhoodOrder:
+        """Convert to Robinhood order format"""
+        # Map unified action to Robinhood format
+        rh_action = "buy" if self.action in ["BUY", "BTC"] else "sell"
+        
+        return RobinhoodOrder(
+            symbol=self.symbol,
+            action=rh_action,
+            quantity=self.quantity,
+            order_type=self.order_type.lower(),
+            limit_price=self.limit_price,
+            stop_price=self.stop_price,
+            time_in_force=self.time_in_force.lower()
+        )
+    
+    def to_coinbase_order(self) -> CoinbaseOrder:
+        """Convert to Coinbase order format"""
+        # Map unified action to Coinbase format
+        cb_action = "buy" if self.action in ["BUY", "BTC"] else "sell"
+        
+        return CoinbaseOrder(
+            symbol=self.symbol,
+            action=cb_action,
+            quantity=float(self.quantity),  # Coinbase uses float for crypto quantities
+            order_type=self.order_type.lower(),
+            limit_price=self.limit_price,
+            stop_price=self.stop_price,
+            time_in_force=self.time_in_force
+        )
+    
+    def to_kraken_order(self) -> KrakenOrder:
+        """Convert to Kraken order format"""
+        # Map unified action to Kraken format
+        kr_action = "buy" if self.action in ["BUY", "BTC"] else "sell"
+        
+        return KrakenOrder(
+            symbol=self.symbol,
+            action=kr_action,
+            quantity=float(self.quantity),
+            order_type=self.order_type.lower(),
+            limit_price=self.limit_price,
+            stop_price=self.stop_price,
+            time_in_force=self.time_in_force
+        )
 
 class BrokerService:
     """Unified broker service managing multiple broker integrations"""
