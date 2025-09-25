@@ -4032,10 +4032,10 @@ metadata = {
             className={`relative pane-enhanced ${fullScreenPane === 'positions' ? 'fullscreen-enhanced' : ''}`}
             style={fullScreenPane === 'positions' ? {
               position: 'fixed',
-              top: '200px',
-              left: '80px', 
-              right: '80px',
-              bottom: '40px',
+              top: '160px',
+              left: '28px', 
+              right: '28px',
+              bottom: '32px',
               width: 'auto',
               height: 'auto',
               zIndex: 9999,
