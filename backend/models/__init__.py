@@ -27,6 +27,17 @@ Transaction = models_module.Transaction
 Notification = models_module.Notification
 SUBSCRIPTION_PLANS = models_module.SUBSCRIPTION_PLANS
 
+# Trading models (Pydantic)
+TradeModel = models_module.TradeModel
+DailyPerformanceModel = models_module.DailyPerformanceModel
+StrategyModel = models_module.StrategyModel
+BacktestModel = models_module.BacktestModel
+WatchlistModel = models_module.WatchlistModel
+WatchlistItemModel = models_module.WatchlistItemModel
+BrokerConnectionModel = models_module.BrokerConnectionModel
+DashboardMetricsResponse = models_module.DashboardMetricsResponse
+BacktestResultsResponse = models_module.BacktestResultsResponse
+
 __all__ = [
     'Base',
     'User', 
@@ -34,5 +45,14 @@ __all__ = [
     'PaymentMethod',
     'Transaction',
     'Notification',
-    'SUBSCRIPTION_PLANS'
+    'SUBSCRIPTION_PLANS',
+    'TradeModel',
+    'DailyPerformanceModel', 
+    'StrategyModel',
+    'BacktestModel',
+    'WatchlistModel',
+    'WatchlistItemModel',
+    'BrokerConnectionModel',
+    'DashboardMetricsResponse',
+    'BacktestResultsResponse'
 ]
