@@ -3110,16 +3110,22 @@ html body div div [data-theme="light"] .watchlist-dropdown [data-radix-select-it
   background-color: #374151 !important;
 }
 
-/* Calendar day colors - SIMPLE AND DIRECT */
-.calendar-green {
+/* Calendar day colors - HIGH SPECIFICITY TO OVERRIDE TAILWIND */
+div.calendar-green,
+[data-theme="dark"] div.calendar-green,
+[data-theme="light"] div.calendar-green {
   background-color: #22c55e !important;
 }
 
-.calendar-red {
+div.calendar-red,
+[data-theme="dark"] div.calendar-red,
+[data-theme="light"] div.calendar-red {
   background-color: #ef4444 !important;
 }
 
-.calendar-yellow {
+div.calendar-yellow,
+[data-theme="dark"] div.calendar-yellow,
+[data-theme="light"] div.calendar-yellow {
   background-color: #eab308 !important;
 }
 
