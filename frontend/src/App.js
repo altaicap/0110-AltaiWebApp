@@ -1782,8 +1782,6 @@ metadata = {
   };
 
   const toggleFullScreen = (paneId) => {
-    console.log('toggleFullScreen called with:', paneId);
-    console.log('current fullScreenPane:', fullScreenPane);
     setFullScreenPane(fullScreenPane === paneId ? null : paneId);
   };
 
