@@ -3789,7 +3789,8 @@ metadata = {
         </div>
 
         {/* Trading Highlights Pane */}
-        <Card className="relative pane-enhanced w-full trading-highlights-pane">
+        <Card className={`relative pane-enhanced w-full trading-highlights-pane ${fullScreenPane === 'trading-highlights' ? 'fullscreen-enhanced' : ''}`}>
+          <PaneControls paneId="trading-highlights" />
           <CardHeader className="pb-4">
             <CardTitle className="text-lg">Trading Performance Highlights</CardTitle>
           </CardHeader>
