@@ -158,6 +158,33 @@ class BrokerService:
                 "features": ["stocks", "options", "futures", "forex", "bonds"],
                 "order_types": ["MARKET", "LIMIT", "STOP", "STOP_LIMIT"],
                 "description": "Interactive Brokers with OAuth 2.0 private key JWT"
+            },
+            "robinhood": {
+                "name": "Robinhood",
+                "type": "robinhood",
+                "configured": self.robinhood.is_configured(),
+                "oauth_type": "authorization_code",
+                "features": ["stocks", "options", "crypto"],
+                "order_types": ["MARKET", "LIMIT", "STOP_LOSS", "STOP_LIMIT"],
+                "description": "Commission-free stock and crypto trading"
+            },
+            "coinbase": {
+                "name": "Coinbase",
+                "type": "coinbase",
+                "configured": self.coinbase.is_configured(),
+                "oauth_type": "authorization_code",
+                "features": ["crypto", "staking"],
+                "order_types": ["MARKET", "LIMIT"],
+                "description": "Leading cryptocurrency exchange and wallet"
+            },
+            "kraken": {
+                "name": "Kraken",
+                "type": "kraken",
+                "configured": self.kraken.is_configured(),
+                "oauth_type": "authorization_code", 
+                "features": ["crypto", "margin", "futures", "staking"],
+                "order_types": ["MARKET", "LIMIT", "STOP_LOSS", "TAKE_PROFIT"],
+                "description": "Advanced cryptocurrency exchange with margin trading"
             }
         }
     
