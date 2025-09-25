@@ -4503,24 +4503,29 @@ metadata = {
                         
                         // Get inline styles for absolute color control - FORCE COLORS IN BOTH THEMES
                         let containerStyle = {};
-                        let textStyle = {};
+                        let dayNumberTextStyle = {};
+                        let pnlTextStyle = {};
                         
                         if (dayData) {
                           // Always apply background colors regardless of theme
                           if (dayData.pnl > 0) {
-                            containerStyle = { backgroundColor: '#22c55e !important' }; // Green
-                            textStyle = { color: 'white !important' }; // White text on green
+                            containerStyle = { backgroundColor: '#22c55e' }; // Green
+                            dayNumberTextStyle = { color: '#ffffff' }; // White text on green
+                            pnlTextStyle = { color: '#ffffff' }; // White text on green
                           } else if (dayData.pnl < 0) {
-                            containerStyle = { backgroundColor: '#ef4444 !important' }; // Red
-                            textStyle = { color: 'white !important' }; // White text on red
+                            containerStyle = { backgroundColor: '#ef4444' }; // Red
+                            dayNumberTextStyle = { color: '#ffffff' }; // White text on red
+                            pnlTextStyle = { color: '#ffffff' }; // White text on red
                           } else {
-                            containerStyle = { backgroundColor: '#eab308 !important' }; // Yellow
-                            textStyle = { color: 'white !important' }; // White text on yellow
+                            containerStyle = { backgroundColor: '#eab308' }; // Yellow
+                            dayNumberTextStyle = { color: '#ffffff' }; // White text on yellow
+                            pnlTextStyle = { color: '#ffffff' }; // White text on yellow
                           }
                         } else {
                           // Empty days - theme-specific text colors
-                          containerStyle = { backgroundColor: 'transparent' };
-                          textStyle = { color: isDarkTheme ? '#9ca3af' : '#6b7280' };
+                          containerStyle = {};
+                          dayNumberTextStyle = { color: isDarkTheme ? '#9ca3af' : '#6b7280' };
+                          pnlTextStyle = { color: isDarkTheme ? '#9ca3af' : '#6b7280' };
                         }
 
                         calendar.push(
