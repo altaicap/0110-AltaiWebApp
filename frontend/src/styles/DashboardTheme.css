@@ -3168,25 +3168,31 @@ html[data-theme="light"] body div.calendar-yellow {
   color: #9ca3af !important;
 }
 
-/* Light theme specific overrides - FORCE COLORS */
-html[data-theme="light"] body div.calendar-green,
-body[data-theme="light"] div.calendar-green {
+/* NUCLEAR OPTION - FORCE LIGHT THEME COLORS */
+html[data-theme="light"] .h-12.rounded.p-1.flex.flex-col.relative.calendar-green,
+html[data-theme="light"] div.calendar-green,
+[data-theme="light"] div.calendar-green,
+.calendar-green {
   background-color: #22c55e !important;
 }
 
-html[data-theme="light"] body div.calendar-red,
-body[data-theme="light"] div.calendar-red {
+html[data-theme="light"] .h-12.rounded.p-1.flex.flex-col.relative.calendar-red,
+html[data-theme="light"] div.calendar-red,
+[data-theme="light"] div.calendar-red,
+.calendar-red {
   background-color: #ef4444 !important;
 }
 
-html[data-theme="light"] body div.calendar-yellow,
-body[data-theme="light"] div.calendar-yellow {
+html[data-theme="light"] .h-12.rounded.p-1.flex.flex-col.relative.calendar-yellow,
+html[data-theme="light"] div.calendar-yellow,
+[data-theme="light"] div.calendar-yellow,
+.calendar-yellow {
   background-color: #eab308 !important;
 }
 
-/* Force white text on colored containers in light theme */
-html[data-theme="light"] body div.calendar-text-white,
-body[data-theme="light"] div.calendar-text-white {
+/* NUCLEAR OPTION - FORCE LIGHT THEME TEXT */
+html[data-theme="light"] .calendar-text-white,
+[data-theme="light"] .calendar-text-white {
   color: white !important;
 }
 
