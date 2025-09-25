@@ -2057,6 +2057,159 @@ async def toggle_live_trading(
             detail=f"Error updating configuration: {str(e)}"
         )
 
+# ============================================================================
+# DASHBOARD METRICS ENDPOINTS
+# ============================================================================
+
+@app.get("/api/metrics/dashboard", response_model=DashboardMetricsResponse)
+async def get_dashboard_metrics(
+    start_date: Optional[str] = None,
+    end_date: Optional[str] = None,
+    source: Optional[str] = None,
+    current_user: dict = Depends(get_current_user)
+):
+    """
+    Get comprehensive dashboard metrics with date filtering
+    
+    Query Parameters:
+    - start_date: ISO date string (YYYY-MM-DD), defaults to 1 year ago
+    - end_date: ISO date string (YYYY-MM-DD), defaults to today
+    - source: Filter by trade source ('backtest', 'live', 'paper')
+    """
+    try:
+        # Parse dates
+        parsed_start = None
+        parsed_end = None
+        
+        if start_date:
+            try:
+                parsed_start = datetime.fromisoformat(start_date).date()
+            except ValueError:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Invalid start_date format. Use YYYY-MM-DD"
+                )
+        
+        if end_date:
+            try:
+                parsed_end = datetime.fromisoformat(end_date).date()
+            except ValueError:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Invalid end_date format. Use YYYY-MM-DD"
+                )
+        
+        # Get MongoDB connection
+        mongo_db = get_mongodb()
+        
+        # Get metrics service and calculate dashboard metrics
+        metrics_service = get_metrics_service(mongo_db)
+        
+        metrics = await metrics_service.get_dashboard_metrics(
+            user_id=current_user["user_id"],
+            start_date=parsed_start,
+            end_date=parsed_end,
+            source_filter=source
+        )
+        
+        return metrics
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching dashboard metrics: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error fetching dashboard metrics"
+        )
+
+@app.get("/api/metrics/daily-pnl")
+async def get_daily_pnl(
+    start_date: str,
+    end_date: str,
+    mode: str = "dollar",
+    current_user: dict = Depends(get_current_user)
+):
+    """
+    Get daily P&L series for calendar and charts
+    
+    Query Parameters:
+    - start_date: ISO date string (YYYY-MM-DD)
+    - end_date: ISO date string (YYYY-MM-DD)
+    - mode: 'dollar', 'runit', or 'percentage'
+    """
+    try:
+        # Parse dates
+        try:
+            parsed_start = datetime.fromisoformat(start_date).date()
+            parsed_end = datetime.fromisoformat(end_date).date()
+        except ValueError:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid date format. Use YYYY-MM-DD"
+            )
+        
+        # Validate mode
+        if mode not in ["dollar", "runit", "percentage"]:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Mode must be 'dollar', 'runit', or 'percentage'"
+            )
+        
+        # Get MongoDB connection
+        mongo_db = get_mongodb()
+        
+        # Get metrics service and fetch daily P&L
+        metrics_service = get_metrics_service(mongo_db)
+        
+        daily_pnl = await metrics_service.get_daily_pnl_series(
+            user_id=current_user["user_id"],
+            start_date=parsed_start,
+            end_date=parsed_end,
+            mode=mode
+        )
+        
+        return daily_pnl
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching daily P&L: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error fetching daily P&L"
+        )
+
+@app.post("/api/metrics/create-sample-data")
+async def create_sample_data(
+    current_user: dict = Depends(get_current_user)
+):
+    """
+    Create sample trading data for testing (development only)
+    """
+    try:
+        # Get MongoDB connection
+        mongo_db = get_mongodb()
+        
+        # Get metrics service and create sample data
+        metrics_service = get_metrics_service(mongo_db)
+        
+        result = await metrics_service.create_sample_data(
+            user_id=current_user["user_id"]
+        )
+        
+        return {
+            "message": "Sample data created successfully",
+            "details": result
+        }
+        
+    except Exception as e:
+        logger.error(f"Error creating sample data: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error creating sample data"
+        )
+
 # ================================
 # Support Endpoints
 # ================================
