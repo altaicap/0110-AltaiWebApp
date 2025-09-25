@@ -3138,12 +3138,19 @@ div.calendar-yellow,
   border: 1px solid #374151 !important;
 }
 
-/* Calendar text colors - SIMPLE */
-.calendar-text-white {
+/* Calendar text colors - HIGH SPECIFICITY */
+div.calendar-text-white,
+.calendar-green div.calendar-text-white,
+.calendar-red div.calendar-text-white,
+.calendar-yellow div.calendar-text-white,
+[data-theme="dark"] div.calendar-text-white,
+[data-theme="light"] div.calendar-text-white {
   color: white !important;
 }
 
-.calendar-text-gray {
+div.calendar-text-gray,
+[data-theme="dark"] div.calendar-text-gray,
+[data-theme="light"] div.calendar-text-gray {
   color: #9ca3af !important;
 }
 
