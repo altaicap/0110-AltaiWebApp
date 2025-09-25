@@ -2618,7 +2618,7 @@ async def get_watchlist_items(
     limit: int = 50,
     offset: int = 0,
     columns: Optional[str] = None,
-    current_user: dict = Depends(get_current_user)
+    current_user: User = Depends(get_current_user_with_db)
 ):
     """Get items in a watchlist"""
     try:
