@@ -2306,7 +2306,7 @@ async def list_backtests(
     limit: int = 20,
     offset: int = 0,
     status_filter: Optional[str] = None,
-    current_user: dict = Depends(get_current_user)
+    current_user: User = Depends(get_current_user_with_db)
 ):
     """List user's backtests with pagination and filtering"""
     try:
