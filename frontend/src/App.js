@@ -4367,7 +4367,7 @@ metadata = {
           </Card>
 
           {/* Bottom Left: Calendar */}
-          <Card className="relative pane-enhanced">
+          <Card className={`relative pane-enhanced ${fullScreenPane === 'calendar' ? 'fullscreen-enhanced' : ''}`}>
             <PaneControls paneId="calendar">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
