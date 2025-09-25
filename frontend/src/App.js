@@ -3793,13 +3793,12 @@ metadata = {
           className={`relative pane-enhanced w-full trading-highlights-pane ${fullScreenPane === 'trading-highlights' ? 'fullscreen-enhanced' : ''}`}
           style={(() => {
             const isFullscreen = fullScreenPane === 'trading-highlights';
-            console.log('Trading Highlights isFullscreen:', isFullscreen, 'fullScreenPane:', fullScreenPane);
             return isFullscreen ? {
               position: 'fixed',
-              top: '200px',
-              left: '80px', 
-              right: '80px',
-              bottom: '40px',
+              top: '160px',
+              left: '28px', 
+              right: '28px',
+              bottom: '32px',
               width: 'auto',
               height: 'auto',
               zIndex: 9999,
@@ -3811,7 +3810,6 @@ metadata = {
             } : {};
           })()}
         >
-          <PaneControls paneId="trading-highlights" />
           <CardHeader className="pb-4">
             <CardTitle className="text-lg">Trading Performance Highlights</CardTitle>
           </CardHeader>
