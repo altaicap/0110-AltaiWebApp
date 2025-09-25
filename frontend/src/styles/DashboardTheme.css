@@ -3153,17 +3153,26 @@ html body div.calendar-yellow,
 }
 
 /* Calendar text colors */
-.calendar-text-white {
+html body div.calendar-text-white,
+.calendar-text-white,
+[data-theme="dark"] .calendar-text-white,
+[data-theme="light"] .calendar-text-white {
   color: white !important;
   font-weight: 600 !important;
 }
 
-.calendar-text-gray {
+html body div.calendar-text-gray,
+.calendar-text-gray,
+[data-theme="dark"] .calendar-text-gray,
+[data-theme="light"] .calendar-text-gray {
   color: #6b7280 !important;
   font-weight: 500 !important;
 }
 
-.calendar-text-black {
+html body div.calendar-text-black,
+.calendar-text-black,
+[data-theme="dark"] .calendar-text-black,
+[data-theme="light"] .calendar-text-black {
   color: #000000 !important;
   font-weight: 600 !important;
 }
