@@ -3168,33 +3168,18 @@ html[data-theme="light"] body div.calendar-yellow {
   color: #9ca3af !important;
 }
 
-/* ULTIMATE NUCLEAR OPTION - OVERRIDE 63+ TRANSPARENT BACKGROUND RULES */
-html[data-theme="light"] body div.h-12.rounded.p-1.flex.flex-col.relative[style*="background"],
-html[data-theme="light"] body .h-12.rounded.p-1.flex.flex-col.relative[style*="background"],
-html[data-theme="light"] div[style*="backgroundColor: rgb(34, 197, 94)"],
-html[data-theme="light"] div[style*="backgroundColor: rgb(239, 68, 68)"],
-html[data-theme="light"] div[style*="backgroundColor: rgb(234, 179, 8)"],
-[data-theme="light"] div[style*="#22c55e"],
-[data-theme="light"] div[style*="#ef4444"],
-[data-theme="light"] div[style*="#eab308"] {
-  background-color: inherit !important;
-  background: inherit !important;
-}
-
-/* Force specific calendar colors with attribute selectors */
-html[data-theme="light"] div[style*="#22c55e"] {
-  background-color: #22c55e !important;
-  background: #22c55e !important;
-}
-
-html[data-theme="light"] div[style*="#ef4444"] {
-  background-color: #ef4444 !important;
-  background: #ef4444 !important;
-}
-
-html[data-theme="light"] div[style*="#eab308"] {
-  background-color: #eab308 !important;
-  background: #eab308 !important;
+/* ULTIMATE CALENDAR FIX - TARGET INLINE STYLES DIRECTLY */
+html body [data-theme="light"] div[style*="backgroundColor"][style*="#22c55e"],
+html body [data-theme="light"] div[style*="backgroundColor"][style*="#ef4444"],
+html body [data-theme="light"] div[style*="backgroundColor"][style*="#eab308"],
+[data-theme="light"] div[style*="backgroundColor"][style*="#22c55e"],
+[data-theme="light"] div[style*="backgroundColor"][style*="#ef4444"], 
+[data-theme="light"] div[style*="backgroundColor"][style*="#eab308"],
+div.h-12.rounded[style*="backgroundColor"][style*="#22c55e"],
+div.h-12.rounded[style*="backgroundColor"][style*="#ef4444"],
+div.h-12.rounded[style*="backgroundColor"][style*="#eab308"] {
+  background: unset !important;
+  background-color: unset !important;
 }
 
 /* Default calendar text styling */
