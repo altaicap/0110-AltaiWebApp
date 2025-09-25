@@ -3113,19 +3113,25 @@ html body div div [data-theme="light"] .watchlist-dropdown [data-radix-select-it
 /* Calendar day colors - HIGH SPECIFICITY TO OVERRIDE TAILWIND */
 div.calendar-green,
 [data-theme="dark"] div.calendar-green,
-[data-theme="light"] div.calendar-green {
+[data-theme="light"] div.calendar-green,
+html[data-theme="light"] div.calendar-green,
+body[data-theme="light"] div.calendar-green {
   background-color: #22c55e !important;
 }
 
 div.calendar-red,
 [data-theme="dark"] div.calendar-red,
-[data-theme="light"] div.calendar-red {
+[data-theme="light"] div.calendar-red,
+html[data-theme="light"] div.calendar-red,
+body[data-theme="light"] div.calendar-red {
   background-color: #ef4444 !important;
 }
 
 div.calendar-yellow,
 [data-theme="dark"] div.calendar-yellow,
-[data-theme="light"] div.calendar-yellow {
+[data-theme="light"] div.calendar-yellow,
+html[data-theme="light"] div.calendar-yellow,
+body[data-theme="light"] div.calendar-yellow {
   background-color: #eab308 !important;
 }
 
