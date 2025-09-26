@@ -1903,6 +1903,31 @@ button svg.text-black {
   z-index: 2;
 }
 
+/* Apply Date Filter button - force signature colors */
+[data-theme="light"] button:has-text("Apply Date Filter"),
+html[data-theme="light"] button[class*="bg-[#0E6D73]"] {
+  background-color: #0E6D73 !important;
+  border-color: #0E6D73 !important;
+}
+
+[data-theme="light"] button:has-text("Apply Date Filter"):hover,
+html[data-theme="light"] button[class*="bg-[#0E6D73]"]:hover {
+  background-color: #0A5A5F !important;
+}
+
+[data-theme="dark"] button:has-text("Apply Date Filter"),
+html[data-theme="dark"] button[class*="dark:bg-[#00BD7D]"] {
+  background-color: #00BD7D !important;
+  border-color: #00BD7D !important;
+  color: black !important;
+}
+
+[data-theme="dark"] button:has-text("Apply Date Filter"):hover,
+html[data-theme="dark"] button[class*="dark:bg-[#00BD7D]"]:hover {
+  background-color: #009963 !important;
+  color: black !important;
+}
+
 /* Calendar day containers - 3x taller when fullscreen */
 .fullscreen-enhanced .h-12.rounded {
   height: 9rem !important; /* 3x taller than h-12 (3rem) */
