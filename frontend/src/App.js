@@ -6886,17 +6886,16 @@ metadata = {
                         size="sm" 
                         className="text-xs"
                         onClick={() => {
+                          const allTimeStart = new Date('2020-01-01');
                           const today = new Date();
-                          const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
-                          const lastMonthEnd = new Date(today.getFullYear(), today.getMonth(), 0);
                           setDateRangeFilter({
-                            startDate: lastMonth.toISOString().split('T')[0],
-                            endDate: lastMonthEnd.toISOString().split('T')[0],
+                            startDate: allTimeStart.toISOString().split('T')[0],
+                            endDate: today.toISOString().split('T')[0],
                             isCustomRange: true
                           });
                         }}
                       >
-                        Last Month
+                        All Time
                       </Button>
                       <Button 
                         variant="outline" 
