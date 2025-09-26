@@ -6985,7 +6985,7 @@ metadata = {
 
                     {/* Apply Filter Button */}
                     <Button 
-                      className="w-full bg-green-600 hover:bg-green-700 dark:bg-[#00BD7D] dark:hover:bg-[#00A86B] text-white border-green-600 dark:border-[#00BD7D]"
+                      className="w-full bg-[#0E6D73] hover:bg-[#0A5A5F] dark:bg-[#00BD7D] dark:hover:bg-[#009963] text-white dark:text-black border-[#0E6D73] dark:border-[#00BD7D]"
                       size="sm"
                       onClick={() => {
                         // Here you would typically call an API to fetch filtered data
