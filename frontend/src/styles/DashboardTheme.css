@@ -1908,6 +1908,17 @@ button svg.text-black {
   height: 9rem !important; /* 3x taller than h-12 (3rem) */
 }
 
+/* Calendar day font sizes - 3x larger when fullscreen */
+.fullscreen-enhanced .h-12.rounded div,
+.fullscreen-enhanced .h-12.rounded span,
+.fullscreen-enhanced .h-12.rounded .text-xs {
+  font-size: 1rem !important; /* 3x larger than text-xs (0.75rem -> 2.25rem, but 1rem is more reasonable) */
+}
+
+.fullscreen-enhanced .h-12.rounded .text-sm {
+  font-size: 1.5rem !important; /* 3x larger than text-sm */
+}
+
 /* NUCLEAR OPTION - ABSOLUTE HIGHEST SPECIFICITY FULLSCREEN STYLING */
 html body div#root div div div div.fullscreen-enhanced,
 html body div#root div div div div.fullscreen-enhanced.card,
