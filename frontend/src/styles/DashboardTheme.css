@@ -1903,6 +1903,11 @@ button svg.text-black {
   z-index: 2;
 }
 
+/* Calendar day containers - 3x taller when fullscreen */
+.fullscreen-enhanced .h-12.rounded {
+  height: 9rem !important; /* 3x taller than h-12 (3rem) */
+}
+
 /* NUCLEAR OPTION - ABSOLUTE HIGHEST SPECIFICITY FULLSCREEN STYLING */
 html body div#root div div div div.fullscreen-enhanced,
 html body div#root div div div div.fullscreen-enhanced.card,
