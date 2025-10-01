@@ -774,6 +774,8 @@ function App() {
     end_date: null,
     portfolio_value: 100000 // Default $100,000
   });
+  const [selectedWatchlistForBacktest, setSelectedWatchlistForBacktest] = useState(null);
+  const [useWatchlistForBacktest, setUseWatchlistForBacktest] = useState(false);
   const [strategyParams, setStrategyParams] = useState({});
   const [runningBacktest, setRunningBacktest] = useState(false);
   const [symbolInput, setSymbolInput] = useState('');
