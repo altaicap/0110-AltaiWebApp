@@ -6103,6 +6103,33 @@ metadata = {
               variant="outline" 
               size="sm" 
               className="text-xs mr-2"
+              onClick={() => {
+                // Export watchlist to CSV
+                const csvContent = [
+                  ['Date', 'Ticker', ...Object.keys(watchlistColumnConfig).filter(k => watchlistColumnConfig[k].visible).map(k => watchlistColumnConfig[k].name)].join(','),
+                  ...watchlistEntries.map(entry => [
+                    entry.date,
+                    entry.ticker,
+                    ...Object.keys(watchlistColumnConfig).filter(k => watchlistColumnConfig[k].visible).map(k => entry[k] || '')
+                  ].join(','))
+                ].join('\n');
+                
+                const blob = new Blob([csvContent], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `watchlist_${new Date().toISOString().split('T')[0]}.csv`;
+                a.click();
+                window.URL.revokeObjectURL(url);
+              }}
+            >
+              <Download className="h-3 w-3 mr-1" />
+              Export CSV
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="text-xs mr-2"
               onClick={() => setShowWatchlistSettings(true)}
             >
               <Settings2 className="h-3 w-3 mr-1" />
