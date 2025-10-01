@@ -7924,7 +7924,7 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">BILLING & SUBSCRIPTION</h3>
         
         {/* Plan Selection */}
-        <div className="p-4 border rounded-lg border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700">
+        <div className="p-4 border rounded-lg border-gray-200 dark:border-gray-600">
           <h4 className="font-medium mb-3 text-gray-900 dark:text-white">Choose Your Plan</h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Basic Plan */}
