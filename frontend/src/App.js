@@ -7988,7 +7988,7 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
         </div>
 
         {/* Current Subscription Details */}
-        <div className="p-4 border rounded-lg border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700">
+        <div className="p-4 border rounded-lg border-gray-200 dark:border-gray-600">
           <h4 className="font-medium mb-3 text-gray-900 dark:text-white">Subscription Details</h4>
           <div className="flex items-center justify-between mb-3">
             <div>
