@@ -7798,8 +7798,11 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
     
     const updateData = {
       name: formData.name,
-      email: formData.email
     };
+    
+    if (formData.newEmail) {
+      updateData.email = formData.newEmail;
+    }
     
     if (formData.newPassword) {
       updateData.currentPassword = formData.currentPassword;
