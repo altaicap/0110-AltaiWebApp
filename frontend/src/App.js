@@ -7891,11 +7891,73 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
       {/* Billing Information */}
       <div className="space-y-4">
         <h3 className="text-lg font-semibold">BILLING & SUBSCRIPTION</h3>
+        
+        {/* Plan Selection */}
         <div className="p-4 border rounded-lg">
+          <h4 className="font-medium mb-3">Choose Your Plan</h4>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Basic Plan */}
+            <div className="p-4 border rounded-lg hover:shadow-md transition-shadow">
+              <div className="text-center">
+                <h5 className="font-semibold">Basic</h5>
+                <div className="text-2xl font-bold mt-2">$29<span className="text-sm font-normal">/month</span></div>
+                <ul className="text-sm text-gray-600 mt-3 space-y-1">
+                  <li>• Basic backtesting</li>
+                  <li>• 2 broker connections</li>
+                  <li>• Email support</li>
+                </ul>
+                <Button variant="outline" size="sm" className="w-full mt-3">
+                  Select Basic
+                </Button>
+              </div>
+            </div>
+            
+            {/* Professional Plan */}
+            <div className="p-4 border-2 border-blue-500 rounded-lg relative bg-blue-50">
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                <Badge className="bg-blue-500">Current Plan</Badge>
+              </div>
+              <div className="text-center">
+                <h5 className="font-semibold">Professional</h5>
+                <div className="text-2xl font-bold mt-2">$99<span className="text-sm font-normal">/month</span></div>
+                <ul className="text-sm text-gray-600 mt-3 space-y-1">
+                  <li>• Advanced backtesting</li>
+                  <li>• All broker connections</li>
+                  <li>• AI-powered insights</li>
+                  <li>• Priority support</li>
+                </ul>
+                <Button variant="outline" size="sm" className="w-full mt-3" disabled>
+                  Current Plan
+                </Button>
+              </div>
+            </div>
+            
+            {/* Enterprise Plan */}
+            <div className="p-4 border rounded-lg hover:shadow-md transition-shadow">
+              <div className="text-center">
+                <h5 className="font-semibold">Enterprise</h5>
+                <div className="text-2xl font-bold mt-2">$299<span className="text-sm font-normal">/month</span></div>
+                <ul className="text-sm text-gray-600 mt-3 space-y-1">
+                  <li>• Everything in Pro</li>
+                  <li>• Custom strategies</li>
+                  <li>• Dedicated support</li>
+                  <li>• API access</li>
+                </ul>
+                <Button variant="outline" size="sm" className="w-full mt-3">
+                  Upgrade to Enterprise
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Current Subscription Details */}
+        <div className="p-4 border rounded-lg">
+          <h4 className="font-medium mb-3">Subscription Details</h4>
           <div className="flex items-center justify-between mb-3">
             <div>
-              <div className="font-medium">Current Plan</div>
-              <div className="text-sm text-gray-600">Professional Trading Plan</div>
+              <div className="font-medium">Professional Trading Plan</div>
+              <div className="text-sm text-gray-600">Monthly subscription</div>
             </div>
             <Badge variant="default" className="bg-green-500">Active</Badge>
           </div>
@@ -7912,12 +7974,20 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
           </div>
           
           <div className="flex gap-2 mt-4">
-            <Button type="button" variant="outline" size="sm">
+            <Button 
+              type="button" 
+              variant="outline" 
+              size="sm"
+              onClick={() => {
+                // Open Stripe billing portal in new tab
+                window.open('https://billing.stripe.com/p/login/test_00000000000000', '_blank');
+              }}
+            >
               <CreditCard className="w-4 h-4 mr-2" />
-              Update Payment Method
+              Manage Payment & Billing
             </Button>
-            <Button type="button" variant="outline" size="sm">
-              View Billing History
+            <Button type="button" variant="outline" size="sm" className="text-red-600">
+              Cancel Subscription
             </Button>
           </div>
         </div>
