@@ -6342,7 +6342,7 @@ metadata = {
           </CardHeader>
           {!minimizedPanes.has('watchlist') && (
           <CardContent>
-            <div className="h-96 overflow-y-auto overflow-x-auto">
+            <div className="overflow-y-auto overflow-x-auto" style={{height: 'calc(100vh - 420px)', minHeight: '300px'}}>
               <table className="w-full text-xs min-w-[800px]">
                 <thead className="border-b border-gray-200 dark:border-gray-700">
                   <tr className="text-left">
