@@ -7831,38 +7831,15 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
         </div>
         
         <div>
-          <div className="flex items-center justify-between mb-2">
-            <Label htmlFor="email" className="text-gray-700 dark:text-gray-300">Email Address</Label>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => setShowEmailFields(!showEmailFields)}
-              className="border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
-            >
-              {showEmailFields ? 'Cancel Email Change' : 'Change Email'}
-            </Button>
-          </div>
-          
-          {!showEmailFields ? (
-            <div className="p-3 bg-gray-100 dark:bg-gray-600 border rounded-lg text-gray-900 dark:text-white">
-              {formData.email}
-            </div>
-          ) : (
-            <div className="space-y-3 p-4 border rounded-lg bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600">
-              <div>
-                <Label htmlFor="newEmail" className="text-gray-700 dark:text-gray-300">New Email Address</Label>
-                <Input
-                  id="newEmail"
-                  type="email"
-                  value={formData.newEmail}
-                  onChange={(e) => setFormData(prev => ({ ...prev, newEmail: e.target.value }))}
-                  placeholder="Enter your new email address"
-                  className="bg-white dark:bg-gray-600 border-gray-300 dark:border-gray-500 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
-                />
-              </div>
-            </div>
-          )}
+          <Label htmlFor="email" className="text-gray-700 dark:text-gray-300">Email Address</Label>
+          <Input
+            id="email"
+            type="email"
+            value={formData.email}
+            onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+            placeholder="Enter your email address"
+            className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+          />
         </div>
       </div>
 
