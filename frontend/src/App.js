@@ -8181,9 +8181,9 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
           className="bg-[#0E6D73] dark:bg-[#00BD7D] text-white dark:text-black hover:bg-[#0E6D73] dark:hover:bg-[#00BD7D]"
         >
           {isSubmitting ? (
-            <RefreshCw className="w-4 h-4 mr-2 animate-spin text-white" />
+            <RefreshCw className="w-4 h-4 mr-2 animate-spin !text-white" style={{color: 'white !important'}} />
           ) : (
-            <Settings2 className="w-4 h-4 mr-2 text-white" />
+            <Settings2 className="w-4 h-4 mr-2 !text-white" style={{color: 'white !important'}} />
           )}
           Save Changes
         </Button>
