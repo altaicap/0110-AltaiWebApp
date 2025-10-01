@@ -7896,41 +7896,45 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
 
       {/* Billing Information */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold">BILLING & SUBSCRIPTION</h3>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">BILLING & SUBSCRIPTION</h3>
         
         {/* Plan Selection */}
-        <div className="p-4 border rounded-lg">
-          <h4 className="font-medium mb-3">Choose Your Plan</h4>
+        <div className="p-4 border rounded-lg border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700">
+          <h4 className="font-medium mb-3 text-gray-900 dark:text-white">Choose Your Plan</h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Basic Plan */}
-            <div className="p-4 border rounded-lg hover:shadow-md transition-shadow">
+            <div className="p-4 border rounded-lg hover:shadow-md transition-shadow bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-600">
               <div className="text-center">
-                <h5 className="font-semibold">Basic</h5>
-                <div className="text-2xl font-bold mt-2">$29<span className="text-sm font-normal">/month</span></div>
-                <ul className="text-sm text-gray-600 mt-3 space-y-1">
-                  <li>• Basic backtesting</li>
-                  <li>• 2 broker connections</li>
-                  <li>• Email support</li>
+                <h5 className="font-semibold text-gray-900 dark:text-white">Basic</h5>
+                <div className="text-2xl font-bold mt-2 text-gray-900 dark:text-white">$24.99<span className="text-sm font-normal">/month</span></div>
+                <ul className="text-sm text-gray-600 dark:text-gray-300 mt-3 space-y-1">
+                  <li>• Altai Newsletter Basic</li>
+                  <li>• AI Assistant (50 credits/mo)</li>
+                  <li>• Backtesting</li>
+                  <li>• Trading Log</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full mt-3">
+                <Button variant="outline" size="sm" className="w-full mt-3 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
                   Select Basic
                 </Button>
               </div>
             </div>
             
-            {/* Professional Plan */}
-            <div className="p-4 border-2 border-blue-500 rounded-lg relative bg-blue-50">
+            {/* Pro Plan - Current */}
+            <div className="p-4 border-2 rounded-lg relative bg-white dark:bg-gray-800 border-orange-400 dark:border-orange-500">
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <Badge className="bg-blue-500">Current Plan</Badge>
+                <div className="px-3 py-1 rounded-full text-xs font-medium text-white" style={{background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)'}}>
+                  Current Plan
+                </div>
               </div>
-              <div className="text-center">
-                <h5 className="font-semibold">Professional</h5>
-                <div className="text-2xl font-bold mt-2">$99<span className="text-sm font-normal">/month</span></div>
-                <ul className="text-sm text-gray-600 mt-3 space-y-1">
-                  <li>• Advanced backtesting</li>
-                  <li>• All broker connections</li>
-                  <li>• AI-powered insights</li>
-                  <li>• Priority support</li>
+              <div className="text-center pt-2">
+                <h5 className="font-semibold text-gray-900 dark:text-white">Pro</h5>
+                <div className="text-2xl font-bold mt-2 text-gray-900 dark:text-white">$79.99<span className="text-sm font-normal">/month</span></div>
+                <ul className="text-sm text-gray-600 dark:text-gray-300 mt-3 space-y-1">
+                  <li>• Altai Newsletter Pro</li>
+                  <li>• AI Assistant (100 credits/mo)</li>
+                  <li>• Backtesting</li>
+                  <li>• Trading Log</li>
+                  <li>• 5 Live Strategies</li>
                 </ul>
                 <Button variant="outline" size="sm" className="w-full mt-3" disabled>
                   Current Plan
@@ -7938,19 +7942,20 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
               </div>
             </div>
             
-            {/* Enterprise Plan */}
-            <div className="p-4 border rounded-lg hover:shadow-md transition-shadow">
+            {/* Max Plan */}
+            <div className="p-4 border rounded-lg hover:shadow-md transition-shadow bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-600">
               <div className="text-center">
-                <h5 className="font-semibold">Enterprise</h5>
-                <div className="text-2xl font-bold mt-2">$299<span className="text-sm font-normal">/month</span></div>
-                <ul className="text-sm text-gray-600 mt-3 space-y-1">
-                  <li>• Everything in Pro</li>
-                  <li>• Custom strategies</li>
-                  <li>• Dedicated support</li>
-                  <li>• API access</li>
+                <h5 className="font-semibold text-gray-900 dark:text-white">Max</h5>
+                <div className="text-2xl font-bold mt-2 text-gray-900 dark:text-white">$109.99<span className="text-sm font-normal">/month</span></div>
+                <ul className="text-sm text-gray-600 dark:text-gray-300 mt-3 space-y-1">
+                  <li>• Altai Newsletter Max</li>
+                  <li>• AI Assistant (unlimited credits)</li>
+                  <li>• Backtesting</li>
+                  <li>• Trading Log</li>
+                  <li>• Unlimited Live Strategies</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full mt-3">
-                  Upgrade to Enterprise
+                <Button variant="outline" size="sm" className="w-full mt-3 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                  Upgrade to Max
                 </Button>
               </div>
             </div>
