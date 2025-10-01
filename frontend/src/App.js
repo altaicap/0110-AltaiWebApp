@@ -7729,7 +7729,7 @@ const ChatInterface = ({
               disabled={!chatInput.trim() || isChatLoading}
               className="llm-send-btn"
             >
-              <Send className="w-5 h-5" />
+              <Send className="w-5 h-5 text-white" />
             </Button>
           </div>
           
