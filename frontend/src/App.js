@@ -8010,12 +8010,12 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
         <Button 
           type="submit"
           disabled={isSubmitting}
-          className="bg-[#0E6D73] hover:bg-[#0A5A5F] dark:bg-[#00BD7D] dark:hover:bg-[#009963] text-white dark:text-black"
+          className="bg-[#0E6D73] dark:bg-[#00BD7D] text-white dark:text-black hover:bg-[#0E6D73] dark:hover:bg-[#00BD7D]"
         >
           {isSubmitting ? (
             <RefreshCw className="w-4 h-4 mr-2 animate-spin text-white dark:text-black" />
           ) : (
-            <Settings2 className="w-4 h-4 mr-2 text-white dark:text-black" />
+            <Settings2 className="w-4 h-4 mr-2 text-white dark:text-black fill-white dark:fill-black" />
           )}
           Save Changes
         </Button>
