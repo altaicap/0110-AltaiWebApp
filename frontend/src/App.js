@@ -7776,13 +7776,15 @@ const ChatInterface = ({
 const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
   const [formData, setFormData] = useState({
     name: currentUser || 'Alex G',
-    email: '',
+    email: 'alex@altaitrader.com',
+    newEmail: '',
     currentPassword: '',
     newPassword: '',
     confirmPassword: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPasswordFields, setShowPasswordFields] = useState(false);
+  const [showEmailFields, setShowEmailFields] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
