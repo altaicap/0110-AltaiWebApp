@@ -8006,20 +8006,26 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
       </div>
 
       {/* Actions */}
-      <div className="flex gap-2 pt-4 border-t">
+      <div className="flex gap-2 pt-4 border-t border-gray-200 dark:border-gray-600">
         <Button 
           type="submit"
           disabled={isSubmitting}
-          className="bg-blue-600 hover:bg-blue-700"
+          className="bg-[#0E6D73] hover:bg-[#0A5A5F] dark:bg-[#00BD7D] dark:hover:bg-[#009963] text-white dark:text-black"
         >
           {isSubmitting ? (
-            <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+            <RefreshCw className="w-4 h-4 mr-2 animate-spin text-white dark:text-black" />
           ) : (
-            <Settings2 className="w-4 h-4 mr-2" />
+            <Settings2 className="w-4 h-4 mr-2 text-white dark:text-black" />
           )}
           Save Changes
         </Button>
-        <Button type="button" variant="outline" onClick={onCancel} disabled={isSubmitting}>
+        <Button 
+          type="button" 
+          variant="outline" 
+          onClick={onCancel} 
+          disabled={isSubmitting}
+          className="border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+        >
           Cancel
         </Button>
       </div>
