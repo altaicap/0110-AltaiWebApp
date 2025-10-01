@@ -7423,9 +7423,9 @@ metadata = {
                   variant="ghost"
                   size="sm"
                   onClick={() => setShowAccountSettings(false)}
-                  className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300"
+                  className="w-8 h-8 p-0 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300"
                 >
-                  ✕
+                  <span className="text-lg">✕</span>
                 </Button>
               </div>
               <div className="p-6">
