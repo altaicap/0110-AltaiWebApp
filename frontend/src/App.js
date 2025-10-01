@@ -7963,24 +7963,24 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
         </div>
 
         {/* Current Subscription Details */}
-        <div className="p-4 border rounded-lg">
-          <h4 className="font-medium mb-3">Subscription Details</h4>
+        <div className="p-4 border rounded-lg border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700">
+          <h4 className="font-medium mb-3 text-gray-900 dark:text-white">Subscription Details</h4>
           <div className="flex items-center justify-between mb-3">
             <div>
-              <div className="font-medium">Professional Trading Plan</div>
-              <div className="text-sm text-gray-600">Monthly subscription</div>
+              <div className="font-medium text-gray-900 dark:text-white">Pro Trading Plan</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Monthly subscription</div>
             </div>
-            <Badge variant="default" className="bg-green-500">Active</Badge>
+            <Badge variant="default" className="bg-green-500 text-white">Active</Badge>
           </div>
           
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <span className="font-medium text-gray-600">Next Billing:</span>
-              <span className="ml-2">Jan 15, 2025</span>
+              <span className="font-medium text-gray-600 dark:text-gray-400">Next Billing:</span>
+              <span className="ml-2 text-gray-900 dark:text-white">Jan 15, 2025</span>
             </div>
             <div>
-              <span className="font-medium text-gray-600">Amount:</span>
-              <span className="ml-2">$99/month</span>
+              <span className="font-medium text-gray-600 dark:text-gray-400">Amount:</span>
+              <span className="ml-2 text-gray-900 dark:text-white">$79.99/month</span>
             </div>
           </div>
           
@@ -7989,6 +7989,7 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
               type="button" 
               variant="outline" 
               size="sm"
+              className="border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600"
               onClick={() => {
                 // Open Stripe billing portal in new tab
                 window.open('https://billing.stripe.com/p/login/test_00000000000000', '_blank');
@@ -7997,7 +7998,7 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
               <CreditCard className="w-4 h-4 mr-2" />
               Manage Payment & Billing
             </Button>
-            <Button type="button" variant="outline" size="sm" className="text-red-600">
+            <Button type="button" variant="outline" size="sm" className="text-red-600 border-red-300 hover:bg-red-50 dark:border-red-600 dark:hover:bg-red-900/20">
               Cancel Subscription
             </Button>
           </div>
