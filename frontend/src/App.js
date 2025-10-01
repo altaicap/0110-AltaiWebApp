@@ -7841,49 +7841,53 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
       {/* Password Management */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold">PASSWORD MANAGEMENT</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">PASSWORD MANAGEMENT</h3>
           <Button
             type="button"
             variant="outline"
             size="sm"
             onClick={() => setShowPasswordFields(!showPasswordFields)}
+            className="border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
           >
             {showPasswordFields ? 'Cancel Password Change' : 'Change Password'}
           </Button>
         </div>
 
         {showPasswordFields && (
-          <div className="space-y-4 p-4 border rounded-lg bg-gray-50">
+          <div className="space-y-4 p-4 border rounded-lg bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600">
             <div>
-              <Label htmlFor="currentPassword">Current Password</Label>
+              <Label htmlFor="currentPassword" className="text-gray-700 dark:text-gray-300">Current Password</Label>
               <Input
                 id="currentPassword"
                 type="password"
                 value={formData.currentPassword}
                 onChange={(e) => setFormData(prev => ({ ...prev, currentPassword: e.target.value }))}
                 placeholder="Enter current password"
+                className="bg-white dark:bg-gray-600 border-gray-300 dark:border-gray-500 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
               />
             </div>
             
             <div>
-              <Label htmlFor="newPassword">New Password</Label>
+              <Label htmlFor="newPassword" className="text-gray-700 dark:text-gray-300">New Password</Label>
               <Input
                 id="newPassword"
                 type="password"
                 value={formData.newPassword}
                 onChange={(e) => setFormData(prev => ({ ...prev, newPassword: e.target.value }))}
                 placeholder="Enter new password"
+                className="bg-white dark:bg-gray-600 border-gray-300 dark:border-gray-500 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
               />
             </div>
             
             <div>
-              <Label htmlFor="confirmPassword">Confirm New Password</Label>
+              <Label htmlFor="confirmPassword" className="text-gray-700 dark:text-gray-300">Confirm New Password</Label>
               <Input
                 id="confirmPassword"
                 type="password"
                 value={formData.confirmPassword}
                 onChange={(e) => setFormData(prev => ({ ...prev, confirmPassword: e.target.value }))}
                 placeholder="Confirm new password"
+                className="bg-white dark:bg-gray-600 border-gray-300 dark:border-gray-500 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
               />
             </div>
           </div>
