@@ -691,27 +691,78 @@ function App() {
   };
 
   const saveWatchlistEntry = (entryData) => {
-    if (editingWatchlistEntry) {
-      // Edit existing entry
-      setWatchlistEntries(prev => 
-        prev.map(entry => 
-          entry.id === editingWatchlistEntry.id ? { ...entry, ...entryData } : entry
-        )
-      );
-    } else {
-      // Add new entry
-      const newEntry = {
-        id: Date.now(),
-        ...entryData
-      };
-      setWatchlistEntries(prev => [...prev, newEntry]);
-    }
+    setWatchlists(watchlists => 
+      watchlists.map(watchlist => {
+        if (watchlist.id === activeWatchlistId) {
+          if (editingWatchlistEntry) {
+            return {
+              ...watchlist,
+              entries: watchlist.entries.map(entry => 
+                entry.id === editingWatchlistEntry.id ? { ...entry, ...entryData } : entry
+              )
+            };
+          } else {
+            const newEntry = {
+              id: Date.now(),
+              ...entryData
+            };
+            return {
+              ...watchlist,
+              entries: [...watchlist.entries, newEntry]
+            };
+          }
+        }
+        return watchlist;
+      })
+    );
     setShowAddWatchlistEntry(false);
     setEditingWatchlistEntry(null);
   };
 
   const deleteWatchlistEntry = (entryId) => {
-    setWatchlistEntries(prev => prev.filter(entry => entry.id !== entryId));
+    setWatchlists(watchlists => 
+      watchlists.map(watchlist => 
+        watchlist.id === activeWatchlistId ? {
+          ...watchlist,
+          entries: watchlist.entries.filter(entry => entry.id !== entryId)
+        } : watchlist
+      )
+    );
+  };
+
+  // Watchlist management functions
+  const createNewWatchlist = () => {
+    if (watchlists.length >= 5) {
+      alert('Maximum 5 watchlists allowed');
+      return;
+    }
+    const newWatchlist = {
+      id: Date.now(),
+      name: `Watchlist ${watchlists.length + 1}`,
+      entries: []
+    };
+    setWatchlists(prev => [...prev, newWatchlist]);
+    setActiveWatchlistId(newWatchlist.id);
+  };
+
+  const deleteWatchlist = (watchlistId) => {
+    if (watchlists.length <= 1) {
+      alert('Cannot delete the last watchlist');
+      return;
+    }
+    setWatchlists(prev => prev.filter(w => w.id !== watchlistId));
+    if (activeWatchlistId === watchlistId) {
+      setActiveWatchlistId(watchlists.find(w => w.id !== watchlistId)?.id || watchlists[0].id);
+    }
+  };
+
+  const renameWatchlist = (watchlistId, newName) => {
+    setWatchlists(watchlists => 
+      watchlists.map(watchlist => 
+        watchlist.id === watchlistId ? { ...watchlist, name: newName } : watchlist
+      )
+    );
+    setEditingWatchlistName(null);
   };
   
   // Backtest Form State (moved from BacktestTab to prevent resets)
