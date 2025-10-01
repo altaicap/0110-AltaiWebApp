@@ -652,14 +652,27 @@ function App() {
   const [showTradeLogColumnSettings, setShowTradeLogColumnSettings] = useState(false);
   
   // Watchlist state management
-  const [watchlistEntries, setWatchlistEntries] = useState([
-    { id: 1, date: '2024-09-24', ticker: 'AAPL', comment1: 'Earnings Beat', comment2: 'Strong iPhone Sales', comment3: 'Bullish', comment4: 'Tech Strength', comment5: 'Buy Zone', comment6: 'Monitor' },
-    { id: 2, date: '2024-09-24', ticker: 'TSLA', comment1: 'Upgrade', comment2: 'Delivery Numbers', comment3: 'Neutral', comment4: 'EV Growth', comment5: 'Wait', comment6: 'Review' },
-    { id: 3, date: '2024-09-23', ticker: 'NVDA', comment1: 'AI Hype', comment2: 'Data Center', comment3: 'Bullish', comment4: 'Momentum', comment5: 'Strong', comment6: 'Watch' }
+  // Multiple watchlists support (up to 5)
+  const [watchlists, setWatchlists] = useState([
+    {
+      id: 1,
+      name: 'Primary Watchlist',
+      entries: [
+        { id: 1, date: '2024-09-24', ticker: 'AAPL', comment1: 'Earnings Beat', comment2: 'Strong iPhone Sales', comment3: 'Bullish', comment4: 'Tech Strength', comment5: 'Buy Zone', comment6: 'Monitor' },
+        { id: 2, date: '2024-09-24', ticker: 'TSLA', comment1: 'Upgrade', comment2: 'Delivery Numbers', comment3: 'Neutral', comment4: 'EV Growth', comment5: 'Wait', comment6: 'Review' },
+        { id: 3, date: '2024-09-23', ticker: 'NVDA', comment1: 'AI Hype', comment2: 'Data Center', comment3: 'Bullish', comment4: 'Momentum', comment5: 'Strong', comment6: 'Watch' }
+      ]
+    }
   ]);
+  const [activeWatchlistId, setActiveWatchlistId] = useState(1);
   const [showWatchlistSettings, setShowWatchlistSettings] = useState(false);
   const [editingWatchlistEntry, setEditingWatchlistEntry] = useState(null);
   const [showAddWatchlistEntry, setShowAddWatchlistEntry] = useState(false);
+  const [editingWatchlistName, setEditingWatchlistName] = useState(null);
+  
+  // Get current watchlist data
+  const activeWatchlist = watchlists.find(w => w.id === activeWatchlistId) || watchlists[0];
+  const watchlistEntries = activeWatchlist?.entries || [];
   
   // Watchlist column configuration
   const [watchlistColumnConfig, setWatchlistColumnConfig] = useState({
