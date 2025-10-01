@@ -7416,14 +7416,14 @@ metadata = {
         {/* Account Settings Modal */}
         {showAccountSettings && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="flex items-center justify-between p-6 border-b">
-                <h2 className="text-xl font-semibold">My Account Settings</h2>
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-gray-200 dark:border-gray-600">
+              <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-600">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">My Account Settings</h2>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => setShowAccountSettings(false)}
-                  className="rounded-full"
+                  className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300"
                 >
                   ✕
                 </Button>
