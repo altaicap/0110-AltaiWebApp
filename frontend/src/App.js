@@ -6229,10 +6229,67 @@ metadata = {
           </PaneControls>
           <CardHeader>
             <div className="flex items-center justify-between">
-              <div>
+              <div className="flex-1">
                 <CardTitle>Watchlist</CardTitle>
                 <CardDescription>Daily ticker watchlist with custom notes and categorization</CardDescription>
               </div>
+            </div>
+            
+            {/* Watchlist Tabs */}
+            <div className="flex items-center gap-2 mt-3">
+              <div className="flex flex-wrap gap-1">
+                {watchlists.map(watchlist => (
+                  <div key={watchlist.id} className="relative">
+                    <Button
+                      variant={activeWatchlistId === watchlist.id ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setActiveWatchlistId(watchlist.id)}
+                      className={`text-xs h-7 ${activeWatchlistId === watchlist.id ? 'bg-[#0E6D73] text-white dark:bg-[#00BD7D] dark:text-black' : ''}`}
+                    >
+                      {editingWatchlistName === watchlist.id ? (
+                        <input
+                          type="text"
+                          defaultValue={watchlist.name}
+                          className="w-20 text-xs bg-transparent border-none outline-none"
+                          onBlur={(e) => renameWatchlist(watchlist.id, e.target.value)}
+                          onKeyPress={(e) => e.key === 'Enter' && renameWatchlist(watchlist.id, e.target.value)}
+                          autoFocus
+                        />
+                      ) : (
+                        <span 
+                          onDoubleClick={() => setEditingWatchlistName(watchlist.id)}
+                          className="cursor-pointer"
+                        >
+                          {watchlist.name}
+                        </span>
+                      )}
+                      {watchlists.length > 1 && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            deleteWatchlist(watchlist.id);
+                          }}
+                          className="ml-2 hover:text-red-500"
+                        >
+                          ×
+                        </button>
+                      )}
+                    </Button>
+                  </div>
+                ))}
+              </div>
+              
+              {watchlists.length < 5 && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={createNewWatchlist}
+                  className="text-xs h-7"
+                >
+                  <Plus className="w-3 h-3 mr-1" />
+                  New
+                </Button>
+              )}
             </div>
           </CardHeader>
           {!minimizedPanes.has('watchlist') && (
