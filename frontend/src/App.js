@@ -7413,6 +7413,38 @@ metadata = {
           />
         )}
 
+        {/* Account Settings Modal */}
+        {showAccountSettings && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between p-6 border-b">
+                <h2 className="text-xl font-semibold">My Account Settings</h2>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowAccountSettings(false)}
+                  className="rounded-full"
+                >
+                  ✕
+                </Button>
+              </div>
+              <div className="p-6">
+                <AccountSettingsForm
+                  currentUser={currentAuthUser?.full_name || currentAuthUser?.email || 'Alex Thompson'}
+                  onSave={async (updateData) => {
+                    // Handle save logic here
+                    console.log('Saving account settings:', updateData);
+                    // You can implement API calls here later
+                    alert('Settings saved successfully!');
+                    setShowAccountSettings(false);
+                  }}
+                  onCancel={() => setShowAccountSettings(false)}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Delete Confirmation Dialog */}
         {showDeleteConfirmDialog && deleteConfirmData && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
