@@ -4883,7 +4883,26 @@ metadata = {
 
             {/* Symbol Management */}
             <div>
-              <Label>Symbols (up to 100)</Label>
+              <div className="flex items-center justify-between mb-2">
+                <Label>Symbols (up to 100)</Label>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => {
+                    // Import symbols from watchlist
+                    const watchlistSymbols = watchlistEntries.map(entry => entry.ticker.toUpperCase());
+                    const newSymbols = [...new Set([...backtestForm.symbols, ...watchlistSymbols])].slice(0, 100);
+                    setBacktestForm(prev => ({
+                      ...prev,
+                      symbols: newSymbols
+                    }));
+                  }}
+                  className="text-xs"
+                >
+                  <List className="w-3 h-3 mr-1" />
+                  Use Watchlist
+                </Button>
+              </div>
               <div className="flex gap-2 mb-2">
                 <Input 
                   value={symbolInput}
