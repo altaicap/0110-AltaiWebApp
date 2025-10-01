@@ -7652,7 +7652,7 @@ metadata = {
                   onClick={confirmDeleteStrategy}
                   className="bg-red-600 hover:bg-red-700 text-white"
                 >
-                  <Trash2 className="w-4 h-4 mr-2 text-white" />
+                  <Trash2 className="w-4 h-4 mr-2 !text-white" style={{color: 'white !important'}} />
                   Archive Strategy
                 </Button>
               </div>
