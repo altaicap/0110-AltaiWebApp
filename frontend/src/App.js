@@ -7897,7 +7897,7 @@ const ChatInterface = ({
               disabled={!chatInput.trim() || isChatLoading}
               className="llm-send-btn"
             >
-              <Send className="w-5 h-5 text-white" />
+              <Send className="w-5 h-5 !text-white" style={{color: 'white !important'}} />
             </Button>
           </div>
           
