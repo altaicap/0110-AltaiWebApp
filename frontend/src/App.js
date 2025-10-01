@@ -30,6 +30,7 @@ import {
   Square, 
   Plus, 
   Minus,
+  List,
   Search,
   Calendar as CalendarIcon,
   CheckCircle,
