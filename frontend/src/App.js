@@ -4950,38 +4950,83 @@ metadata = {
 
             {/* Symbol Management */}
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <Label>Symbols (up to 100)</Label>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => {
-                    // Import symbols from watchlist
-                    const watchlistSymbols = watchlistEntries.map(entry => entry.ticker.toUpperCase());
-                    const newSymbols = [...new Set([...backtestForm.symbols, ...watchlistSymbols])].slice(0, 100);
-                    setBacktestForm(prev => ({
-                      ...prev,
-                      symbols: newSymbols
-                    }));
-                  }}
-                  className="text-xs"
-                >
-                  <List className="w-3 h-3 mr-1" />
-                  Use Watchlist
-                </Button>
-              </div>
+              <Label>Symbols (up to 100)</Label>
               <div className="flex gap-2 mb-2">
+                {/* Use Watchlist Dropdown */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="text-xs"
+                      disabled={useWatchlistForBacktest}
+                    >
+                      <List className="w-3 h-3 mr-1" />
+                      Use Watchlist
+                      <ChevronDown className="w-3 h-3 ml-1" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start">
+                    {watchlists.map(watchlist => (
+                      <DropdownMenuItem 
+                        key={watchlist.id}
+                        onClick={() => {
+                          setSelectedWatchlistForBacktest(watchlist.id);
+                          setUseWatchlistForBacktest(true);
+                          // Clear existing symbols and use watchlist symbols with dates
+                          const watchlistSymbols = watchlist.entries.map(entry => entry.ticker.toUpperCase());
+                          setBacktestForm(prev => ({
+                            ...prev,
+                            symbols: [...new Set(watchlistSymbols)]
+                          }));
+                        }}
+                        className="cursor-pointer"
+                      >
+                        <List className="w-4 h-4 mr-2" />
+                        {watchlist.name} ({watchlist.entries.length} symbols)
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
                 <Input 
                   value={symbolInput}
                   onChange={(e) => setSymbolInput(e.target.value.toUpperCase())}
                   placeholder="Enter symbol (e.g., AAPL)"
                   onKeyPress={(e) => e.key === 'Enter' && addSymbol()}
+                  disabled={useWatchlistForBacktest}
                 />
-                <Button onClick={addSymbol} disabled={backtestForm.symbols.length >= 100}>
+                <Button 
+                  onClick={addSymbol} 
+                  disabled={backtestForm.symbols.length >= 100 || useWatchlistForBacktest}
+                >
                   <Plus className="w-4 h-4 mr-2" />
                   Add
                 </Button>
               </div>
+              
+              {/* Show selected watchlist info */}
+              {useWatchlistForBacktest && selectedWatchlistForBacktest && (
+                <div className="mb-2 p-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-blue-700 dark:text-blue-300">
+                      Using: {watchlists.find(w => w.id === selectedWatchlistForBacktest)?.name}
+                    </span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        setUseWatchlistForBacktest(false);
+                        setSelectedWatchlistForBacktest(null);
+                        setBacktestForm(prev => ({ ...prev, symbols: [] }));
+                      }}
+                      className="text-xs h-6 text-blue-700 dark:text-blue-300"
+                    >
+                      Clear
+                    </Button>
+                  </div>
+                </div>
+              )}
               <div className="flex flex-wrap gap-2">
                 {backtestForm.symbols.map((symbol) => (
                   <Badge key={symbol} variant="secondary" className="cursor-pointer" onClick={() => removeSymbol(symbol)}>
