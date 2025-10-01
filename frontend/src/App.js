@@ -7812,26 +7812,28 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Personal Information */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold">PERSONAL INFORMATION</h3>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">PERSONAL INFORMATION</h3>
         
         <div>
-          <Label htmlFor="name">Full Name</Label>
+          <Label htmlFor="name" className="text-gray-700 dark:text-gray-300">Full Name</Label>
           <Input
             id="name"
             value={formData.name}
             onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
             placeholder="Enter your full name"
+            className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
           />
         </div>
         
         <div>
-          <Label htmlFor="email">Email Address</Label>
+          <Label htmlFor="email" className="text-gray-700 dark:text-gray-300">Email Address</Label>
           <Input
             id="email"
             type="email"
             value={formData.email}
             onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
             placeholder="Enter your email address"
+            className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
           />
         </div>
       </div>
