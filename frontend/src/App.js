@@ -7936,7 +7936,7 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
                   <li>• Trading Log</li>
                   <li>• 5 Live Strategies</li>
                 </ul>
-                <Button variant="outline" size="sm" className="w-full mt-3" disabled>
+                <Button variant="outline" size="sm" className="w-full mt-3 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-600" disabled>
                   Current Plan
                 </Button>
               </div>
