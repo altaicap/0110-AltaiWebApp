@@ -8031,7 +8031,7 @@ const AccountSettingsForm = ({ currentUser, onSave, onCancel }) => {
       </div>
 
       {/* Actions */}
-      <div className="flex gap-2 pt-4 border-t border-gray-200 dark:border-gray-600">
+      <div className="flex gap-2 pt-4">
         <Button 
           type="submit"
           disabled={isSubmitting}
